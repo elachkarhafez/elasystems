@@ -272,7 +272,10 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 /* ─── CTA FLOATING ICONS ─── */
 .cta-icons{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
 .cta-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.6rem}
-.cta-icon-bg{width:76px;height:76px;border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 36px rgba(0,0,0,.14)}
+.cta-icon-bg{width:132px;height:132px;border-radius:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 48px rgba(0,0,0,.2)}
+.cta-icon svg{width:72px!important;height:72px!important}
+.ci-2 svg{width:58px!important;height:84px!important}
+.ci-4 svg{width:78px!important;height:66px!important}
 .ci-bg-gold{background:linear-gradient(135deg,#C8A94A 0%,#E2C46A 100%)}
 .ci-bg-blue{background:linear-gradient(135deg,#2460C8 0%,#3B82F6 100%)}
 .ci-bg-dark{background:linear-gradient(135deg,#0D1B2E 0%,#1A2F4A 100%);border:1px solid rgba(200,169,74,.25)}
@@ -287,11 +290,11 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 @keyframes ciF2{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-13px) rotate(-2deg)}}
 @media(max-width:900px){
   .cta-icons{display:block}
-  .cta-icon-bg{width:112px;height:112px;border-radius:32px}
-  .cta-icon svg{width:54px!important;height:54px!important;transform:none}
-  .ci-2 svg{width:42px!important;height:62px!important}
-  .ci-4 svg{width:58px!important;height:50px!important}
-  .cta-icon-lbl{font-size:.7rem}
+  .cta-icon-bg{width:162px;height:162px;border-radius:44px}
+  .cta-icon svg{width:90px!important;height:90px!important;transform:none}
+  .ci-2 svg{width:70px!important;height:104px!important}
+  .ci-4 svg{width:96px!important;height:80px!important}
+  .cta-icon-lbl{font-size:.8rem}
 }
 
 
@@ -322,11 +325,11 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
   .laptop-section{padding:80px 0}
 }
 @media(max-width:600px){
-  .cta-icon-bg{width:126px;height:126px;border-radius:36px}
-  .cta-icon svg{width:62px!important;height:62px!important;transform:none}
-  .ci-2 svg{width:48px!important;height:72px!important}
-  .ci-4 svg{width:66px!important;height:56px!important}
-  .cta-icon-lbl{font-size:.74rem}
+  .cta-icon-bg{width:188px;height:188px;border-radius:52px}
+  .cta-icon svg{width:108px!important;height:108px!important;transform:none}
+  .ci-2 svg{width:82px!important;height:122px!important}
+  .ci-4 svg{width:112px!important;height:94px!important}
+  .cta-icon-lbl{font-size:.86rem}
   .service-grid,.results-grid,.portfolio-grid{grid-template-columns:1fr}
   .why-visual{grid-template-columns:1fr 1fr}
   .footer-inner{flex-direction:column}
