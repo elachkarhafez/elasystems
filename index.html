@@ -3,6 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="ElaSystems builds high-performing websites, scalable apps, and performance-driven advertising systems that generate real leads and long-term growth.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ElaSystems">
+<meta property="og:title" content="ElaSystems � Digital Systems That Grow Your Business">
+<meta property="og:description" content="ElaSystems builds high-performing websites, scalable apps, and performance-driven advertising systems that generate real leads and long-term growth.">
+<meta property="og:url" content="https://elasystems.com/">
+<meta property="og:image" content="https://elasystems.com/logo.png">
+<meta property="og:image:alt" content="ElaSystems logo">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ElaSystems � Digital Systems That Grow Your Business">
+<meta name="twitter:description" content="ElaSystems builds high-performing websites, scalable apps, and performance-driven advertising systems that generate real leads and long-term growth.">
+<meta name="twitter:image" content="https://elasystems.com/logo.png">
+<link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
 <title>ElaSystems — Digital Systems That Grow Your Business</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -271,7 +285,12 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 .ci-6{top:38%;right:3%;animation:ciF2 6.2s ease-in-out infinite 1s}
 @keyframes ciF1{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(1deg)}}
 @keyframes ciF2{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-13px) rotate(-2deg)}}
-@media(max-width:900px){.cta-icons{display:none}}
+@media(max-width:900px){
+  .cta-icons{display:block}
+  .cta-icon-bg{width:92px;height:92px;border-radius:26px}
+  .cta-icon svg{transform:scale(1.18);transform-origin:center}
+  .cta-icon-lbl{font-size:.64rem}
+}
 
 /* ─── FOOTER ─── */
 footer{background:var(--navy);color:#fff;padding:64px 0 40px}
@@ -300,6 +319,9 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
   .laptop-section{padding:80px 0}
 }
 @media(max-width:600px){
+  .cta-icon-bg{width:102px;height:102px;border-radius:30px}
+  .cta-icon svg{transform:scale(1.28);transform-origin:center}
+  .cta-icon-lbl{font-size:.68rem}
   .service-grid,.results-grid,.portfolio-grid{grid-template-columns:1fr}
   .why-visual{grid-template-columns:1fr 1fr}
   .footer-inner{flex-direction:column}
@@ -636,7 +658,7 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
         </div>
         <div class="port-screen">
           <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcreativestylewiss.com?w=1200&h=750" alt="Creative Style Wiss" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fcreativestylewiss.com&screenshot=true&meta=false&embed=screenshot.url'}">
-          <div class="port-overlay"><span class="port-overlay-link">Visit Live Site →</span></div>
+          <div class="port-overlay"><a class="port-overlay-link" href="https://creativestylewiss.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
           <div><div class="port-name">Creative Style Wiss</div><div class="port-domain">creativestylewiss.com</div></div>
@@ -652,7 +674,7 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
         </div>
         <div class="port-screen">
           <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdmodashoes.com?w=1200&h=750" alt="DModa Shoes" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fdmodashoes.com&screenshot=true&meta=false&embed=screenshot.url'}">
-          <div class="port-overlay"><span class="port-overlay-link">Visit Live Site →</span></div>
+          <div class="port-overlay"><a class="port-overlay-link" href="https://dmodashoes.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
           <div><div class="port-name">DModa Shoes</div><div class="port-domain">dmodashoes.com</div></div>
@@ -1132,3 +1154,5 @@ document.getElementById('tw-accent').addEventListener('change', e => {
 </script>
 </body>
 </html>
+
+
