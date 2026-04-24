@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElaSystems — Digital Systems That Grow Your Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2E;--navy-mid:#1A2F4A;--gold:#C8A94A;--gold-light:#E2C46A;
+  --gold-pale:#F7EED6;--blue:#2460C8;--blue-light:#3B82F6;--blue-pale:#EBF2FF;
+  --ivory:#F9F8F5;--white:#FFFFFF;--gray:#6B7280;--gray-light:#F3F4F6;
+  --ff-display:'Sora',sans-serif;--ff-body:'Plus Jakarta Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff-body);color:var(--navy);background:var(--white);overflow-x:hidden}
+.container{max-width:1180px;margin:0 auto;padding:0 2rem}
+.gold{color:var(--gold)}.blue{color:var(--blue)}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(200,169,74,.35);padding:.35rem 1rem;border-radius:100px;margin-bottom:1.25rem;background:rgba(200,169,74,.07)}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal-left{opacity:0;transform:translateX(-50px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal-right{opacity:0;transform:translateX(50px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
+.reveal.visible,.reveal-left.visible,.reveal-right.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.32s}.d4{transition-delay:.46s}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s}
+nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 1px 0 rgba(0,0,0,.07)}
+.nav-logo{font-family:var(--ff-display);font-size:1.2rem;font-weight:800;text-decoration:none;color:var(--navy);letter-spacing:-.01em}
+.nav-logo span{color:var(--gold)}
+.nav-logo-img{height:42px;width:auto;display:block;filter:drop-shadow(0 2px 10px rgba(0,0,0,.12))}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:600;color:var(--navy);text-decoration:none;opacity:.55;letter-spacing:.03em;transition:opacity .2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{background:var(--navy);color:#fff;font-size:.82rem;font-weight:700;padding:.65rem 1.5rem;border-radius:100px;text-decoration:none;letter-spacing:.02em;transition:all .25s}
+.nav-cta:hover{background:var(--gold);color:var(--navy);box-shadow:0 6px 24px rgba(200,169,74,.4)}
+
+/* ─── SCROLL BAR ─── */
+#scrollBar{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--blue));z-index:300;transition:width .08s linear}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:var(--white);padding-top:80px}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(13,27,46,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(13,27,46,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 70% 80% at 50% 50%,#000 20%,transparent 100%);pointer-events:none}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1;width:100%}
+.hero-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1.6rem;display:flex;align-items:center;gap:.8rem}
+.hero-eyebrow::before{content:'';width:28px;height:2px;background:var(--gold);display:inline-block;border-radius:2px}
+.hero-h1{font-family:var(--ff-display);font-size:clamp(2.5rem,3.8vw,3.8rem);font-weight:800;line-height:1.08;letter-spacing:-.035em;color:var(--navy);margin-bottom:1.5rem}
+.hero-h1 em{font-style:normal;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-light) 50%,var(--blue) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:1.05rem;line-height:1.75;color:var(--gray);max-width:480px;margin-bottom:2.5rem;font-weight:400}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--navy);color:#fff;font-weight:700;font-size:.88rem;padding:.9rem 1.9rem;border-radius:100px;text-decoration:none;display:inline-flex;align-items:center;gap:.5rem;letter-spacing:.02em;transition:all .3s;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(200,169,74,.15));opacity:0;transition:opacity .3s}
+.btn-primary:hover{background:var(--navy-mid);box-shadow:0 10px 40px rgba(13,27,46,.3);transform:translateY(-2px)}
+.btn-primary:hover::after{opacity:1}
+.btn-secondary{color:var(--navy);font-weight:600;font-size:.88rem;padding:.9rem 1.6rem;border-radius:100px;text-decoration:none;border:1.5px solid rgba(13,27,46,.15);display:inline-flex;align-items:center;gap:.5rem;transition:all .25s}
+.btn-secondary:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,169,74,.06)}
+#heroCanvas{width:100%;height:520px;display:block;border-radius:24px}
+
+/* ─── INTRO ─── */
+.intro{padding:120px 0;background:var(--navy);position:relative;overflow:hidden}
+.intro::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,74,.1) 0%,transparent 70%);pointer-events:none}
+.intro-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;position:relative;z-index:1}
+.intro-label{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;opacity:.7}
+.intro-quote{font-family:var(--ff-display);font-size:clamp(1.6rem,2.4vw,2.2rem);font-weight:700;line-height:1.3;color:#fff;letter-spacing:-.02em}
+.intro-quote em{font-style:normal;color:var(--gold)}
+.intro-body{font-size:1rem;line-height:1.8;color:rgba(255,255,255,.6)}
+.intro-divider{width:40px;height:2px;background:var(--gold);margin-bottom:1.5rem;border-radius:2px}
+
+/* ─── SERVICES ─── */
+.services{padding:120px 0;background:var(--white)}
+.section-header{text-align:center;margin-bottom:4rem}
+.section-title{font-family:var(--ff-display);font-size:clamp(2rem,3vw,2.9rem);font-weight:800;letter-spacing:-.035em;color:var(--navy);margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--gray);max-width:520px;margin:0 auto;line-height:1.7}
+.service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+
+/* PREMIUM DARK CARDS */
+.service-card{background:linear-gradient(145deg,#0D1B2E 0%,#142238 100%);border:1px solid rgba(200,169,74,.12);border-radius:28px;padding:2.75rem 2.25rem;position:relative;overflow:hidden;transition:all .45s cubic-bezier(.22,1,.36,1);cursor:default;transform-style:preserve-3d}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,169,74,.6),transparent)}
+.service-card::after{content:'';position:absolute;top:-80px;left:-80px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,74,.08) 0%,transparent 70%);transition:all .5s;pointer-events:none}
+.service-card:hover{transform:translateY(-12px);border-color:rgba(200,169,74,.35);box-shadow:0 40px 80px rgba(200,169,74,.1),0 20px 40px rgba(13,27,46,.4),inset 0 1px 0 rgba(200,169,74,.2)}
+.service-card:hover::after{top:-40px;left:-40px;width:300px;height:300px}
+.svc-icon-wrap{width:56px;height:56px;border-radius:16px;background:rgba(200,169,74,.1);border:1px solid rgba(200,169,74,.2);display:flex;align-items:center;justify-content:center;margin-bottom:1.75rem;transition:all .3s}
+.service-card:hover .svc-icon-wrap{background:rgba(200,169,74,.18);border-color:rgba(200,169,74,.4)}
+.svc-num{font-family:var(--ff-display);font-size:.68rem;font-weight:700;letter-spacing:.14em;color:rgba(200,169,74,.5);margin-bottom:.6rem}
+.svc-title{font-family:var(--ff-display);font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:.9rem;letter-spacing:-.02em}
+.svc-desc{font-size:.9rem;line-height:1.75;color:rgba(255,255,255,.5)}
+.svc-line{width:0;height:1px;background:linear-gradient(90deg,var(--gold),transparent);margin-top:1.75rem;transition:width .5s cubic-bezier(.22,1,.36,1)}
+.service-card:hover .svc-line{width:100%}
+.svc-corner{position:absolute;bottom:1.5rem;right:1.5rem;width:28px;height:28px;border-right:1.5px solid rgba(200,169,74,.3);border-bottom:1.5px solid rgba(200,169,74,.3);border-radius:0 0 8px 0;transition:all .3s;opacity:0;transform:translate(4px,4px)}
+.service-card:hover .svc-corner{opacity:1;transform:none}
+
+/* ─── 3D LAPTOP SECTION ─── */
+.laptop-section{padding:120px 0;background:var(--ivory);overflow:hidden}
+.laptop-toggle{display:flex;gap:.75rem;justify-content:center;margin-bottom:3rem;flex-wrap:wrap}
+.lbtn{background:none;border:1.5px solid rgba(13,27,46,.15);padding:.65rem 1.5rem;border-radius:100px;font-family:var(--ff-body);font-size:.82rem;font-weight:600;cursor:pointer;transition:all .25s;color:var(--navy)}
+.lbtn.active,.lbtn:hover{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 6px 20px rgba(13,27,46,.2)}
+.laptop-scene{perspective:2600px;perspective-origin:50% 35%;display:flex;justify-content:center;padding:2rem 0}
+.laptop-3d{transform-style:preserve-3d;transform:rotateX(22deg) rotateY(-45deg);transition:transform .08s linear;position:relative;width:min(760px,90vw)}
+/* Hyper-realistic laptop lid */
+.laptop-lid{
+  width:100%;padding-bottom:64%;position:relative;transform-style:preserve-3d;
+  background:linear-gradient(160deg,#F2F2F7 0%,#E5E5EA 30%,#D1D1D6 60%,#C7C7CC 100%);
+  border-radius:16px 16px 2px 2px;
+  border:1.5px solid #B0B0B5;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.08);
+}
+.laptop-lid::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 40% 30%,rgba(255,255,255,.35) 0%,transparent 70%);border-radius:inherit;pointer-events:none}
+.laptop-bezel{
+  position:absolute;top:4%;left:4%;right:4%;bottom:2%;
+  background:#0A0A0C;
+  border-radius:8px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),inset 0 2px 8px rgba(0,0,0,.5);
+  overflow:hidden;
+}
+.laptop-bezel-inner{position:absolute;inset:3%;border-radius:5px;overflow:hidden;background:#080c10}
+.laptop-site-img{width:100%;height:100%;object-fit:cover;object-position:top;transition:opacity .5s;display:block}
+.site-loading{
+  position:absolute;inset:0;background:#080c10;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:.75rem;color:rgba(255,255,255,.4);font-size:.75rem;
+}
+.loader-ring{width:32px;height:32px;border:2px solid rgba(200,169,74,.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.laptop-notch{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  width:12px;height:8px;background:#0A0A0C;
+  border-radius:0 0 5px 5px;z-index:10;
+}
+/* Cursor */
+.cursor-anim{position:absolute;z-index:20;pointer-events:none;animation:cMove 10s ease-in-out infinite}
+.cursor-anim svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.cursor-ripple{position:absolute;top:-6px;left:-6px;width:24px;height:24px;border-radius:50%;border:2px solid var(--gold);opacity:0;animation:ripple 10s ease-in-out infinite}
+@keyframes cMove{
+  0%{top:25%;left:18%;transform:scale(1)}
+  8%{top:25%;left:18%;transform:scale(.8)}9%{transform:scale(1)}
+  25%{top:48%;left:62%;transform:scale(1)}
+  33%{top:48%;left:62%;transform:scale(.8)}34%{transform:scale(1)}
+  52%{top:68%;left:35%;transform:scale(1)}
+  60%{top:68%;left:35%;transform:scale(.8)}61%{transform:scale(1)}
+  78%{top:30%;left:75%;transform:scale(1)}
+  86%{top:30%;left:75%;transform:scale(.8)}87%{transform:scale(1)}
+  100%{top:25%;left:18%;transform:scale(1)}
+}
+@keyframes ripple{
+  0%,100%{opacity:0;transform:scale(.5)}
+  8%{opacity:.9;transform:scale(.5)}9.5%{opacity:0;transform:scale(1.8)}
+  33%{opacity:.9;transform:scale(.5)}34.5%{opacity:0;transform:scale(1.8)}
+  60%{opacity:.9;transform:scale(.5)}61.5%{opacity:0;transform:scale(1.8)}
+  86%{opacity:.9;transform:scale(.5)}87.5%{opacity:0;transform:scale(1.8)}
+}
+.laptop-hinge{
+  width:100%;height:10px;
+  background:linear-gradient(180deg,#AEAEB2 0%,#8E8E93 50%,#636366 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2);
+}
+.laptop-base{
+  width:100%;padding-top:36%;
+  background:linear-gradient(170deg,#F2F2F7 0%,#E5E5EA 25%,#D8D8DD 55%,#CACACF 100%);
+  border-radius:0 0 12px 12px;
+  border:1.5px solid #B0B0B5;border-top:none;
+  position:relative;
+  box-shadow:0 50px 120px rgba(13,27,46,.35),0 24px 50px rgba(13,27,46,.22),inset 0 1px 0 rgba(255,255,255,.8);
+}
+.laptop-base::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 20%,rgba(255,255,255,.25) 0%,transparent 70%);border-radius:inherit;pointer-events:none}
+.laptop-keys{position:absolute;top:6%;left:5%;right:5%;height:62%;}
+.laptop-keys canvas{width:100%;height:100%;display:block;border-radius:4px}
+.laptop-tp{
+  position:absolute;bottom:7%;left:50%;transform:translateX(-50%);
+  width:32%;height:20%;
+  background:linear-gradient(155deg,#DCDCE1 0%,#C8C8CD 60%,#BEBEC3 100%);
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,.12);
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.08),inset 0 -1px 0 rgba(255,255,255,.5);
+}
+
+/* ─── WHY ─── */
+.why{padding:120px 0;background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.why::before{content:'';position:absolute;top:-300px;right:-300px;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(200,169,74,.07) 0%,transparent 60%);pointer-events:none}
+.why-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.why-tag{color:var(--gold);border-color:rgba(200,169,74,.3);background:rgba(200,169,74,.06)}
+.why-title{font-family:var(--ff-display);font-size:clamp(1.9rem,2.6vw,2.5rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:1.4rem}
+.why-body{font-size:1rem;line-height:1.8;opacity:.6;margin-bottom:2rem}
+.why-list{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.why-item{display:flex;align-items:flex-start;gap:.9rem;font-size:.9rem;opacity:.8;line-height:1.5}
+.why-check{flex-shrink:0;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;margin-top:1px}
+.why-check svg{width:10px;height:10px}
+.why-visual{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.why-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:1.75rem;position:relative;overflow:hidden;transition:all .3s}
+.why-stat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(200,169,74,.4),transparent)}
+.why-stat:hover{background:rgba(255,255,255,.07);border-color:rgba(200,169,74,.2)}
+.why-stat-num{font-family:var(--ff-display);font-size:2.1rem;font-weight:800;color:var(--gold);display:block;margin-bottom:.3rem;letter-spacing:-.02em}
+.why-stat-label{font-size:.78rem;opacity:.5;font-weight:500;letter-spacing:.04em}
+
+/* ─── RESULTS ─── */
+.results{padding:160px 0;background:var(--white)}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:5rem}
+.result-item{background:var(--white);border-radius:28px;padding:3rem 2rem;border:1px solid rgba(13,27,46,.07);text-align:center;transition:all .35s;position:relative;overflow:hidden}
+.result-item::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s}
+.result-item:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(13,27,46,.09);border-color:rgba(200,169,74,.2)}
+.result-item:hover::before{opacity:1}
+.result-icon-svg{width:52px;height:52px;margin:0 auto 1.25rem;display:flex;align-items:center;justify-content:center;background:var(--ivory);border-radius:14px;border:1px solid rgba(13,27,46,.07);transition:all .3s}
+.result-item:hover .result-icon-svg{background:var(--gold-pale);border-color:rgba(200,169,74,.3)}
+.result-title{font-family:var(--ff-display);font-size:.92rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;letter-spacing:-.01em}
+.result-desc{font-size:.78rem;color:var(--gray);line-height:1.65}
+
+/* ─── PROCESS (ROCKET) ─── */
+#processOuter{position:relative;background:var(--navy)}
+.process{position:sticky;top:0;height:100vh;overflow:visible;display:flex;flex-direction:column;justify-content:center;padding:50px 0;background:var(--navy)}
+.process .section-title,.process .section-sub{color:#fff}
+.process .section-sub{opacity:.5}
+.process .tag{color:var(--gold);border-color:rgba(200,169,74,.3);background:rgba(200,169,74,.06)}
+.journey-wrap{position:relative;margin-top:3rem}
+.journey-svg{width:100%;height:auto;overflow:visible}
+.step-label-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+.step-label{text-align:center;padding:1.75rem 1.25rem;border-radius:18px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);transition:all .5s cubic-bezier(.22,1,.36,1)}
+.step-label.lit{background:rgba(200,169,74,.07);border-color:rgba(200,169,74,.22);box-shadow:0 0 30px rgba(200,169,74,.08)}
+.step-label .sl-num{font-family:var(--ff-display);font-size:.65rem;font-weight:700;letter-spacing:.15em;color:var(--gold);opacity:.45;margin-bottom:.5rem;transition:opacity .4s}
+.step-label .sl-title{font-family:var(--ff-display);font-size:1.05rem;font-weight:700;color:rgba(255,255,255,.3);margin-bottom:.5rem;transition:color .4s;letter-spacing:-.01em}
+.step-label .sl-desc{font-size:.78rem;color:rgba(255,255,255,.2);line-height:1.6;transition:color .4s}
+.step-label.lit .sl-num{opacity:1}
+.step-label.lit .sl-title{color:#fff}
+.step-label.lit .sl-desc{color:rgba(255,255,255,.5)}
+
+/* ─── PORTFOLIO ─── */
+.portfolio{padding:120px 0;background:var(--ivory)}
+.portfolio-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem}
+.port-card{background:var(--white);border-radius:24px;overflow:hidden;box-shadow:0 4px 24px rgba(13,27,46,.07);border:1px solid rgba(13,27,46,.07);transition:all .45s cubic-bezier(.22,1,.36,1)}
+.port-card:hover{transform:translateY(-12px) scale(1.01);box-shadow:0 40px 80px rgba(13,27,46,.15)}
+.port-bar{background:var(--gray-light);padding:11px 16px;display:flex;align-items:center;gap:7px;border-bottom:1px solid rgba(0,0,0,.05)}
+.p-dot{width:9px;height:9px;border-radius:50%}
+.port-url-pill{flex:1;background:#fff;border-radius:100px;padding:4px 12px;font-size:.62rem;color:var(--gray);font-weight:500;margin-left:6px;display:flex;align-items:center;gap:.3rem}
+.port-url-pill::before{content:'🔒';font-size:.55rem;opacity:.5}
+.port-screen{height:300px;overflow:hidden;position:relative}
+.port-screen img{width:100%;height:100%;object-fit:cover;object-position:top;transition:transform .6s ease,opacity .3s}
+.port-card:hover .port-screen img{transform:scale(1.03) translateY(-10px)}
+.port-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,27,46,.5) 0%,transparent 50%);opacity:0;transition:opacity .4s;display:flex;align-items:flex-end;padding:1.5rem}
+.port-card:hover .port-overlay{opacity:1}
+.port-overlay-link{color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:.4rem}
+.port-info{padding:1.4rem 1.75rem;display:flex;justify-content:space-between;align-items:center}
+.port-name{font-family:var(--ff-display);font-weight:700;color:var(--navy);font-size:1rem;margin-bottom:.2rem}
+.port-domain{font-size:.75rem;color:var(--gray)}
+.port-badge{font-size:.68rem;font-weight:700;color:var(--blue);background:var(--blue-pale);padding:.3rem .8rem;border-radius:100px}
+
+/* ─── CTA ─── */
+.cta-section{padding:140px 0;text-align:center;position:relative;overflow:hidden;background:var(--white)}
+#ctaCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.cta-veil{position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at center,rgba(255,255,255,.97) 25%,rgba(255,255,255,.8) 55%,rgba(255,255,255,.15) 100%);z-index:1;pointer-events:none}
+.cta-inner{position:relative;z-index:2}
+.cta-title{font-family:var(--ff-display);font-size:clamp(2.4rem,4.5vw,4rem);font-weight:800;letter-spacing:-.04em;color:var(--navy);margin-bottom:1.25rem;line-height:1.05}
+.cta-sub{font-size:1.05rem;color:var(--gray);margin-bottom:2.5rem;line-height:1.7}
+.btn-gold{background:linear-gradient(135deg,#C8A94A 0%,#E2C46A 50%,#C8A94A 100%);background-size:200% auto;color:var(--navy);font-weight:800;font-size:1rem;padding:1.05rem 2.4rem;border-radius:100px;text-decoration:none;display:inline-flex;align-items:center;gap:.65rem;transition:all .4s;box-shadow:0 6px 30px rgba(200,169,74,.4);letter-spacing:.02em;animation:shimmerBtn 3s linear infinite}
+@keyframes shimmerBtn{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.btn-gold:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(200,169,74,.55)}
+
+/* ─── CTA FLOATING ICONS ─── */
+.cta-icons{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.cta-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.6rem}
+.cta-icon-bg{width:76px;height:76px;border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 36px rgba(0,0,0,.14)}
+.ci-bg-gold{background:linear-gradient(135deg,#C8A94A 0%,#E2C46A 100%)}
+.ci-bg-blue{background:linear-gradient(135deg,#2460C8 0%,#3B82F6 100%)}
+.ci-bg-dark{background:linear-gradient(135deg,#0D1B2E 0%,#1A2F4A 100%);border:1px solid rgba(200,169,74,.25)}
+.cta-icon-lbl{font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);opacity:.45}
+.ci-1{top:10%;left:7%;animation:ciF1 6s ease-in-out infinite}
+.ci-2{bottom:16%;left:5%;animation:ciF2 7s ease-in-out infinite}
+.ci-3{top:8%;right:7%;animation:ciF1 5.5s ease-in-out infinite reverse}
+.ci-4{bottom:14%;right:6%;animation:ciF2 6.5s ease-in-out infinite reverse}
+.ci-5{top:42%;left:3%;animation:ciF1 7.5s ease-in-out infinite .5s}
+.ci-6{top:38%;right:3%;animation:ciF2 6.2s ease-in-out infinite 1s}
+@keyframes ciF1{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(1deg)}}
+@keyframes ciF2{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-13px) rotate(-2deg)}}
+@media(max-width:900px){.cta-icons{display:none}}
+
+/* ─── FOOTER ─── */
+footer{background:var(--navy);color:#fff;padding:64px 0 40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:flex-start;gap:3rem;flex-wrap:wrap}
+.footer-logo{font-family:var(--ff-display);font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+.footer-logo span{color:var(--gold)}
+.footer-tagline{font-size:.72rem;opacity:.35;letter-spacing:.14em;text-transform:uppercase;margin-bottom:.25rem}
+.footer-services{font-size:.85rem;opacity:.4;margin-top:.25rem}
+.footer-contact a{display:block;color:rgba(255,255,255,.5);text-decoration:none;font-size:.88rem;margin-bottom:.4rem;transition:color .2s}
+.footer-contact a:hover{color:var(--gold)}
+.footer-bottom{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;font-size:.72rem;opacity:.25;flex-wrap:wrap;gap:.5rem}
+
+/* ─── TWEAKS ─── */
+#tweaks-panel{position:fixed;bottom:24px;right:24px;background:var(--white);border:1px solid rgba(13,27,46,.1);border-radius:20px;padding:1.5rem;box-shadow:0 20px 60px rgba(13,27,46,.14);z-index:400;width:230px;display:none}
+#tweaks-panel h4{font-family:var(--ff-display);font-weight:700;margin-bottom:1rem;font-size:.88rem}
+.tw-row{margin-bottom:.85rem}
+.tw-row label{display:block;font-size:.7rem;font-weight:600;color:var(--gray);margin-bottom:.35rem;text-transform:uppercase;letter-spacing:.08em}
+.tw-row select,.tw-row input{width:100%;border:1px solid rgba(13,27,46,.12);border-radius:8px;padding:.4rem .6rem;font-family:var(--ff-body);font-size:.8rem;outline:none;background:var(--white)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-inner,.intro-inner,.why-inner{grid-template-columns:1fr}
+  #heroCanvas{height:300px}
+  .service-grid,.results-grid,.process-steps,.portfolio-grid{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+  .laptop-section{padding:80px 0}
+}
+@media(max-width:600px){
+  .service-grid,.results-grid,.portfolio-grid{grid-template-columns:1fr}
+  .why-visual{grid-template-columns:1fr 1fr}
+  .footer-inner{flex-direction:column}
+  .laptop-toggle{flex-direction:column;align-items:center}
+  .step-label-grid{grid-template-columns:1fr 1fr}
+  #processOuter{height:auto!important}
+  .process{position:relative!important;height:auto!important;overflow:visible!important;padding:80px 0}
+  .laptop-3d{transform:rotateX(8deg) rotateY(-10deg)!important}
+  .laptop-section{padding:60px 0}
+  #heroCanvas{height:200px}
+}
+</style>
+</head>
+<body>
+
+<div id="scrollBar"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo"><img src="logo.png" alt="ElaSystems" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#showcase">Showcase</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#work">Work</a></li>
+  </ul>
+  <a href="sms:+13133006898" class="nav-cta">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <div class="hero-eyebrow">Premium Digital Agency</div>
+        <h1 class="hero-h1">Digital Systems That <em>Actually Grow</em> Your Business</h1>
+        <p class="hero-sub">ElaSystems builds high-performing websites, scalable apps, and performance-driven advertising systems designed to generate real leads, sales, and long-term growth.</p>
+        <div class="hero-btns">
+          <a href="sms:+13133006898" class="btn-primary">Book a Free Consultation →</a>
+          <a href="#work" class="btn-secondary">View My Work</a>
+        </div>
+      </div>
+      <div>
+        <canvas id="heroCanvas"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="container">
+    <div class="intro-inner">
+      <div class="reveal-left">
+        <div class="intro-label">The Real Problem</div>
+        <div class="intro-divider"></div>
+        <p class="intro-quote">Most businesses don't have a <em>traffic problem</em>. They have a <em>system problem</em>.</p>
+      </div>
+      <div class="reveal-right">
+        <p class="intro-body">ElaSystems builds digital systems that turn attention into customers, and customers into growth. We engineer every touchpoint — from first click to final conversion — so your business doesn't just exist online, it <strong style="color:var(--gold)">scales</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">What We Build</div>
+      <h2 class="section-title">Three Systems. One Goal: <span class="gold">Growth.</span></h2>
+      <p class="section-sub">Every service engineered around one metric — measurable business results.</p>
+    </div>
+    <div class="service-grid">
+      <!-- Websites -->
+      <div class="service-card reveal d1">
+        <div class="svc-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <circle cx="13" cy="13" r="10" stroke="#C8A94A" stroke-width="1.5"/>
+            <path d="M13 3C10.5 6 9 9.5 9 13s1.5 7 4 10" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M13 3C15.5 6 17 9.5 17 13s-1.5 7-4 10" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M3 13h20M3.5 9h19M3.5 17h19" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="svc-num">01</div>
+        <div class="svc-title">Websites</div>
+        <p class="svc-desc">High-converting websites designed to turn traffic into real leads. Built for speed, clarity, and conversion at every scroll.</p>
+        <div class="svc-line"></div>
+        <div class="svc-corner"></div>
+      </div>
+      <!-- Apps -->
+      <div class="service-card reveal d2">
+        <div class="svc-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <rect x="8" y="2" width="10" height="22" rx="2.5" stroke="#C8A94A" stroke-width="1.5"/>
+            <circle cx="13" cy="20" r="1.2" fill="#C8A94A"/>
+            <path d="M11 5.5h4" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+            <rect x="10" y="8" width="6" height="4" rx="1" stroke="#C8A94A" stroke-width="1"/>
+            <rect x="10" y="13.5" width="2.5" height="2.5" rx=".5" stroke="#C8A94A" stroke-width="1"/>
+            <rect x="13.5" y="13.5" width="2.5" height="2.5" rx=".5" stroke="#C8A94A" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="svc-num">02</div>
+        <div class="svc-title">Apps</div>
+        <p class="svc-desc">Scalable app experiences built for usability, growth, and performance. From concept to deployment, engineered to scale.</p>
+        <div class="svc-line"></div>
+        <div class="svc-corner"></div>
+      </div>
+      <!-- Advertising -->
+      <div class="service-card reveal d3">
+        <div class="svc-icon-wrap">
+          <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+            <path d="M3 19l5-7 4 3 4-8 5 12" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="19" r="2" fill="#C8A94A"/>
+            <path d="M3 22h20" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+            <path d="M16 5l2-2 2 2" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 3v6" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="svc-num">03</div>
+        <div class="svc-title">Advertising</div>
+        <p class="svc-desc">Performance-driven campaigns built to generate measurable business results. Every dollar tracked, optimized, and scaled.</p>
+        <div class="svc-line"></div>
+        <div class="svc-corner"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3D LAPTOP SHOWCASE -->
+<section class="laptop-section" id="showcase">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">Live Preview</div>
+      <h2 class="section-title">See the Systems <span class="gold">In Action</span></h2>
+      <p class="section-sub">Real websites we've built, performing right now — scroll to watch the system come alive.</p>
+    </div>
+    <div class="laptop-toggle">
+      <!-- BUSINESSES: add more entries here to add a client site -->
+      <button class="lbtn active" data-site="https://creativestylewiss.com">Creative Style Wiss</button>
+      <button class="lbtn" data-site="https://dmodashoes.com">DModa Shoes</button>
+    </div>
+    <div class="laptop-scene" id="laptopScene">
+      <div class="laptop-3d" id="laptop3d">
+        <div class="laptop-lid">
+          <div class="laptop-bezel">
+            <div class="laptop-bezel-inner">
+            <div class="site-loading" id="siteLoading">
+              <div class="loader-ring"></div>
+              <span>Loading live preview…</span>
+            </div>
+            <img id="laptopImg" alt="Website preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .6s" onload="this.style.opacity='1';document.getElementById('siteLoading').style.display='none'">
+            <div class="cursor-anim">
+              <div class="cursor-ripple"></div>
+              <svg width="16" height="20" viewBox="0 0 16 20" fill="white"><path d="M0 0l5.5 16 3-5.5L16 8 0 0z" fill="white"/><path d="M8.5 10.5l4 6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            </div><!-- end bezel-inner -->
+          </div><!-- end bezel -->
+          <div class="laptop-notch"></div>
+        </div>
+        <div class="laptop-hinge"></div>
+        <div class="laptop-base">
+          <div class="laptop-keys"></div>
+          <div class="laptop-tp"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ELASYSTEMS -->
+<section class="why" id="why">
+  <div class="container">
+    <div class="why-inner">
+      <div>
+        <div class="tag why-tag reveal">Why ElaSystems</div>
+        <h2 class="why-title reveal">We don't build things that <span style="color:var(--gold)">look good</span>.<br>We build systems that <em style="font-style:normal;color:var(--gold-light)">work</em>.</h2>
+        <p class="why-body reveal d1">Every project is designed with performance, usability, and growth in mind — so your business doesn't just exist online, it scales.</p>
+        <ul class="why-list reveal d2">
+          <li class="why-item"><span class="why-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/></svg></span>Performance-first architecture on every build</li>
+          <li class="why-item"><span class="why-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/></svg></span>Conversion strategy baked into every decision</li>
+          <li class="why-item"><span class="why-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/></svg></span>Scalable systems designed for long-term growth</li>
+          <li class="why-item"><span class="why-check"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/></svg></span>Clear communication and on-time delivery</li>
+        </ul>
+      </div>
+      <div class="why-visual">
+        <div class="why-stat reveal d1"><span class="why-stat-num">50+</span><span class="why-stat-label">Projects Delivered</span></div>
+        <div class="why-stat reveal d2"><span class="why-stat-num">247%</span><span class="why-stat-label">Avg. Conversion Lift</span></div>
+        <div class="why-stat reveal d3"><span class="why-stat-num">4.9★</span><span class="why-stat-label">Client Satisfaction</span></div>
+        <div class="why-stat reveal d4"><span class="why-stat-num">100%</span><span class="why-stat-label">On-Time Delivery</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results" id="results">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">What You Get</div>
+      <h2 class="section-title">Built to <span class="blue">Perform</span>. Designed to <span class="gold">Scale</span>.</h2>
+    </div>
+    <div class="results-grid">
+      <div class="result-item reveal d1">
+        <div class="result-icon-svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3L3 9v12h6v-6h6v6h6V9L12 3z" stroke="#C8A94A" stroke-width="1.5" stroke-linejoin="round"/>
+            <circle cx="12" cy="10" r="2" stroke="#C8A94A" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="result-title">Conversion Architecture</div>
+        <p class="result-desc">Every layout and CTA engineered to move visitors toward action.</p>
+      </div>
+      <div class="result-item reveal d2">
+        <div class="result-icon-svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" stroke="#2460C8" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="result-title">Speed & Performance</div>
+        <p class="result-desc">Sub-second load times that keep users engaged and rankings high.</p>
+      </div>
+      <div class="result-item reveal d3">
+        <div class="result-icon-svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 17l4-6 4 3 4-8 4 8" stroke="#10B981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="21" cy="17" r="2" fill="#10B981"/>
+            <path d="M3 21h18" stroke="#10B981" stroke-width="1" opacity=".3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="result-title">Revenue Generation</div>
+        <p class="result-desc">Systems that turn traffic into leads and leads into paying customers.</p>
+      </div>
+      <div class="result-item reveal d4">
+        <div class="result-icon-svg">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v18M3 12h18" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M6 6l12 12M18 6L6 18" stroke="#C8A94A" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+          </svg>
+        </div>
+        <div class="result-title">Built to Scale</div>
+        <p class="result-desc">Infrastructure that grows with your business — no limits, no bottlenecks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS — ROCKET PATH -->
+<div id="processOuter" style="height:150vh">
+<section class="process" id="process">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">How It Works</div>
+      <h2 class="section-title">A System Built for <span class="gold">Results</span></h2>
+      <p class="section-sub">Four focused phases, zero guesswork — from strategy to scale.</p>
+    </div>
+    <div class="journey-wrap reveal" id="journeyWrap">
+      <svg class="journey-svg" id="journeySvg" viewBox="0 0 1000 320" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#C8A94A"/>
+            <stop offset="100%" stop-color="#2460C8"/>
+          </linearGradient>
+          <filter id="rocketGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <filter id="dotGlow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Track path -->
+        <path id="trackPath" d="M100,220 C180,220 220,80 340,90 C460,100 480,230 600,210 C720,190 760,70 880,80" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="3" stroke-dasharray="10,6"/>
+        <!-- Lit path (fills with scroll) -->
+        <path id="litPath" d="M100,220 C180,220 220,80 340,90 C460,100 480,230 600,210 C720,190 760,70 880,80" fill="none" stroke="url(#pathGrad)" stroke-width="3" stroke-dasharray="1200" stroke-dashoffset="1200" stroke-linecap="round"/>
+        <!-- Step dots -->
+        <circle class="sdot" cx="100" cy="220" r="10" fill="#0D1B2E" stroke="rgba(200,169,74,0.35)" stroke-width="2"/>
+        <circle class="sdot" cx="340" cy="90" r="10" fill="#0D1B2E" stroke="rgba(200,169,74,0.35)" stroke-width="2"/>
+        <circle class="sdot" cx="600" cy="210" r="10" fill="#0D1B2E" stroke="rgba(200,169,74,0.35)" stroke-width="2"/>
+        <circle class="sdot" cx="880" cy="80" r="10" fill="#0D1B2E" stroke="rgba(200,169,74,0.35)" stroke-width="2"/>
+        <!-- Rocket -->
+        <g id="rocketG" filter="url(#rocketGlow)" transform="translate(100,220) rotate(0)">
+          <!-- Exhaust flame -->
+          <ellipse cx="-22" cy="0" rx="8" ry="4" fill="#E2C46A" opacity="0.7"><animate attributeName="rx" values="8;5;9;6;8" dur=".4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.7;0.4;0.8;0.5;0.7" dur=".4s" repeatCount="indefinite"/></ellipse>
+          <ellipse cx="-28" cy="0" rx="5" ry="2.5" fill="white" opacity="0.5"><animate attributeName="rx" values="5;3;6;4;5" dur=".35s" repeatCount="indefinite"/></ellipse>
+          <!-- Body -->
+          <rect x="-14" y="-7" width="26" height="14" rx="7" fill="#0D1B2E"/>
+          <!-- Cockpit -->
+          <ellipse cx="10" cy="0" rx="5" ry="5" fill="#2460C8"/>
+          <ellipse cx="11" cy="-1" rx="3" ry="3" fill="#3B82F6" opacity=".6"/>
+          <!-- Nose -->
+          <path d="M15,0 L26,-5 L28,0 L26,5 Z" fill="#C8A94A"/>
+          <!-- Wings top/bottom -->
+          <path d="M-4,-7 L-14,-18 L2,-7 Z" fill="#1A2F4A" stroke="#C8A94A" stroke-width=".5"/>
+          <path d="M-4,7 L-14,18 L2,7 Z" fill="#1A2F4A" stroke="#C8A94A" stroke-width=".5"/>
+          <!-- Engine ring -->
+          <ellipse cx="-14" cy="0" rx="3" ry="7" fill="#1A2F4A" stroke="#C8A94A" stroke-width="1"/>
+        </g>
+        <!-- Star particles -->
+        <g opacity=".25">
+          <circle cx="200" cy="150" r="1.5" fill="#C8A94A"/><circle cx="450" cy="50" r="1" fill="#fff"/>
+          <circle cx="700" cy="260" r="1.5" fill="#2460C8"/><circle cx="820" cy="140" r="1" fill="#C8A94A"/>
+          <circle cx="150" cy="280" r="1" fill="#fff"/><circle cx="500" cy="280" r="1.5" fill="#C8A94A"/>
+        </g>
+      </svg>
+      <div class="step-label-grid">
+        <div class="step-label" id="sl0"><div class="sl-num">01</div><div class="sl-title">Strategy</div><div class="sl-desc">Map your goals, audience, and competitive landscape</div></div>
+        <div class="step-label" id="sl1"><div class="sl-num">02</div><div class="sl-title">Build</div><div class="sl-desc">Design and develop with performance at the core</div></div>
+        <div class="step-label" id="sl2"><div class="sl-num">03</div><div class="sl-title">Optimize</div><div class="sl-desc">Test, refine, and tune until every metric moves</div></div>
+        <div class="step-label" id="sl3"><div class="sl-num">04</div><div class="sl-title">Scale</div><div class="sl-desc">Amplify what works, grow without friction</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+<!-- PORTFOLIO -->
+<section class="portfolio" id="work">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="tag">Our Work</div>
+      <h2 class="section-title">Real Sites. Real <span class="gold">Results</span>.</h2>
+      <p class="section-sub">Live websites we've engineered for growth — hover to explore.</p>
+    </div>
+    <div class="portfolio-grid">
+      <div class="port-card reveal d1">
+        <div class="port-bar">
+          <div class="p-dot" style="background:#FF5F57"></div>
+          <div class="p-dot" style="background:#FEBC2E"></div>
+          <div class="p-dot" style="background:#28C840"></div>
+          <div class="port-url-pill">creativestylewiss.com</div>
+        </div>
+        <div class="port-screen">
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcreativestylewiss.com?w=1200&h=750" alt="Creative Style Wiss" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fcreativestylewiss.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <div class="port-overlay"><span class="port-overlay-link">Visit Live Site →</span></div>
+        </div>
+        <div class="port-info">
+          <div><div class="port-name">Creative Style Wiss</div><div class="port-domain">creativestylewiss.com</div></div>
+          <div class="port-badge">Website</div>
+        </div>
+      </div>
+      <div class="port-card reveal d2">
+        <div class="port-bar">
+          <div class="p-dot" style="background:#FF5F57"></div>
+          <div class="p-dot" style="background:#FEBC2E"></div>
+          <div class="p-dot" style="background:#28C840"></div>
+          <div class="port-url-pill">dmodashoes.com</div>
+        </div>
+        <div class="port-screen">
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdmodashoes.com?w=1200&h=750" alt="DModa Shoes" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fdmodashoes.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <div class="port-overlay"><span class="port-overlay-link">Visit Live Site →</span></div>
+        </div>
+        <div class="port-info">
+          <div><div class="port-name">DModa Shoes</div><div class="port-domain">dmodashoes.com</div></div>
+          <div class="port-badge">E-Commerce</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <canvas id="ctaCanvas"></canvas>
+  <div class="cta-icons">
+    <div class="cta-icon ci-1"><div class="cta-icon-bg ci-bg-gold"><svg width="36" height="36" viewBox="0 0 36 36" fill="none"><circle cx="18" cy="18" r="14" stroke="white" stroke-width="1.5"/><ellipse cx="18" cy="18" rx="7" ry="14" stroke="white" stroke-width="1.5"/><path d="M4 18h28M10 9.5a24 9 0 0 0 16 0M10 26.5a24 9 0 0 1 16 0" stroke="white" stroke-width="1.5"/></svg></div><span class="cta-icon-lbl">Websites</span></div>
+    <div class="cta-icon ci-2"><div class="cta-icon-bg ci-bg-blue"><svg width="28" height="40" viewBox="0 0 28 46" fill="none"><rect x="1.5" y="1.5" width="25" height="43" rx="4.5" stroke="white" stroke-width="1.5"/><rect x="5" y="7" width="18" height="29" rx="2" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1"/><circle cx="14" cy="40.5" r="2.2" stroke="white" stroke-width="1.5"/><rect x="10" y="3" width="8" height="2" rx="1" fill="rgba(255,255,255,.4)"/><rect x="5" y="10" width="7" height="7" rx="1.5" fill="rgba(255,255,255,.35)"/><rect x="14" y="10" width="7" height="7" rx="1.5" fill="rgba(255,255,255,.25)"/><rect x="5" y="19" width="7" height="7" rx="1.5" fill="rgba(255,255,255,.25)"/><rect x="14" y="19" width="7" height="7" rx="1.5" fill="rgba(255,255,255,.35)"/></svg></div><span class="cta-icon-lbl">Apps</span></div>
+    <div class="cta-icon ci-3"><div class="cta-icon-bg ci-bg-gold"><svg width="40" height="36" viewBox="0 0 40 36" fill="none"><rect x="2" y="22" width="7" height="12" rx="2" fill="rgba(255,255,255,.7)"/><rect x="11" y="14" width="7" height="20" rx="2" fill="white"/><rect x="20" y="18" width="7" height="16" rx="2" fill="rgba(255,255,255,.7)"/><rect x="29" y="6" width="7" height="28" rx="2" fill="white"/><path d="M5.5 22L14.5 14l9 4 9-12" stroke="rgba(255,255,255,.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="5.5" cy="22" r="2" fill="white"/><circle cx="14.5" cy="14" r="2" fill="white"/><circle cx="23.5" cy="18" r="2" fill="white"/><circle cx="32.5" cy="6" r="2" fill="white"/></svg></div><span class="cta-icon-lbl">Advertising</span></div>
+    <div class="cta-icon ci-4"><div class="cta-icon-bg ci-bg-blue"><svg width="40" height="34" viewBox="0 0 40 34" fill="none"><path d="M2 12c5-7 10-10 18-10s13 3 18 10" stroke="rgba(255,255,255,.35)" stroke-width="2.5" stroke-linecap="round"/><path d="M6 18c4-5.5 8-8 14-8s10 2.5 14 8" stroke="rgba(255,255,255,.6)" stroke-width="2.5" stroke-linecap="round"/><path d="M11 24c3-4 5.5-6 9-6s6 2 9 6" stroke="white" stroke-width="2.5" stroke-linecap="round"/><circle cx="20" cy="30" r="3" fill="white"/></svg></div><span class="cta-icon-lbl">Connected</span></div>
+    <!-- Apple App Store — accurate icon -->
+    <div class="cta-icon ci-5">
+      <div class="cta-icon-bg" style="background:linear-gradient(145deg,#1A8FE3 0%,#0D72C8 100%)">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Apple A mark with pencil/stylus — App Store logo accurate shape -->
+          <path d="M22 5L12 25h5.5l1.8-3.8h5.4L26.5 25H32L22 5zm-1.4 12.4L22 13l1.4 4.4h-2.8z" fill="white"/>
+          <path d="M10 30h24v2.5a2 2 0 01-2 2H12a2 2 0 01-2-2V30z" fill="white"/>
+        </svg>
+      </div>
+      <span class="cta-icon-lbl">App Store</span>
+    </div>
+    <!-- Google Play — accurate four-triangle icon -->
+    <div class="cta-icon ci-6">
+      <div class="cta-icon-bg" style="background:#FFFFFF;box-shadow:0 8px 30px rgba(0,0,0,.12)">
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gpl1" x1="0" y1="1" x2="1" y2="0"><stop stop-color="#00C6FF"/><stop offset="1" stop-color="#0096C7"/></linearGradient>
+            <linearGradient id="gpl2" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#FFD000"/><stop offset="1" stop-color="#FFAA00"/></linearGradient>
+            <linearGradient id="gpl3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#FF3A44"/><stop offset="1" stop-color="#B4004E"/></linearGradient>
+            <linearGradient id="gpl4" x1="1" y1="1" x2="0" y2="0"><stop stop-color="#32DF76"/><stop offset="1" stop-color="#008D40"/></linearGradient>
+          </defs>
+          <!-- Left blue triangle -->
+          <path d="M5 7.2v25.6L20.8 20 5 7.2z" fill="url(#gpl1)"/>
+          <!-- Top yellow triangle -->
+          <path d="M5 7.2L20.8 20l8.6-4.9L5 7.2z" fill="url(#gpl2)"/>
+          <!-- Bottom red triangle -->
+          <path d="M5 32.8L20.8 20l8.6 4.9L5 32.8z" fill="url(#gpl3)"/>
+          <!-- Right green triangle -->
+          <path d="M29.4 15.1L20.8 20l8.6 4.9 4-2.3c1.1-.6 1.6-1.6 1.6-2.6s-.5-2-1.6-2.6l-4-2.3z" fill="url(#gpl4)"/>
+        </svg>
+      </div>
+      <span class="cta-icon-lbl">Google Play</span>
+    </div>
+  </div>
+  <div class="cta-veil"></div>
+  <div class="container">
+    <div class="cta-inner reveal">
+      <div class="tag" style="margin:0 auto 1.5rem">Get Started</div>
+      <h2 class="cta-title">Let's Build a System<br><span class="gold">That Works</span></h2>
+      <p class="cta-sub">Quick call. No pressure. Just clarity on how to grow your business.</p>
+      <a href="sms:+13133006898" class="btn-gold">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Book Your Free Consultation
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">ELA<span>SYSTEMS</span></div>
+        <div class="footer-tagline">We Build Digital Systems That Grow Businesses</div>
+        <div class="footer-services">Websites • Apps • Advertising</div>
+      </div>
+      <div class="footer-contact">
+        <a href="tel:+13133006898">313-300-6898</a>
+        <a href="sms:+13133006898">Text Us Directly</a>
+        <a href="mailto:hafezeladesign@gmail.com">hafezeladesign@gmail.com</a>
+        <a href="https://eladesign.com" target="_blank" rel="noopener">eladesign.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 ElaSystems. All rights reserved.</span>
+      <span>Detroit, MI</span>
+    </div>
+  </div>
+</footer>
+
+<!-- TWEAKS -->
+<div id="tweaks-panel">
+  <h4>Tweaks</h4>
+  <div class="tw-row"><label>Card Style</label>
+    <select id="tw-cards">
+      <option value="dark">Dark Navy (Default)</option>
+      <option value="glass">Frosted Glass</option>
+      <option value="light">Light Minimal</option>
+    </select>
+  </div>
+  <div class="tw-row"><label>Accent</label>
+    <select id="tw-accent">
+      <option value="gold">Gold (Default)</option>
+      <option value="silver">Silver</option>
+      <option value="blue">Blue</option>
+    </select>
+  </div>
+</div>
+
+<script>
+// ═══ SCROLL BAR + NAV ═══
+const scrollBar = document.getElementById('scrollBar');
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  scrollBar.style.width = pct + '%';
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+// ═══ INTERSECTION REVEALS ═══
+const allReveals = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); ro.unobserve(e.target); }});
+}, {threshold:.1});
+allReveals.forEach(el => ro.observe(el));
+
+// ═══ THREE.JS HERO — Phone (Apps) + Globe (Websites) + Chart (Ads) ═══
+(function(){
+  if(!window.THREE) return;
+  const canvas = document.getElementById('heroCanvas');
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setSize(W, H); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, W/H, .1, 100);
+  camera.position.set(0, 0, 13);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.8));
+  const dl = new THREE.DirectionalLight(0xffffff, 1.2); dl.position.set(5,8,6); scene.add(dl);
+  const pl1 = new THREE.PointLight(0xC8A94A, 4, 26); pl1.position.set(-3,4,5); scene.add(pl1);
+  const pl2 = new THREE.PointLight(0x2460C8, 3, 22); pl2.position.set(5,-2,4); scene.add(pl2);
+
+  // ── PHONE (Apps) — Realistic ──
+  const phoneG = new THREE.Group();
+  // Slim titanium body
+  const pBodyMat = new THREE.MeshPhysicalMaterial({color:0x1C1C1E,metalness:.97,roughness:.015,clearcoat:1,clearcoatRoughness:.01});
+  phoneG.add(new THREE.Mesh(new THREE.BoxGeometry(1.25,2.72,.07), pBodyMat));
+  // Canvas home screen texture
+  const pCvs=document.createElement('canvas'); pCvs.width=390; pCvs.height=844;
+  const pCtx=pCvs.getContext('2d');
+  const wbg=pCtx.createLinearGradient(0,0,0,844); wbg.addColorStop(0,'#0A1828'); wbg.addColorStop(1,'#0D2040');
+  pCtx.fillStyle=wbg; pCtx.fillRect(0,0,390,844);
+  pCtx.fillStyle='rgba(36,96,200,.18)'; pCtx.beginPath(); pCtx.ellipse(280,160,160,120,.3,0,Math.PI*2); pCtx.fill();
+  pCtx.fillStyle='rgba(200,169,74,.12)'; pCtx.beginPath(); pCtx.ellipse(90,620,130,100,-.3,0,Math.PI*2); pCtx.fill();
+  pCtx.fillStyle='white'; pCtx.font='bold 26px -apple-system,sans-serif'; pCtx.fillText('9:41',22,56);
+  [12,16,20,24].forEach((h,i)=>{pCtx.fillStyle=i<3?'rgba(255,255,255,0.9)':'rgba(255,255,255,0.3)';pCtx.fillRect(286+i*14,42-h,10,h);});
+  pCtx.strokeStyle='rgba(255,255,255,.5)'; pCtx.lineWidth=2; pCtx.strokeRect(330,32,40,18); pCtx.fillStyle='white'; pCtx.fillRect(332,34,30,14); pCtx.fillStyle='rgba(255,255,255,.8)'; pCtx.fillRect(370,37,3,6);
+  const appC=['#E53E3E','#4299E1','#38B2AC','#48BB78','#ECC94B','#F6AD55','#C8A94A','#9F7AEA','#F687B3','#4299E1','#C8A94A','#F6AD55'];
+  for(let r=0;r<3;r++) for(let c=0;c<4;c++){
+    const x=22+c*88,y=132+r*100,ci=r*4+c;
+    pCtx.fillStyle=appC[ci%appC.length]; pCtx.beginPath(); if(pCtx.roundRect)pCtx.roundRect(x,y,64,64,14); else pCtx.rect(x,y,64,64); pCtx.fill();
+    pCtx.fillStyle='rgba(255,255,255,.2)'; pCtx.fillRect(x+10,y+10,20,20);
+  }
+  pCtx.fillStyle='rgba(255,255,255,.1)'; if(pCtx.roundRect)pCtx.roundRect(18,720,354,80,22); else pCtx.rect(18,720,354,80); pCtx.fill();
+  ['#0D1B2E','#25D366','#E53E3E','#4299E1'].forEach((c,i)=>{const x=36+i*88; pCtx.fillStyle=c; if(pCtx.roundRect)pCtx.roundRect(x,730,60,60,14); else pCtx.rect(x,730,60,60); pCtx.fill();});
+  pCtx.fillStyle='rgba(255,255,255,.45)'; if(pCtx.roundRect)pCtx.roundRect(145,818,100,5,3); else pCtx.rect(145,818,100,5); pCtx.fill();
+  const scr=new THREE.Mesh(new THREE.PlaneGeometry(1.18,2.56), new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(pCvs)}));
+  scr.position.z=.037; phoneG.add(scr);
+  // Dynamic Island
+  const dI=new THREE.Mesh(new THREE.CapsuleGeometry(.055,.18,8,16),new THREE.MeshBasicMaterial({color:0x000000})); dI.rotation.z=Math.PI/2; dI.position.set(0,1.18,.038); phoneG.add(dI);
+  // Buttons
+  const bMat=new THREE.MeshPhysicalMaterial({color:0x2C2C2E,metalness:.92,roughness:.08});
+  const volU=new THREE.Mesh(new THREE.BoxGeometry(.036,.26,.04),bMat); volU.position.set(-.644,.46,0); phoneG.add(volU);
+  const volD=new THREE.Mesh(new THREE.BoxGeometry(.036,.26,.04),bMat); volD.position.set(-.644,.1,0); phoneG.add(volD);
+  const mute=new THREE.Mesh(new THREE.BoxGeometry(.036,.15,.04),bMat); mute.position.set(-.644,.76,0); phoneG.add(mute);
+  const pwr=new THREE.Mesh(new THREE.BoxGeometry(.036,.36,.04),bMat); pwr.position.set(.644,.28,0); phoneG.add(pwr);
+  // Camera bump
+  const camB=new THREE.Mesh(new THREE.BoxGeometry(.52,.54,.042),new THREE.MeshPhysicalMaterial({color:0x2A2A2C,metalness:.9,roughness:.1})); camB.position.set(-.235,.88,-.053); phoneG.add(camB);
+  [[-.3,.96],[-.16,.8]].forEach(([bx,by])=>{ const l=new THREE.Mesh(new THREE.CylinderGeometry(.095,.095,.01,24),new THREE.MeshBasicMaterial({color:0x0A0A0A})); l.rotation.x=Math.PI/2; l.position.set(bx,by,-.062); phoneG.add(l); const gl=new THREE.Mesh(new THREE.CircleGeometry(.03,8),new THREE.MeshBasicMaterial({color:0x5588FF,transparent:true,opacity:.7})); gl.position.set(bx-.03,by+.03,-.055); phoneG.add(gl); });
+  phoneG.position.set(3.6,.6,0); phoneG.rotation.set(.1,-.22,.05);
+  scene.add(phoneG);
+
+  // ── GLOBE (Websites) ──
+  const globeG = new THREE.Group();
+  globeG.add(new THREE.Mesh(new THREE.SphereGeometry(1.55,14,9), new THREE.MeshBasicMaterial({color:0xC8A94A,wireframe:true,transparent:true,opacity:.5})));
+  globeG.add(new THREE.Mesh(new THREE.SphereGeometry(1.5,24,24), new THREE.MeshPhysicalMaterial({color:0x060E18,transparent:true,opacity:.7,metalness:.2,roughness:.8})));
+  const eqR = new THREE.Mesh(new THREE.TorusGeometry(1.55,.022,8,80), new THREE.MeshBasicMaterial({color:0xC8A94A}));
+  const meR = new THREE.Mesh(new THREE.TorusGeometry(1.55,.012,8,80), new THREE.MeshBasicMaterial({color:0xC8A94A,transparent:true,opacity:.35})); meR.rotation.x=Math.PI/2;
+  globeG.add(eqR,meR);
+  globeG.position.set(-3.4,-.6,-.5);
+  scene.add(globeG);
+
+  // ── BAR CHART (Advertising) ──
+  const chartG = new THREE.Group();
+  [{h:.65,c:0x2460C8},{h:1.25,c:0xC8A94A},{h:.85,c:0x3B82F6},{h:2.1,c:0xE2C46A},{h:1.5,c:0x2460C8}].forEach((b,i)=>{
+    const bm = new THREE.Mesh(new THREE.BoxGeometry(.28,b.h,.28), new THREE.MeshPhysicalMaterial({color:b.c,metalness:.75,roughness:.12,clearcoat:.3}));
+    bm.position.set((i-2)*.42,b.h/2-.95,0); chartG.add(bm);
+  });
+  const trendPts = [{h:.65},{h:1.25},{h:.85},{h:2.1},{h:1.5}].map((b,i)=>new THREE.Vector3((i-2)*.42,b.h*.9-.95,.16));
+  chartG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(trendPts), new THREE.LineBasicMaterial({color:0xE2C46A})));
+  trendPts.forEach(p=>{ const d=new THREE.Mesh(new THREE.SphereGeometry(.075,8,8),new THREE.MeshBasicMaterial({color:0xE2C46A})); d.position.copy(p); chartG.add(d); });
+  chartG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-1.1,-.95,.14),new THREE.Vector3(1.1,-.95,.14)]),new THREE.LineBasicMaterial({color:0xC8A94A,transparent:true,opacity:.4})));
+  chartG.position.set(.4,-2.4,1.5); chartG.rotation.y=-.22;
+  scene.add(chartG);
+
+  // ── ORBIT RING ──
+  const orbitR = new THREE.Mesh(new THREE.TorusGeometry(5,.018,8,100),new THREE.MeshBasicMaterial({color:0xC8A94A,transparent:true,opacity:.08}));
+  orbitR.rotation.x=Math.PI/4; scene.add(orbitR);
+
+  // ── PARTICLES ──
+  const pGeo=new THREE.BufferGeometry();
+  const pPos=new Float32Array(280*3);
+  for(let i=0;i<280;i++){pPos[i*3]=(Math.random()-.5)*24;pPos[i*3+1]=(Math.random()-.5)*18;pPos[i*3+2]=(Math.random()-.5)*8;}
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  scene.add(new THREE.Points(pGeo,new THREE.PointsMaterial({color:0xC8A94A,size:.055,transparent:true,opacity:.5})));
+
+  let mx=0,my=0;
+  document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*2;my=-(e.clientY/window.innerHeight-.5)*2;});
+
+  let t=0;
+  (function animate(){
+    requestAnimationFrame(animate); t+=.007;
+    phoneG.position.y=.6+Math.sin(t*.7)*.28; phoneG.rotation.y=-.22+Math.sin(t*.4)*.07; phoneG.rotation.x=.1+Math.cos(t*.5)*.04;
+    globeG.rotation.y=t*.18; globeG.position.y=-.6+Math.cos(t*.55)*.22; globeG.children[0].rotation.y=-t*.28;
+    chartG.position.y=-2.4+Math.sin(t*.5+1)*.2; chartG.rotation.y=-.22+Math.sin(t*.32)*.06;
+    orbitR.rotation.z=t*.06;
+    camera.position.x+=(mx*1.6-camera.position.x)*.04;
+    camera.position.y+=(my*1.2-camera.position.y)*.04;
+    camera.lookAt(0,0,0);
+    renderer.render(scene,camera);
+  })();
+  window.addEventListener('resize',()=>{const w=canvas.offsetWidth,h=canvas.offsetHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();});
+})();
+
+// ═══ THREE.JS CTA — Service icons: Globe + Phone + Chart ═══
+(function(){
+  if(!window.THREE) return;
+  const canvas = document.getElementById('ctaCanvas');
+  const section = document.getElementById('cta');
+  let renderer2, scene2, cam2;
+  function initCta(){
+    const W=section.offsetWidth, H=Math.max(section.offsetHeight,400);
+    if(!renderer2){
+      renderer2=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+      renderer2.setPixelRatio(Math.min(window.devicePixelRatio,2));
+      scene2=new THREE.Scene();
+      cam2=new THREE.PerspectiveCamera(50,W/H,.1,100);
+      cam2.position.z=16;
+      scene2.add(new THREE.AmbientLight(0xffffff,.5));
+      const dl2=new THREE.DirectionalLight(0xC8A94A,2.5); dl2.position.set(4,6,5); scene2.add(dl2);
+      const dl3=new THREE.DirectionalLight(0x2460C8,2); dl3.position.set(-4,-3,4); scene2.add(dl3);
+      // Globe left
+      const ctaGlobeG=new THREE.Group();
+      ctaGlobeG.add(new THREE.Mesh(new THREE.SphereGeometry(2,14,9),new THREE.MeshBasicMaterial({color:0xC8A94A,wireframe:true,transparent:true,opacity:.25})));
+      ctaGlobeG.add(new THREE.Mesh(new THREE.SphereGeometry(1.95,24,24),new THREE.MeshPhysicalMaterial({color:0x0A1525,transparent:true,opacity:.5})));
+      ctaGlobeG.add(new THREE.Mesh(new THREE.TorusGeometry(2,.025,8,80),new THREE.MeshBasicMaterial({color:0xC8A94A,transparent:true,opacity:.4})));
+      ctaGlobeG.position.set(-8,1.5,-3); scene2.add(ctaGlobeG);
+      // Phone right
+      const ctaPhoneG=new THREE.Group();
+      ctaPhoneG.add(new THREE.Mesh(new THREE.BoxGeometry(1.3,2.6,.16),new THREE.MeshPhysicalMaterial({color:0x0D1B2E,metalness:.92,roughness:.04,clearcoat:1})));
+      const cScr=new THREE.Mesh(new THREE.PlaneGeometry(1.02,2.14),new THREE.MeshPhysicalMaterial({color:0x1040A0,emissive:0x2460C8,emissiveIntensity:.4,transparent:true,opacity:.9}));
+      cScr.position.z=.09; ctaPhoneG.add(cScr);
+      ctaPhoneG.position.set(8,-1,-2); ctaPhoneG.rotation.set(.1,.2,.04); scene2.add(ctaPhoneG);
+      // Chart center-right
+      const ctaChartG=new THREE.Group();
+      [{h:.5,c:0x2460C8},{h:1.1,c:0xC8A94A},{h:.75,c:0x3B82F6},{h:1.7,c:0xE2C46A},{h:1.3,c:0x2460C8}].forEach((b,i)=>{
+        const bm=new THREE.Mesh(new THREE.BoxGeometry(.26,b.h,.26),new THREE.MeshPhysicalMaterial({color:b.c,metalness:.75,roughness:.15}));
+        bm.position.set((i-2)*.4,b.h/2-.85,0); ctaChartG.add(bm);
+      });
+      ctaChartG.position.set(3,-4,0); ctaChartG.rotation.y=-.3; scene2.add(ctaChartG);
+      // Particles
+      const pg=new THREE.BufferGeometry();
+      const pp=new Float32Array(220*3);
+      for(let i=0;i<220;i++){pp[i*3]=(Math.random()-.5)*26;pp[i*3+1]=(Math.random()-.5)*14;pp[i*3+2]=(Math.random()-.5)*6;}
+      pg.setAttribute('position',new THREE.BufferAttribute(pp,3));
+      scene2.add(new THREE.Points(pg,new THREE.PointsMaterial({color:0xC8A94A,size:.05,transparent:true,opacity:.35})));
+      let t2=0;
+      (function animate2(){
+        requestAnimationFrame(animate2); t2+=.008;
+        ctaGlobeG.rotation.y=t2*.15; ctaGlobeG.position.y=1.5+Math.sin(t2*.55)*.35; ctaGlobeG.children[0].rotation.y=-t2*.22;
+        ctaPhoneG.position.y=-1+Math.cos(t2*.65)*.3; ctaPhoneG.rotation.y=.2+Math.sin(t2*.38)*.07;
+        ctaChartG.position.y=-4+Math.sin(t2*.48+2)*.22; ctaChartG.rotation.y=-.3+Math.sin(t2*.28)*.05;
+        renderer2.render(scene2,cam2);
+      })();
+    }
+    renderer2.setSize(W,H); cam2.aspect=W/H; cam2.updateProjectionMatrix();
+  }
+  initCta();
+  window.addEventListener('resize',initCta);
+})();
+
+// ═══ 3D LAPTOP SCROLL SPIN ═══
+const laptop = document.getElementById('laptop3d');
+const laptopScene = document.getElementById('laptopScene');
+const startRotX=22, endRotX=6, startRotY=-45, endRotY=-8;
+
+function easeOut(t){ return 1-Math.pow(1-t,3); }
+
+window.addEventListener('scroll', () => {
+  if(!laptop) return;
+  const rect = laptopScene.getBoundingClientRect();
+  const progress = easeOut(Math.max(0, Math.min(1, (window.innerHeight*.7 - rect.top) / (window.innerHeight*.8))));
+  const rx = startRotX + (endRotX-startRotX)*progress;
+  const ry = startRotY + (endRotY-startRotY)*progress;
+  laptop.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+}, {passive:true});
+
+// ═══ BUSINESSES DATA — add entries here to instantly add a new client ═══
+const BUSINESSES = [
+  { label: 'Creative Style Wiss', url: 'https://creativestylewiss.com' },
+  { label: 'DModa Shoes',         url: 'https://dmodashoes.com'        },
+  // { label: 'New Client Name',  url: 'https://newclient.com'         },
+];
+
+// Screenshot loader — Thum.io, no iframe blocking
+const laptopImg = document.getElementById('laptopImg');
+const siteLoadingEl2 = document.getElementById('siteLoading');
+function loadSiteScreenshot(url) {
+  siteLoadingEl2.style.display = 'flex';
+  laptopImg.style.opacity = '0';
+  // mshots = reliable, no auth needed
+  laptopImg.src = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1440&h=900`;
+  laptopImg.onerror = () => {
+    laptopImg.onerror = null;
+    // fallback: thum.io without timestamp
+    laptopImg.src = `https://image.thum.io/get/width/1440/crop/900/noanimate/${url}`;
+  };
+}
+loadSiteScreenshot(BUSINESSES[0].url);
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.lbtn');
+  if (!btn || !btn.dataset.site) return;
+  document.querySelectorAll('.lbtn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  loadSiteScreenshot(btn.dataset.site);
+});
+
+// ═══ HYPER-REALISTIC KEYBOARD ═══
+(function drawKeyboard(){
+  const wrap = document.querySelector('.laptop-keys');
+  if (!wrap) return;
+  const cv = document.createElement('canvas');
+  wrap.appendChild(cv);
+  function render() {
+    const W = wrap.offsetWidth, H = wrap.offsetHeight;
+    if (!W || !H) return;
+    cv.width = W * 2; cv.height = H * 2;
+    const c = cv.getContext('2d'); c.scale(2, 2);
+    // Base plate
+    const bg = c.createLinearGradient(0,0,0,H);
+    bg.addColorStop(0,'#D8D8DD'); bg.addColorStop(1,'#C6C6CB');
+    c.fillStyle = bg; c.fillRect(0,0,W,H);
+    // Key layout rows
+    const rows = [
+      { y:.04, h:.13, keys:[{l:'Esc',w:1.2},{l:'',w:.4},{l:'F1'},{l:'F2'},{l:'F3'},{l:'F4'},{l:'',w:.3},{l:'F5'},{l:'F6'},{l:'F7'},{l:'F8'},{l:'',w:.3},{l:'F9'},{l:'F10'},{l:'F11'},{l:'F12'}] },
+      { y:.20, h:.14, keys:[{l:'`'},{l:'1'},{l:'2'},{l:'3'},{l:'4'},{l:'5'},{l:'6'},{l:'7'},{l:'8'},{l:'9'},{l:'0'},{l:'-'},{l:'='},{l:'⌫',w:1.8}] },
+      { y:.36, h:.14, keys:[{l:'⇥',w:1.5},{l:'Q'},{l:'W'},{l:'E'},{l:'R'},{l:'T'},{l:'Y'},{l:'U'},{l:'I'},{l:'O'},{l:'P'},{l:'['},{l:']'},{l:'\\',w:1.35}] },
+      { y:.52, h:.14, keys:[{l:'⇪',w:1.75},{l:'A'},{l:'S'},{l:'D'},{l:'F'},{l:'G'},{l:'H'},{l:'J'},{l:'K'},{l:'L'},{l:';'},{l:"'"},{l:'↵',w:2.05}] },
+      { y:.68, h:.14, keys:[{l:'⇧',w:2.2},{l:'Z'},{l:'X'},{l:'C'},{l:'V'},{l:'B'},{l:'N'},{l:'M'},{l:','},{l:'.'},{l:'/'},{l:'⇧',w:2.2}] },
+      { y:.84, h:.13, keys:[{l:'fn',w:.9},{l:'⌃',w:.9},{l:'⌥',w:.9},{l:'⌘',w:1.25},{l:'',w:5.5},{l:'⌘',w:1.25},{l:'⌥',w:.9},{l:'◀',w:.75},{l:'▲▼',w:.75},{l:'▶',w:.75}] },
+    ];
+    const UNIT = W / 15.4, GAP = 2.5;
+    rows.forEach(row => {
+      let x = UNIT * 0.15;
+      const ky = row.y * H, kH = row.h * H;
+      row.keys.forEach(k => {
+        const kW = (k.w || 1) * UNIT - GAP;
+        if (k.l !== '') {
+          // Shadow
+          c.fillStyle = 'rgba(0,0,0,.18)'; c.beginPath();
+          if(c.roundRect) c.roundRect(x+1, ky+2, kW, kH, 3); else c.rect(x+1,ky+2,kW,kH);
+          c.fill();
+          // Key face
+          const kg = c.createLinearGradient(x, ky, x, ky+kH);
+          kg.addColorStop(0,'#EAEAEF'); kg.addColorStop(.5,'#DCDCE1'); kg.addColorStop(1,'#CACACE');
+          c.fillStyle = kg; c.beginPath();
+          if(c.roundRect) c.roundRect(x, ky, kW, kH, 3); else c.rect(x,ky,kW,kH);
+          c.fill();
+          // Top highlight
+          c.fillStyle = 'rgba(255,255,255,.8)'; c.fillRect(x+1, ky+1, kW-2, 1.5);
+          // Bottom shadow edge
+          c.fillStyle = 'rgba(0,0,0,.14)'; c.fillRect(x+1, ky+kH-1.5, kW-2, 1.5);
+          // Label
+          c.fillStyle = 'rgba(10,10,14,.7)';
+          const fs = Math.round(Math.min(kH * .38, kW * .4, 10));
+          c.font = `500 ${fs}px -apple-system,SF Pro Text,sans-serif`;
+          c.textAlign = 'center'; c.textBaseline = 'middle';
+          c.fillText(k.l, x + kW/2, ky + kH/2 + .5);
+        }
+        x += (k.w || 1) * UNIT;
+      });
+    });
+  }
+  render();
+  window.addEventListener('resize', render);
+  setTimeout(render, 300);
+})();
+
+// ═══ ROCKET PATH ANIMATION ═══
+(function(){
+  const trackPath = document.getElementById('trackPath');
+  const litPath = document.getElementById('litPath');
+  const rocketG = document.getElementById('rocketG');
+  const sdots = document.querySelectorAll('.sdot');
+  const sls = document.querySelectorAll('.step-label');
+  if(!trackPath || !rocketG) return;
+  const totalLen = trackPath.getTotalLength();
+  litPath.style.strokeDasharray = totalLen;
+  litPath.style.strokeDashoffset = totalLen;
+
+  function updateRocket(progress){
+    const len = totalLen * Math.min(progress,1);
+    litPath.style.strokeDashoffset = totalLen - len;
+    const safeLen = Math.max(0,Math.min(len, totalLen));
+    const p2 = trackPath.getPointAtLength(safeLen);
+    const p1 = trackPath.getPointAtLength(Math.max(0, safeLen-8));
+    const angle = Math.atan2(p2.y-p1.y, p2.x-p1.x)*180/Math.PI;
+    rocketG.setAttribute('transform', `translate(${p2.x},${p2.y}) rotate(${angle})`);
+    const stepIdx = Math.floor(progress*4);
+    sdots.forEach((d,i) => {
+      if(i < stepIdx){ d.setAttribute('fill','#C8A94A'); d.setAttribute('stroke','#C8A94A'); }
+      else { d.setAttribute('fill','#0D1B2E'); d.setAttribute('stroke','rgba(200,169,74,0.35)'); }
+    });
+    sls.forEach((l,i) => l.classList.toggle('lit', i < stepIdx));
+  }
+
+  function calcRocketProgress(){
+    const outer = document.getElementById('processOuter');
+    if(!outer) return 0;
+    const outerTop = outer.getBoundingClientRect().top + window.scrollY;
+    const scrollable = Math.max(1, outer.offsetHeight - window.innerHeight);
+    return Math.max(0, Math.min(1, (window.scrollY - outerTop) / scrollable));
+  }
+  window.addEventListener('scroll', () => { updateRocket(calcRocketProgress()); }, {passive:true});
+  updateRocket(0);
+})();
+
+// ═══ SERVICE CARD 3D TILT ═══
+document.querySelectorAll('.service-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX-r.left)/r.width-.5;
+    const y = (e.clientY-r.top)/r.height-.5;
+    card.style.transform = `translateY(-12px) rotateX(${-y*10}deg) rotateY(${x*10}deg)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform=''; });
+});
+
+// ═══ TWEAKS ═══
+window.addEventListener('message', e => {
+  if(e.data?.type==='__activate_edit_mode') document.getElementById('tweaks-panel').style.display='block';
+  if(e.data?.type==='__deactivate_edit_mode') document.getElementById('tweaks-panel').style.display='none';
+});
+window.parent.postMessage({type:'__edit_mode_available'},'*');
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "cards": "dark",
+  "accent": "gold"
+}/*EDITMODE-END*/;
+
+document.getElementById('tw-cards').value = TWEAK_DEFAULTS.cards;
+document.getElementById('tw-accent').value = TWEAK_DEFAULTS.accent;
+
+document.getElementById('tw-cards').addEventListener('change', e => {
+  const v = e.target.value;
+  document.querySelectorAll('.service-card').forEach(c => {
+    if(v==='glass'){ c.style.background='rgba(13,27,46,0.5)'; c.style.backdropFilter='blur(20px)'; }
+    else if(v==='light'){ c.style.background='#F9F8F5'; c.style.backdropFilter='none'; }
+    else { c.style.background=''; c.style.backdropFilter='none'; }
+  });
+  window.parent.postMessage({type:'__edit_mode_set_keys',edits:{cards:v}},'*');
+});
+document.getElementById('tw-accent').addEventListener('change', e => {
+  const v = e.target.value;
+  const map={gold:'#C8A94A',silver:'#A8A8B0',blue:'#2460C8'};
+  document.documentElement.style.setProperty('--gold', map[v]||'#C8A94A');
+  window.parent.postMessage({type:'__edit_mode_set_keys',edits:{accent:v}},'*');
+});
+</script>
+</body>
+</html>
