@@ -286,7 +286,20 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 .ci-6{top:38%;right:3%;animation:ciF2 6.2s ease-in-out infinite 1s}
 @keyframes ciF1{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(1deg)}}
 @keyframes ciF2{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-13px) rotate(-2deg)}}
-@media(max-width:900px){.cta-icons{display:none}}
+@media(max-width:900px){
+  .cta-icons{display:block}
+  .cta-icon-bg{width:62px;height:62px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+  .cta-icon svg{width:34px!important;height:34px!important}
+  .ci-2 svg{width:26px!important;height:38px!important}
+  .ci-4 svg{width:36px!important;height:30px!important}
+  .cta-icon-lbl{font-size:.5rem;opacity:.58;letter-spacing:.08em}
+  .ci-1{top:8%;left:2%}
+  .ci-2{bottom:12%;left:2%}
+  .ci-3{top:8%;right:2%}
+  .ci-4{bottom:12%;right:2%}
+  .ci-5{top:44%;left:0.5%}
+  .ci-6{top:40%;right:0.5%}
+}
 
 
 /* ─── FOOTER ─── */
