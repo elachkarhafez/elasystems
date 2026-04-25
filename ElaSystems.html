@@ -272,9 +272,7 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 /* ─── CTA FLOATING ICONS ─── */
 .cta-icons{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
 .cta-icon{position:absolute;display:flex;flex-direction:column;align-items:center;gap:.6rem}
-.cta-icon-bg{width:132px;height:132px;border-radius:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 48px rgba(0,0,0,.2)}
-.cta-icon svg{width:72px!important;height:72px!important}
-.ci-2 svg{width:58px!important;height:84px!important}
+.cta-icon-bg{width:76px;height:76px;border-radius:22px;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 36px rgba(0,0,0,.14)}
 .ci-4 svg{width:78px!important;height:66px!important}
 .ci-bg-gold{background:linear-gradient(135deg,#C8A94A 0%,#E2C46A 100%)}
 .ci-bg-blue{background:linear-gradient(135deg,#2460C8 0%,#3B82F6 100%)}
@@ -288,14 +286,7 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 .ci-6{top:38%;right:3%;animation:ciF2 6.2s ease-in-out infinite 1s}
 @keyframes ciF1{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-18px) rotate(1deg)}}
 @keyframes ciF2{0%,100%{transform:translateY(0) rotate(3deg)}50%{transform:translateY(-13px) rotate(-2deg)}}
-@media(max-width:900px){
-  .cta-icons{display:block}
-  .cta-icon-bg{width:162px;height:162px;border-radius:44px}
-  .cta-icon svg{width:90px!important;height:90px!important;transform:none}
-  .ci-2 svg{width:70px!important;height:104px!important}
-  .ci-4 svg{width:96px!important;height:80px!important}
-  .cta-icon-lbl{font-size:.8rem}
-}
+@media(max-width:900px){.cta-icons{display:none}}
 
 
 /* ─── FOOTER ─── */
@@ -325,11 +316,6 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
   .laptop-section{padding:80px 0}
 }
 @media(max-width:600px){
-  .cta-icon-bg{width:188px;height:188px;border-radius:52px}
-  .cta-icon svg{width:108px!important;height:108px!important;transform:none}
-  .ci-2 svg{width:82px!important;height:122px!important}
-  .ci-4 svg{width:112px!important;height:94px!important}
-  .cta-icon-lbl{font-size:.86rem}
   .service-grid,.results-grid,.portfolio-grid{grid-template-columns:1fr}
   .why-visual{grid-template-columns:1fr 1fr}
   .footer-inner{flex-direction:column}
@@ -817,7 +803,7 @@ allReveals.forEach(el => ro.observe(el));
   renderer.setSize(W, H); renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, W/H, .1, 100);
-  camera.position.set(0, 0, 13);
+  camera.position.set(0, 0, 12);
   scene.add(new THREE.AmbientLight(0xffffff, 0.8));
   const dl = new THREE.DirectionalLight(0xffffff, 1.2); dl.position.set(5,8,6); scene.add(dl);
   const pl1 = new THREE.PointLight(0xC8A94A, 4, 26); pl1.position.set(-3,4,5); scene.add(pl1);
@@ -860,7 +846,7 @@ allReveals.forEach(el => ro.observe(el));
   // Camera bump
   const camB=new THREE.Mesh(new THREE.BoxGeometry(.52,.54,.042),new THREE.MeshPhysicalMaterial({color:0x2A2A2C,metalness:.9,roughness:.1})); camB.position.set(-.235,.88,-.053); phoneG.add(camB);
   [[-.3,.96],[-.16,.8]].forEach(([bx,by])=>{ const l=new THREE.Mesh(new THREE.CylinderGeometry(.095,.095,.01,24),new THREE.MeshBasicMaterial({color:0x0A0A0A})); l.rotation.x=Math.PI/2; l.position.set(bx,by,-.062); phoneG.add(l); const gl=new THREE.Mesh(new THREE.CircleGeometry(.03,8),new THREE.MeshBasicMaterial({color:0x5588FF,transparent:true,opacity:.7})); gl.position.set(bx-.03,by+.03,-.055); phoneG.add(gl); });
-  phoneG.position.set(3.6,.6,0); phoneG.rotation.set(.1,-.22,.05);
+  phoneG.position.set(4.5,.6,0); phoneG.rotation.set(.1,-.22,.05); phoneG.scale.set(1.6,1.6,1.6);
   scene.add(phoneG);
 
   // ── GLOBE (Websites) ──
@@ -870,7 +856,7 @@ allReveals.forEach(el => ro.observe(el));
   const eqR = new THREE.Mesh(new THREE.TorusGeometry(1.55,.022,8,80), new THREE.MeshBasicMaterial({color:0xC8A94A}));
   const meR = new THREE.Mesh(new THREE.TorusGeometry(1.55,.012,8,80), new THREE.MeshBasicMaterial({color:0xC8A94A,transparent:true,opacity:.35})); meR.rotation.x=Math.PI/2;
   globeG.add(eqR,meR);
-  globeG.position.set(-3.4,-.6,-.5);
+  globeG.position.set(-4.3,-.6,-.5); globeG.scale.set(1.75,1.75,1.75);
   scene.add(globeG);
 
   // ── BAR CHART (Advertising) ──
@@ -883,7 +869,7 @@ allReveals.forEach(el => ro.observe(el));
   chartG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(trendPts), new THREE.LineBasicMaterial({color:0xE2C46A})));
   trendPts.forEach(p=>{ const d=new THREE.Mesh(new THREE.SphereGeometry(.075,8,8),new THREE.MeshBasicMaterial({color:0xE2C46A})); d.position.copy(p); chartG.add(d); });
   chartG.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-1.1,-.95,.14),new THREE.Vector3(1.1,-.95,.14)]),new THREE.LineBasicMaterial({color:0xC8A94A,transparent:true,opacity:.4})));
-  chartG.position.set(.4,-2.4,1.5); chartG.rotation.y=-.22;
+  chartG.position.set(.6,-2.8,1.5); chartG.rotation.y=-.22; chartG.scale.set(1.35,1.35,1.35);
   scene.add(chartG);
 
   // ── ORBIT RING ──
@@ -905,7 +891,7 @@ allReveals.forEach(el => ro.observe(el));
     requestAnimationFrame(animate); t+=.007;
     phoneG.position.y=.6+Math.sin(t*.7)*.28; phoneG.rotation.y=-.22+Math.sin(t*.4)*.07; phoneG.rotation.x=.1+Math.cos(t*.5)*.04;
     globeG.rotation.y=t*.18; globeG.position.y=-.6+Math.cos(t*.55)*.22; globeG.children[0].rotation.y=-t*.28;
-    chartG.position.y=-2.4+Math.sin(t*.5+1)*.2; chartG.rotation.y=-.22+Math.sin(t*.32)*.06;
+    chartG.position.y=-2.8+Math.sin(t*.5+1)*.2; chartG.rotation.y=-.22+Math.sin(t*.32)*.06;
     orbitR.rotation.z=t*.06;
     camera.position.x+=(mx*1.6-camera.position.x)*.04;
     camera.position.y+=(my*1.2-camera.position.y)*.04;
