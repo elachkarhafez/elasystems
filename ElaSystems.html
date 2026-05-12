@@ -374,12 +374,22 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
 /* --- DRAMATIC SYSTEM REDESIGN PASS --- */
 body{background:#F4F8FF;background-image:linear-gradient(90deg,rgba(13,27,46,.028) 1px,transparent 1px),linear-gradient(rgba(13,27,46,.024) 1px,transparent 1px);background-size:38px 38px}
 .hero{min-height:94vh;background:linear-gradient(115deg,#F9FBFF 0%,#EEF5FF 54%,#F8F4E8 100%)}
+.hero-inner{gap:2.5rem}
 .hero-bg-grid{background-image:linear-gradient(rgba(13,27,46,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(13,27,46,.055) 1px,transparent 1px),linear-gradient(115deg,transparent 0 44%,rgba(200,169,74,.16) 45%,transparent 47% 100%);background-size:52px 52px,52px 52px,220px 220px;animation:heroGridPulse 12s linear infinite;mask-image:linear-gradient(90deg,#000 0%,#000 78%,transparent 100%)}
 .hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 9%,rgba(36,96,200,.08) 9.2%,transparent 9.7%),repeating-linear-gradient(0deg,transparent 0 13%,rgba(200,169,74,.08) 13.2%,transparent 13.7%);opacity:.72;animation:dataRails 14s linear infinite;pointer-events:none}
 .hero::after{mix-blend-mode:normal;opacity:.95;background:conic-gradient(from 220deg at 67% 42%,transparent 0 16%,rgba(200,169,74,.18) 23%,transparent 32%,rgba(36,96,200,.18) 47%,transparent 58%,rgba(16,185,129,.13) 74%,transparent 100%)}
 .hero-h1{filter:drop-shadow(0 16px 34px rgba(13,27,46,.08))}
 .hero-sub{color:#42526A}.hero-btns a{box-shadow:0 14px 34px rgba(13,27,46,.10)}
 #heroCanvas{height:580px;filter:drop-shadow(0 34px 55px rgba(13,27,46,.22))}
+.intro,.services,.laptop-section,.why,.portfolio,.cta-section{padding:96px 0}
+.results{padding:110px 0}
+.process{position:relative;top:auto;height:auto;min-height:0;padding:96px 0 90px}
+#processOuter{background:#07101E}
+.section-header{margin-bottom:3rem}
+.section-sub{max-width:640px}
+.intro-inner,.why-inner{gap:3rem}
+.journey-wrap{margin-top:2rem}
+.results-grid{margin-top:3rem}
 .intro,.why,.process{background:#07101E;background-image:linear-gradient(90deg,rgba(200,169,74,.08) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px);background-size:54px 54px;position:relative}
 .intro::after,.why::after,.process::after{content:'';position:absolute;inset:0;background:linear-gradient(120deg,transparent 0 42%,rgba(36,96,200,.18) 44%,transparent 48% 100%);transform:translateX(-110%);animation:sectionScanner 8s cubic-bezier(.22,1,.36,1) infinite;pointer-events:none}
 .services,.results{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFFFFF 0%,#F0F6FF 100%)}
@@ -394,16 +404,26 @@ body{background:#F4F8FF;background-image:linear-gradient(90deg,rgba(13,27,46,.02
 .result-item::after,.why-stat::after{content:'';position:absolute;inset:auto 18px 14px;height:2px;background:linear-gradient(90deg,var(--gold),var(--blue-light),transparent);opacity:.45;transform:scaleX(.25);transform-origin:left;transition:transform .35s}
 .result-item:hover::after,.why-stat:hover::after{transform:scaleX(1)}
 .laptop-section{background:linear-gradient(180deg,#F4F8FF 0%,#EAF1FA 100%)}
-.laptop-scene{position:relative}.laptop-scene::before{content:'LIVE SYSTEM VIEW';position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.22em;color:rgba(13,27,46,.36);font-weight:800}.laptop-scene::after{content:'';position:absolute;left:50%;bottom:5%;width:min(840px,92vw);height:32px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(36,96,200,.18),rgba(200,169,74,.24),transparent);filter:blur(16px);pointer-events:none}
-.laptop-3d{filter:drop-shadow(0 44px 58px rgba(13,27,46,.28))}.laptop-bezel{box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 2px 8px rgba(0,0,0,.5),0 0 42px rgba(36,96,200,.18)}
+.laptop-toggle{margin-bottom:2rem}
+.laptop-scene{position:relative;padding:.5rem 0 0}.laptop-scene::before{content:'LIVE SYSTEM VIEW';position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.22em;color:rgba(13,27,46,.36);font-weight:800}.laptop-scene::after{content:'';position:absolute;left:50%;bottom:5%;width:min(840px,92vw);height:32px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,rgba(36,96,200,.18),rgba(200,169,74,.24),transparent);filter:blur(16px);pointer-events:none}
+.laptop-3d{width:min(940px,94vw);filter:drop-shadow(0 44px 58px rgba(13,27,46,.28))}
+.laptop-lid{padding-bottom:60%}
+.laptop-bezel{top:3.2%;left:3.2%;right:3.2%;bottom:1.7%;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08),inset 0 2px 8px rgba(0,0,0,.5),0 0 42px rgba(36,96,200,.18)}
+.laptop-bezel-inner{background:linear-gradient(180deg,#091321 0%,#132741 100%)}
+.laptop-bezel-inner::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.08),transparent 18%,transparent 78%,rgba(255,255,255,.04));pointer-events:none;z-index:3}
+.laptop-site-img{object-position:top center;animation:laptopPreviewPan 18s ease-in-out infinite alternate}
 .site-loading{background:linear-gradient(135deg,#06101E,#102642);color:rgba(255,255,255,.72)}
 .portfolio{background:linear-gradient(180deg,#08111F 0%,#102036 100%);color:#fff}.portfolio .section-title{color:#fff}.portfolio .section-sub{color:rgba(255,255,255,.62)}
+.portfolio .container{max-width:1260px}
+.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
 .port-card{border-radius:16px;background:#07101E;border:1px solid rgba(200,169,74,.22);box-shadow:0 28px 70px rgba(0,0,0,.28)}
 .port-bar{background:linear-gradient(90deg,#101A2A,#162C45);border-bottom:1px solid rgba(200,169,74,.16)}
 .port-info{background:linear-gradient(180deg,#FFFFFF,#EFF5FF)}
-.port-screen{height:340px;background:#06101E}.port-screen img{background:#06101E}
+.port-screen{height:390px;background:#06101E}.port-screen img{background:#06101E;object-position:top center}
+.port-card:hover .port-screen img{transform:scale(1.025) translateY(-18px)}
 .cta-section{background:linear-gradient(180deg,#F8FBFF 0%,#FFFFFF 100%)}
 .cta-section::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,27,46,.04) 1px,transparent 1px),linear-gradient(rgba(13,27,46,.035) 1px,transparent 1px);background-size:48px 48px;animation:gridDrift 16s linear infinite;pointer-events:none}
+.cta-inner{max-width:720px;margin:0 auto;padding:.75rem 0}
 footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74,.06) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:40px 40px}
 @keyframes heroGridPulse{to{background-position:52px 52px,52px 52px,220px 0}}
 @keyframes dataRails{to{background-position:180px 0,0 160px}}
@@ -411,8 +431,10 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
 @keyframes diagonalFlow{to{background-position:180px 180px}}
 @keyframes panelBreathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes borderRunner{to{background-position:260px 0}}
-@media(max-width:900px){#heroCanvas{height:360px}.hero{min-height:auto;padding-bottom:40px}.hero-bg-grid{mask-image:linear-gradient(#000,#000)}}
-@media(max-width:600px){#heroCanvas{height:300px}.portfolio-grid{grid-template-columns:1fr}.port-screen{height:280px}.laptop-scene::before{display:none}}
+@keyframes laptopPreviewPan{0%{transform:translateY(0) scale(1.01)}100%{transform:translateY(-8%) scale(1.01)}}
+@media(max-width:1100px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.laptop-3d{width:min(860px,96vw)}}
+@media(max-width:900px){#heroCanvas{height:360px}.hero{min-height:auto;padding-bottom:40px}.hero-bg-grid{mask-image:linear-gradient(#000,#000)}.port-screen{height:340px}}
+@media(max-width:600px){#heroCanvas{height:300px}.intro,.services,.laptop-section,.why,.results,.process,.portfolio,.cta-section{padding:76px 0}.section-header{margin-bottom:2.25rem}.laptop-toggle{margin-bottom:1.35rem}.portfolio-grid{grid-template-columns:1fr}.port-screen{height:300px}.laptop-scene::before{display:none}.laptop-lid{padding-bottom:64%}.laptop-3d{width:96vw}.port-card:hover .port-screen img{transform:none}}
 </style>
 </head>
 <body>
@@ -555,7 +577,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
               <div class="loader-ring"></div>
               <span>Loading live preview…</span>
             </div>
-            <img id="laptopImg" alt="Website preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .6s" onload="this.style.opacity='1';document.getElementById('siteLoading').style.display='none'">
+            <img id="laptopImg" class="laptop-site-img" alt="Website preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transition:opacity .6s">
             <div class="cursor-anim">
               <div class="cursor-ripple"></div>
               <svg width="16" height="20" viewBox="0 0 16 20" fill="white"><path d="M0 0l5.5 16 3-5.5L16 8 0 0z" fill="white"/><path d="M8.5 10.5l4 6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
@@ -652,7 +674,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
 </section>
 
 <!-- PROCESS — ROCKET PATH -->
-<div id="processOuter" style="height:150vh">
+<div id="processOuter">
 <section class="process" id="process">
   <div class="container">
     <div class="section-header reveal">
@@ -738,7 +760,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">creativestylewiss.com</div>
         </div>
         <div class="port-screen">
-          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fcreativestylewiss.com?w=1200&h=750" alt="Creative Style Wiss" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fcreativestylewiss.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <img data-preview-url="https://creativestylewiss.com" alt="Creative Style Wiss" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://creativestylewiss.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -754,7 +776,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">dmodashoes.com</div>
         </div>
         <div class="port-screen">
-          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fdmodashoes.com?w=1200&h=750" alt="DModa Shoes" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fdmodashoes.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <img data-preview-url="https://dmodashoes.com" alt="DModa Shoes" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://dmodashoes.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -770,7 +792,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">bigwissmatcha.com</div>
         </div>
         <div class="port-screen">
-          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fbigwissmatcha.com?w=1200&h=750" alt="Big Wiss Matcha" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fbigwissmatcha.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <img data-preview-url="https://bigwissmatcha.com" alt="Big Wiss Matcha" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -1104,25 +1126,45 @@ function makePreviewFallback(url, label) {
   return canvas.toDataURL('image/png');
 }
 
+function makePreviewUrl(url, width = 1440, crop = 900) {
+  return `https://image.thum.io/get/width/${width}/crop/${crop}/noanimate/${url}`;
+}
+
 function installPreviewFallback(img, url, label, delay = 3200) {
   if (!img) return;
-  let settled = false;
-  const timer = setTimeout(() => {
-    if (settled) return;
-    img.src = makePreviewFallback(url, label);
+  const requestId = `${Date.now()}-${Math.random()}`;
+  img.dataset.previewRequestId = requestId;
+  if (img._previewTimer) clearTimeout(img._previewTimer);
+  const reveal = () => {
     img.style.opacity = '1';
     const loader = document.getElementById('siteLoading');
     if (loader && img.id === 'laptopImg') loader.style.display = 'none';
+  };
+  const hasSource = !!(img.currentSrc || img.getAttribute('src'));
+  if (img.complete && hasSource) {
+    if (img.naturalWidth > 0) {
+      reveal();
+      return;
+    }
+    img.src = makePreviewFallback(url, label);
+    reveal();
+    return;
+  }
+  img._previewTimer = setTimeout(() => {
+    if (img.dataset.previewRequestId !== requestId) return;
+    img.src = makePreviewFallback(url, label);
+    reveal();
   }, delay);
   img.addEventListener('load', () => {
-    settled = true;
-    clearTimeout(timer);
+    if (img.dataset.previewRequestId !== requestId) return;
+    clearTimeout(img._previewTimer);
+    reveal();
   }, { once: true });
   img.addEventListener('error', () => {
-    settled = true;
-    clearTimeout(timer);
+    if (img.dataset.previewRequestId !== requestId) return;
+    clearTimeout(img._previewTimer);
     img.src = makePreviewFallback(url, label);
-    img.style.opacity = '1';
+    reveal();
   }, { once: true });
 }
 // ═══ 3D LAPTOP SCROLL SPIN ═══
@@ -1156,16 +1198,8 @@ function loadSiteScreenshot(url) {
   const active = BUSINESSES.find(site => site.url === url);
   siteLoadingEl2.style.display = 'flex';
   laptopImg.style.opacity = '0';
-  laptopImg.onload = () => {
-    laptopImg.style.opacity = '1';
-    siteLoadingEl2.style.display = 'none';
-  };
-  laptopImg.onerror = () => {
-    laptopImg.onerror = null;
-    laptopImg.src = makePreviewFallback(url, active && active.label);
-  };
-  laptopImg.src = `https://image.thum.io/get/width/1440/crop/900/noanimate/${url}`;
   installPreviewFallback(laptopImg, url, active && active.label);
+  laptopImg.src = makePreviewUrl(url, 1440, 900);
 }
 loadSiteScreenshot(BUSINESSES[0].url);
 
@@ -1173,8 +1207,10 @@ const portfolioImgs = document.querySelectorAll('.port-screen img');
 portfolioImgs.forEach(img => {
   const card = img.closest('.port-card');
   const name = card && card.querySelector('.port-name') ? card.querySelector('.port-name').textContent : img.alt;
-  const link = card && card.querySelector('.port-overlay-link') ? card.querySelector('.port-overlay-link').href : img.src;
+  const link = img.dataset.previewUrl || (card && card.querySelector('.port-overlay-link') ? card.querySelector('.port-overlay-link').href : img.src);
+  img.style.opacity = '0';
   installPreviewFallback(img, link, name, 3600);
+  img.src = makePreviewUrl(link, 1200, 900);
 });
 document.addEventListener('click', e => {
   const btn = e.target.closest('.lbtn');
@@ -1290,9 +1326,10 @@ motionCards.forEach(card => {
   function calcRocketProgress(){
     const outer = document.getElementById('processOuter');
     if(!outer) return 0;
-    const outerTop = outer.getBoundingClientRect().top + window.scrollY;
-    const scrollable = Math.max(1, outer.offsetHeight - window.innerHeight);
-    return Math.max(0, Math.min(1, (window.scrollY - outerTop) / scrollable));
+    const rect = outer.getBoundingClientRect();
+    const travel = rect.height + window.innerHeight * .35;
+    const progressed = window.innerHeight - rect.top - window.innerHeight * .18;
+    return Math.max(0, Math.min(1, progressed / Math.max(1, travel)));
   }
   window.addEventListener('scroll', () => { updateRocket(calcRocketProgress()); }, {passive:true});
   updateRocket(0);
