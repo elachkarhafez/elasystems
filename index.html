@@ -259,6 +259,36 @@ nav.scrolled{background:rgba(255,255,255,.94);backdrop-filter:blur(20px);-webkit
 .port-badge{font-size:.68rem;font-weight:700;color:var(--blue);background:var(--blue-pale);padding:.3rem .8rem;border-radius:100px}
 
 /* ─── CTA ─── */
+
+/* --- FUTURISTIC MOTION UPGRADE --- */
+.hero::after{content:'';position:absolute;inset:-15%;background:conic-gradient(from 140deg at 50% 50%,transparent 0 18%,rgba(200,169,74,.10) 24%,transparent 34%,rgba(36,96,200,.10) 48%,transparent 62%,rgba(16,185,129,.08) 74%,transparent 100%);opacity:.75;mix-blend-mode:multiply;animation:holoSweep 18s linear infinite;pointer-events:none}
+.hero-text,.hero-inner canvas{position:relative;z-index:2}
+.laptop-section,.portfolio,.cta-section{position:relative;isolation:isolate}
+.laptop-section::before,.portfolio::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 0 38%,rgba(200,169,74,.10) 42%,transparent 48% 100%);transform:translateX(-120%);animation:scanBeam 9s cubic-bezier(.22,1,.36,1) infinite;pointer-events:none;z-index:0}
+.laptop-section::after,.portfolio::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(13,27,46,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(13,27,46,.035) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(ellipse 80% 60% at 50% 45%,#000 20%,transparent 78%);animation:gridDrift 18s linear infinite;pointer-events:none;z-index:0}
+.laptop-section .container,.portfolio .container,.cta-section .container{position:relative;z-index:1}
+.lbtn{position:relative;overflow:hidden}
+.lbtn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-130%);transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.lbtn:hover::after,.lbtn.active::after{transform:translateX(130%)}
+.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.port-card{position:relative;isolation:isolate;will-change:transform;transform-style:preserve-3d;animation:cardFloat 8s ease-in-out infinite}
+.port-card:nth-child(2){animation-delay:1.2s}.port-card:nth-child(3){animation-delay:2.4s}
+.port-card::before{content:'';position:absolute;inset:0;border-radius:24px;background:linear-gradient(135deg,rgba(200,169,74,.28),transparent 24%,transparent 68%,rgba(36,96,200,.25));opacity:0;transition:opacity .35s;pointer-events:none;z-index:2}
+.port-card::after{content:'';position:absolute;inset:1px;border-radius:23px;border:1px solid rgba(200,169,74,.0);box-shadow:inset 0 0 0 0 rgba(200,169,74,0);transition:all .35s;pointer-events:none;z-index:3}
+.port-card:hover::before{opacity:1}.port-card:hover::after{border-color:rgba(200,169,74,.34);box-shadow:inset 0 0 24px rgba(200,169,74,.16),0 0 34px rgba(36,96,200,.16)}
+.port-screen::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.10) 0 1px,transparent 1px 7px);opacity:0;mix-blend-mode:overlay;animation:scanLines 4s linear infinite;pointer-events:none;z-index:2}
+.port-card:hover .port-screen::before{opacity:.32}
+.port-overlay{background:linear-gradient(to top,rgba(13,27,46,.78) 0%,rgba(13,27,46,.18) 55%,transparent 100%);backdrop-filter:blur(2px)}
+.port-overlay-link{position:relative;text-shadow:0 0 18px rgba(200,169,74,.45)}
+.port-overlay-link::after{content:'';position:absolute;left:0;right:0;bottom:-6px;height:1px;background:linear-gradient(90deg,var(--gold),transparent);transform:scaleX(.35);transform-origin:left;transition:transform .3s}
+.port-card:hover .port-overlay-link::after{transform:scaleX(1)}
+.port-url-pill{transition:color .3s,box-shadow .3s,transform .3s}.port-card:hover .port-url-pill{color:var(--navy);box-shadow:0 0 0 1px rgba(200,169,74,.22),0 10px 28px rgba(13,27,46,.08);transform:translateZ(18px)}
+@keyframes holoSweep{0%{transform:rotate(0deg) scale(1)}50%{transform:rotate(180deg) scale(1.05)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes scanBeam{0%,58%{transform:translateX(-120%)}78%,100%{transform:translateX(120%)}}
+@keyframes gridDrift{to{background-position:42px 42px}}
+@keyframes scanLines{to{background-position:0 56px}}
+@keyframes cardFloat{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@media(max-width:1100px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .cta-section{padding:140px 0;text-align:center;position:relative;overflow:hidden;background:var(--white)}
 #ctaCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .cta-veil{position:absolute;inset:0;background:radial-gradient(ellipse 55% 80% at center,rgba(255,255,255,.97) 25%,rgba(255,255,255,.8) 55%,rgba(255,255,255,.15) 100%);z-index:1;pointer-events:none}
@@ -471,6 +501,7 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
       <!-- BUSINESSES: add more entries here to add a client site -->
       <button class="lbtn active" data-site="https://creativestylewiss.com">Creative Style Wiss</button>
       <button class="lbtn" data-site="https://dmodashoes.com">DModa Shoes</button>
+      <button class="lbtn" data-site="https://bigwissmatcha.com">Big Wiss Matcha</button>
     </div>
     <div class="laptop-scene" id="laptopScene">
       <div class="laptop-3d" id="laptop3d">
@@ -686,6 +717,22 @@ footer{background:var(--navy);color:#fff;padding:64px 0 40px}
         <div class="port-info">
           <div><div class="port-name">DModa Shoes</div><div class="port-domain">dmodashoes.com</div></div>
           <div class="port-badge">E-Commerce</div>
+        </div>
+      </div>
+      <div class="port-card reveal d3">
+        <div class="port-bar">
+          <div class="p-dot" style="background:#FF5F57"></div>
+          <div class="p-dot" style="background:#FEBC2E"></div>
+          <div class="p-dot" style="background:#28C840"></div>
+          <div class="port-url-pill">bigwissmatcha.com</div>
+        </div>
+        <div class="port-screen">
+          <img src="https://s.wordpress.com/mshots/v1/https%3A%2F%2Fbigwissmatcha.com?w=1200&h=750" alt="Big Wiss Matcha" loading="lazy" onerror="if(!this._fb){this._fb=1;this.src='https://api.microlink.io/?url=https%3A%2F%2Fbigwissmatcha.com&screenshot=true&meta=false&embed=screenshot.url'}">
+          <div class="port-overlay"><a class="port-overlay-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
+        </div>
+        <div class="port-info">
+          <div><div class="port-name">Big Wiss Matcha</div><div class="port-domain">bigwissmatcha.com</div></div>
+          <div class="port-badge">Brand Site</div>
         </div>
       </div>
     </div>
@@ -991,6 +1038,7 @@ window.addEventListener('scroll', () => {
 const BUSINESSES = [
   { label: 'Creative Style Wiss', url: 'https://creativestylewiss.com' },
   { label: 'DModa Shoes',         url: 'https://dmodashoes.com'        },
+  { label: 'Big Wiss Matcha',    url: 'https://bigwissmatcha.com'    },
   // { label: 'New Client Name',  url: 'https://newclient.com'         },
 ];
 
@@ -1017,6 +1065,20 @@ document.addEventListener('click', e => {
   loadSiteScreenshot(btn.dataset.site);
 });
 
+
+// Futuristic portfolio tilt + glow tracking
+const motionCards = document.querySelectorAll('.port-card');
+motionCards.forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5;
+    const y = (e.clientY - r.top) / r.height - .5;
+    card.style.transform = `perspective(1200px) rotateX(${-y * 7}deg) rotateY(${x * 9}deg) translateY(-12px) scale(1.015)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+  });
+});
 // ═══ HYPER-REALISTIC KEYBOARD ═══
 (function drawKeyboard(){
   const wrap = document.querySelector('.laptop-keys');
