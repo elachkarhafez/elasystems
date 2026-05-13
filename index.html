@@ -614,7 +614,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
       <div class="why-visual">
         <div class="why-stat reveal d1"><span class="why-stat-num">50+</span><span class="why-stat-label">Projects Delivered</span></div>
         <div class="why-stat reveal d2"><span class="why-stat-num">247%</span><span class="why-stat-label">Avg. Conversion Lift</span></div>
-        <div class="why-stat reveal d3"><span class="why-stat-num">4.9★</span><span class="why-stat-label">Client Satisfaction</span></div>
+        <div class="why-stat reveal d3"><span class="why-stat-num">5 stars</span><span class="why-stat-label">Client Satisfaction</span></div>
         <div class="why-stat reveal d4"><span class="why-stat-num">100%</span><span class="why-stat-label">On-Time Delivery</span></div>
       </div>
     </div>
@@ -760,7 +760,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">creativestylewiss.com</div>
         </div>
         <div class="port-screen">
-          <img data-preview-url="https://creativestylewiss.com" alt="Creative Style Wiss" loading="lazy" decoding="async">
+          <img src="previews/creative-style-wiss.png" data-preview-src="previews/creative-style-wiss.png" data-preview-url="https://creativestylewiss.com" alt="Creative Style Wiss" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://creativestylewiss.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -776,7 +776,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">dmodashoes.com</div>
         </div>
         <div class="port-screen">
-          <img data-preview-url="https://dmodashoes.com" alt="DModa Shoes" loading="lazy" decoding="async">
+          <img src="previews/dmoda-shoes.png" data-preview-src="previews/dmoda-shoes.png" data-preview-url="https://dmodashoes.com" alt="DModa Shoes" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://dmodashoes.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -792,7 +792,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="port-url-pill">bigwissmatcha.com</div>
         </div>
         <div class="port-screen">
-          <img data-preview-url="https://bigwissmatcha.com" alt="Big Wiss Matcha" loading="lazy" decoding="async">
+          <img src="previews/big-wiss-matcha.png" data-preview-src="previews/big-wiss-matcha.png" data-preview-url="https://bigwissmatcha.com" alt="Big Wiss Matcha" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
@@ -1126,46 +1126,33 @@ function makePreviewFallback(url, label) {
   return canvas.toDataURL('image/png');
 }
 
-function makePreviewUrl(url, width = 1440, crop = 900) {
-  return `https://image.thum.io/get/width/${width}/crop/${crop}/noanimate/${url}`;
-}
-
-function installPreviewFallback(img, url, label, delay = 3200) {
+function setPreviewSource(img, src, url, label, delay = 2400) {
   if (!img) return;
   const requestId = `${Date.now()}-${Math.random()}`;
   img.dataset.previewRequestId = requestId;
   if (img._previewTimer) clearTimeout(img._previewTimer);
+
+  const loader = document.getElementById('siteLoading');
   const reveal = () => {
+    if (img.dataset.previewRequestId !== requestId) return;
+    clearTimeout(img._previewTimer);
     img.style.opacity = '1';
-    const loader = document.getElementById('siteLoading');
     if (loader && img.id === 'laptopImg') loader.style.display = 'none';
   };
-  const hasSource = !!(img.currentSrc || img.getAttribute('src'));
-  if (img.complete && hasSource) {
-    if (img.naturalWidth > 0) {
-      reveal();
-      return;
-    }
-    img.src = makePreviewFallback(url, label);
-    reveal();
-    return;
-  }
-  img._previewTimer = setTimeout(() => {
-    if (img.dataset.previewRequestId !== requestId) return;
-    img.src = makePreviewFallback(url, label);
-    reveal();
-  }, delay);
-  img.addEventListener('load', () => {
-    if (img.dataset.previewRequestId !== requestId) return;
-    clearTimeout(img._previewTimer);
-    reveal();
-  }, { once: true });
-  img.addEventListener('error', () => {
+
+  const fallback = () => {
     if (img.dataset.previewRequestId !== requestId) return;
     clearTimeout(img._previewTimer);
     img.src = makePreviewFallback(url, label);
-    reveal();
-  }, { once: true });
+    img.style.opacity = '1';
+    if (loader && img.id === 'laptopImg') loader.style.display = 'none';
+  };
+
+  img.addEventListener('load', reveal, { once: true });
+  img.addEventListener('error', fallback, { once: true });
+  img._previewTimer = setTimeout(fallback, delay);
+  img.src = src || makePreviewFallback(url, label);
+  if (img.complete && img.naturalWidth > 0) requestAnimationFrame(reveal);
 }
 // ═══ 3D LAPTOP SCROLL SPIN ═══
 const laptop = document.getElementById('laptop3d');
@@ -1185,21 +1172,20 @@ window.addEventListener('scroll', () => {
 
 // ═══ BUSINESSES DATA — add entries here to instantly add a new client ═══
 const BUSINESSES = [
-  { label: 'Creative Style Wiss', url: 'https://creativestylewiss.com' },
-  { label: 'DModa Shoes',         url: 'https://dmodashoes.com'        },
-  { label: 'Big Wiss Matcha',    url: 'https://bigwissmatcha.com'    },
-  // { label: 'New Client Name',  url: 'https://newclient.com'         },
+  { label: 'Creative Style Wiss', url: 'https://creativestylewiss.com', preview: 'previews/creative-style-wiss.png' },
+  { label: 'DModa Shoes',         url: 'https://dmodashoes.com',         preview: 'previews/dmoda-shoes.png' },
+  { label: 'Big Wiss Matcha',    url: 'https://bigwissmatcha.com',      preview: 'previews/big-wiss-matcha.png' },
+  // { label: 'New Client Name',  url: 'https://newclient.com',         preview: 'previews/new-client.png' },
 ];
 
 // Screenshot loader — Thum.io, no iframe blocking
 const laptopImg = document.getElementById('laptopImg');
 const siteLoadingEl2 = document.getElementById('siteLoading');
 function loadSiteScreenshot(url) {
-  const active = BUSINESSES.find(site => site.url === url);
+  const active = BUSINESSES.find(site => site.url === url) || BUSINESSES[0];
   siteLoadingEl2.style.display = 'flex';
   laptopImg.style.opacity = '0';
-  installPreviewFallback(laptopImg, url, active && active.label);
-  laptopImg.src = makePreviewUrl(url, 1440, 900);
+  setPreviewSource(laptopImg, active.preview, active.url, active.label, 1800);
 }
 loadSiteScreenshot(BUSINESSES[0].url);
 
@@ -1208,9 +1194,7 @@ portfolioImgs.forEach(img => {
   const card = img.closest('.port-card');
   const name = card && card.querySelector('.port-name') ? card.querySelector('.port-name').textContent : img.alt;
   const link = img.dataset.previewUrl || (card && card.querySelector('.port-overlay-link') ? card.querySelector('.port-overlay-link').href : img.src);
-  img.style.opacity = '0';
-  installPreviewFallback(img, link, name, 3600);
-  img.src = makePreviewUrl(link, 1200, 900);
+  setPreviewSource(img, img.dataset.previewSrc || img.getAttribute('src'), link, name, 2200);
 });
 document.addEventListener('click', e => {
   const btn = e.target.closest('.lbtn');
