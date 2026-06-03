@@ -415,7 +415,7 @@ body{background:#F4F8FF;background-image:linear-gradient(90deg,rgba(13,27,46,.02
 .site-loading{background:linear-gradient(135deg,#06101E,#102642);color:rgba(255,255,255,.72)}
 .portfolio{background:linear-gradient(180deg,#08111F 0%,#102036 100%);color:#fff}.portfolio .section-title{color:#fff}.portfolio .section-sub{color:rgba(255,255,255,.62)}
 .portfolio .container{max-width:1260px}
-.portfolio-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:1.4rem}
+.portfolio-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.2rem}
 .port-card{border-radius:16px;background:#07101E;border:1px solid rgba(200,169,74,.22);box-shadow:0 28px 70px rgba(0,0,0,.28)}
 .port-bar{background:linear-gradient(90deg,#101A2A,#162C45);border-bottom:1px solid rgba(200,169,74,.16)}
 .port-info{background:linear-gradient(180deg,#FFFFFF,#EFF5FF)}
@@ -567,17 +567,18 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
       <button class="lbtn active" data-site="https://creativestylewiss.com">Creative Style Wiss</button>
       <button class="lbtn" data-site="https://dmodashoes.com">DModa Shoes</button>
       <button class="lbtn" data-site="https://bigwissmatcha.com">Big Wiss Matcha</button>
+      <button class="lbtn" data-site="https://313apparelmi.com">313 Apparel MI</button>
     </div>
     <div class="laptop-scene" id="laptopScene">
       <div class="laptop-3d" id="laptop3d">
         <div class="laptop-lid">
           <div class="laptop-bezel">
-            <div class="laptop-bezel-inner">
-            <div class="site-loading" id="siteLoading">
+            <div class="laptop-bezel-inner" style="background-image:url('previews/creative-style-wiss.png');background-size:cover;background-position:top center">
+            <div class="site-loading" id="siteLoading" style="display:none">
               <div class="loader-ring"></div>
               <span>Loading live preview…</span>
             </div>
-            <img id="laptopImg" class="laptop-site-img" alt="Website preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:0;transition:opacity .6s">
+            <img id="laptopImg" class="laptop-site-img" src="previews/creative-style-wiss.png" data-preview-src="previews/creative-style-wiss.png" alt="Website preview" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:1;transition:opacity .6s">
             <div class="cursor-anim">
               <div class="cursor-ripple"></div>
               <svg width="16" height="20" viewBox="0 0 16 20" fill="white"><path d="M0 0l5.5 16 3-5.5L16 8 0 0z" fill="white"/><path d="M8.5 10.5l4 6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
@@ -759,7 +760,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="p-dot" style="background:#28C840"></div>
           <div class="port-url-pill">creativestylewiss.com</div>
         </div>
-        <div class="port-screen">
+        <div class="port-screen" style="background-image:url('previews/creative-style-wiss.png');background-size:cover;background-position:top center">
           <img src="previews/creative-style-wiss.png" data-preview-src="previews/creative-style-wiss.png" data-preview-url="https://creativestylewiss.com" alt="Creative Style Wiss" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://creativestylewiss.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
@@ -775,7 +776,7 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="p-dot" style="background:#28C840"></div>
           <div class="port-url-pill">dmodashoes.com</div>
         </div>
-        <div class="port-screen">
+        <div class="port-screen" style="background-image:url('previews/dmoda-shoes.png');background-size:cover;background-position:top center">
           <img src="previews/dmoda-shoes.png" data-preview-src="previews/dmoda-shoes.png" data-preview-url="https://dmodashoes.com" alt="DModa Shoes" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://dmodashoes.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
@@ -791,13 +792,29 @@ footer{background:#050A12;background-image:linear-gradient(90deg,rgba(200,169,74
           <div class="p-dot" style="background:#28C840"></div>
           <div class="port-url-pill">bigwissmatcha.com</div>
         </div>
-        <div class="port-screen">
+        <div class="port-screen" style="background-image:url('previews/big-wiss-matcha.png');background-size:cover;background-position:top center">
           <img src="previews/big-wiss-matcha.png" data-preview-src="previews/big-wiss-matcha.png" data-preview-url="https://bigwissmatcha.com" alt="Big Wiss Matcha" loading="lazy" decoding="async">
           <div class="port-overlay"><a class="port-overlay-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
         </div>
         <div class="port-info">
           <div><div class="port-name">Big Wiss Matcha</div><div class="port-domain">bigwissmatcha.com</div></div>
           <div class="port-badge">Brand Site</div>
+        </div>
+      </div>
+      <div class="port-card reveal d4">
+        <div class="port-bar">
+          <div class="p-dot" style="background:#FF5F57"></div>
+          <div class="p-dot" style="background:#FEBC2E"></div>
+          <div class="p-dot" style="background:#28C840"></div>
+          <div class="port-url-pill">313apparelmi.com</div>
+        </div>
+        <div class="port-screen" style="background-image:url('previews/313-apparel-mi.png');background-size:cover;background-position:top center">
+          <img src="previews/313-apparel-mi.png" data-preview-src="previews/313-apparel-mi.png" data-preview-url="https://313apparelmi.com" alt="313 Apparel MI" loading="lazy" decoding="async">
+          <div class="port-overlay"><a class="port-overlay-link" href="https://313apparelmi.com" target="_blank" rel="noopener">Visit Live Site -></a></div>
+        </div>
+        <div class="port-info">
+          <div><div class="port-name">313 Apparel MI</div><div class="port-domain">313apparelmi.com</div></div>
+          <div class="port-badge">Apparel</div>
         </div>
       </div>
     </div>
@@ -1128,6 +1145,14 @@ function makePreviewFallback(url, label) {
 
 function setPreviewSource(img, src, url, label, delay = 2400) {
   if (!img) return;
+  const frame = img.closest('.port-screen') || img.closest('.laptop-bezel-inner');
+  const paintFrame = source => {
+    if (!frame || !source) return;
+    frame.style.backgroundImage = `url("${source}")`;
+    frame.style.backgroundSize = 'cover';
+    frame.style.backgroundPosition = 'top center';
+  };
+
   const requestId = `${Date.now()}-${Math.random()}`;
   img.dataset.previewRequestId = requestId;
   if (img._previewTimer) clearTimeout(img._previewTimer);
@@ -1143,15 +1168,19 @@ function setPreviewSource(img, src, url, label, delay = 2400) {
   const fallback = () => {
     if (img.dataset.previewRequestId !== requestId) return;
     clearTimeout(img._previewTimer);
-    img.src = makePreviewFallback(url, label);
+    const fallbackSrc = makePreviewFallback(url, label);
+    paintFrame(fallbackSrc);
+    img.src = fallbackSrc;
     img.style.opacity = '1';
     if (loader && img.id === 'laptopImg') loader.style.display = 'none';
   };
 
+  const nextSrc = src || makePreviewFallback(url, label);
+  paintFrame(nextSrc);
   img.addEventListener('load', reveal, { once: true });
   img.addEventListener('error', fallback, { once: true });
   img._previewTimer = setTimeout(fallback, delay);
-  img.src = src || makePreviewFallback(url, label);
+  img.src = nextSrc;
   if (img.complete && img.naturalWidth > 0) requestAnimationFrame(reveal);
 }
 // ═══ 3D LAPTOP SCROLL SPIN ═══
@@ -1175,6 +1204,7 @@ const BUSINESSES = [
   { label: 'Creative Style Wiss', url: 'https://creativestylewiss.com', preview: 'previews/creative-style-wiss.png' },
   { label: 'DModa Shoes',         url: 'https://dmodashoes.com',         preview: 'previews/dmoda-shoes.png' },
   { label: 'Big Wiss Matcha',    url: 'https://bigwissmatcha.com',      preview: 'previews/big-wiss-matcha.png' },
+  { label: '313 Apparel MI',     url: 'https://313apparelmi.com',       preview: 'previews/313-apparel-mi.png' },
   // { label: 'New Client Name',  url: 'https://newclient.com',         preview: 'previews/new-client.png' },
 ];
 
