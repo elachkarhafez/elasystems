@@ -1,2 +1,10 @@
 *.zip
 
+
+# Creative Web OS (screenshots and local backups; baselines in .creative-web/baselines are committable)
+.creative-web/qa/
+.creative-web/backups/
+.creative-web/posters-raw/
+.creative-web/research/
+tools/.build/
+.claude/

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 20 660 400" role="img" aria-labelledby="t">
+  <title id="t">ElaSystems ES mark</title>
+  <!-- Reconstructed from the brand board (uploads/pasted-1776816378543-0.png): three gold bars (E), slash, navy S.
+       Replace with the original vector artwork when available. -->
+  <defs>
+    <linearGradient id="g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6B430A"/><stop offset=".45" stop-color="#B07A24"/>
+      <stop offset=".82" stop-color="#E3A83E"/><stop offset="1" stop-color="#F7D27A"/>
+    </linearGradient>
+    <linearGradient id="n" x1="230" y1="65" x2="650" y2="382" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#030B18"/><stop offset=".55" stop-color="#081A33"/><stop offset="1" stop-color="#123A6E"/>
+    </linearGradient>
+    <linearGradient id="s" x1="0" y1="20" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F7D27A" stop-opacity="0"/><stop offset=".3" stop-color="#F7D27A"/>
+      <stop offset=".75" stop-color="#E3A02A"/><stop offset="1" stop-color="#E3A02A" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <g fill="url(#g)">
+    <path d="M62 65H365L332.3 125H26Z"/>
+    <path d="M62 198H292.5L259.8 258H26Z"/>
+    <path d="M62 322H225.1L192.4 382H26Z"/>
+  </g>
+  <path fill="url(#s)" d="M402.5 20h4L188.5 420h-4Z"/>
+  <path fill="url(#n)" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
+</svg>
