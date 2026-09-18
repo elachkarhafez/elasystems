@@ -8,12 +8,12 @@ const esbuild = require('esbuild');
 const threeDir = path.resolve('tools/.build/node_modules/three');
 // start clean: stale hashed chunks must never ship (keep the license file)
 import fs from 'node:fs';
-for (const f of fs.existsSync('assets/js/dist') ? fs.readdirSync('assets/js/dist') : []) if (f.endsWith('.js')) fs.rmSync(path.join('assets/js/dist', f));
+for (const f of fs.existsSync('assets/js/dist') ? fs.readdirSync('assets/js/dist') : []) if (f.endsWith('.js') || f.endsWith('.map')) fs.rmSync(path.join('assets/js/dist', f));
 const result = await esbuild.build({
   entryPoints: ['assets/js/world/main.js'],
   bundle: true, format: 'esm', splitting: true, minify: true, target: 'es2020',
   outdir: 'assets/js/dist', chunkNames: 'chunk-[hash]', entryNames: 'app',
-  legalComments: 'eof', metafile: true, logLevel: 'warning',
+  legalComments: 'eof', metafile: true, logLevel: 'warning', sourcemap: true,
   plugins: [{
     name: 'three-from-tools',
     setup(b) {

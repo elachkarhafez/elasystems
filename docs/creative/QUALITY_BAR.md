@@ -44,4 +44,5 @@
 | Page weight | — | desktop 1.30 MB, mobile 0.80 MB (uncompressed) | Lighthouse |
 | Frame rate | 60 fps desktop | NOT MEASURED on other hardware (this dev GPU: 120 fps in the debug overlay) | ?debugExperience=1 |
 | Draw calls | ≤ 150 / 80 | ~170–270 desktop HIGH (the Reflector renders the scene twice); ~120 LOW | debug overlay |
-| Lighthouse | — | desktop 86 / 100 / 100 / 100 · mobile 71 / 100 / 100 / 100 | 2026-09-18 |
+| Lighthouse (local) | — | desktop 86 / 100 / 100 / 100 · mobile 71 / 100 / 100 / 100 | 2026-09-18 |
+| **Lighthouse (LIVE elasystems.com, gzip)** | — | mobile **80** / 100 / 79 / 100 (LCP 3.9 s sim., TBT 10 ms, CLS 0, 328 KB) · desktop **81** / 100 / 79 / 100 (LCP 0.7 s). Best-practices 79 = no HTTPS (owner: enable in GitHub Pages) + source maps (added after this run) | 2026-09-18 |

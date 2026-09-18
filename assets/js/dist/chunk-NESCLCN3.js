@@ -1,4 +1,4 @@
-import{C as B,D as W,H as k,I as j,X as T,Y as g,Z as K,c as F,d as D,e as N,ea as X,f as z,g as O,ga as Y,h as L,i as I,j as H,k as V,n as c,p as Q,r as n,t as _,u as G,w as d,z as f}from"./chunk-MQBZCQBU.js";var x={name:"CopyShader",uniforms:{tDiffuse:{value:null},opacity:{value:1}},vertexShader:`
+import{C as B,D as W,H as k,I as j,X as T,Y as g,Z as K,c as F,d as D,e as N,ea as X,f as z,g as O,ga as Y,h as L,i as I,j as H,k as V,n as c,p as Q,r as n,t as _,u as G,w as d,z as f}from"./chunk-AYZGW7ZV.js";var x={name:"CopyShader",uniforms:{tDiffuse:{value:null},opacity:{value:1}},vertexShader:`
 
 		varying vec2 vUv;
 
@@ -216,3 +216,4 @@ import{C as B,D as W,H as k,I as j,X as T,Y as g,Z as K,c as F,d as D,e as N,ea 
       c *= 1.0 - uVignette * smoothstep(0.35, 1.05, length(p));
       gl_FragColor = vec4(c, 1.0);
     }`};function De(u,e,i,{tier:a}){let s=u.getSize(new n),t=new P(u,new d(s.x,s.y,{type:c}));t.addPass(new R(e,i));let r=new M(new n(s.x/2,s.y/2),a==="high"?.62:.52,.5,.86);t.addPass(r);let l=new b($);return l.uniforms.uAspect.value=s.x/s.y,t.addPass(l),t.addPass(new E),{composer:t,bloom:r,grade:l,setSize(o,p){t.setSize(o,p),r.setSize(o/2,p/2),l.uniforms.uAspect.value=o/p},render(){t.render()}}}export{De as buildPost};
+//# sourceMappingURL=chunk-NESCLCN3.js.map

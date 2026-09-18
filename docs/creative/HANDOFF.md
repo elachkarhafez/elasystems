@@ -41,7 +41,7 @@ for it. It stages the owner's line "Most businesses don't have a traffic problem
 
 - `https://elasystems.com` serves a certificate for the wrong name (GitHub Pages custom-domain cert). Owner action:
   GitHub → repo Settings → Pages → confirm the custom domain, wait for the certificate, tick **Enforce HTTPS**.
-- Mobile Lighthouse 71 was measured on an uncompressed local server; re-measure on the live site.
+- Live mobile Lighthouse 80 (LCP 3.9 s simulated). Next lever: preload the entry-m poster + inline critical CSS.
 
 ## Asset blockers
 
@@ -63,7 +63,8 @@ for it. It stages the owner's line "Most businesses don't have a traffic problem
 ## Last QA result
 
 Round 2: **84/100**, 2026-09-18, `.creative-web/qa/2026-09-18-15-34-14-final-full` (+ recheck). All hard gates PASS.
-Lighthouse desktop 86/100/100/100, mobile 71/100/100/100 (local, uncompressed).
+Lighthouse LIVE (elasystems.com): mobile 80/100/79/100, desktop 81/100/79/100 (best-practices held back by missing HTTPS).
+Comparison preview (v2 / v1 / original): https://elasystems-compare.vercel.app
 
 ## Last screenshots
 
