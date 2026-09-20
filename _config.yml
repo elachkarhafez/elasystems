@@ -4,3 +4,5 @@ exclude:
   - tools/
   - AGENTS.md
   - CLAUDE.md
+  - .creative-web-os/
+  - .creative-web/
