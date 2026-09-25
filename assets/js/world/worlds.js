@@ -62,7 +62,7 @@ export const WORLDS = [
     id: 'mall', label: 'mall', client: "D'Moda Shoes", url: 'https://dmodashoes.com',
     segment: 'monroe', along: 104, setback: 14, type: 'mall',
     sign: { text: "D'MODA SHOES", font: 'Oswald', weight: 600, fg: '#FFFFFF', bg: '#0B0B0B', size: 0.66 },
-    light: { key: '#FFF4E8', window: '#FFFFFF', temp: 5600, intensity: 12, accent: '#D71920' },
+    light: { key: '#FFF4E8', window: '#FFFFFF', temp: 5600, intensity: 6.5, accent: '#D71920' },
     palette: { accent: '#D71920', facade: '#15161A' },
     textures: ['dmoda-shoes'], weight: 1.1,
     cam: { desktop: { lane: 4.4, h: 1.4, fov: 40, before: 26, face: 0.8 }, mobile: { lane: 4.2, h: 1.6, fov: 60, before: 22, face: 0.92 } },

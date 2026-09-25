@@ -3,13 +3,32 @@
 > Shared truth between agents (Claude Code, Codex) and sessions. Update at the end of every working
 > session. Read FIRST at the start of every session. Neither agent can invoke the other — this file is the channel.
 
-**Updated:** 2026-09-18 by Claude Code (Opus 5)
+**Updated:** 2026-09-24 by Claude Code (Opus 5.5)
 
 ## Current state
 
 v2 "Route 313" is built, QA'd and **shipped to production** (elasystems.com, GitHub Pages `main`) at the owner's request.
 It was developed on branch `redesign-v2` from the original site (3758f32). The earlier v1 redesign ("Seven Worlds",
 editorial) was never shipped; it exists only as uncommitted work in the main checkout.
+
+## 2026-09-24: v2.1 "Route 313, cinematic" (live again)
+
+The owner asked to bring back v2, make it more cinematic and animated, and publish it. This replaced the
+Studio V10 site (9b3180e) on `main`; V10 stays in git history.
+
+Added (all ambient: driven by the camera's measured motion or by time, never by scroll position, so `pose(p)`
+stays pure and reverse scroll is unchanged):
+- Opening crane: 4.4 s from 26 m above W Warren down onto the dark storefront (desktop/tablet; `?nointro` skips).
+- Rain (`rain.js`, one GPU draw call, leans with speed), exposure "iris" settle on load.
+- Post (`post.js`): speed zoom-blur toward the vanishing point, anamorphic light streaks, switch-on flash,
+  film grain + edge fringe. Phones (LOW, no post) get CSS grain (`assets/brand/grain.png`).
+- Camera: FOV widens with speed, banks into corners, nose-dips under braking, subtle handheld drift.
+- Storefronts switch on with a neon stutter. Scope bars (`--lb`) close while driving, open at stops.
+- DOM: title rise on load, stop panels cascade line by line from `--o`, sections rise in after the drive.
+- Fixes: aerial climb/descent is a crane (height leads, ground follows) and fog/rain/blur follow altitude;
+  the mall hotspot was a specular on the curtain-wall glass (now matte); lamp halos read texture alpha (the
+  disc on phones). Posters re-rendered from the new look.
+- Checks: `node tools/cine.mjs <label> <w> <h> [plan]`, `URL=… node tools/verify-cine.mjs`.
 
 ## Experience mode
 

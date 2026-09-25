@@ -335,7 +335,7 @@ const BUILDERS = {
     const W = 32, H = 12, D = 24;
     const body = new THREE.Mesh(new THREE.BoxGeometry(W, H, D), std('#1A1C21', 0.7)); body.position.set(0, H / 2, -D / 2); g.add(body);
     // curtain wall: dark glass with faint interior light + mullions
-    const glassMat = new THREE.MeshStandardMaterial({ color: '#0D1117', roughness: 0.15, metalness: 0.6 });
+    const glassMat = new THREE.MeshStandardMaterial({ color: '#0D1117', roughness: 0.62, metalness: 0.15 }); // matte enough that the spill light doesn't hotspot
     for (const x of [-10, 10]) {
       const gl = new THREE.Mesh(new THREE.PlaneGeometry(10.5, 9.5), glassMat); gl.position.set(x, 5.4, 0.02); g.add(gl);
       for (let i = -2; i <= 2; i++) { const m = new THREE.Mesh(new THREE.BoxGeometry(0.1, 9.5, 0.12), lambert('#2B2F37')); m.position.set(x + i * 2.1, 5.4, 0.05); g.add(m); }
@@ -347,7 +347,7 @@ const BUILDERS = {
     mallName.mesh.position.set(0, 10.6, 0.06); g.add(mallName.mesh);
     const reds = [];
     for (const x of [-6.6, 6.6]) {
-      const plinth = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.15, 0.8), std('#6E6C68', 0.5)); plinth.position.set(x, 0.58, 2.2); g.add(plinth);
+      const plinth = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1.15, 0.8), std('#3A3936', 0.95)); plinth.position.set(x, 0.58, 2.2); g.add(plinth);
       const glow = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.06, 20), basicHDR(w.light.accent, 0)); glow.position.set(x, 1.19, 2.2); g.add(glow); reds.push(glow);
       const rp = pool(w.light.accent, 5, 0.6); rp.position.set(x, 0.05, 2.6); g.add(rp); reds.push(rp);
     }

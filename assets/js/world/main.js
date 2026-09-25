@@ -6,6 +6,7 @@ import { buildTimeline, pose, switchOn } from './timeline.js';
 import { buildCity } from './city.js';
 import { buildStorefront } from './storefronts.js';
 import { buildTrails } from './trails.js';
+import { buildRain } from './rain.js';
 import { loadClientFonts } from './canvas.js';
 import { DomDirector } from './dom.js';
 import { MOTION, clamp, lerp, smoothstep } from './motion.js';
@@ -88,6 +89,7 @@ async function start() {
   const targets = Object.fromEntries(shops.map((s) => [s.id, s.targetWorld]));
   T('shops');
   const trails = buildTrails(scene, route, { tier });
+  const rain = buildRain(scene, { tier });
   T('trails');
   await yieldToMain();
 
@@ -150,7 +152,26 @@ async function start() {
   const look = { x: 0, y: 0, tx: 0, ty: 0 };
   if (!coarse) addEventListener('pointermove', (e) => { look.tx = (e.clientX / innerWidth - 0.5) * 2; look.ty = (e.clientY / innerHeight - 0.5) * 2; }, { passive: true });
 
-  const LENS = { x: -0.1, y: 0.13 }, lens = { x: NaN, y: NaN };
+  // Cinematography layer. Everything here is ambient: it comes from how the camera is moving (speed, braking,
+  // turning) or from time, never from scroll position, so the scroll pose stays pure and reverse scroll still
+  // lands on identical compositions.
+  const C = {
+    intro: tier !== 'low' && dom.progress() < 0.02 && !params.has('nointro') ? 1 : 0, // opening crane shot
+    vel: new THREE.Vector3(), speedN: 0, prevPos: cam.pos.clone(), prevSpeed: 0,
+    prevYaw: NaN, roll: 0, dip: 0, lb: -1, flash: 0,
+    exposure: tier === 'low' ? 1.05 : 0.35,
+  };
+  const crane = new THREE.Vector3(), craneT = new THREE.Vector3(), tmp = new THREE.Vector3(), fwd = new THREE.Vector3(), aim = new THREE.Vector3();
+  const flick = new Map(); // storefront id → { was, t0 }: the neon stutter when a system switches on
+  const FLICK = [[0.05, 0.9], [0.1, 0.08], [0.16, 0.75], [0.2, 0.05], [0.34, 0.05], [0.4, 1.0], [0.46, 0.35], [0.52, 1.0]];
+  const flickAt = (tt) => { for (const [e, v] of FLICK) if (tt < e) return v; return 1; };
+  const endIntro = () => { C.intro = Math.min(C.intro, 0.35); };
+  addEventListener('wheel', endIntro, { passive: true, once: true });
+  addEventListener('touchstart', endIntro, { passive: true, once: true });
+  addEventListener('keydown', endIntro, { once: true });
+  if (C.intro) root.classList.add('is-rolling');
+
+  const LENS = { x: -0.1, y: 0.13 }, lens = { x: NaN, y: NaN, fov: NaN };
   addEventListener('resize', () => {
     renderer.setSize(innerWidth, innerHeight, false);
     lens.x = NaN;
@@ -178,27 +199,73 @@ async function start() {
     cam.fov = lerp(cam.fov, P.fov, 1 - Math.exp(-MOTION.fovDamp * dt));
     look.x = lerp(look.x, look.tx, 1 - Math.exp(-MOTION.lookDamp * dt));
     look.y = lerp(look.y, look.ty, 1 - Math.exp(-MOTION.lookDamp * dt));
-    camera.position.copy(cam.pos);
-    camera.lookAt(cam.target);
-    const lookGain = 1 - (P.aerial || 0);
+    const aer = P.aerial || 0;
+
+    // measured motion of the (damped) car: speed, acceleration, turn rate
+    if (dt > 0) C.vel.lerp(tmp.subVectors(cam.pos, C.prevPos).divideScalar(dt), 1 - Math.exp(-8 * dt));
+    C.prevPos.copy(cam.pos);
+    const spd = Math.hypot(C.vel.x, C.vel.z) * (1 - aer) * (1 - smoothstep(6, 28, cam.pos.y)); // speed effects belong to street level
+    const accel = (spd - C.prevSpeed) / Math.max(dt, 1e-3);
+    C.prevSpeed = spd;
+    C.speedN = lerp(C.speedN, clamp(spd / 38), 1 - Math.exp(-4 * dt));
+    fwd.subVectors(cam.target, cam.pos);
+    const yaw = Math.atan2(fwd.x, fwd.z);
+    let dYaw = Number.isNaN(C.prevYaw) ? 0 : yaw - C.prevYaw;
+    if (dYaw > Math.PI) dYaw -= Math.PI * 2; else if (dYaw < -Math.PI) dYaw += Math.PI * 2;
+    C.prevYaw = yaw;
+    const yawRate = dYaw / Math.max(dt, 1e-3);
+    // bank into corners and dip the nose under braking (a heavy, well-tuned car)
+    C.roll = lerp(C.roll, clamp(yawRate * 0.05 * clamp(spd / 12), -0.07, 0.07) * (1 - aer), 1 - Math.exp(-3 * dt));
+    C.dip = lerp(C.dip, clamp(-accel * 0.0022, -0.02, 0.012) * (1 - aer), 1 - Math.exp(-5 * dt));
+
+    // opening crane: 4.4 s from high and wide down onto the dark storefront (scrolling hurries it along)
+    let introE = 0;
+    if (C.intro > 0) {
+      C.intro = Math.max(0, C.intro - (dt / 4.4) * (p > 0.004 ? 3 : 1));
+      introE = C.intro * C.intro * (3 - 2 * C.intro);
+      // high over the road, 46 m back along the route, looking down the street at the dark storefront
+      route.at(P.d - 46, 1.2, 26, crane);
+      craneT.copy(cam.target);
+      craneT.y -= 4;
+      if (C.intro <= 0) root.classList.remove('is-rolling');
+    }
+    camera.position.copy(cam.pos).lerp(crane, introE);
+    camera.lookAt(aim.copy(cam.target).lerp(craneT, introE));
+
+    const lookGain = 1 - aer;
     camera.rotateY(THREE.MathUtils.degToRad(-look.x * MOTION.lookYaw * lookGain));
     camera.rotateX(THREE.MathUtils.degToRad(-look.y * MOTION.lookPitch * lookGain));
-    // lens shift (not tilt): the subject sits right of the copy on desktop, above the copy on phones
-    const aer = P.aerial || 0;
+    // handheld: a camera operator breathing; calmer at speed, where the car carries the shot
+    const hh = (1 - aer) * (1 - C.speedN * 0.6) * (coarse ? 0.6 : 1);
+    camera.rotateY(THREE.MathUtils.degToRad((Math.sin(t * 0.83) * 0.6 + Math.sin(t * 1.91) * 0.3) * 0.22 * hh));
+    camera.rotateX(THREE.MathUtils.degToRad((Math.sin(t * 0.67 + 1.3) * 0.6 + Math.sin(t * 2.3) * 0.25) * 0.16 * hh) + C.dip);
+    camera.rotateZ(C.roll + Math.sin(t * 0.51) * 0.0025 * hh);
+
+    // lens: shift (not tilt) keeps the subject clear of the copy; speed widens the lens so the road stretches
     const sx = (mobile ? 0 : LENS.x) * (1 - aer), sy = (mobile ? LENS.y : 0) * (1 - aer);
-    if (Math.abs(camera.fov - cam.fov) > 0.01 || sx !== lens.x || sy !== lens.y) {
-      camera.fov = cam.fov; lens.x = sx; lens.y = sy;
+    const fov = cam.fov + C.speedN * (mobile ? 5 : 7) + introE * 8;
+    if (Math.abs(fov - lens.fov) > 0.01 || sx !== lens.x || sy !== lens.y) {
+      camera.fov = lens.fov = fov; lens.x = sx; lens.y = sy;
       camera.setViewOffset(innerWidth, innerHeight, sx * innerWidth, sy * innerHeight, innerWidth, innerHeight);
       camera.updateProjectionMatrix();
     }
 
-    // storefronts switch on as the car brakes; they stay lit once their system is on
+    // storefronts switch on as the car brakes, with a neon stutter and a flash; they stay lit once on
     const lit = [];
+    let flash = 0;
     for (const s of shops) {
       const on = switchOn(tl, s.id, p, MOTION.switchRamp);
-      s.update(on, t, camera);
-      if (on > 0.01) lit.push({ s, on, dist: Math.abs(s.d - P.d) });
+      let f = flick.get(s.id);
+      if (!f) flick.set(s.id, (f = { was: on > 0.5, t0: -9 }));
+      if (on > 0.5 && !f.was) f.t0 = t;
+      f.was = on > 0.5;
+      const tt = t - f.t0;
+      const stutter = tt < 0.6 ? flickAt(tt) : 1;
+      if (tt < 0.9) flash = Math.max(flash, (1 - tt / 0.9) * (s.id === 'yours' ? 1 : 0.55) * (tt > 0.34 ? 1 : 0.3));
+      s.update(on * stutter, t, camera);
+      if (on > 0.01) lit.push({ s, on: on * stutter, dist: Math.abs(s.d - P.d) });
     }
+    C.flash = lerp(C.flash, flash, 1 - Math.exp(-18 * dt));
     lit.sort((a, b) => a.dist - b.dist);
     rig.forEach((l, i) => {
       const e = lit[i];
@@ -212,16 +279,30 @@ async function start() {
     const seg = route.segmentAt(P.d);
     const pace = seg.kind === 'highway' ? MOTION.trailHighway : lerp(1, MOTION.trailStop, P.face || 0);
     trails.update(dt, pace);
-    const air = smoothstep(0.2, 1, P.aerial || 0);
+    const air = Math.max(smoothstep(0.2, 1, aer), smoothstep(18, 240, camera.position.y));
+    rain.update(t, camera.position, tmp.set(C.vel.x, 0, C.vel.z), 1 - smoothstep(34, 70, camera.position.y));
     scene.fog.density = lerp(fogBase, 0.0009, air);
     routeLine.visible = air > 0.001;
     routeLine.material.opacity = air * 0.85;
     beacons.forEach((b, i) => { b.visible = air > 0.001; b.material.opacity = air * (shops[i].id === 'yours' ? 0.25 : 0.9); });
 
+    // exposure: the iris settles on the first frames
+    C.exposure = lerp(C.exposure, 1.05, 1 - Math.exp(-1.6 * dt));
+    renderer.toneMappingExposure = C.exposure;
+    // letterbox: scope bars close in while the car travels and open when it stops
+    const lb = Math.round(clamp(Math.max(C.speedN * 1.6, introE)) * (1 - air) * 100) / 100;
+    if (lb !== C.lb) { C.lb = lb; root.style.setProperty('--lb', lb); }
+
     const past = dom.update(p, P.d, titleCase(seg.name));
     const covered = past > innerHeight * 1.4;
     if (!covered) {
-      if (post) post.render(); else renderer.render(scene, camera);
+      if (post) {
+        // vanishing point on screen (where the car is heading) for the speed blur
+        tmp.copy(cam.pos).addScaledVector(fwd.set(C.vel.x, 0, C.vel.z).normalize(), 60).project(camera);
+        const vx = clamp(tmp.x * 0.5 + 0.5, 0.2, 0.8), vy = clamp(tmp.y * 0.5 + 0.5, 0.25, 0.75);
+        post.frame(t, { speed: C.speedN * (1 - introE), flash: C.flash, focusX: Number.isFinite(vx) ? vx : 0.5, focusY: Number.isFinite(vy) ? vy : 0.5 });
+        post.render();
+      } else renderer.render(scene, camera);
       if (!live) { live = true; stage.classList.add('is-live'); T('first-frame'); }
     }
 

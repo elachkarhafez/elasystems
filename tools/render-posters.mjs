@@ -11,8 +11,8 @@ const b = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrom
 for (const [suffix, vp, dpr, mobile] of [['d', { width: 1600, height: 900 }, 1, false], ['m', { width: 390, height: 780 }, 2, true]]) {
   const ctx = await b.newContext({ viewport: vp, deviceScaleFactor: dpr, isMobile: mobile, hasTouch: mobile });
   const p = await ctx.newPage();
-  await p.goto(`http://127.0.0.1:3002/?tier=${mobile ? 'low' : 'high'}`, { waitUntil: 'networkidle' });
-  await p.addStyleTag({ content: '.nav,.scene-inner>*:not(.scene-poster),.routestrip,.stage-scrim,.stage-poster{visibility:hidden!important} .stage::after{display:none}' });
+  await p.goto(`${process.env.URL || 'http://127.0.0.1:3002/'}?nointro&tier=${mobile ? 'low' : 'high'}`, { waitUntil: 'networkidle' });
+  await p.addStyleTag({ content: '.nav,.scene-inner>*:not(.scene-poster),.routestrip,.stage-scrim,.stage-poster,.lb,.grain{visibility:hidden!important} .stage::after{display:none}' });
   await p.waitForTimeout(3500);
   for (const [name, stop] of scenes) {
     await p.evaluate((vv) => {

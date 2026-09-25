@@ -26,6 +26,10 @@ export class DomDirector {
     const y = document.querySelector('[data-year]');
     if (y) y.textContent = new Date().getFullYear();
     if (!this.root.classList.contains('is-world')) return; // static mode: native anchors, stacked layout
+    // after the drive: sections rise in as they enter the viewport (motion allowed = world mode only)
+    const rv = [...document.querySelectorAll('.services .eyebrow, .section-title, .svc li, .why-title, .why-body, .contact .eyebrow, .contact-title, .contact-number, .contact-actions')];
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
+    rv.forEach((el) => { el.classList.add('rv'); if (el.matches('.svc li')) el.style.setProperty('--d', (0.12 * [...el.parentElement.children].indexOf(el)) + 's'); io.observe(el); });
     this.layout();
     addEventListener('resize', () => this.layout());
     this.stripLinks.forEach((a) => a.addEventListener('click', (e) => { e.preventDefault(); this.goTo(a.dataset.go); }));

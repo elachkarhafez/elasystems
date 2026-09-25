@@ -208,8 +208,8 @@ export async function buildCity(scene, route, { tier, reserved = [], camera, ren
   group.add(pools);
   // halos around lamp heads (carry the glow when there's no bloom)
   const haloGeo = new THREE.PlaneGeometry(1, 1);
-  const halos = new THREE.InstancedMesh(haloGeo, billboardGlowMaterial(radialTexture(), '#FFC98A', tier === 'high' ? 0.22 : 0.3), heads.length);
-  heads.forEach((h, i) => { const hs = tier === 'high' ? 1.1 : 2.2;
+  const halos = new THREE.InstancedMesh(haloGeo, billboardGlowMaterial(radialTexture(), '#FFC98A', tier === 'high' ? 0.4 : 0.95), heads.length);
+  heads.forEach((h, i) => { const hs = tier === 'high' ? 1.6 : 3.4;
     m4.compose(h.clone().setY(h.y - 0.1), q.identity(), sc.set(hs, hs, hs)); halos.setMatrixAt(i, m4); });
   halos.frustumCulled = false;
   group.add(halos);

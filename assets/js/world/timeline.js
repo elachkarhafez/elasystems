@@ -111,7 +111,12 @@ export function pose(tl, route, targets, p, out) {
     out.aerial = a;
     if (a > 0) {
       const e = smoothstep(0, 1, a);
-      out.pos.lerp(tl.aerial.pos, e);
+      // crane move: height leads, ground position follows, so the camera rises and lands over the street
+      // (a straight lerp cut through the rooftops on the way down)
+      const ex = e * e, ey = Math.sqrt(e);
+      const y = lerp(out.pos.y, tl.aerial.pos.y, ey);
+      out.pos.lerp(tl.aerial.pos, ex);
+      out.pos.y = y;
       out.target.lerp(tl.aerial.target, e);
       out.fov = lerp(out.fov, tl.aerial.fov, e);
     }

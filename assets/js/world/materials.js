@@ -175,7 +175,7 @@ export function billboardGlowMaterial(tex, color, opacity = 1) {
       uniform sampler2D map; uniform vec3 uColor; uniform float uOpacity; varying vec2 vUv; varying float vDepth;
       #include <fog_pars_fragment>
       void main(){
-        float a = texture2D(map, vUv).r * uOpacity * smoothstep(12.0, 26.0, vDepth); // never a disc in the viewer's face
+        float a = texture2D(map, vUv).a * uOpacity * smoothstep(12.0, 26.0, vDepth); // never a disc in the viewer's face
         gl_FragColor = vec4(uColor * a, 1.0);
         #ifdef USE_FOG
           float fogFactor = 1.0 - exp(-fogDensity * fogDensity * vFogDepth * vFogDepth);
