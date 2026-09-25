@@ -3,284 +3,220 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>ElaSystems — Websites, Apps &amp; Advertising · Detroit, MI</title>
-<meta name="description" content="Most businesses don't have a traffic problem. They have a system problem. ElaSystems builds websites, apps and advertising for Metro Detroit businesses. Take the drive past seven real client sites, then book a call: 313-300-6898.">
+<title>ElaSystems — Websites, Apps &amp; Software · Detroit</title>
+<meta name="description" content="Detroit studio building websites, online stores, booking, apps and custom business software. See some of our work, then text 313-300-6898.">
 <link rel="canonical" href="https://elasystems.com/">
-<meta name="theme-color" content="#050B16">
+<meta name="theme-color" content="#03060C">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ElaSystems">
-<meta property="og:title" content="ElaSystems — Traffic isn't the problem. The system is.">
-<meta property="og:description" content="A night drive past seven Metro Detroit businesses whose websites ElaSystems built. Book a call: 313-300-6898.">
+<meta property="og:title" content="ElaSystems — They have a system problem.">
+<meta property="og:description" content="Websites, apps and the software behind them, from a Detroit studio. Text 313-300-6898.">
 <meta property="og:url" content="https://elasystems.com/">
-<meta property="og:image" content="https://elasystems.com/assets/brand/og.jpg">
+<meta property="og:image" content="https://elasystems.com/assets/brand/og-vmax.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="ElaSystems: gold light trails straightening into the three bars of the ES mark">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://elasystems.com/assets/brand/og.jpg">
+<meta name="twitter:image" content="https://elasystems.com/assets/brand/og-vmax.jpg">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/overpass-var-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css">
+<link rel="preload" href="assets/fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" imagesrcset="assets/work/v/family-bakery-d-960.webp 960w, assets/work/v/family-bakery-d-1600.webp 1600w, assets/work/v/family-bakery-d-2400.webp 2400w" imagesizes="(max-width: 1179px) 58vw, 56vw" media="(min-width: 900px)" fetchpriority="high">
+<link rel="preload" as="image" href="assets/work/v/family-bakery-m-780.webp" media="(max-width: 899px)" fetchpriority="high">
+<link rel="stylesheet" href="assets/css/vmax.css">
 <script>
-  // mode decision before first paint: the world (WebGL + motion) or the stacked, poster-led fallback
+  // Motion mode before first paint: "cine" = pinned, scroll-scrubbed stages (wide + motion allowed).
+  // Everything else is the flowing layout (phones, reduced motion, ?static). vmax.js re-checks on resize.
   (function () {
-    // feature test only (creating a GL context here would block parsing); main.js falls back to static if the context fails
-    var h = document.documentElement, rm = matchMedia('(prefers-reduced-motion: reduce)').matches, gl = 'WebGL2RenderingContext' in window || 'WebGLRenderingContext' in window;
-    h.classList.add('js');
-    h.classList.add(gl && !rm && !/[?&]static\b/.test(location.search) ? 'is-world' : 'is-static');
+    var h = document.documentElement, calm = matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]static\b/.test(location.search);
+    h.className = 'js' + (calm ? ' is-calm' : '') + (!calm && matchMedia('(min-width: 1180px) and (min-height: 640px)').matches ? ' is-cine' : '');
+    // if the director script never ran (blocked, failed), fall back to the flowing layout and load the work images
+    document.addEventListener('DOMContentLoaded', function () {
+      if (h.classList.contains('is-ready')) return;
+      h.classList.remove('is-cine');
+      document.querySelectorAll('[data-srcset]').forEach(function (s) { s.srcset = s.getAttribute('data-srcset'); });
+      document.querySelectorAll('img[data-src]').forEach(function (i) { i.src = i.getAttribute('data-src'); });
+      document.querySelectorAll('.proj').forEach(function (p) { p.classList.add('is-in'); });
+    });
   })();
 </script>
-<!-- built from assets/js/world/*.js by tools/build.mjs (three.js tree-shaken in) -->
-<script type="module" src="assets/js/dist/app.js"></script>
+<script type="module" src="assets/js/vmax.js"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   "name": "ElaSystems",
   "url": "https://elasystems.com/",
-  "logo": "https://elasystems.com/logo.png",
+  "logo": "https://elasystems.com/assets/brand/apple-touch-icon.png",
   "slogan": "We build digital systems that grow businesses.",
-  "description": "Websites, apps and advertising for businesses in Metro Detroit.",
+  "description": "Websites, apps, custom software and advertising. Detroit, MI.",
   "telephone": "+1-313-300-6898",
   "email": "elasystemdesign@gmail.com",
   "address": { "@type": "PostalAddress", "addressLocality": "Detroit", "addressRegion": "MI", "addressCountry": "US" },
-  "areaServed": ["Detroit", "Dearborn", "Dearborn Heights", "Garden City", "Livonia", "Metro Detroit", "Toledo, OH"],
+  "areaServed": "Detroit, MI",
   "hasOfferCatalog": { "@type": "OfferCatalog", "name": "Services", "itemListElement": [
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Websites" } },
-    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Apps" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Apps and custom software" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Automation and AI tools" } },
     { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Advertising" } } ] }
 }
 </script>
 </head>
 <body>
-
-<a class="skip" href="#services">Skip the drive</a>
-
-<!-- the persistent world: one canvas for the whole route; the poster is the LCP until the first WebGL frame -->
-<div class="stage" aria-hidden="true">
-  <picture><source media="(max-width: 899px)" srcset="assets/posters/entry-m.webp"><img class="stage-poster" src="assets/posters/entry-d.webp" alt="" fetchpriority="high"></picture>
-  <canvas id="world"></canvas>
-  <div class="stage-scrim"></div>
-  <i class="lb lb-t"></i><i class="lb lb-b"></i><i class="grain"></i>
-</div>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="nav">
-  <a class="brand" href="#top"><span class="sr-only">ElaSystems, back to the start</span>
-    <img class="brand-mark" src="assets/brand/es-mark-reversed.svg" alt="" width="66" height="40">
-    <span class="brand-word" aria-hidden="true">EL<svg class="wm-lambda" viewBox="0 0 70 100"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg> <b>SYSTEMS</b></span>
+  <a class="brand" href="#top" aria-label="ElaSystems, back to top">
+    <svg class="brand-mark" viewBox="10 20 660 400" aria-hidden="true"><use href="#es"/></svg>
+    <span class="brand-word" aria-hidden="true">EL<svg class="lam" viewBox="0 0 70 100"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg> <b>SYSTEMS</b></span>
   </a>
   <nav class="nav-links" aria-label="Primary">
-    <a href="#route">The route</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
+    <a href="#work">Work</a><a href="#build">What we build</a><a href="#process">How we work</a><a href="#contact">Contact</a>
   </nav>
-  <a class="btn btn-gold nav-cta" href="sms:+13133006898">Book a Call</a>
+  <a class="btn btn-gold nav-cta" href="sms:+13133006898" aria-label="Text ElaSystems at 313-300-6898"><span class="wide">Text 313-300-6898</span><span class="narrow">Text us</span></a>
 </header>
 
-<main id="top">
-  <section class="drive" id="route" aria-label="The route: seven businesses ElaSystems built websites for">
-    <div class="drive-track">
+<!-- the mark, drawn once: three gold bars (E), the slash, the S -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="es-g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8A5A12"/><stop offset=".55" stop-color="#C98A24"/><stop offset="1" stop-color="#F4CD72"/></linearGradient>
+    <symbol id="es" viewBox="10 20 660 400">
+      <g fill="url(#es-g)"><path d="M62 65H365L332.3 125H26Z"/><path d="M62 198H292.5L259.8 258H26Z"/><path d="M62 322H225.1L192.4 382H26Z"/></g>
+      <path fill="#E3A83E" d="M402.5 20h4L188.5 420h-4Z"/>
+      <path fill="#F3EEE4" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
+    </symbol>
+  </defs>
+</svg>
 
-      <div class="scene scene-hero" data-scene="hero">
-        <div class="scene-inner">
-          <div class="hero">
-            <p class="eyebrow">ElaSystems · Websites, apps &amp; advertising · Detroit</p>
-            <h1 class="hero-title">
-              <span class="beat beat-1"><span>Most businesses don't have a traffic problem.</span></span>
-              <span class="beat beat-2"><span>They have a <em>system</em> problem.</span></span>
-            </h1>
-            <p class="hero-actions">
-              <a class="btn btn-gold" href="sms:+13133006898">Book a Call <span class="num">313-300-6898</span></a>
-              <a class="link-drive" href="#stop-bakery">Take the drive <span aria-hidden="true">↓</span></a>
-            </p>
-          </div>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/entry-m.webp"><img src="assets/posters/entry-d.webp" alt="Illustration: a dark storefront on a night street while traffic streams past" loading="lazy" decoding="async"></picture>
-        </div>
+<main id="main">
+  <!-- 1 · TRAFFIC → SYSTEM (hero). One canvas: long-exposure traffic that straightens into the E's three bars. -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero-stage">
+      <canvas class="traffic" aria-hidden="true"></canvas>
+      <div class="hero-copy">
+        <p class="eyebrow">ElaSystems <span aria-hidden="true">—</span> Detroit</p>
+        <h1 id="hero-title" class="hero-title">
+          <span class="h-traffic">Most businesses don't have a traffic problem.</span>
+          <span class="h-system">They have a <br><em>system</em> problem.</span>
+        </h1>
+        <p class="hero-sub">We build the website your customers see and the software your business runs on.</p>
+        <p class="hero-actions">
+          <a class="btn btn-gold btn-lg" href="sms:+13133006898" aria-label="Text ElaSystems at 313-300-6898">Text 313-300-6898</a>
+          <a class="link-quiet" href="tel:+13133006898">Call</a>
+          <a class="link-quiet" href="#work">See the work <span aria-hidden="true">↓</span></a>
+        </p>
       </div>
-
-      <div class="scene" data-scene="bakery">
-        <div class="scene-inner">
-          <article class="stop" id="stop-bakery" style="--face:'Bebas Neue';--accent:#E07A3E">
-            <p class="stop-meta"><span class="stop-n">Stop 01</span> 17032 W Warren Ave · Detroit</p>
-            <h2 class="stop-name" style="font-family:'Bebas Neue',var(--f-display);letter-spacing:.01em">Family Bakery</h2>
-            <p class="stop-line">Detroit's family-owned Lebanese bakery, since 1995. Menu, online ordering and catering requests, in English and in Arabic, right to left.</p>
-            <ul class="stop-built"><li>Menu</li><li>Online ordering</li><li>Catering requests</li><li>English / <span lang="ar">العربية</span></li><li>Call now</li></ul>
-            <a class="stop-link" href="https://familybakerydetroit.com" target="_blank" rel="noopener">Visit familybakerydetroit.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/bakery-m.webp"><img src="assets/posters/bakery-d.webp" alt="Illustration: the Family Bakery storefront lit at night, its real website in the window" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="barber">
-        <div class="scene-inner">
-          <article class="stop" id="stop-barber" style="--accent:#7FD1A2">
-            <p class="stop-meta"><span class="stop-n">Stop 02</span> 22140 Ford Rd · Dearborn Heights</p>
-            <h2 class="stop-name" style="font-family:'Syne',var(--f-display);font-weight:800;letter-spacing:-.03em;text-transform:none">Creative Style</h2>
-            <p class="stop-line">A premium barbershop. The site leads with the lookbook (real cuts from the chair) and keeps Book and Call in the header.</p>
-            <ul class="stop-built"><li>Lookbook</li><li>Services</li><li>Hours</li><li>Booking</li><li>Directions</li></ul>
-            <a class="stop-link" href="https://creativestylewiss.com" target="_blank" rel="noopener">Visit creativestylewiss.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/barber-m.webp"><img src="assets/posters/barber-d.webp" alt="Illustration: the Creative Style barbershop, barber pole turning, its real website in the window" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="popup">
-        <div class="scene-inner">
-          <article class="stop" id="stop-popup" style="--accent:#7DCEA0">
-            <p class="stop-meta"><span class="stop-n">Stop 03</span> Pop-up · Dearborn</p>
-            <h2 class="stop-name" style="font-family:'Montserrat',var(--f-display);font-weight:800;letter-spacing:-.02em">Big Wiss Matcha</h2>
-            <p class="stop-line">A founder-led matcha pop-up. The site sells the energy (the drinks, the pop-ups, the feed) and books events.</p>
-            <ul class="stop-built"><li>Flavors</li><li>Event booking</li><li>Instagram feed</li></ul>
-            <a class="stop-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">Visit bigwissmatcha.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/popup-m.webp"><img src="assets/posters/popup-d.webp" alt="Illustration: the Big Wiss Matcha pop-up canopy under string lights, its real website on the display board" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="cafe">
-        <div class="scene-inner">
-          <article class="stop" id="stop-cafe" style="--accent:#E2B25A">
-            <p class="stop-meta"><span class="stop-n">Stop 04</span> 6659 Middlebelt Rd · Garden City</p>
-            <h2 class="stop-name" style="font-family:'Anton',var(--f-display);letter-spacing:.005em">The Snug Mug</h2>
-            <p class="stop-line">A corner coffee shop. The menu, the pastries and the Honey Bear Latte up front, with directions one tap away.</p>
-            <ul class="stop-built"><li>Menu</li><li>Pastries</li><li>Catering</li><li>Our story</li><li>Directions</li></ul>
-            <a class="stop-link" href="https://thesnugmugbyally.com" target="_blank" rel="noopener">Visit thesnugmugbyally.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/cafe-m.webp"><img src="assets/posters/cafe-d.webp" alt="Illustration: The Snug Mug corner coffee shop with steam rising, its real website in the windows" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="funpark">
-        <div class="scene-inner">
-          <article class="stop" id="stop-funpark" style="--accent:#27F5FF">
-            <p class="stop-meta"><span class="stop-n">Stop 05</span> 30276 Plymouth Rd · Livonia</p>
-            <h2 class="stop-name" style="font-family:'Fredoka One',var(--f-display);letter-spacing:0;text-transform:none">Bounce It Up</h2>
-            <p class="stop-line">Livonia's indoor adventure park. Parents book the party, sign the waiver and check open-play pricing before they leave the house.</p>
-            <ul class="stop-built"><li>Party booking</li><li>Online waiver</li><li>Open-play pricing</li><li>Memberships</li><li>FAQ</li></ul>
-            <a class="stop-link" href="https://bounceituplivonia.com" target="_blank" rel="noopener">Visit bounceituplivonia.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/funpark-m.webp"><img src="assets/posters/funpark-d.webp" alt="Illustration: the Bounce It Up building outlined in neon, its real website at the entrance" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="billboard">
-        <div class="scene-inner">
-          <article class="stop" id="stop-billboard" style="--accent:#D94A52">
-            <p class="stop-meta"><span class="stop-n">Stop 06</span> I-75 S · online store</p>
-            <h2 class="stop-name" style="font-family:'Cormorant Garamond',var(--f-display);font-weight:600;letter-spacing:-.01em;text-transform:none">313 Apparel</h2>
-            <p class="stop-line">Shia streetwear built with purpose. It has no storefront (it's online), so on this route it's a billboard: a 48-design store with limited drops and custom commissions.</p>
-            <ul class="stop-built"><li>Online store</li><li>48 designs</li><li>Limited drops</li><li>Custom orders</li><li>Cart</li></ul>
-            <a class="stop-link" href="https://313apparelmi.com" target="_blank" rel="noopener">Visit 313apparelmi.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/billboard-m.webp"><img src="assets/posters/billboard-d.webp" alt="Illustration: a freeway billboard showing the real 313 Apparel website" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene" data-scene="mall">
-        <div class="scene-inner">
-          <article class="stop" id="stop-mall" style="--accent:#F0444B">
-            <p class="stop-meta"><span class="stop-n">Stop 07</span> Franklin Park Mall · 5001 Monroe St · Toledo, OH</p>
-            <h2 class="stop-name" style="font-family:'Oswald',var(--f-display);font-weight:600;letter-spacing:.01em">D'Moda Shoes</h2>
-            <p class="stop-line">A boutique shoe store in Franklin Park Mall, with a full online store: shop by style, check out, or pick up in store.</p>
-            <ul class="stop-built"><li>Online store</li><li>Categories</li><li>Cart</li><li>In-store pickup</li><li>Promotions</li></ul>
-            <a class="stop-link" href="https://dmodashoes.com" target="_blank" rel="noopener">Visit dmodashoes.com <span aria-hidden="true">↗</span></a>
-          </article>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/mall-m.webp"><img src="assets/posters/mall-d.webp" alt="Illustration: the D'Moda Shoes mall entrance with red display light, its real website in the storefront" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene scene-collection" data-scene="collection">
-        <div class="scene-inner">
-          <div class="collection">
-            <p class="eyebrow">The route so far</p>
-            <h2 class="collection-title">Seven businesses.<br>Seven systems.</h2>
-            <p class="collection-note">The storefronts on this route are illustrated. The websites in their windows are real, and live.</p>
-          </div>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/collection-m.webp"><img src="assets/posters/collection-d.webp" alt="Illustration: the whole route from above, seven lit storefronts along one gold line" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
-      <div class="scene scene-commerce" data-scene="commerce">
-        <div class="scene-inner">
-          <div class="commerce">
-            <p class="eyebrow">Back on W Warren Ave</p>
-            <h2 class="commerce-title">Your storefront's next.</h2>
-            <p class="commerce-line">Quick call. No pressure. Just clarity on how to grow your business.</p>
-            <p class="commerce-actions">
-              <a class="btn btn-gold" href="sms:+13133006898">Book a Free Consultation</a>
-              <a class="btn btn-line" href="tel:+13133006898">Call 313-300-6898</a>
-            </p>
-          </div>
-          <picture class="scene-poster"><source media="(max-width: 899px)" srcset="assets/posters/commerce-m.webp"><img src="assets/posters/commerce-d.webp" alt="Illustration: the dark storefront from the start, now lit in gold: Your storefront is next" loading="lazy" decoding="async"></picture>
-        </div>
-      </div>
-
+      <div class="hand-head" aria-hidden="true"><p class="work-title">Some of our work.</p><p class="work-note">No shared template. Each site has its own type, color and voice. Visit any of them live.</p></div>
+      <p class="system-line" aria-hidden="true">We build digital systems <br>that grow businesses.</p>
+      <figure class="hero-frame">
+        <picture>
+          <source media="(max-width: 899px)" srcset="assets/work/v/family-bakery-m-780.webp" width="780" height="1688">
+          <img src="assets/work/v/family-bakery-d-1600.webp" srcset="assets/work/v/family-bakery-d-960.webp 960w, assets/work/v/family-bakery-d-1600.webp 1600w, assets/work/v/family-bakery-d-2400.webp 2400w" sizes="(max-width: 899px) 100vw, (max-width: 1179px) 58vw, 56vw" width="1600" height="1000" alt="Family Bakery website, homepage screenshot" fetchpriority="high">
+        </picture>
+        <figcaption class="proj-cap hero-cap"><span class="proj-name">Family Bakery</span><a class="proj-link" href="https://familybakerydetroit.com" target="_blank" rel="noopener" aria-label="Visit Family Bakery's website (opens in a new tab)">Visit familybakerydetroit.com<i aria-hidden="true"></i></a></figcaption>
+      </figure>
     </div>
   </section>
 
-  <section class="services" id="services" aria-labelledby="services-title">
+  <!-- 2 · WORK. One frame; each site opens from a bar-shaped slit, is browsed, closes and streaks off. -->
+  <section class="work" id="work" aria-labelledby="work-title">
+    <div class="work-stage">
+      <header class="work-head">
+        <p class="eyebrow">Work</p>
+        <h2 id="work-title" class="work-title">Some of our work.</h2>
+        <p class="work-note">No shared template. Each site has its own type, color and voice. Visit any of them live.</p>
+      </header>
+      <ol class="work-list">
+        <li class="proj" style="--key:#C85F2A" data-slug="family-bakery" data-focus=".42">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://familybakerydetroit.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/family-bakery-mt-720.webp"><img data-src="assets/work/v/family-bakery-dt-1800.webp" width="1800" height="3750" alt="Family Bakery website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">Family Bakery</span><a class="proj-link" href="https://familybakerydetroit.com" target="_blank" rel="noopener" aria-label="Visit Family Bakery's website (opens in a new tab)">Visit familybakerydetroit.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#D71920" data-slug="dmoda-shoes" data-focus=".38">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://dmodashoes.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/dmoda-shoes-mt-720.webp"><img data-src="assets/work/v/dmoda-shoes-dt-1800.webp" width="1800" height="3750" alt="D’Moda Shoes website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">D’Moda Shoes</span><a class="proj-link" href="https://dmodashoes.com" target="_blank" rel="noopener" aria-label="Visit D’Moda Shoes' website (opens in a new tab)">Visit dmodashoes.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#1FC8D6" data-slug="bounce-it-up" data-focus=".4">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://bounceituplivonia.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/bounce-it-up-mt-720.webp"><img data-src="assets/work/v/bounce-it-up-dt-1800.webp" width="1800" height="3750" alt="Bounce It Up website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">Bounce It Up</span><a class="proj-link" href="https://bounceituplivonia.com" target="_blank" rel="noopener" aria-label="Visit Bounce It Up's website (opens in a new tab)">Visit bounceituplivonia.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#B69A3A" data-slug="snug-mug" data-focus=".4">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://thesnugmugbyally.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/snug-mug-mt-720.webp"><img data-src="assets/work/v/snug-mug-dt-1800.webp" width="1800" height="3750" alt="The Snug Mug website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">The Snug Mug</span><a class="proj-link" href="https://thesnugmugbyally.com" target="_blank" rel="noopener" aria-label="Visit The Snug Mug's website (opens in a new tab)">Visit thesnugmugbyally.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#941018" data-slug="313-apparel" data-focus=".44">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://313apparelmi.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/313-apparel-mt-720.webp"><img data-src="assets/work/v/313-apparel-dt-1800.webp" width="1800" height="3750" alt="313 Apparel website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">313 Apparel</span><a class="proj-link" href="https://313apparelmi.com" target="_blank" rel="noopener" aria-label="Visit 313 Apparel's website (opens in a new tab)">Visit 313apparelmi.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#7DCEA0" data-slug="big-wiss-matcha" data-focus=".4">
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://bigwissmatcha.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/big-wiss-matcha-mt-720.webp"><img data-src="assets/work/v/big-wiss-matcha-dt-1800.webp" width="1800" height="3750" alt="Big Wiss Matcha website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">Big Wiss Matcha</span><a class="proj-link" href="https://bigwissmatcha.com" target="_blank" rel="noopener" aria-label="Visit Big Wiss Matcha's website (opens in a new tab)">Visit bigwissmatcha.com<i aria-hidden="true"></i></a></p>
+        </li>
+        <li class="proj" style="--key:#2F6A47" data-slug="creative-style" data-focus=".5" data-still>
+          <div class="shot-wrap"><figure class="shot"><a class="proj-hit" href="https://creativestylewiss.com" target="_blank" rel="noopener" tabindex="-1" aria-hidden="true"></a><div class="shot-in"><picture><source media="(max-width: 899px)" data-srcset="assets/work/v/creative-style-m-780.webp"><img data-src="assets/work/v/creative-style-d-2400.webp" width="2400" height="1500" alt="Creative Style website, homepage screenshot" loading="lazy"></picture></div></figure></div>
+          <p class="proj-cap"><span class="proj-name">Creative Style</span><a class="proj-link" href="https://creativestylewiss.com" target="_blank" rel="noopener" aria-label="Visit Creative Style's website (opens in a new tab)">Visit creativestylewiss.com<i aria-hidden="true"></i></a></p>
+        </li>
+      </ol>
+      <p class="work-fine">Screenshots of the live sites. Visit them for the current version.</p>
+    </div>
+  </section>
+
+  <!-- 3 · WHAT WE BUILD -->
+  <section class="build" id="build" aria-labelledby="build-title">
     <div class="wrap">
       <p class="eyebrow">What we build</p>
-      <h2 id="services-title" class="section-title">Three systems.<br>One goal: growth.</h2>
-      <ol class="svc">
-        <li><span class="svc-mark" aria-hidden="true">A</span><h3>Websites</h3><p>High-converting websites designed to turn traffic into real leads. Built for speed, clarity, and conversion at every scroll.</p></li>
-        <li><span class="svc-mark" aria-hidden="true">B</span><h3>Apps</h3><p>Scalable app experiences built for usability, growth, and performance. From concept to deployment, engineered to scale.</p></li>
-        <li><span class="svc-mark" aria-hidden="true">C</span><h3>Advertising</h3><p>Performance-driven campaigns built to generate measurable business results. Every dollar tracked, optimized, and scaled.</p></li>
+      <h2 id="build-title" class="sec-title">The website.<br>And the system behind it.</h2>
+      <p class="sec-lead">The website is what customers see. Behind it: orders, bookings, payments, customer records. We build both, and connect them.</p>
+      <ul class="rows">
+        <li><i class="bar" aria-hidden="true"></i><h3>Websites</h3><p>Business sites, online stores, ordering and booking.</p></li>
+        <li><i class="bar" aria-hidden="true"></i><h3>Apps &amp; custom software</h3><p>Dashboards, customer portals, CRM, scheduling, payments and reporting.</p></li>
+        <li><i class="bar" aria-hidden="true"></i><h3>Automation &amp; AI tools</h3><p>Workflows that pass work between your tools, and AI-assisted tools for jobs that repeat.</p></li>
+        <li><i class="bar" aria-hidden="true"></i><h3>Advertising</h3><p>Ad campaigns, and the pages they send people to.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · HOW WE WORK -->
+  <section class="process" id="process" aria-labelledby="process-title">
+    <div class="wrap">
+      <p class="eyebrow">How we work</p>
+      <h2 id="process-title" class="sec-title">Business first. Then the build.</h2>
+      <ol class="steps">
+        <li><span class="step-n" aria-hidden="true">1</span><h3>Understand the need</h3><p>What should the site do? Where does the work get stuck? We start there, not with a feature list.</p></li>
+        <li><span class="step-n" aria-hidden="true">2</span><h3>Design all of it</h3><p>The look, the customer's path, and the tools behind it. Each has a reason to be there.</p></li>
+        <li><span class="step-n" aria-hidden="true">3</span><h3>Build for daily use</h3><p>We bring the parts together and refine the details before it goes live.</p></li>
       </ol>
     </div>
   </section>
 
-  <section class="why" id="why" aria-labelledby="why-title">
-    <div class="wrap why-grid">
-      <h2 id="why-title" class="why-title">We don't build things that look good.<br><span>We build systems that work.</span></h2>
-      <div class="why-body">
-        <p>ElaSystems builds digital systems that turn attention into customers, and customers into growth: every touchpoint, from first click to final conversion.</p>
-        <ol class="steps">
-          <li><b>Strategy</b> Map your goals, audience, and competitive landscape.</li>
-          <li><b>Build</b> Design and develop with performance at the core.</li>
-          <li><b>Optimize</b> Test, refine, and tune until every metric moves.</li>
-          <li><b>Scale</b> Amplify what works, grow without friction.</li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
+  <!-- 5 · CONTACT: the three bars return, locked -->
   <section class="contact" id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <p class="eyebrow">Get started</p>
-      <h2 id="contact-title" class="contact-title">Let's build a system that works.</h2>
-      <a class="contact-number" href="sms:+13133006898"><span class="sr-only">Text ElaSystems at </span>313-300-6898</a>
-      <p class="contact-actions">
-        <a class="btn btn-gold" href="sms:+13133006898">Book Your Free Consultation</a>
-        <a class="btn btn-line" href="tel:+13133006898">Call</a>
-        <a class="link-plain" href="mailto:elasystemdesign@gmail.com">elasystemdesign@gmail.com</a>
-      </p>
+    <div class="wrap contact-grid">
+      <div class="contact-bars" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="contact-body">
+        <p class="eyebrow">Contact <span aria-hidden="true">—</span> Detroit · 313</p>
+        <h2 id="contact-title" class="sec-title">Start with a text.</h2>
+        <p class="sec-lead">Tell us what the business does and what isn't working. A few lines is enough. Quick call, no pressure.</p>
+        <a class="number" href="sms:+13133006898" aria-label="Text ElaSystems at 313-300-6898">313-300-6898</a>
+        <p class="contact-actions">
+          <a class="btn btn-gold btn-lg" href="sms:+13133006898" aria-label="Text ElaSystems at 313-300-6898">Text us</a>
+          <a class="btn btn-line btn-lg" href="tel:+13133006898" aria-label="Call ElaSystems at 313-300-6898">Call</a>
+          <a class="btn btn-line btn-lg" href="mailto:elasystemdesign@gmail.com" aria-label="Email ElaSystems at elasystemdesign@gmail.com">Email</a>
+          <button class="btn btn-ghost btn-lg copy-num" type="button" hidden>Copy number</button>
+        </p>
+        <p class="contact-mail">elasystemdesign<wbr>@gmail.com · Detroit, Michigan</p>
+      </div>
     </div>
   </section>
 </main>
 
 <footer class="foot">
   <div class="wrap foot-grid">
-    <p class="foot-brand"><img src="assets/brand/es-mark-reversed.svg" alt="" width="66" height="40"> We build digital systems that grow businesses.</p>
-    <p class="foot-meta">Websites · Apps · Advertising · Detroit, MI</p>
-    <address class="foot-contact"><a href="sms:+13133006898">Text 313-300-6898</a> · <a href="tel:+13133006898">Call</a> · <a href="mailto:elasystemdesign@gmail.com">elasystemdesign@gmail.com</a></address>
-    <p class="foot-legal">© <span data-year>2026</span> ElaSystems · The route is illustrated; the client websites shown are real.</p>
+    <p class="foot-brand"><svg class="foot-mark" viewBox="10 20 660 400" aria-hidden="true"><use href="#es"/></svg><span>We build digital systems that grow businesses.</span></p>
+    <p class="foot-meta">Websites · Apps · Advertising — Detroit, MI</p>
+    <p class="foot-contact"><a href="sms:+13133006898">Text 313-300-6898</a> · <a href="tel:+13133006898">Call</a> · <a href="mailto:elasystemdesign@gmail.com">elasystemdesign@gmail.com</a></p>
+    <p class="foot-legal">Client work is shown as screenshots of live sites. © <span data-year>2026</span> ElaSystems · <a href="#top">Back to top <span aria-hidden="true">↑</span></a></p>
   </div>
 </footer>
-
-<nav class="routestrip" aria-label="Route stops">
-  <p class="rs-road" aria-live="off"><span class="rs-label">Now on</span> <b class="rs-now">W Warren Ave</b></p>
-  <ol class="rs-stops">
-    <li><a href="#stop-bakery" data-go="bakery"><i></i><span>W Warren · Family Bakery</span></a></li>
-    <li><a href="#stop-barber" data-go="barber"><i></i><span>Ford Rd · Creative Style</span></a></li>
-    <li><a href="#stop-popup" data-go="popup"><i></i><span>Dearborn · Big Wiss Matcha</span></a></li>
-    <li><a href="#stop-cafe" data-go="cafe"><i></i><span>Middlebelt · The Snug Mug</span></a></li>
-    <li><a href="#stop-funpark" data-go="funpark"><i></i><span>Plymouth · Bounce It Up</span></a></li>
-    <li><a href="#stop-billboard" data-go="billboard"><i></i><span>I-75 S · 313 Apparel</span></a></li>
-    <li><a href="#stop-mall" data-go="mall"><i></i><span>Monroe St · D'Moda Shoes</span></a></li>
-  </ol>
-</nav>
-
 </body>
 </html>

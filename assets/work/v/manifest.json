@@ -1,0 +1,366 @@
+{
+  "creative-style": {
+    "creative-style-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 52
+    },
+    "creative-style-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 98
+    },
+    "creative-style-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 153
+    },
+    "creative-style-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 65
+    },
+    "creative-style-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 197
+    },
+    "creative-style-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 333
+    },
+    "creative-style-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 32
+    },
+    "creative-style-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 71
+    },
+    "creative-style-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 100
+    },
+    "creative-style-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 244
+    }
+  },
+  "big-wiss-matcha": {
+    "big-wiss-matcha-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 21
+    },
+    "big-wiss-matcha-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 39
+    },
+    "big-wiss-matcha-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 63
+    },
+    "big-wiss-matcha-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 48
+    },
+    "big-wiss-matcha-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 136
+    },
+    "big-wiss-matcha-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 220
+    },
+    "big-wiss-matcha-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 15
+    },
+    "big-wiss-matcha-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 34
+    },
+    "big-wiss-matcha-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 79
+    },
+    "big-wiss-matcha-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 189
+    }
+  },
+  "dmoda-shoes": {
+    "dmoda-shoes-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 26
+    },
+    "dmoda-shoes-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 52
+    },
+    "dmoda-shoes-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 90
+    },
+    "dmoda-shoes-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 33
+    },
+    "dmoda-shoes-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 99
+    },
+    "dmoda-shoes-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 170
+    },
+    "dmoda-shoes-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 18
+    },
+    "dmoda-shoes-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 44
+    },
+    "dmoda-shoes-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 50
+    },
+    "dmoda-shoes-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 122
+    }
+  },
+  "family-bakery": {
+    "family-bakery-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 54
+    },
+    "family-bakery-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 128
+    },
+    "family-bakery-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 231
+    },
+    "family-bakery-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 44
+    },
+    "family-bakery-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 151
+    },
+    "family-bakery-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 286
+    },
+    "family-bakery-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 56
+    },
+    "family-bakery-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 160
+    },
+    "family-bakery-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 98
+    },
+    "family-bakery-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 263
+    }
+  },
+  "snug-mug": {
+    "snug-mug-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 23
+    },
+    "snug-mug-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 46
+    },
+    "snug-mug-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 75
+    },
+    "snug-mug-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 33
+    },
+    "snug-mug-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 101
+    },
+    "snug-mug-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 174
+    },
+    "snug-mug-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 24
+    },
+    "snug-mug-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 54
+    },
+    "snug-mug-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 51
+    },
+    "snug-mug-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 126
+    }
+  },
+  "bounce-it-up": {
+    "bounce-it-up-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 36
+    },
+    "bounce-it-up-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 65
+    },
+    "bounce-it-up-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 104
+    },
+    "bounce-it-up-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 72
+    },
+    "bounce-it-up-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 200
+    },
+    "bounce-it-up-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 325
+    },
+    "bounce-it-up-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 32
+    },
+    "bounce-it-up-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 70
+    },
+    "bounce-it-up-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 80
+    },
+    "bounce-it-up-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 178
+    }
+  },
+  "313-apparel": {
+    "313-apparel-d-960.webp": {
+      "w": 960,
+      "h": 600,
+      "kb": 16
+    },
+    "313-apparel-d-1600.webp": {
+      "w": 1600,
+      "h": 1000,
+      "kb": 29
+    },
+    "313-apparel-d-2400.webp": {
+      "w": 2400,
+      "h": 1500,
+      "kb": 49
+    },
+    "313-apparel-dt-560.webp": {
+      "w": 560,
+      "h": 1167,
+      "kb": 27
+    },
+    "313-apparel-dt-1200.webp": {
+      "w": 1200,
+      "h": 2500,
+      "kb": 72
+    },
+    "313-apparel-dt-1800.webp": {
+      "w": 1800,
+      "h": 3750,
+      "kb": 122
+    },
+    "313-apparel-m-390.webp": {
+      "w": 390,
+      "h": 844,
+      "kb": 14
+    },
+    "313-apparel-m-780.webp": {
+      "w": 780,
+      "h": 1688,
+      "kb": 33
+    },
+    "313-apparel-mt-360.webp": {
+      "w": 360,
+      "h": 2400,
+      "kb": 44
+    },
+    "313-apparel-mt-720.webp": {
+      "w": 720,
+      "h": 4800,
+      "kb": 98
+    }
+  }
+}
