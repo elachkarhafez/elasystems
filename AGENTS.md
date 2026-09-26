@@ -6,10 +6,14 @@ in CLAUDE.md). Keep it to 50–120 useful lines.
 ## Project
 
 - ElaSystems (elasystems.com): Detroit studio for websites, apps and business systems.
-- **Flagship build (branch `flagship`)**: Next.js 16 (App Router, Turbopack) + React 19 + GSAP/ScrollTrigger + Lenis.
-  No WebGL: depth is CSS 3D. The previous static V Max site is live on GitHub Pages from `main` (commit 42f4881).
-- The contact form needs a server route (`/api/contact`), so this build must be hosted on a Node platform
-  (e.g. Vercel), not GitHub Pages. Moving the domain is an owner decision; never deploy production unasked.
+- **Source: branch `flagship`** — Next.js 16 (App Router, Turbopack) + React 19 + GSAP/ScrollTrigger + Lenis.
+  No WebGL: depth is CSS 3D. **Live: `main` holds only the generated static export** (GitHub Pages, legacy build
+  from `main` root). Published 2026-09-26 with owner authorization (main c218eed ← flagship 3637f05).
+- Release: `STATIC_EXPORT=1 npx next build` → `out/` (+ `.nojekyll`, and `ElaSystems.html`, `robots.txt`,
+  `sitemap.xml` carried from main) → replace main's tree with `out/` in a separate worktree → commit → push.
+  Never deploy production without the owner's explicit go-ahead in the current conversation.
+- The static build has no server: the contact form hands the written message to SMS/email
+  (`NEXT_PUBLIC_FORM=handoff`). Real sending (`/api/contact`, Resend + Twilio) needs a Node host such as Vercel.
 
 ## Concept
 
