@@ -1,0 +1,108 @@
+/* ═══════════════════════════ CONSOLES (1em = 10 design px at 1280 wide) ═══════════════════════════ */
+.cs { position: absolute; inset: 0; overflow: hidden; font-family: var(--f); font-size: calc(100cqw / 128); line-height: 1.35; text-align: left; }
+.cs * { box-sizing: border-box; }
+
+/* D’Moda Jarvis — quiet graphite, a warm accent, dense but calm */
+.jv { display: grid; grid-template-columns: 22em 1fr; background: #0F1216; color: #E9E6DF; }
+.jv-side { display: flex; flex-direction: column; gap: .4em; padding: 2.6em 1.8em; border-right: .1em solid #1E242C; background: #0B0E12; }
+.jv-brand { margin-bottom: 2em; padding-left: .8em; font-size: 1.8em; font-weight: 800; font-stretch: 90%; letter-spacing: .02em; }
+.jv-brand span { color: #E3A83E; }
+.jv-nav { display: flex; align-items: center; gap: 1em; padding: .85em 1em; border-radius: .9em; font-size: 1.4em; color: #8E96A3; }
+.jv-nav svg { width: 1.2em; height: 1.2em; }
+.jv-nav.on { background: #1A2029; color: #F3EEE4; }
+.jv-nav i { margin-left: auto; min-width: 1.6em; height: 1.6em; padding: 0 .45em; border-radius: 1em; background: #E3A83E; color: #0F1216; font-style: normal; font-size: .85em; font-weight: 800; display: grid; place-items: center; }
+.jv-ro { margin-top: auto; padding: 1.2em 1em 0; border-top: .1em solid #1E242C; font-size: 1.1em; color: #6B7482; line-height: 1.45; }
+.jv-main { padding: 2.6em 3em; display: flex; flex-direction: column; gap: 2em; min-width: 0; }
+.jv-head { display: flex; justify-content: space-between; align-items: flex-end; }
+.jv-k { font-size: 1.1em; letter-spacing: .16em; text-transform: uppercase; color: #8E96A3; font-weight: 600; }
+.jv-head h4 { margin-top: .3em; font-size: 2.8em; font-weight: 750; font-stretch: 104%; letter-spacing: -.015em; }
+.jv-sync { font-size: 1.25em; color: #59C28A; }
+.jv-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4em; }
+.jv-kpi { padding: 1.6em 1.8em; border-radius: 1.4em; background: #151A21; border: .1em solid #1E242C; }
+.jv-kpi p { font-size: 1.2em; color: #8E96A3; }
+.jv-kpi b { display: block; margin-top: .3em; font-size: 2.8em; font-weight: 750; font-stretch: 104%; letter-spacing: -.01em; }
+.jv-kpi i { font-style: normal; font-size: 1.2em; color: #59C28A; }
+.jv-kpi.is-warn i { color: #E3A83E; }
+.jv-row { display: grid; grid-template-columns: 1.15fr 1fr; gap: 1.6em; min-height: 0; flex: 1; }
+.jv-plan, .jv-chart { padding: 2em; border-radius: 1.6em; background: #151A21; border: .1em solid #1E242C; min-width: 0; }
+.jv-task { display: grid; grid-template-columns: 2.6em 1fr auto; gap: 1.2em; align-items: start; margin-top: 1.4em; padding-top: 1.4em; border-top: .1em solid #1E242C; }
+.jv-task:first-of-type { border-top: 0; padding-top: 0; }
+.jv-tick { display: grid; place-items: center; width: 2.4em; height: 2.4em; border-radius: 50%; border: .15em solid #3A4350; color: transparent; transition: background-color .4s, border-color .4s, color .4s; }
+.jv-tick svg { width: 1.4em; height: 1.4em; }
+.jv-task.is-done .jv-tick { background: #E3A83E; border-color: #E3A83E; color: #0F1216; }
+.jv-task b { font-size: 1.5em; font-weight: 650; }
+.jv-task p { margin-top: .2em; font-size: 1.25em; color: #8E96A3; }
+.jv-task em { font-style: normal; padding: .45em .9em; border-radius: 2em; background: #1E2530; font-size: 1.05em; color: #C9CED8; white-space: nowrap; }
+.jv-task:nth-of-type(3) em { background: rgba(227, 168, 62, .15); color: #E3A83E; }
+.jv-bars { display: flex; align-items: flex-end; gap: .7em; height: 13em; margin-top: 1.6em; }
+.jv-bars i { flex: 1; border-radius: .4em .4em 0 0; background: #2A323E; }
+.jv-bars i.hi { background: linear-gradient(#F2C66A, #C98A24); }
+.jv-ask { display: flex; flex-direction: column; gap: .8em; margin-top: 1.8em; }
+.jv-ask-q { align-self: flex-end; padding: .9em 1.3em; border-radius: 1.3em 1.3em .3em 1.3em; background: #26303D; font-size: 1.3em; }
+.jv-ask-a { padding: 1em 1.3em; border-radius: 1.3em 1.3em 1.3em .3em; background: #1B212A; border: .1em solid #2A323E; font-size: 1.3em; color: #C9CED8; }
+.jv-ask-a b { color: #E3A83E; margin-right: .4em; }
+.jv-ask-a i { font-style: normal; margin-left: .4em; padding: .1em .6em; border-radius: 1em; background: #26303D; font-size: .85em; color: #8E96A3; }
+
+/* Bounce It Up — their night navy and cyan, built for a busy front desk */
+.bu { background: #07152B; color: #EAF6FF; padding: 2.4em 3em; display: grid; grid-template-rows: auto auto 1fr; gap: 2em; }
+.bu-top { display: flex; align-items: center; gap: 1.6em; }
+.bu-top b { font-size: 2.2em; font-weight: 800; }
+.bu-top b span { color: #27F5FF; }
+.bu-top em { font-style: normal; padding: .4em .9em; border-radius: .6em; background: #10284A; font-size: 1.1em; letter-spacing: .14em; text-transform: uppercase; color: #8FB3D9; }
+.bu-top nav { display: flex; gap: .6em; margin-left: 2em; }
+.bu-top nav span { padding: .8em 1.4em; border-radius: 1em; font-size: 1.35em; color: #8FB3D9; }
+.bu-top nav span.on { background: #12305A; color: #fff; }
+.bu-user { margin-left: auto; font-size: 1.3em; color: #8FB3D9; }
+.bu-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4em; }
+.bu-kpis > div { padding: 1.6em 1.8em; border-radius: 1.4em; background: #0C2140; border: .1em solid #163A66; }
+.bu-kpis p { font-size: 1.2em; color: #8FB3D9; }
+.bu-kpis b { display: block; margin-top: .2em; font-size: 3em; font-weight: 800; }
+.bu-kpis > div:nth-child(2) b { color: #27F5FF; }
+.bu-kpis > div:nth-child(3) b { color: #FF9A3C; }
+.bu-sched { position: relative; display: grid; grid-template-columns: 1fr; gap: 1em; align-content: start; padding: 1.8em 2em; border-radius: 1.6em; background: #0C2140; border: .1em solid #163A66; grid-column: 1; }
+.bu-hours { display: flex; justify-content: space-between; margin-left: 13em; font-size: 1.15em; color: #6F92BA; }
+.bu-room { display: grid; grid-template-columns: 12em 1fr; gap: 1em; align-items: center; }
+.bu-room p { font-size: 1.3em; color: #BFD6EE; }
+.bu-lane { position: relative; height: 4.2em; border-radius: 1em; background: #0A1B35; }
+.bu-block { position: absolute; top: .5em; bottom: .5em; display: flex; align-items: center; padding: 0 1.1em; border-radius: .8em; background: linear-gradient(90deg, #FF7A00, #FF9A3C); color: #1A0D00; font-size: 1.2em; font-weight: 700; white-space: nowrap; overflow: hidden; }
+.bu-room:nth-of-type(4) .bu-block { background: linear-gradient(90deg, #1FC8D6, #27F5FF); color: #04202A; }
+.bu-room:last-of-type .bu-block { background: rgba(39, 245, 255, .12); color: #8FE9F0; font-weight: 600; }
+.bu-now { position: absolute; top: 4.2em; bottom: 1.4em; width: .2em; margin-left: calc(13em + 2em); background: #FF4D6D; }
+.bu-now i { position: absolute; top: -1.8em; left: 50%; transform: translateX(-50%); padding: .1em .6em; border-radius: .5em; background: #FF4D6D; color: #fff; font-style: normal; font-size: 1em; font-weight: 700; }
+.bu-list { position: absolute; right: 3em; top: 18.6em; width: 34em; padding: 1.8em; border-radius: 1.6em; background: #0E2749; border: .1em solid #1C4A80; box-shadow: 0 2em 4em rgba(0, 0, 0, .35); }
+.bu-k { font-size: 1.1em; letter-spacing: .14em; text-transform: uppercase; color: #8FB3D9; font-weight: 700; margin-bottom: .8em; }
+.bu-guest { display: flex; justify-content: space-between; padding: .9em 0; border-top: .1em solid #163A66; font-size: 1.35em; }
+.bu-guest em { font-style: normal; color: #8FB3D9; transition: color .4s; }
+.bu-guest.is-in em { color: #27F5FF; font-weight: 700; }
+.bu .bu-sched { margin-right: 37em; }
+
+/* Lead flow — ElaSystems' own light, precise, gold only for what just happened */
+.lf { background: #F5F2EC; color: #0B1220; padding: 2.4em 3em; display: grid; grid-template-rows: auto 1fr auto; gap: 1.8em; }
+.lf-top { display: flex; align-items: baseline; gap: 1.4em; }
+.lf-top b { font-size: 2.4em; font-weight: 800; font-stretch: 104%; }
+.lf-top span { font-size: 1.3em; color: #6B7280; }
+.lf-board { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4em; min-height: 0; }
+.lf-col { padding: 1.4em; border-radius: 1.4em; background: #ECE7DE; display: flex; flex-direction: column; gap: 1em; }
+.lf-col > p { display: flex; justify-content: space-between; font-size: 1.25em; font-weight: 700; letter-spacing: .04em; color: #4B5563; }
+.lf-col > p i { font-style: normal; color: #9CA3AF; }
+.lf-card { padding: 1.3em 1.4em; border-radius: 1.1em; background: #fff; box-shadow: 0 .1em .3em rgba(11, 18, 32, .06); }
+.lf-card b { display: block; font-size: 1.4em; }
+.lf-card span { font-size: 1.2em; color: #6B7280; }
+.lf-card.is-hot { box-shadow: 0 0 0 .2em #E3A83E, 0 1em 2.4em rgba(138, 90, 18, .18); }
+.lf-card em { display: inline-block; margin-top: .6em; padding: .3em .8em; border-radius: 1em; background: rgba(227, 168, 62, .18); color: #8A5A12; font-style: normal; font-size: 1.1em; font-weight: 700; }
+.lf-auto { display: grid; grid-template-columns: auto repeat(3, 1fr); gap: 1.6em; align-items: center; padding: 1.6em 2em; border-radius: 1.4em; background: #0B1220; color: #F3EEE4; }
+.lf-k { font-size: 1.1em; letter-spacing: .14em; text-transform: uppercase; color: #8E9AAD; font-weight: 700; }
+.lf-step { display: flex; gap: 1em; align-items: flex-start; opacity: .45; transition: opacity .4s; }
+.lf-step span { flex: none; width: 1.2em; height: 1.2em; margin-top: .35em; border-radius: 50%; border: .15em solid #8E9AAD; transition: background-color .4s, border-color .4s; }
+.lf-step.is-done { opacity: 1; }
+.lf-step.is-done span { background: #E3A83E; border-color: #E3A83E; }
+.lf-step b { font-size: 1.35em; }
+.lf-step p { font-size: 1.15em; color: #8E9AAD; }
+.lf-form { position: relative; padding: 2.4em; border-radius: 1.8em; background: #fff; color: #0B1220; box-shadow: 0 3em 6em -2em rgba(11, 18, 32, .35); font-size: calc(100cqw / 42); }
+.lf-form .lf-k { color: #8A5A12; }
+.lf-form-t { display: block; margin-top: .4em; font-size: 2.2em; font-weight: 800; font-stretch: 104%; line-height: 1.1; }
+.lf-form label { display: block; margin-top: 1.4em; padding-bottom: .8em; border-bottom: .1em solid #E5E0D6; }
+.lf-form label span { display: block; font-size: 1.1em; color: #6B7280; }
+.lf-form label i { display: block; margin-top: .3em; font-style: normal; font-size: 1.5em; }
+.lf-send { display: inline-block; margin-top: 2em; padding: 1em 2.2em; border-radius: .8em; background: #0B1220; color: #F3EEE4; font-size: 1.4em; font-weight: 700; transition: background-color .4s, color .4s; }
+.lf-form.is-sent .lf-send { background: #E3A83E; color: #0B1220; }

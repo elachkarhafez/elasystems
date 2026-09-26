@@ -1,0 +1,39 @@
+/* ═══════════════════════════ WORLD 02 — APPS (warm sand; each app brings its own light) ═══════════════════════════ */
+.ap-scene { position: relative; height: 100vh; overflow: hidden; background: var(--bg); color: var(--ink3); }
+.ap-scene.is-dark { color: #F1ECE2; }
+.ap-scene::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 70% at 66% 52%, color-mix(in oklab, var(--acc) 16%, transparent), transparent 70%); }
+.ap-stage { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); align-items: center; gap: 24px; padding: 90px var(--gut) 40px; }
+.ap-copy { position: relative; z-index: 3; max-width: 440px; }
+.ap-kind { color: var(--acc); }
+.ap-name { margin-top: 14px; font-weight: 790; font-stretch: 108%; font-size: clamp(40px, 4.6vw, 80px); line-height: .95; letter-spacing: -.03em; }
+.ap-steps { margin-top: 34px; border-top: 1px solid color-mix(in oklab, currentColor 18%, transparent); }
+.ap-step { display: grid; grid-template-columns: 38px 1fr; gap: 6px; padding: 16px 0; border-bottom: 1px solid color-mix(in oklab, currentColor 18%, transparent); opacity: .38; transition: opacity .5s var(--ease); }
+.ap-step.is-on { opacity: 1; }
+.ap-step-n { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--acc); padding-top: 4px; }
+.ap-step b { font-size: 19px; font-weight: 700; font-stretch: 106%; }
+.ap-step p { margin-top: 4px; max-height: 0; overflow: hidden; font-size: 15.5px; line-height: 1.5; opacity: .78; transition: max-height .6s var(--ease); }
+.ap-step.is-on p { max-height: 5em; }
+.ap-rig { position: relative; height: min(78vh, 740px); display: grid; place-items: center; transform-style: preserve-3d; perspective: 1600px; }
+.ap-phone { position: absolute; width: min(20vw, calc(min(78vh, 740px) * .45)); will-change: transform; }
+
+@media (max-width: 899px) {
+  .ap-scene { height: auto; overflow: visible; padding: 80px 0 90px; }
+  .ap-stage { display: flex; flex-direction: column; align-items: stretch; gap: 34px; padding: 0 var(--gut); }
+  .ap-step { opacity: 1; }
+  .ap-step p { max-height: none; }
+  .ap-rig { height: auto; display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 calc(var(--gut) * -1); padding: 10px var(--gut) 24px; perspective: none; scrollbar-width: none; }
+  .ap-rig::-webkit-scrollbar { display: none; }
+  .ap-phone { position: relative; flex: none; width: 64vw; scroll-snap-align: center; }
+}
+
+/* intro: the three concepts in hand */
+.ap-aside { position: relative; height: min(72vh, 660px); }
+.ap-aside-p { position: absolute; top: 50%; width: min(14vw, calc(min(72vh, 660px) * .4)); }
+.ap-aside-1 { left: 4%; transform: translateY(-44%) rotate(-6deg); }
+.ap-aside-2 { left: 32%; z-index: 2; transform: translateY(-52%); }
+.ap-aside-3 { left: 60%; transform: translateY(-44%) rotate(6deg); }
+@media (max-width: 899px) {
+  .ap-aside { height: 108vw; }
+  .ap-aside-p { width: 36vw; }
+  .ap-aside-1 { left: 0; } .ap-aside-2 { left: 30%; } .ap-aside-3 { left: 60%; }
+}

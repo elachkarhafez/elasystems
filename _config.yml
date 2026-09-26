@@ -1,8 +1,0 @@
-# GitHub Pages (legacy Jekyll build): publish the site only, not the project's working files.
-exclude:
-  - docs/
-  - tools/
-  - AGENTS.md
-  - CLAUDE.md
-  - .creative-web-os/
-  - .creative-web/

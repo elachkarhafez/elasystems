@@ -8,3 +8,12 @@
 .creative-web/research/
 tools/.build/
 .claude/
+
+# flagship: raw captures + build output
+.captures/
+node_modules/
+.next/
+out/
+.env*.local
+.vercel
+*.tsbuildinfo
