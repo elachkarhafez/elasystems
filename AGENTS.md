@@ -8,8 +8,9 @@ in CLAUDE.md). Keep it to 50–120 useful lines.
 - ElaSystems (elasystems.com): Detroit studio for websites, apps and business systems.
 - **Source: branch `flagship`** — Next.js 16 (App Router, Turbopack) + React 19 + GSAP/ScrollTrigger + Lenis.
   No WebGL: depth is CSS 3D. **Live: `main` holds only the generated static export** (GitHub Pages, legacy build
-  from `main` root). Latest publish 2026-09-27 with owner authorization (main 927512c ← flagship a759c98):
-  black & gold marble (`components/Marble.tsx`, heartbeat `lib/beat.ts`); Monarch Urgent Care + Express Poultry & Fish
+  from `main` root). Latest publish 2026-09-27 with owner authorization (main fb14bc0 ← flagship 7b33e52):
+  fixed black-quartz stone with gold seeping from the fissures (`components/Marble.tsx`: painted once, only the gold
+  glows; heartbeat `lib/beat.ts`; the owner found a moving background dizzying, so keep it still); Monarch Urgent Care + Express Poultry & Fish
   replaced The Fudge Fix and Rise at the owner's request (don't reintroduce them).
 - Release: `STATIC_EXPORT=1 npx next build` → `out/` (+ `.nojekyll`, and `ElaSystems.html`, `robots.txt`,
   `sitemap.xml` carried from main) → replace main's tree with `out/` in a separate worktree → commit → push.
