@@ -31,7 +31,7 @@ export type Site = {
 export const SITES: Site[] = [
   { slug: 'monarch-urgent-care', name: 'Monarch Urgent Care', kind: 'Walk-in clinic · Allen Park', line: 'Compassionate care when you need it.', tint: '#B8923A', ink: '#8A6A1E' },
   { slug: 'dmoda-shoes', name: 'D’Moda Shoes', kind: 'Boutique footwear, online store', line: 'Every outfit begins at the shoes.', url: 'https://dmodashoes.com', tint: '#D71920', ink: '#B3141A' },
-  { slug: 'express-poultry-fish', name: 'Express Poultry & Fish', kind: 'Fish, halal poultry & Chester’s Chicken', line: 'Two menus, one Dearborn Heights original.', tint: '#1E2E55', ink: '#C9A227', story: true },
+  { slug: 'express-poultry-fish', name: 'Express Poultry & Fish', kind: 'Fish, zabiha halal chicken & Chester’s', line: 'Pick your fish from the case — we clean it, fry it or grill it.', tint: '#1E4FA0', ink: '#E8641C', story: true },
   { slug: 'snug-mug', name: 'The Snug Mug', kind: 'Corner coffee shop', line: 'Your new corner coffee shop.', url: 'https://thesnugmugbyally.com', tint: '#B69A3A', ink: '#7C6421' },
   { slug: 'family-bakery', name: 'Family Bakery', kind: 'Middle Eastern bakery, English & Arabic', line: 'Detroit’s family-owned Middle Eastern bakery.', url: 'https://familybakerydetroit.com', tint: '#C85F2A', ink: '#9E4719' },
 ];

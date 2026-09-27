@@ -6,7 +6,7 @@ import fs from 'node:fs';
 
 const SITES = {
   'monarch-urgent-care': 'https://monarch-urgent-care.vercel.app/',
-  'express-poultry-fish': 'https://express-poultry-fish.vercel.app/',
+  'express-poultry-fish': 'https://expresspoultryandfish.vercel.app/',
   'snug-mug': 'https://thesnugmugbyally.com/',
   'dmoda-shoes': 'https://dmodashoes.com/',
   'family-bakery': 'https://familybakerydetroit.com/',

@@ -148,6 +148,8 @@ export default function Experience() {
     phaseRef.current = 'opening';
     setPhase('opening');
     dispatchEvent(new Event('marble:flash'));
+    // the stone gives the E its gold: light runs back along the veins to where the bars will stand
+    { const b1 = geo.hub.bars[1]; dispatchEvent(new CustomEvent('marble:feed', { detail: { x: (b1.x + b1.w * 0.45) / geo.vw, y: 1 - (b1.y + b1.h / 2) / geo.vh } })); }
     idle.current?.kill();
     gsap.killTweensOf(tilt.current);
     const H = geo.hub;
@@ -177,6 +179,15 @@ export default function Experience() {
       const f = fit(introRects.bars[i], H.bars[i]);
       tl.to(b, { y: f.y + (i - 1) * geo.vh * 0.045, duration: 0.4, ease: 'power2.out' }, 0.2 + i * 0.04)
         .to(b, { x: 0, y: 0, scaleX: 1, scaleY: 1, duration: 0.95, ease: 'expo.inOut' }, 0.5 + i * 0.06);
+    });
+    // as they travel the bars cool to bronze, then molten gold runs into each one from the stone
+    tl.to('.gate-dim', { opacity: 0.78, duration: 0.35, ease: 'power1.out' }, 0.25)
+      .set('.gate-dim', { clipPath: 'inset(0 0 0 0%)' }, 0)
+      .set('.gate-front', { opacity: 1, xPercent: -100 }, 0.95);
+    [0, 1, 2].forEach((i) => {
+      tl.to(`.gate-${i} .gate-dim`, { clipPath: 'inset(0 0 0 100%)', duration: 0.6, ease: 'power2.inOut' }, 0.95 + i * 0.09)
+        .to(`.gate-${i} .gate-front`, { xPercent: 480, duration: 0.6, ease: 'power2.inOut' }, 0.95 + i * 0.09)
+        .to(`.gate-${i} .gate-front`, { opacity: 0, duration: 0.15 }, 1.45 + i * 0.09);
     });
     tl.to('.gate-word', { clipPath: 'inset(0 0% 0 0)', duration: 0.7, ease: 'expo.out', stagger: 0.07 }, 1.3)
       .to('.gate-line', { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', stagger: 0.07 }, 1.45);
@@ -428,7 +439,7 @@ export default function Experience() {
                 <span className="gate-inner" aria-hidden="true">
                   <span className="gate-halo" data-pulse="0.14,0.62" />
                   <span className="gate-depth"><i /><i /><i /><i /></span>
-                  <span className="gate-face"><span className="gate-sheen" /></span>
+                  <span className="gate-face"><span className="gate-sheen" /><span className="gate-dim" /><span className="gate-front" /></span>
                   <span className="gate-word">{p.word}</span>
                 </span>
                 <span className="gate-line" aria-hidden="true">{p.line}</span>
