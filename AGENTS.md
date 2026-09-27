@@ -8,7 +8,9 @@ in CLAUDE.md). Keep it to 50–120 useful lines.
 - ElaSystems (elasystems.com): Detroit studio for websites, apps and business systems.
 - **Source: branch `flagship`** — Next.js 16 (App Router, Turbopack) + React 19 + GSAP/ScrollTrigger + Lenis.
   No WebGL: depth is CSS 3D. **Live: `main` holds only the generated static export** (GitHub Pages, legacy build
-  from `main` root). Published 2026-09-26 with owner authorization (main c218eed ← flagship 3637f05).
+  from `main` root). Latest publish 2026-09-27 with owner authorization (main 927512c ← flagship a759c98):
+  black & gold marble (`components/Marble.tsx`, heartbeat `lib/beat.ts`); Monarch Urgent Care + Express Poultry & Fish
+  replaced The Fudge Fix and Rise at the owner's request (don't reintroduce them).
 - Release: `STATIC_EXPORT=1 npx next build` → `out/` (+ `.nojekyll`, and `ElaSystems.html`, `robots.txt`,
   `sitemap.xml` carried from main) → replace main's tree with `out/` in a separate worktree → commit → push.
   Never deploy production without the owner's explicit go-ahead in the current conversation.
@@ -30,7 +32,8 @@ concept work), Systems (graphite, sample data), Contact ("the core", dark + gold
 - Build: `npx next build`. Typecheck: `npx tsc --noEmit -p .`
 - QA captures: `URL=http://localhost:3030/ node tools/shots.mjs <label> <w> <h> "<plan>" [--reduced]`
   (plan: intro, open:ms, wait:ms, hover:i, enter:world, y:fraction, px:y, back, shot:name; `HASH=#apps` deep links).
-- Client captures: `tools/capture.mjs`, `tools/capture-story.mjs` → `.captures/` → WebP in `public/work/`.
+- Client captures: `tools/capture.mjs` (long pages) or `tools/capture-story.mjs` (frames at depths) → `.captures/` →
+  `node tools/export-work.mjs page <slug>` or `frames <slug> d:0,1,4 m:0,1,5` → WebP in `public/work/`.
 - Tile-back art: `node tools/hub-preview.mjs`. Share image: `node tools/og.mjs` → `public/brand/og.jpg`.
 
 ## Important business rules
