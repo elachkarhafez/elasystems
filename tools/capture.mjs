@@ -5,9 +5,8 @@ import { chromium } from 'file:///C:/Users/hafez/creative-web-os/node_modules/pl
 import fs from 'node:fs';
 
 const SITES = {
-  'fudge-fix': 'https://the-fudge-fix.vercel.app/',
-  'rise': 'https://rise-iia-site.vercel.app/',
-  'rise-perk': 'https://rise-iia-site-1.vercel.app/',
+  'monarch-urgent-care': 'https://monarch-urgent-care.vercel.app/',
+  'express-poultry-fish': 'https://express-poultry-fish.vercel.app/',
   'snug-mug': 'https://thesnugmugbyally.com/',
   'dmoda-shoes': 'https://dmodashoes.com/',
   'family-bakery': 'https://familybakerydetroit.com/',

@@ -9,9 +9,9 @@ export function Previews({ active }: { active: number }) {
   return (
     <div className="pv" data-active={active}>
       <div className={`pv-scene pv-web ${active === 0 ? 'is-on' : ''}`}>
-        <Display className="pv-display" shot={{ src: '/work/fudge-fix-f1-1600.webp', sizes: '40vw', alt: '', eager: true }} />
-        <Phone className="pv-phone" dark shot={{ src: '/work/fudge-fix-mf0-720.webp', sizes: '160px', alt: '' }} />
-        <span className="pv-cap label">The Fudge Fix · desktop &amp; mobile</span>
+        <Display className="pv-display" shot={{ src: '/work/monarch-urgent-care-d-1600.webp', sizes: '40vw', alt: '', eager: true }} />
+        <Phone className="pv-phone" dark shot={{ src: '/work/monarch-urgent-care-m-780.webp', sizes: '160px', alt: '' }} />
+        <span className="pv-cap label">Monarch Urgent Care · desktop &amp; mobile</span>
       </div>
       <div className={`pv-scene pv-apps ${active === 1 ? 'is-on' : ''}`}>
         <Phone className="pv-a pv-a1"><SnugMenu /></Phone>

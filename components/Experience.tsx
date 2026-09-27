@@ -7,10 +7,13 @@
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { BARS, S_BOX, S_PATH, SLASH, TILE_COLS, TILE_ROWS, hubFrame, markFrame, type Rect } from '@/lib/mark';
 import { CONTACT, PILLARS, type WorldId } from '@/lib/content';
 import { Previews } from './Previews';
 import { Wordmark } from './ui/Wordmark';
+import { Marble } from './Marble';
+import { BEAT_PERIOD } from '@/lib/beat';
 
 const load = {
   websites: () => import('./worlds/WebsitesWorld'),
@@ -24,8 +27,8 @@ const Worlds = {
   systems: dynamic(load.systems, { ssr: false }),
   contact: dynamic(load.contact, { ssr: false }),
 };
-const WORLD_BG: Record<WorldId, string> = { websites: '#F2EEE6', apps: '#ECE3D4', systems: '#0D1117', contact: '#0B1528' };
-const WORLD_TONE: Record<WorldId, 'light' | 'dark'> = { websites: 'light', apps: 'light', systems: 'dark', contact: 'dark' };
+// the portal is stone with one sweep of gold along the slash; the world is standing on the marble when it clears
+const WORLD_TONE: Record<WorldId, 'light' | 'dark'> = { websites: 'dark', apps: 'dark', systems: 'dark', contact: 'dark' };
 const ORDER: WorldId[] = ['websites', 'apps', 'systems', 'contact'];
 type Phase = 'intro' | 'opening' | 'hub' | 'entering' | 'world' | 'leaving';
 
@@ -125,12 +128,26 @@ export default function Experience() {
     return () => { window.removeEventListener('pointermove', move); idle.current?.kill(); settle.kill(); };
   }, [phase]);
 
+  /* ── hub life: the whole board leans a few degrees toward the pointer; light crosses the gold every other beat ── */
+  useEffect(() => {
+    if (phase !== 'hub' || !tilt.current || reduced.current) return;
+    const fine = matchMedia('(pointer: fine)').matches;
+    const rx = gsap.quickTo(tilt.current, 'rotationX', { duration: 1.4, ease: 'power3' });
+    const ry = gsap.quickTo(tilt.current, 'rotationY', { duration: 1.4, ease: 'power3' });
+    const move = (e: PointerEvent) => { rx((e.clientY / innerHeight - 0.5) * -3.2); ry((e.clientX / innerWidth - 0.5) * 4.4); };
+    if (fine) window.addEventListener('pointermove', move);
+    const off = (performance.now() / 1000) % BEAT_PERIOD;
+    const sweep = gsap.fromTo('.gate-sheen', { xPercent: -120 }, { xPercent: 120, duration: 1.1, ease: 'power2.inOut', stagger: 0.07, repeat: -1, repeatDelay: BEAT_PERIOD * 2 - 1.1 - 0.14, delay: BEAT_PERIOD - off });
+    return () => { window.removeEventListener('pointermove', move); sweep.kill(); gsap.to(tilt.current, { rotationX: 0, rotationY: 0, duration: 0.4 }); };
+  }, [phase]);
+
   /* ── opening: the system unfolds (~2.2 s) ────────────────────────────────── */
   const open = useCallback((viaKey = false) => {
     if (phaseRef.current !== 'intro' || !geo || !introRects) return;
     byKey.current = viaKey;
     phaseRef.current = 'opening';
     setPhase('opening');
+    dispatchEvent(new Event('marble:flash'));
     idle.current?.kill();
     gsap.killTweensOf(tilt.current);
     const H = geo.hub;
@@ -224,7 +241,11 @@ export default function Experience() {
     setVeiled(false);
     setWorldAttrs(id);
     busy.current = false;
-    requestAnimationFrame(() => { const h = document.querySelector<HTMLElement>('.world h1'); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } });
+    gsap.killTweensOf(stage.current);
+    gsap.set(stage.current, { scale: 1 });
+    let tries = 0;
+    const focus = () => { const h = document.querySelector<HTMLElement>('.world h1'); if (h) { h.tabIndex = -1; h.focus({ preventScroll: true }); } else if (++tries < 30) requestAnimationFrame(focus); };
+    requestAnimationFrame(focus);
   };
 
   // hub → world: the chosen bar's face opens into the world; the world is already there when it has
@@ -237,22 +258,25 @@ export default function Experience() {
     gsap.killTweensOf(p);
     if (opts.instant) { gsap.set(p, { display: 'none' }); mount(id); arrived(id); return; }
     busy.current = true;
+    dispatchEvent(new Event('marble:flash'));
     phaseRef.current = 'entering';
     setPhase('entering');
     setVeiled(true);
-    gsap.set(p, { display: 'block', zIndex: 50, backgroundColor: WORLD_BG[id], clipPath: reduced.current ? fullPoly() : fromPoly(id), opacity: 0 });
+    gsap.set(p, { display: 'block', zIndex: 50, clipPath: reduced.current ? fullPoly() : fromPoly(id), opacity: 0 });
+    const sweep = p.querySelector('.portal-sweep');
     const tl = gsap.timeline();
     if (reduced.current) {
       tl.to(p, { opacity: 1, duration: 0.25 }).add(() => mount(id)).add(() => arrived(id), '+=0.12').to(p, { opacity: 0, duration: 0.3 }).set(p, { display: 'none' });
       return;
     }
     tl.to(p, { opacity: 1, duration: 0.12, ease: 'none' }, 0)
+      .fromTo(sweep, { xPercent: -100 }, { xPercent: 420, duration: 0.7, ease: 'power2.inOut' }, 0.12)
       .to(bars.current.filter((_, i) => ORDER[i] !== id), { x: -80, autoAlpha: 0, duration: 0.45, ease: 'power2.in', stagger: 0.04 }, 0)
       .to([panel.current, hubUI.current], { autoAlpha: 0, duration: 0.35 }, 0)
       // a camera push toward the chosen bar while its face opens
       .fromTo(stage.current, { scale: 1, transformOrigin: originOf(id) }, { scale: 1.12, duration: 0.95, ease: 'power2.in' }, 0)
       .to(p, { clipPath: fullPoly(), duration: 0.8, ease: 'expo.inOut' }, 0.1)
-      .add(() => mount(id), 0.3)
+      .add(() => mount(id), 0.15)
       .add(() => arrived(id), 0.8)
       .to(p, { opacity: 0, duration: 0.3, ease: 'power1.out' }, 0.8)
       .set(p, { display: 'none' });
@@ -263,16 +287,17 @@ export default function Experience() {
     const cur = worldRef.current;
     if (!portal.current || busy.current || phaseRef.current !== 'world' || !cur || cur === to) return;
     busy.current = true;
+    dispatchEvent(new Event('marble:flash'));
     if (push) history.pushState({ w: to }, '', `#${to}`);
     load[to]();
     if (to !== 'contact') setActive(ORDER.indexOf(to));
     const p = portal.current;
     gsap.killTweensOf(p);
     const fade = reduced.current || !from;
-    gsap.set(p, { display: 'block', zIndex: 50, backgroundColor: WORLD_BG[to], clipPath: fade ? fullPoly() : rectPoly(from!), opacity: fade ? 0 : 1 });
+    gsap.set(p, { display: 'block', zIndex: 50, clipPath: fade ? fullPoly() : rectPoly(from!), opacity: fade ? 0 : 1 });
     const tl = gsap.timeline();
     if (fade) tl.to(p, { opacity: 1, duration: 0.3 });
-    else tl.to(p, { clipPath: fullPoly(), duration: 0.7, ease: 'expo.inOut' });
+    else tl.to(p, { clipPath: fullPoly(), duration: 0.7, ease: 'expo.inOut' }).fromTo(p.querySelector('.portal-sweep'), { xPercent: -100 }, { xPercent: 420, duration: 0.7, ease: 'power2.inOut' }, 0.05);
     tl.add(() => { setWorldAttrs(null); mount(to); }, fade ? 0.3 : 0.62)
       .add(() => arrived(to), fade ? 0.42 : 0.7)
       .to(p, { opacity: 0, duration: 0.3, ease: 'power1.out' }, fade ? 0.45 : 0.72)
@@ -289,9 +314,10 @@ export default function Experience() {
     setWorldAttrs(null);
     const p = portal.current;
     gsap.killTweensOf(p);
-    gsap.set(p, { display: 'block', zIndex: 30, backgroundColor: WORLD_BG[id], clipPath: fullPoly(), opacity: 1 });
-    gsap.set(bars.current, { x: 0, autoAlpha: 1 });
+    gsap.set(p, { display: 'block', zIndex: 30, clipPath: fullPoly(), opacity: 0 });
+    ScrollTrigger.getAll().forEach((t) => t.disable(false));
     const back = () => {
+      gsap.set(bars.current, { x: 0, autoAlpha: 1 });
       worldRef.current = null;
       setWorld(null);
       phaseRef.current = 'hub';
@@ -307,15 +333,25 @@ export default function Experience() {
         };
         gsap.set(stage.current, { scale: 1 });
         const target = fromPoly(id), origin = originOf(id);
-        if (reduced.current) { gsap.to(p, { opacity: 0, duration: 0.3, onComplete: end }); return; }
+        if (reduced.current) { end(); return; }
         gsap.fromTo(stage.current, { scale: 1.12, transformOrigin: origin }, { scale: 1, duration: 0.95, ease: 'power3.out' });
+        // the light gathers back into the bar it came from
         gsap.timeline({ onComplete: end })
-          .fromTo(p, { clipPath: fullPoly() }, { clipPath: target, duration: 0.85, ease: 'expo.inOut' }, 0)
-          .to(p, { opacity: 0, duration: 0.25, ease: 'power1.in' }, 0.6);
+          .fromTo(p, { clipPath: fullPoly() }, { clipPath: target, duration: 0.9, ease: 'expo.inOut' }, 0)
+          .fromTo(p, { opacity: 0 }, { opacity: 0.85, duration: 0.25, ease: 'power1.out' }, 0.05)
+          .fromTo(p.querySelector('.portal-sweep'), { xPercent: 420 }, { xPercent: -100, duration: 0.8, ease: 'power2.inOut' }, 0)
+          .to(p, { opacity: 0, duration: 0.3, ease: 'power1.in' }, 0.62);
       });
     };
     gsap.to(worldEl.current, { autoAlpha: 0, y: -24, duration: 0.34, ease: 'power2.in', onComplete: back });
   }, []);
+
+  // "Hub" (the mark, Back to the hub, Escape) always means the hub, however many worlds the visitor has crossed
+  const toHub = useCallback(() => {
+    if (phaseRef.current !== 'world' || busy.current) return;
+    history.pushState({}, '', location.pathname + location.search);
+    leave();
+  }, [leave]);
 
   // browser back / forward and deep links
   useEffect(() => {
@@ -348,10 +384,10 @@ export default function Experience() {
     document.documentElement.dataset.phase = phase;
   }, [phase]);
   useEffect(() => {
-    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape' && phaseRef.current === 'world') history.back(); };
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') toHub(); };
     window.addEventListener('keydown', esc);
     return () => window.removeEventListener('keydown', esc);
-  }, []);
+  }, [toHub]);
 
   const W = world ? Worlds[world] : null;
   const nextOf = (id: WorldId) => ORDER[(ORDER.indexOf(id) + 1) % ORDER.length];
@@ -359,6 +395,7 @@ export default function Experience() {
 
   return (
     <>
+      <Marble />
       <div ref={stage} className={`stage phase-${phase}`} aria-hidden={inWorld} style={geo?.hub.mobile ? { ['--stage-min' as string]: `${geo.hub.bars[2].y + geo.hub.bars[2].h + 44 + 120}px` } : undefined}>
         <div className="stage-light" aria-hidden="true" />
         <div ref={tilt} className="stage-tilt">
@@ -389,6 +426,7 @@ export default function Experience() {
                 aria-label={`${p.enter}: ${p.line}`}
               >
                 <span className="gate-inner" aria-hidden="true">
+                  <span className="gate-halo" data-pulse="0.14,0.62" />
                   <span className="gate-depth"><i /><i /><i /><i /></span>
                   <span className="gate-face"><span className="gate-sheen" /></span>
                   <span className="gate-word">{p.word}</span>
@@ -424,7 +462,7 @@ export default function Experience() {
       </div>
 
       <header className={`topbar phase-${phase}`}>
-        <button className="topbar-brand" onClick={() => (inWorld ? history.back() : undefined)} aria-label={inWorld ? 'Back to the hub' : 'ElaSystems'} tabIndex={phase === 'intro' ? -1 : 0}>
+        <button className="topbar-brand" onClick={() => (inWorld ? toHub() : undefined)} aria-label={inWorld ? 'Back to the hub' : 'ElaSystems'} tabIndex={phase === 'intro' ? -1 : 0}>
           <svg viewBox="10 20 660 400" className="topbar-mark" aria-hidden="true"><path d="M62 65H365L332.3 125H26Z M62 198H292.5L259.8 258H26Z M62 322H225.1L192.4 382H26Z" fill="#E3A83E" /><path fill="#E3A83E" d="M402.5 20h4L188.5 420h-4Z" /><path fill="#F3EEE4" d={S_PATH} /></svg>
           {inWorld ? <span className="topbar-back">Hub</span> : <Wordmark />}
         </button>
@@ -444,10 +482,11 @@ export default function Experience() {
         </nav>
       </header>
 
-      <div ref={portal} className="portal" aria-hidden="true" />
+      <div ref={portal} className="portal" aria-hidden="true"><span className="portal-sweep" /></div>
+      {inWorld && <div className="w-progress" aria-hidden="true"><i /></div>}
       {W && world && (
         <div ref={worldEl} className={`world world-${world} ${veiled ? 'is-veiled' : ''}`} key={world}>
-          <W onBack={() => history.back()} onNext={() => go(nextOf(world), document.querySelector('.w-next'))} next={nextOf(world)} />
+          <W onBack={toHub} onNext={() => go(nextOf(world), document.querySelector('.w-next'))} next={nextOf(world)} />
         </div>
       )}
       <noscript><p className="noscript">ElaSystems builds websites, apps and business systems in Detroit. Text {CONTACT.phone} or email {CONTACT.email}.</p></noscript>

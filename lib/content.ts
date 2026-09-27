@@ -29,9 +29,9 @@ export type Site = {
 };
 
 export const SITES: Site[] = [
-  { slug: 'fudge-fix', name: 'The Fudge Fix', kind: 'Dessert bar & events', line: 'Build your plate.', tint: '#2A1712', ink: '#7A2E2A', story: true },
+  { slug: 'monarch-urgent-care', name: 'Monarch Urgent Care', kind: 'Walk-in clinic · Allen Park', line: 'Compassionate care when you need it.', tint: '#B8923A', ink: '#8A6A1E' },
   { slug: 'dmoda-shoes', name: 'D’Moda Shoes', kind: 'Boutique footwear, online store', line: 'Every outfit begins at the shoes.', url: 'https://dmodashoes.com', tint: '#D71920', ink: '#B3141A' },
-  { slug: 'rise', name: 'Rise', kind: 'Coffee, brewed by Detroit Perk', line: 'Coffee. Community. Rise.', tint: '#1A1712', ink: '#8C6A1E', story: true },
+  { slug: 'express-poultry-fish', name: 'Express Poultry & Fish', kind: 'Fish, halal poultry & Chester’s Chicken', line: 'Two menus, one Dearborn Heights original.', tint: '#1E2E55', ink: '#C9A227', story: true },
   { slug: 'snug-mug', name: 'The Snug Mug', kind: 'Corner coffee shop', line: 'Your new corner coffee shop.', url: 'https://thesnugmugbyally.com', tint: '#B69A3A', ink: '#7C6421' },
   { slug: 'family-bakery', name: 'Family Bakery', kind: 'Middle Eastern bakery, English & Arabic', line: 'Detroit’s family-owned Middle Eastern bakery.', url: 'https://familybakerydetroit.com', tint: '#C85F2A', ink: '#9E4719' },
 ];

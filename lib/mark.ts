@@ -36,10 +36,11 @@ export function hubFrame(vw: number, vh: number) {
   const mobile = vw < 900;
   if (mobile) {
     const gut = Math.max(18, vw * 0.05);
-    const W = vw - gut * 2;
-    const H = Math.min(78, vh * 0.1);
+    const land = vh < 560 && vw > vh; // landscape phone: a shorter, narrower E so it reads as the mark, not banners
+    const W = land ? Math.min(vw - gut * 2, 460) : vw - gut * 2;
+    const H = land ? 48 : Math.min(78, vh * 0.1);
     const gap = H * 0.62;
-    const top = Math.max(236, vh * 0.3);
+    const top = land ? 150 : Math.max(236, vh * 0.3);
     const bars = [1, 0.89, 0.78].map((k, i) => ({ x: gut, y: top + i * (H + gap), w: Math.max(W * k, Math.min(272, W)), h: H }));
     const panel = { x: gut, y: top + 3 * H + 2 * gap + 34, w: W, h: Math.min(vh - (top + 3 * H + 2 * gap + 34) - 110, W * 0.62), lean: 0 };
     return { mobile, bars, panel, slash: null as null | { x0: number; y0: number; x1: number; y1: number } };

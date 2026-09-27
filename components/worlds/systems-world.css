@@ -3,9 +3,9 @@
 /* every console says what it is */
 .sy-screen::after { content: 'Sample data'; position: absolute; right: 12px; bottom: 12px; z-index: 5; padding: 4px 8px; font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--bone); background: rgba(13, 17, 23, .86); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1); }
 .sy .w-title .w-line:last-child > span { color: var(--gold); }
-.sy-scene { position: relative; height: 100vh; overflow: hidden; background: #0D1117; }
+.sy-scene { position: relative; height: 100vh; overflow: hidden; }
 /* a lit ground behind the rig, so the consoles separate from the room */
-.sy-scene::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 60% at 62% 50%, #18233A, transparent 70%); }
+.sy-scene::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(55% 60% at 62% 50%, rgba(227, 160, 42, .10), transparent 70%); }
 .sy-stage { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 3.4fr) minmax(0, 8.6fr); align-items: center; gap: 28px; padding: 90px var(--gut) 40px; }
 .sy-copy { position: relative; z-index: 3; max-width: 400px; }
 .sy-client { color: var(--gold); }
@@ -56,5 +56,5 @@
 /* intro: the system and the storefront it runs, so the world opens on the thing itself */
 .sy-aside { position: relative; }
 .sy-aside-console { position: relative; aspect-ratio: 1280 / 800; container-type: inline-size; border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px rgba(255, 255, 255, .08), 0 60px 110px -40px rgba(0, 0, 0, .75); }
-.sy-aside-front { position: absolute; left: -16%; bottom: -16%; width: 36%; }
-@media (max-width: 899px) { .sy-aside-front { left: -4%; bottom: -10%; } }
+.w-aside .sy-aside-front { position: absolute; left: -10%; bottom: -16%; width: 38%; }
+@media (max-width: 899px) { .w-aside .sy-aside-front { left: -2%; bottom: -12%; } }

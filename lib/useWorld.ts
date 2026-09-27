@@ -21,7 +21,7 @@ export function useWorld(root: RefObject<HTMLElement | null>, build: (env: Env, 
     let lenis: Lenis | null = null;
     let tick: ((t: number) => void) | null = null;
     if (!reduced && fine && !mobile) {
-      lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 0.95 });
+      lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, smoothWheel: true });
       lenis.on('scroll', ScrollTrigger.update);
       tick = (t: number) => lenis!.raf(t * 1000);
       gsap.ticker.add(tick);

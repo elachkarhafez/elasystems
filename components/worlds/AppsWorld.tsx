@@ -14,7 +14,7 @@ import './apps-world.css';
 type Step = { t: string; d: string };
 const APPS: { id: string; name: string; kind: string; bg: string; ink: string; accent: string; dark?: boolean; steps: Step[] }[] = [
   {
-    id: 'dmoda', name: 'D’Moda Shoes', kind: 'Shopping app · concept', bg: '#EDE6DC', ink: '#141414', accent: '#D71920',
+    id: 'dmoda', name: 'D’Moda Shoes', kind: 'Shopping app · concept', bg: '#EDE6DC', ink: '#141414', accent: '#E0333A',
     steps: [
       { t: 'Browse the edit', d: 'Heels, boots, sandals and flats from the real catalogue, one thumb away.' },
       { t: 'Every size, one tap', d: 'Colour, size and stock on a single screen. Add to bag without hunting.' },
@@ -30,7 +30,7 @@ const APPS: { id: string; name: string; kind: string; bg: string; ink: string; a
     ],
   },
   {
-    id: 'snug', name: 'The Snug Mug', kind: 'Order ahead & rewards · concept', bg: '#EFE2C6', ink: '#20120D', accent: '#B69A3A',
+    id: 'snug', name: 'The Snug Mug', kind: 'Order ahead & rewards · concept', bg: '#EFE2C6', ink: '#20120D', accent: '#E3A02A',
     steps: [
       { t: 'Order ahead', d: 'The real menu, led by the Honey Bear Latte. Skip the line on the way in.' },
       { t: 'Made the way they like it', d: 'Size, iced or warm, milk. Priced as they build it.' },
@@ -109,7 +109,7 @@ export default function AppsWorld(props: WorldProps) {
 
   const c = WORLD_COPY.apps;
   return (
-    <div ref={root} className="ap" data-tone="light">
+    <div ref={root} className="ap" data-tone="dark">
       <WorldIntro kicker={c.kicker} title={c.title} lede={c.lede} note={c.note} aside={
         <div className="ap-aside">
           <Phone className="ap-aside-p ap-aside-1" dark><SnugMenu /></Phone>
@@ -118,7 +118,7 @@ export default function AppsWorld(props: WorldProps) {
         </div>
       } />
       {APPS.map((app) => (
-        <section key={app.id} className={`ap-scene ${app.dark ? 'is-dark' : ''}`} data-app={app.id} data-tone={app.dark ? 'dark' : 'light'} style={{ ['--bg' as string]: app.bg, ['--ink3' as string]: app.ink, ['--acc' as string]: app.accent }} aria-labelledby={`ap-${app.id}`}>
+        <section key={app.id} className={`ap-scene ${app.dark ? 'is-dark' : ''}`} data-app={app.id} data-tone="dark" style={{ ['--bg' as string]: app.bg, ['--ink3' as string]: app.ink, ['--acc' as string]: app.accent }} aria-labelledby={`ap-${app.id}`}>
           <div className="ap-stage">
             <div className="ap-copy">
               <p className="label ap-kind">{app.kind}</p>

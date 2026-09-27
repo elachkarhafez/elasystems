@@ -99,8 +99,8 @@ export default function WebsitesWorld(props: WorldProps) {
 
   const c = WORLD_COPY.websites;
   return (
-    <div ref={root} className="ws" data-tone="light">
-      <WorldIntro kicker={c.kicker} title={c.title} lede={c.lede} aside={<Display className="w-aside-display"><Frames list={dFrames('fudge-fix').slice(0, 1)} alt="" sizes="50vw" /></Display>} />
+    <div ref={root} className="ws" data-tone="dark">
+      <WorldIntro kicker={c.kicker} title={c.title} lede={c.lede} aside={<Display className="w-aside-display" shot={{ src: '/work/monarch-urgent-care-d-1600.webp', sizes: '50vw', alt: '' }} />} />
       {SITES.map((site, i) => <Scene key={site.slug} site={site} first={i === 0} />)}
       <section className="ws-more" aria-labelledby="ws-more-t">
         <h2 id="ws-more-t" className="ws-more-t">More work, live now.</h2>

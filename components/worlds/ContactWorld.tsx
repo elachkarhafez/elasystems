@@ -50,7 +50,7 @@ export default function ContactWorld({ onBack }: WorldProps) {
   const c = WORLD_COPY.contact;
   return (
     <div ref={root} className="ct" data-tone="dark">
-      <div className="ct-core" aria-hidden="true" />
+      <div className="ct-core" data-pulse="0.4,1" aria-hidden="true" />
       <div className="ct-stage">
         <div className="ct-left">
           <div className="ct-mark" aria-hidden="true"><i className="ct-bar" /><i className="ct-bar" /><i className="ct-bar" /><i className="ct-slash" /></div>

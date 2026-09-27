@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   icons: { icon: [{ url: '/favicon.ico' }, { url: '/brand/favicon.svg', type: 'image/svg+xml' }], apple: '/brand/apple-touch-icon.png' },
 };
 
-export const viewport: Viewport = { themeColor: '#070B14', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
+export const viewport: Viewport = { themeColor: '#15120E', width: 'device-width', initialScale: 1, viewportFit: 'cover' };
 
 const jsonLd = {
   '@context': 'https://schema.org',
