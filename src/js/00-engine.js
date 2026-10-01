@@ -122,7 +122,7 @@
     'uniform sampler2D uAtlas, uWords, uMark, uNum, uShotA, uShotB;',
     'uniform float uWordsN;',
     'uniform vec4 uMarkRect; uniform float uCatch, uMelt, uSlash, uSlashGlow, uDim, uTimeLock;',
-    'uniform vec4 uNumRect; uniform float uCatchNum, uPulse;',
+    'uniform vec4 uNumRect; uniform float uCatchNum, uPulse; uniform int uNumLayer;',
     'uniform vec4 uTextMask[4]; uniform int uTextMaskN;',
     'uniform vec4 uFrameA, uFrameB; uniform vec2 uShotSizeA, uShotSizeB;',
     'uniform float uStageA, uStageB, uBleedA, uBleedB, uFrameOnA, uFrameOnB, uSweepA, uSweepB; uniform vec3 uTintA, uTintB;',
@@ -132,6 +132,7 @@
     'const vec3 GOLD_DEEP = vec3(0.541, 0.353, 0.071);',
     'const vec3 PAPER = vec3(0.949, 0.937, 0.910);',
     'const vec3 HEAD = vec3(1.0, 0.957, 0.839);',
+    'const vec3 NIGHT = vec3(0.0196, 0.0431, 0.0863);',
     'uint uh(uint x){x^=x>>16u;x*=0x7feb352du;x^=x>>15u;x*=0x846ca68bu;x^=x>>16u;return x;}',
     'float hash3(int a,int b,int c){uint h=uh(uint(a+262144)*0x9E3779B1u^uh(uint(b+262144)*0x85EBCA77u^uh(uint(c+262144))));return float(h)*(1.0/4294967296.0);}',
     'float wordChar(float w,float i){float len=texelFetch(uWords,ivec2(0,int(w)),0).r*255.0;float k=mod(i,max(len,1.0));return texelFetch(uWords,ivec2(1+int(k),int(w)),0).r*255.0;}',
@@ -167,14 +168,15 @@
     '      dimK*=1.0-lock;',
     '    }',
     '  }',
-    // the number catch (contact)
-    '  float lockN=0.0;',
+    // the number catch (contact): ONE layer holds the digits (uNumLayer: the front layer on desktop, the mid layer on
+    // phones) as opaque gold-light cells with the glyph printed in night; the other layers hide inside the locked shape
+    '  float lockN=0.0, hideN=0.0;',
     '  if(uCatchNum>0.0&&inRect(cc,uNumRect)){',
     '    vec2 nuv=(cc-uNumRect.xy)/uNumRect.zw; float n=textureLod(uNum,nuv,0.0).r;',
     '    if(n>0.5){float o=(RUN*(cc.x-uNumRect.x)-(cc.y-uNumRect.y)+uNumRect.w)/(RUN*uNumRect.z+uNumRect.w);',
-    '      lockN=smoothstep(0.0,0.1,uCatchNum*1.3-o); if(lockN>lock){lock=lockN;lockC=GOLD_LIGHT;}}',
+    '      float ln=smoothstep(0.0,0.1,uCatchNum*1.3-o); if(L==uNumLayer) lockN=ln; else hideN=ln;}',
     '  }',
-    '  float dimN=uCatchNum*(1.0-lockN);',
+    '  float dimN=uCatchNum*(1.0-max(lockN,hideN));',
     // storefront frames: a cell belongs to a frame when its centre is within half a cell of the rect AND the pixel is
     // inside it (so the decode is clipped exactly to the DOM frame, no overhang); inside a frame every column is dense
     // once the decode has started, so the mosaic is complete by stage 0.35 instead of striped by the scene density
@@ -182,7 +184,7 @@
     '  bool fB=uFrameOnB>0.5&&inRectX(ccs,uFrameB,cellPx*0.5)&&inRect(p,uFrameB);',
     '  float inF=(fA?uStageA:0.0)+(fB?uStageB:0.0);',
     '  dens=max(dens,smoothstep(0.0,0.35,inF));',
-    '  if(h1>=dens&&lock<=0.0) return vec4(0.0);',
+    '  if(h1>=dens&&lock<=0.0&&lockN<=0.0) return vec4(0.0);',
     '  dens=max(dens,0.001);',
     // the stream: head row, tail, frozen while locked
     '  float tm=mix(uTimeA,uTimeB,sideC);',
@@ -207,7 +209,7 @@
     '  if(uFrameOnB>0.5){float d=rectDist(ccs,uFrameB);float k=uBleedB*(1.0-smoothstep(0.0,40.0*uCell.z,d));if(k>bl){bl=k;tint=uTintB;}}',
     '  if(bl>0.0){c=mix(c,tint,bl*0.85*(since<0.5?0.5:1.0));}',
     '  inten*=mix(1.0,0.18,dimK); c=mix(c,GOLD_DEEP,dimK*0.7);',
-    '  inten*=mix(1.0,0.15,dimN);',
+    '  inten*=mix(1.0,0.15,dimN); inten*=1.0-hideN;',
     // the slash stream down the mark's slash line
     '  if(uSlash>=0.0){',
     '    vec2 A=uMarkRect.xy+vec2(0.5947,0.0)*uMarkRect.zw; vec2 B=uMarkRect.xy+vec2(0.2705,1.0)*uMarkRect.zw;',
@@ -235,12 +237,14 @@
     '  }',
     // locked cells: lock colour, full intensity, a soft fill under the glyph so the shape reads
     '  c=mix(c,lockC,lock); inten=mix(inten,1.0,lock); cov=mix(cov,max(cov,fill0),lock); float alphaL=mix(lAlpha,1.0,max(lock,solid));',
+    // number-locked cells: an opaque gold-light cell (alpha .92, a soft 1 px inset so the grid reads) with the glyph in night
+    '  if(lockN>0.0){vec2 e=min(f,1.0-f)*cellPx; float ins=smoothstep(0.4,1.6,min(e.x,e.y)); c=mix(c,mix(GOLD_LIGHT,NIGHT,a),lockN); cov=mix(cov,0.92*ins,lockN); inten=mix(inten,1.0,lockN); alphaL=mix(alphaL,1.0,lockN);}',
     // front band: bright, gold, full
-    '  if(bandC>0.5){inten=max(inten,0.95);c=mix(c,GOLD_LIGHT,0.65*(1.0-solid));}',
+    '  if(bandC>0.5){inten=max(inten,0.95);c=mix(c,GOLD_LIGHT,0.65*(1.0-max(solid,lockN)));}',
     // rain under copy held low
     '  float tmk=1.0;',
     '  for(int i=0;i<4;i++){if(i>=uTextMaskN)break;vec4 r=uTextMask[i];vec2 d=max(r.xy-ccs,ccs-(r.xy+r.zw));float dd=max(d.x,d.y);tmk=min(tmk,mix(0.25,1.0,smoothstep(0.0,12.0,dd)));}',
-    '  inten*=mix(tmk,1.0,solid);',
+    '  inten*=mix(tmk,1.0,max(solid,lockN));',
     '  return vec4(c,cov*inten*alphaL);',
     '}',
     'void main(){',
@@ -398,7 +402,7 @@
     var names = ['uRes', 'uDpr', 'uTimeA', 'uTimeB', 'uClock', 'uCell', 'uRate', 'uLAlpha', 'uLayers', 'uPar', 'uFront', 'uBand',
       'uGroundA', 'uGroundB', 'uHeadA', 'uHeadB', 'uGlyphA', 'uGlyphB', 'uTailA', 'uTailB', 'uDensA', 'uDensB', 'uBaseA', 'uBaseB', 'uGridA', 'uGridB',
       'uAtlas', 'uWords', 'uMark', 'uNum', 'uShotA', 'uShotB', 'uWordsN', 'uMarkRect', 'uCatch', 'uMelt', 'uSlash', 'uSlashGlow', 'uDim', 'uTimeLock',
-      'uNumRect', 'uCatchNum', 'uPulse', 'uTextMask', 'uTextMaskN', 'uFrameA', 'uFrameB', 'uShotSizeA', 'uShotSizeB',
+      'uNumRect', 'uCatchNum', 'uPulse', 'uNumLayer', 'uTextMask', 'uTextMaskN', 'uFrameA', 'uFrameB', 'uShotSizeA', 'uShotSizeB',
       'uStageA', 'uStageB', 'uBleedA', 'uBleedB', 'uFrameOnA', 'uFrameOnB', 'uSweepA', 'uSweepB', 'uTintA', 'uTintB'];
     for (var i = 0; i < names.length; i++) U[names[i]] = gl.getUniformLocation(prog, names[i]);
     gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
@@ -504,6 +508,7 @@
     gl.uniform1f(U.uDim, S.dim); gl.uniform1f(U.uTimeLock, S.timeLock);
     gl.uniform4fv(U.uNumRect, S.numRect);
     gl.uniform1f(U.uCatchNum, S.catchNum); gl.uniform1f(U.uPulse, pulse);
+    gl.uniform1i(U.uNumLayer, S.phone ? 1 : 2); // the digits lock on the 14 px mid layer on phones, the 26 px front layer on desktop
     gl.uniform4fv(U.uTextMask, S.textMask); gl.uniform1i(U.uTextMaskN, S.textMaskN);
     var FA = S.frames[0], FB = S.frames[1];
     gl.uniform4fv(U.uFrameA, FA.rect); gl.uniform4fv(U.uFrameB, FB.rect);
@@ -722,7 +727,7 @@
     set: function (reduced, persist) {
       html.dataset.motion = reduced ? 'reduced' : 'full';
       if (persist !== false) { try { localStorage.setItem('es-motion', reduced ? 'reduced' : 'full'); } catch (e) { /* noop */ } }
-      if (reduced) rain.poster(); else rain.resume();
+      if (reduced) { rain.poster(); if (ES.text && ES.text.settleAll) ES.text.settleAll(); } else rain.resume();
       for (var i = 0; i < motionCbs.length; i++) { try { motionCbs[i](reduced); } catch (e) { /* noop */ } }
     },
     on: function (cb) { motionCbs.push(cb); }

@@ -71,6 +71,8 @@ html[data-js][data-webgl="ok"][data-motion="full"] .contact.is-numbercatch .cont
 .contact__actions { display: grid; gap: 22px; margin-top: 28px; }
 .contact__cta { width: 100%; }
 .contact__lines { display: grid; gap: 10px; color: var(--paper); }
+/* every contact line is a 44 px target */
+.contact__lines a, .contact__copy { display: inline-flex; align-items: center; min-height: 44px; }
 .contact__lines a { color: var(--paper); text-decoration: none; transition: color var(--t-micro); }
 .contact__lines a:hover, .contact__lines a:focus-visible { color: var(--gold-light); }
 .contact__copy { color: var(--gold); text-align: left; transition: color var(--t-micro); }
@@ -78,6 +80,10 @@ html[data-js][data-webgl="ok"][data-motion="full"] .contact.is-numbercatch .cont
 .contact__copy.is-done { color: var(--gold-light); }
 .contact__copy.is-failed { color: var(--mute); }
 .contact__body { margin-top: 30px; max-width: 58ch; color: color-mix(in srgb, var(--paper) 82%, transparent); }
+@media (max-width: 767px) {
+  .contact__lines { gap: 0; }   /* the 44 px rows set the pitch */
+  .contact__lines li { display: flex; align-items: center; min-height: 44px; }
+}
 
 @media (min-width: 768px) {
   .contact__stage { padding-top: calc(var(--topbar-h) + 8vh); padding-bottom: 12vh; }
@@ -119,18 +125,22 @@ html[data-js][data-motion="full"] .contact__stage { position: relative; }
 html[data-js][data-motion="full"] .contact__cue { position: absolute; left: var(--gutter); bottom: 28px; opacity: 0; transition: opacity var(--t-medium) var(--ease-enter); }
 html[data-js][data-motion="full"] .contact.is-in .contact__cue { opacity: 1; }
 html[data-js][data-motion="full"] .contact.is-in .contact__cue i { animation: cue-pulse 1200ms var(--ease-enter) 1 both; }
+/* the cue has done its job once the number screen is live: it never parks under the top bar */
+html[data-js][data-motion="full"] .contact.is-live .contact__cue { opacity: 0; }
 @media (min-width: 900px) { html[data-js][data-motion="full"] .contact__cue { display: flex; } }
 
-/* reveals: the same slash edge at element scale, 600 ms, from the left */
+/* reveals: the same slash edge at element scale, 600 ms, from the left; hidden = out of the tab order too */
 html[data-js][data-motion="full"] .contact__actions,
 html[data-js][data-motion="full"] .contact__body {
-  transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash);
+  transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s;
   clip-path: polygon(0 -8px, calc(100% + 60% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), 0 calc(100% + 8px));
 }
-html[data-js][data-motion="full"] .contact__body { transition-delay: 140ms; }
+html[data-js][data-motion="full"] .contact__body { transition-delay: 140ms, 140ms, 0s; }
 html[data-js][data-motion="full"] .contact__live:not(.is-in) .contact__actions,
 html[data-js][data-motion="full"] .contact__live:not(.is-in) .contact__body {
   clip-path: polygon(0 -8px, 0 -8px, -60% calc(100% + 8px), 0 calc(100% + 8px));
   opacity: 0;
-  transition-delay: 0ms;
+  visibility: hidden;
+  transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s linear var(--t-reveal);
+  transition-delay: 0ms, 0ms, var(--t-reveal);
 }

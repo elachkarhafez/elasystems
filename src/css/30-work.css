@@ -68,6 +68,8 @@ html[data-motion="reduced"] .work__cue, html:not([data-js]) .work__cue, html[dat
   background: color-mix(in srgb, var(--tint, var(--gold)) 10%, var(--night));
 }
 .decode__frame::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
+/* phones: the frame edge reads while the frame rises through the viewport still full of tinted rain */
+html[data-input="coarse"] .decode__frame::after { box-shadow: inset 0 0 0 1px var(--line-strong); }
 .decode__mosaic { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; opacity: 0; pointer-events: none; }
 .decode__shot { position: absolute; inset: 0; display: block; }
 .decode__shot img {
@@ -103,13 +105,15 @@ html:not([data-js]) .glyph-band { display: none; }
   .decode__copy { grid-template-columns: 1fr auto; column-gap: 16px; row-gap: 6px; align-items: end; }
   .decode__tag, .decode__name { grid-column: 1 / -1; }
   .decode__open { margin: 0; }
+  .decode__open .link-arrow { min-height: 44px; padding-block: 12px; }   /* a 44 px tap target */
 }
 @media (min-width: 768px) {
   .decode { min-height: 0; gap: 0; }
   .decode__screen { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: calc(var(--topbar-h) + 5vh) 7vh; }
-  .decode__copy { grid-column: 1 / 6; align-self: stretch; display: flex; flex-direction: column; gap: 14px; }
+  /* one stack: tag, name, what it is, the link (never spread across the screen) */
+  .decode__copy { grid-column: 1 / 6; align-self: center; align-content: start; gap: 18px; }
   .decode__name { max-width: 8ch; }
-  .decode__open { margin-top: auto; padding-top: 24px; }
+  .decode__open { margin-top: 6px; }
   .decode__frame { grid-column: 6 / 13; justify-self: end; width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.6)); }
 }
 
@@ -146,19 +150,15 @@ html[data-js][data-motion="full"] .decode__shot img { clip-path: polygon(0 0, 0 
   html[data-js][data-motion="full"][data-input="fine"] .decode__frame { margin-bottom: 16px; }
 }
 
-/* ---- reduced motion / no WebGL: every storefront fully decoded, one thin static band */
+/* ---- reduced motion / no WebGL: every storefront fully decoded; no band over the work (the section ground's
+   static slash edge is the composition's one cut) */
 html[data-motion="reduced"] .decode__shot img, html:not([data-js]) .decode__shot img { clip-path: none !important; transform: none !important; opacity: 1 !important; }
-html[data-motion="reduced"] .decode__band {
-  display: block;
-  clip-path: polygon(calc(46% + 33.4%) 0, calc(46% + 33.4% + 16px) 0, calc(46% + 16px) 100%, 46% 100%);
-}
-@media (max-width: 767px) {
-  html[data-motion="reduced"] .decode__band { clip-path: polygon(calc(8% + 95.1%) 0, calc(8% + 95.1% + 14px) 0, calc(8% + 14px) 100%, 8% 100%); }
-}
+html[data-motion="reduced"] .decode__band { display: none; }
 
 /* ---- the grid of slanted tiles ------------------------------------------- */
 .work__more { width: 100%; max-width: var(--max); padding-inline: var(--gutter); margin-top: 10vh; }
-.tiles { display: grid; gap: 44px 32px; margin-top: 26px; }
+.work__more-label { margin-bottom: 24px; }   /* the label clears the first capture (the ul reset zeroes the grid's own margin) */
+.tiles { display: grid; gap: 44px 32px; }
 .tile { position: relative; scroll-margin-top: calc(var(--topbar-h) + 20px); }
 .tile__link { display: block; text-decoration: none; color: var(--mute); }
 .tile__frame {
@@ -191,6 +191,7 @@ html[data-motion="reduced"] .tile__band {
 @media (max-width: 767px) {
   .work { --cut-span: 36%; --tile-cut: 24.1%; }
   .tiles { gap: 32px; }
+  .tile__meta { min-height: 44px; align-items: center; padding-block: 8px; margin-top: 6px; }   /* a 44 px tap row under the capture */
 }
 @media (min-width: 768px) {
   .work__more { margin-top: 12vh; }

@@ -10,8 +10,8 @@
 .pillars__stage { display: grid; align-content: start; padding-top: calc(var(--topbar-h) + 6vh); padding-bottom: 8vh; }
 .pillars__head { display: grid; gap: 12px; max-width: 560px; }
 .pillars__e {
-  --bar-h: clamp(128px, 18vh, 172px);
-  --bar-gap: clamp(22px, 3.2vh, 34px);
+  --bar-h: clamp(150px, 24vh, 220px);   /* phone: ~24 vh per bar, the three bars own the screen */
+  --bar-gap: clamp(16px, 2.4vh, 28px);
   --cut: calc(var(--bar-h) * var(--slash-run));
   --step: calc((var(--bar-h) + var(--bar-gap)) * var(--slash-run));
   position: relative;

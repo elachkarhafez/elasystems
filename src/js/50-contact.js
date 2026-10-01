@@ -115,7 +115,7 @@
   function playB() {
     if (playedB) return;
     playedB = true; playedBAt = performance.now();
-    live.classList.add('is-in');
+    live.classList.add('is-in'); sec.classList.add('is-live');
     // the sections above are off screen now: complete their queued jobs so these three start at once
     text.finishAll();
     if (label) text.scramble(label, { duration: 260 });
@@ -124,7 +124,7 @@
   }
   function rearmB() {
     if (!playedB || performance.now() - playedBAt < 2000) return;
-    playedB = false; live.classList.remove('is-in');
+    playedB = false; live.classList.remove('is-in'); sec.classList.remove('is-live');
   }
   ES.scroll.onSection(pin, { enter: playB, progress: function (p) { if (p <= 0.001 || p >= 0.999) rearmB(); } });
 
@@ -148,24 +148,31 @@
     ctx.font = '820 expanded ' + size + 'px "Archivo", "Helvetica Neue", Arial, sans-serif';
     if ('fontStretch' in ctx) ctx.fontStretch = 'expanded';
     var m = ctx.measureText('0'), asc = m.fontBoundingBoxAscent;
-    for (var i = 0; i < lines.length; i++) {
-      var sp = lines[i];
-      range.selectNodeContents(sp);
-      var rr = range.getBoundingClientRect();
-      if (rr.width < 1 || rr.height < 1) continue;
-      // the DOM baseline of this line: the inline box top + the font's ascent (Archivo: 0.807 of the box)
-      var base = asc > 0 ? rr.top + asc : rr.top + rr.height * 0.807;
-      ctx.save();
-      ctx.translate((rr.left - r.left) * scale, (base - r.top) * scale);
-      ctx.scale(scale, scale);
-      var s = sp.textContent, x = 0;
-      for (var k = 0; k < s.length; k++) {
-        var ch = s.charAt(k);
-        if (ch !== ' ') ctx.fillText(ch, x, 0);
-        x += ctx.measureText(ch).width + ls;
+    // phones: the digits lock on the engine's 14 px mid layer. The strokes are thinned (a black stroke along the glyph
+    // outline, 2 px each side) so only cells whose centre sits well inside a stroke lock: no spill outside the digits
+    var phone = !!(rain.state && rain.state.phone), erode = phone ? 4 : 0;
+    function draw(stroke) {
+      for (var i = 0; i < lines.length; i++) {
+        var sp = lines[i];
+        range.selectNodeContents(sp);
+        var rr = range.getBoundingClientRect();
+        if (rr.width < 1 || rr.height < 1) continue;
+        // the DOM baseline of this line: the inline box top + the font's ascent (Archivo: 0.807 of the box)
+        var base = asc > 0 ? rr.top + asc : rr.top + rr.height * 0.807;
+        ctx.save();
+        ctx.translate((rr.left - r.left) * scale, (base - r.top) * scale);
+        ctx.scale(scale, scale);
+        var s = sp.textContent, x = 0;
+        for (var k = 0; k < s.length; k++) {
+          var ch = s.charAt(k);
+          if (ch !== ' ') { if (stroke) ctx.strokeText(ch, x, 0); else ctx.fillText(ch, x, 0); }
+          x += ctx.measureText(ch).width + ls;
+        }
+        ctx.restore();
       }
-      ctx.restore();
     }
+    draw(false);
+    if (erode > 0) { ctx.strokeStyle = '#000'; ctx.lineWidth = erode; ctx.lineJoin = 'round'; draw(true); }
     rain.setNumber({ rect: rectN, maskCanvas: cv, catch: catchV });
     maskUp = true;
     sec.classList.add('is-numbercatch');

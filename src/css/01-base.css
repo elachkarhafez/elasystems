@@ -30,6 +30,8 @@ a { color: inherit; }
 ::selection { background: var(--gold); color: var(--night); }
 :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
 :focus:not(:focus-visible) { outline: 0; }
+/* scroll targets the page focuses itself (sections, decode anchors): no ring around a container */
+[tabindex="-1"]:focus-visible { outline: 0; }
 
 /* the one fixed WebGL canvas, behind everything */
 #rain {
@@ -188,8 +190,21 @@ html[data-webgl="none"] #rain { display: none; }
   justify-content: space-between;
   gap: 16px;
   padding: 0 var(--gutter);
-  background: linear-gradient(to bottom, var(--night-85), transparent);
-  transition: transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit);
+  /* two grounds: ::before carries the leading scene's, ::after the arriving scene's, cut in by the same Slash Front as
+     everything else (--front); 52-chrome.css firms both up once the page has scrolled */
+  --bar-night: linear-gradient(to bottom, var(--night-85), transparent);
+  --bar-paper: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 90%, transparent), transparent);
+  --bar-ground: var(--bar-night);
+  --bar-new: var(--bar-night);
+  transition: color var(--t-short) var(--ease-enter), transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit);
+}
+.topbar::before, .topbar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.topbar::before { background: var(--bar-ground); }
+.topbar::after {
+  display: none;
+  background: var(--bar-new);
+  --x0: calc(-1 * var(--slash-run) * 100vh + var(--front) * (100vw + var(--slash-run) * 100vh));
+  clip-path: polygon(0 0, calc(var(--x0) + var(--slash-run) * 100vh) 0, calc(var(--x0) + var(--slash-run) * (100vh - 100%)) 100%, 0 100%);
 }
 html[data-topbar="off"] .topbar { transform: translateY(-100%); opacity: 0; }
 .topbar__brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--paper); min-width: 0; }
@@ -197,19 +212,34 @@ html[data-topbar="off"] .topbar { transform: translateY(-100%); opacity: 0; }
 .topbar__nav { display: none; align-items: center; gap: 28px; }
 .topbar__nav a { color: var(--mute); text-decoration: none; transition: color var(--t-micro); }
 .topbar__nav a:hover, .topbar__nav a[aria-current="true"] { color: var(--paper); }
-.topbar__cta { color: var(--gold); text-decoration: none; white-space: nowrap; flex: none; }
+/* the persistent CTA: a 44 px tap target inside the 56 px bar (the padding keeps its text on the gutter line) */
+.topbar__cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin-right: -10px; color: var(--gold); text-decoration: none; white-space: nowrap; flex: none; }
 .topbar__cta:hover { color: var(--gold-light); }
 /* scene-aware chrome: the construct is the one light room */
-.topbar, .bottombar { transition: background var(--t-short) var(--ease-enter), color var(--t-short) var(--ease-enter), transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit), clip-path var(--t-reveal) var(--ease-slash); }
-html[data-scene="construct"] .topbar { background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 90%, transparent), transparent); }
-html[data-scene="construct"] .topbar__brand, html[data-scene="construct"] .topbar .wordmark { color: var(--navy); }
-html[data-scene="construct"] .topbar__mark .mark-s { fill: var(--navy); }
-html[data-scene="construct"] .topbar__nav a { color: var(--navy-2); }
-html[data-scene="construct"] .topbar__nav a:hover, html[data-scene="construct"] .topbar__nav a[aria-current="true"] { color: var(--navy); }
-html[data-scene="construct"] .topbar__cta { color: var(--gold-deep); }
+.bottombar { transition: background var(--t-short) var(--ease-enter), color var(--t-short) var(--ease-enter), transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit), clip-path var(--t-reveal) var(--ease-slash); }
+html[data-scene="construct"] .topbar { --bar-ground: var(--bar-paper); }
+/* ink on paper: by scene, or per element while a sweep runs (02-scroll sets data-ink as the front crosses each one) */
+html[data-scene="construct"] .topbar__brand:not([data-ink]), html[data-scene="construct"] .topbar__brand:not([data-ink]) .wordmark,
+.topbar__brand[data-ink="paper"], .topbar__brand[data-ink="paper"] .wordmark { color: var(--navy); }
+html[data-scene="construct"] .topbar__brand:not([data-ink]) .topbar__mark .mark-s, .topbar__brand[data-ink="paper"] .topbar__mark .mark-s { fill: var(--navy); }
+html[data-scene="construct"] .topbar__nav:not([data-ink]) a, .topbar__nav[data-ink="paper"] a { color: var(--navy-2); }
+html[data-scene="construct"] .topbar__nav:not([data-ink]) a:hover, html[data-scene="construct"] .topbar__nav:not([data-ink]) a[aria-current="true"],
+.topbar__nav[data-ink="paper"] a:hover, .topbar__nav[data-ink="paper"] a[aria-current="true"] { color: var(--navy); }
+html[data-scene="construct"] .topbar__cta:not([data-ink]), .topbar__cta[data-ink="paper"] { color: var(--gold-deep); }
+.topbar__brand[data-ink="night"], .topbar__brand[data-ink="night"] .wordmark { color: var(--paper); }
+.topbar__brand[data-ink="night"] .topbar__mark .mark-s { fill: #F2EFE8; }
+.topbar__nav[data-ink="night"] a { color: var(--mute); }
+.topbar__nav[data-ink="night"] a:hover, .topbar__nav[data-ink="night"] a[aria-current="true"] { color: var(--paper); }
+.topbar__cta[data-ink="night"] { color: var(--gold); }
+html[data-scene="construct"] .topbar :focus-visible, html[data-scene="construct"] .bottombar :focus-visible { outline-color: var(--navy); }
 html[data-scene="construct"] .bottombar { background: linear-gradient(to top, var(--paper) 55%, transparent); }
+/* mid-sweep (02-scroll writes html[data-pair="old-new"] while a window runs): the leading ground stays under the whole
+   bar and the arriving one is cut in by the front; the ink still switches at 50 % (text cannot be split) */
+html[data-pair$="-construct"] .topbar { --bar-ground: var(--bar-night); --bar-new: var(--bar-paper); }
+html[data-pair^="construct-"] .topbar { --bar-ground: var(--bar-paper); --bar-new: var(--bar-night); }
+html[data-pair$="-construct"] .topbar::after, html[data-pair^="construct-"] .topbar::after { display: block; }
 @media (min-width: 900px) { .topbar__nav { display: flex; } }
-@media (max-width: 767px) { .topbar .wordmark { font-size: 13px; letter-spacing: .14em; } .topbar__cta { font-size: 11px; letter-spacing: .06em; } }
+@media (max-width: 767px) { .topbar .wordmark { font-size: 13px; letter-spacing: .14em; } .topbar__cta { font-size: 12px; letter-spacing: .06em; } }
 @media (max-width: 359px) { .topbar .wordmark { display: none; } }
 
 .bottombar {

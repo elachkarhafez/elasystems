@@ -62,3 +62,9 @@
 @media (min-width: 1100px) {
   .footer__grid { grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr); }
 }
+
+/* phones: 40 px rows for the mono links and the toggle (the list pitch becomes 44 px) */
+@media (max-width: 767px) {
+  .footer__list { gap: 4px; }
+  .footer__list a, .toggle { display: inline-flex; align-items: center; min-height: 40px; }
+}

@@ -8,7 +8,7 @@
   'use strict';
   var ES = window.ES = window.ES || {};
   var html = document.documentElement;
-  var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/|=+·–';
+  var ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/·–'; // the brand glyph set only (what the rain atlas carries)
   var MAX = 3;
   var pool = [], active = [], queue = [], rafId = 0;
 
@@ -199,6 +199,19 @@
     var all = active.concat(queue); active.length = 0; queue.length = 0;
     for (var i = 0; i < all.length; i++) all[i].finish();
   }
+  /* the still page, switched on mid-way: every job finishes, every primed headline becomes final (the word spans drop
+     their inline variation settings / opacity) and every strike line is fully drawn, regardless of per-section handlers */
+  function settleAll() {
+    finishAll();
+    var sol = document.querySelectorAll('[data-solidify]');
+    for (var i = 0; i < sol.length; i++) { var W = sol[i].querySelectorAll('.w'); for (var k = 0; k < W.length; k++) clearWord(W[k]); }
+    var lines = document.querySelectorAll('.strike-line');
+    for (var j = 0; j < lines.length; j++) {
+      var ln = lines[j];
+      if (ln.getAnimations) { var an = ln.getAnimations(); for (var a = 0; a < an.length; a++) an[a].cancel(); }
+      ln.style.transform = '';
+    }
+  }
 
-  ES.text = { scramble: scramble, digits: digits, solidify: solidify, solidifyAt: solidifyAt, prime: prime, strike: strike, strikeAt: strikeAt, finishAll: finishAll, cancel: cancelJob, words: words };
+  ES.text = { scramble: scramble, digits: digits, solidify: solidify, solidifyAt: solidifyAt, prime: prime, strike: strike, strikeAt: strikeAt, finishAll: finishAll, settleAll: settleAll, cancel: cancelJob, words: words };
 })();

@@ -13,12 +13,12 @@ html[data-js] .dx__static { display: none; }
 /* chips: square-cut mono tokens with one slashed edge, like the CTA pill */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .chip {
-  --chip-h: 42px;
+  --chip-h: 48px;
   --cut: calc(var(--chip-h) * var(--slash-run));
   position: relative;
   isolation: isolate;
   min-height: var(--chip-h);
-  padding: 11px calc(14px + var(--cut) * .55) 11px 14px;
+  padding: 14px calc(14px + var(--cut) * .55) 14px 14px;
   font-family: var(--font-mono);
   font-size: 13px;
   line-height: 20px;
@@ -78,8 +78,9 @@ html[data-js][data-motion="full"] .tp.is-fixwait .tp__fix { visibility: hidden; 
 .dx__msg { display: grid; gap: 6px; color: color-mix(in srgb, var(--paper) 74%, transparent); max-width: 44ch; }
 .dx__msg-label { color: var(--mute); }
 .dx__cta { margin-top: 6px; }
-html[data-js][data-motion="full"] .dx__readout { transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash); clip-path: polygon(0 -8px, calc(100% + 60% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), 0 calc(100% + 8px)); }
-html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { clip-path: polygon(0 -8px, 0 -8px, -60% calc(100% + 8px), 0 calc(100% + 8px)); opacity: 0; }
+html[data-js][data-motion="full"] .dx__readout { transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s; clip-path: polygon(0 -8px, calc(100% + 60% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), 0 calc(100% + 8px)); }
+/* while the print runs the readout is out of the tab order too (visibility flips after the clip-out, before the clip-in) */
+html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { clip-path: polygon(0 -8px, 0 -8px, -60% calc(100% + 8px), 0 calc(100% + 8px)); opacity: 0; visibility: hidden; transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s linear var(--t-reveal); }
 
 /* no-JS: the nine kinds as a readable list */
 .dx__static { display: grid; gap: 44px; max-width: 760px; }
@@ -90,6 +91,7 @@ html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { clip-pa
 @media (max-width: 767px) {
   .dx__cta .btn { width: 100%; }
   .chip { padding-left: 12px; }
+  .dx__see .link-arrow { min-height: 44px; }   /* a 44 px tap row */
 }
 @media (min-width: 900px) {
   .dx__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: calc(2 * var(--col-gap)); }

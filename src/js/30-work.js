@@ -227,12 +227,19 @@
     d.P = P;
     var S = d.span, D = S + 2 * H, y = P * D;
     d.y = y;
-    var q = clamp((y - H) / S, 0, 1);
-    var stage = q < 0.39 ? (q / 0.39) * 0.9 : 0.9 + ((q - 0.39) / 0.21) * 0.1;
+    var q = clamp((y - H) / S, 0, 1), stage;
     var sweep = clamp((q - 0.39) / 0.21, 0, 1);
     var tall = clamp((q - 0.6) / 0.4, 0, 1);
     var bIn = clamp((y - 0.9 * H) / (0.1 * H + 0.08 * S), 0, 1);
     var bOut = 1 - clamp((y - (S + H)) / (0.6 * H), 0, 1);
+    if (isPhone()) {
+      // phone: the approach is a pre-stage. While the frame rises through the viewport (article top from 55 % of the
+      // screen to the top) tinted glyphs fall inside it and the tint bleeds into the surrounding rain (stage 0 -> 0.33,
+      // bleed 0 -> 1); the sticky span then carries the decode on from 0.33 (the rain announces each site by colour)
+      var pre = clamp((y - 0.45 * H) / (0.55 * H), 0, 1);
+      bIn = Math.max(bIn, pre);
+      stage = q <= 0 ? 0.33 * pre : (q < 0.39 ? 0.33 + (q / 0.39) * 0.57 : 0.9 + ((q - 0.39) / 0.21) * 0.1);
+    } else stage = q < 0.39 ? (q / 0.39) * 0.9 : 0.9 + ((q - 0.39) / 0.21) * 0.1;
     d.stage = clamp(stage, 0, 1); d.bleed = Math.min(bIn, bOut);
     if (d.active) push(d); else measureRect(d);
     mosaic(d);
@@ -369,7 +376,7 @@
   function setStep(t, i) {
     if (i === t.step) return;
     t.step = i;
-    t.steps.forEach(function (p, k) { p.classList.toggle('is-on', k === i); });
+    t.steps.forEach(function (p, k) { p.classList.toggle('is-on', k === i); if (k === i) p.removeAttribute('aria-hidden'); else p.setAttribute('aria-hidden', 'true'); });
   }
   function bindTiles() {
     tiles.forEach(function (t) {

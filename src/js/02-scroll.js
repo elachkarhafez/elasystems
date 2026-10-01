@@ -33,6 +33,32 @@
   function setFrontVar(f) { scroll.front = f; html.style.setProperty('--front', f.toFixed(4)); ES.rain.setFront(f); }
   function setSceneAttr(name) { if (html.dataset.scene !== name) html.dataset.scene = name; }
   function ensurePair(a, b) { var key = a + '>' + b; if (key !== pair) { pair = key; ES.rain.setScenePair(a, b); } }
+  /* html[data-pair="old-new"] while a window runs (0 < p < 1): the persistent chrome cuts its new ground with --front */
+  var pairOwner = null;
+  function setPair(win, a, b) { var key = a + '-' + b; if (html.dataset.pair !== key) html.dataset.pair = key; pairOwner = win; }
+  function clearPair(win) { if (pairOwner === win) { delete html.dataset.pair; pairOwner = null; } }
+  /* the top bar's ink follows the ground under each element's own centre while a ground-changing sweep runs (the
+     grounds are cut by --front in CSS; text cannot be split, so each element flips as the front crosses it) */
+  var inkEls = null;
+  function updateInk(f, a, b) {
+    if (a !== 'construct' && b !== 'construct') return;
+    if (!inkEls) inkEls = ['.topbar__brand', '.topbar__nav', '.topbar__cta'].map(function (s) { return document.querySelector(s); });
+    for (var i = 0; i < inkEls.length; i++) {
+      var el = inkEls[i]; if (!el) continue;
+      var r = el.getBoundingClientRect();
+      var scene = f > U.frontThrough(r.left + r.width * 0.5, r.top + r.height * 0.5) ? b : a;
+      var ink = scene === 'construct' ? 'paper' : 'night';
+      if (el.dataset.ink !== ink) el.dataset.ink = ink;
+    }
+  }
+  function clearInk() { if (!inkEls) return; for (var i = 0; i < inkEls.length; i++) if (inkEls[i] && inkEls[i].dataset.ink) delete inkEls[i].dataset.ink; }
+  /* a finished section (under the next one) or a pending stage (not yet swept) is clipped away and not hit-testable;
+     it stays focusable on purpose: a keyboard user walking back into it scrolls the page there (see focusin below) */
+  function hide(el, on) {
+    var clip = on ? 'polygon(0 0, 0 0, 0 0)' : '';
+    if (el.style.clipPath !== clip) el.style.clipPath = clip;
+    el.style.pointerEvents = on ? 'none' : '';
+  }
 
   /* ------------------------------------------------------- lenis + ticker */
   if (hasGSAP) {
@@ -82,7 +108,7 @@
       win.trigger = ScrollTrigger.create({
         trigger: A, start: 'bottom bottom', end: function () { return '+=' + window.innerHeight; },
         pin: A, pinSpacing: false, anticipatePin: 1, invalidateOnRefresh: true,
-        onRefreshInit: function () { stageB.style.transform = ''; stageB.style.clipPath = ''; stageB.style.visibility = ''; A.style.clipPath = ''; A.style.visibility = ''; },
+        onRefreshInit: function () { stageB.style.transform = ''; hide(stageB, false); hide(A, false); },
         onRefresh: function () { measure(win); applyDesktop(win, win.trigger ? win.trigger.progress : 0); },
         onUpdate: function (self) { applyDesktop(win, self.progress); }
       });
@@ -104,39 +130,40 @@
   var rectV = { x: 0, y: 0, w: 1, h: 1 };
   function applyDesktop(win, p) {
     if (p < 1e-4) p = 0; else if (p > 1 - 1e-4) p = 1;
-    var f = frontOf(p, win.range), A = win.A, sB = win.stageB;
+    var f = frontOf(p, win.range), A = win.A, sB = win.stageB, sa = sceneOf(A), sb = sceneOf(win.B);
     win.p = p;
     emitBoundary(A.id, p, f);
-    if (p <= 0) { sB.style.transform = ''; sB.style.clipPath = ''; sB.style.visibility = ''; A.style.clipPath = ''; A.style.visibility = ''; return; }
-    ensurePair(sceneOf(A), sceneOf(win.B));
-    if (p >= 1) { setFrontVar(1.25); setSceneAttr(sceneOf(win.B)); sB.style.transform = ''; sB.style.clipPath = ''; sB.style.visibility = ''; A.style.clipPath = ''; A.style.visibility = 'hidden'; return; }
-    A.style.visibility = '';
-    setFrontVar(f); setSceneAttr(f > 0.5 ? sceneOf(win.B) : sceneOf(A));
+    if (p <= 0) { sB.style.transform = ''; hide(sB, false); hide(A, false); clearPair(win); clearInk(); return; }
+    ensurePair(sa, sb);
+    if (p >= 1) { setFrontVar(1.25); setSceneAttr(sb); sB.style.transform = ''; hide(sB, false); hide(A, true); clearPair(win); clearInk(); return; }
+    setPair(win, sa, sb);
+    setFrontVar(f); setSceneAttr(f > 0.5 ? sb : sa); updateInk(f, sa, sb);
     var yB = win.docTopB - window.scrollY;
-    if (f <= -0.25) { sB.style.visibility = 'hidden'; sB.style.transform = 'translate3d(0,' + (-yB).toFixed(1) + 'px,0)'; }
+    if (f <= -0.25) { hide(sB, true); sB.style.transform = 'translate3d(0,' + (-yB).toFixed(1) + 'px,0)'; }
     else {
       rectV.x = 0; rectV.y = 0; rectV.w = W; rectV.h = Math.max(H, sB.offsetHeight);
       sB.style.clipPath = f >= 1.25 ? '' : U.slashPolygon(f, rectV, 'new', W, H);
+      sB.style.pointerEvents = '';
       sB.style.transform = 'translate3d(0,' + (-yB).toFixed(1) + 'px,0)';
-      sB.style.visibility = '';
     }
-    if (f >= 1.25) A.style.clipPath = 'polygon(0 0, 0 0, 0 0)';
-    else { rectV.x = 0; rectV.y = H - win.hA; rectV.w = W; rectV.h = win.hA; A.style.clipPath = U.slashPolygon(f, rectV, 'old', W, H); }
+    if (f >= 1.25) hide(A, true);
+    else { rectV.x = 0; rectV.y = H - win.hA; rectV.w = W; rectV.h = win.hA; A.style.clipPath = U.slashPolygon(f, rectV, 'old', W, H); A.style.pointerEvents = ''; }
   }
   function applyTouch(win, p) {
     if (p < 1e-4) p = 0; else if (p > 1 - 1e-4) p = 1;
-    var f = frontOf(p, win.range), A = win.A, sB = win.stageB;
+    var f = frontOf(p, win.range), A = win.A, sB = win.stageB, sa = sceneOf(A), sb = sceneOf(win.B);
     win.p = p;
     emitBoundary(A.id, p, f);
-    if (p <= 0) { sB.style.clipPath = ''; sB.style.visibility = ''; return; }
-    ensurePair(sceneOf(A), sceneOf(win.B));
-    if (p >= 1) { setFrontVar(1.25); setSceneAttr(sceneOf(win.B)); sB.style.clipPath = ''; sB.style.visibility = ''; return; }
-    setFrontVar(f); setSceneAttr(f > 0.5 ? sceneOf(win.B) : sceneOf(A));
-    if (f <= -0.25) { sB.style.visibility = 'hidden'; return; }
-    sB.style.visibility = '';
+    if (p <= 0) { hide(sB, false); clearPair(win); clearInk(); return; }
+    ensurePair(sa, sb);
+    if (p >= 1) { setFrontVar(1.25); setSceneAttr(sb); hide(sB, false); clearPair(win); clearInk(); return; }
+    setPair(win, sa, sb);
+    setFrontVar(f); setSceneAttr(f > 0.5 ? sb : sa); updateInk(f, sa, sb);
+    if (f <= -0.25) { hide(sB, true); return; }
     var r = sB.getBoundingClientRect();
     rectV.x = r.left; rectV.y = r.top; rectV.w = r.width; rectV.h = r.height;
     sB.style.clipPath = f >= 1.25 ? '' : U.slashPolygon(f, rectV, 'new', window.innerWidth, window.innerHeight);
+    sB.style.pointerEvents = '';
   }
   function onBoundary(id, cb) { (boundaryCbs[id] = boundaryCbs[id] || []).push(cb); }
 
@@ -168,17 +195,52 @@
     }
     return y;
   }
+  /* the section an element belongs to (a pinned section sits inside ScrollTrigger's pin-spacer, so not `main > .section`) */
+  function sectionOf(el) { var s = (el && el.closest) ? el.closest('.section') : null; return (s && sections.indexOf(s) > -1) ? s : null; }
+  function windowsOf(sec) {
+    var o = { prev: null, next: null };
+    for (var i = 0; i < windows.length; i++) { if (windows[i].B === sec) o.prev = windows[i]; if (windows[i].A === sec) o.next = windows[i]; }
+    return o;
+  }
+  function focusable(el) { return !!(el.matches && el.matches('a[href], button, input, select, textarea, summary, [tabindex]')); }
+  /* after a scroll the target holds the focus, so Tab continues from there (a container gets tabindex -1) */
+  function focusTarget(el) {
+    if (document.activeElement === el) return;
+    if (!focusable(el)) el.tabIndex = -1;
+    try { el.focus({ preventScroll: true }); } catch (e) { /* noop */ }
+  }
   function scrollTo(target, opts) {
     var el = typeof target === 'string' ? document.querySelector(target) : target;
     if (!el) return;
+    opts = opts || {};
     // honour scroll-margin-top (native scrollIntoView does; Lenis needs it as an offset)
     var margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
     var top = Math.max(0, docTop(el) - margin);
-    if (lenis) lenis.scrollTo(top, { duration: (opts && opts.duration) || 1.2 });
-    else if (hasGSAP && fine) window.scrollTo({ top: top, behavior: reduced ? 'auto' : 'smooth' });
-    else el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    // pinned boundaries: something in a section's last screen is shown at that section's window start (front unswept);
+    // something in the next section's first screen is shown once that window has completed (front swept)
+    if (hasGSAP && !reduced) {
+      var sec = sectionOf(el), w = sec ? windowsOf(sec) : null;
+      if (w && w.next && w.next.trigger) top = Math.min(top, w.next.trigger.start);
+      if (w && w.prev && w.prev.trigger && w.prev.stageB.contains(el)) top = Math.max(top, w.prev.trigger.end);
+    }
+    top = Math.max(0, Math.round(top));
+    var dur = opts.duration || 1.2;
+    function land() { if (opts.focus !== false) focusTarget(el); }
+    if (lenis) { if (Math.abs(top - window.scrollY) < 1) land(); else lenis.scrollTo(top, { duration: dur, onComplete: land }); }
+    else { window.scrollTo({ top: top, behavior: reduced ? 'auto' : 'smooth' }); setTimeout(land, reduced ? 0 : 700); }
   }
   scroll.docTop = docTop;
+  /* keyboard traversal across pinned boundaries: focus landing in a finished section (clipped under the next one) or in
+     a stage the front has not swept yet scrolls the page there, so the front reverses (or completes) and the element shows */
+  document.addEventListener('focusin', function (e) {
+    if (reduced || !hasGSAP) return;
+    var el = e.target; if (!el || el === document.body || !el.closest) return;
+    var sec = sectionOf(el); if (!sec) return;
+    var w = windowsOf(sec);
+    // A is cut once its window's sweep has started (fully clipped from the sweep's end on); B's stage is cut until the sweep ends
+    var clipped = (fine && w.next && w.next.p > w.next.range[0]) || (w.prev && w.prev.p > 0 && w.prev.p < w.prev.range[1] && w.prev.stageB.contains(el));
+    if (clipped) scrollTo(el);
+  });
 
   /* ---------------------------------------------------------- text masks */
   var maskEls = [], visible = [], io = null, maskRects = [{}, {}, {}, {}];
@@ -296,7 +358,8 @@
   function teardown() {
     if (hasGSAP) { ScrollTrigger.getAll().forEach(function (t) { t.kill(); }); gsap.ticker.remove(lenisRaf); }
     if (lenis) { lenis.destroy(); lenis = null; scroll.lenis = null; }
-    windows.forEach(function (w) { w.stageB.style.transform = ''; w.stageB.style.clipPath = ''; w.stageB.style.visibility = ''; w.A.style.clipPath = ''; w.A.style.visibility = ''; });
+    windows.forEach(function (w) { w.stageB.style.transform = ''; hide(w.stageB, false); hide(w.A, false); });
+    delete html.dataset.pair; pairOwner = null; clearInk();
     html.style.setProperty('--front', '1.25');
     ES.text.finishAll();
     reduced = true; scroll.reduced = true;
