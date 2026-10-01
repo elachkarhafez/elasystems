@@ -1,21 +1,22 @@
 /* ============================================================================
-   20-pillars.css — the E of the mark at page scale: three slash-cut gold
-   panels (ends cut parallel to the brand slash), stepped by exactly
-   slash-run x pitch so every end sits on ONE slash line, which the thin
-   slash draws along after the bars. Rain falls through the gaps.
-   Default = the final state (no JS, reduced motion, no WebGL). The entrance
-   pre-state exists only under html[data-js][data-motion="full"].
+   20-pillars.css — "Three bars of light": the E of the mark at page scale,
+   three slash-cut gold panels stepped by exactly slash-run x pitch so every
+   end sits on ONE slash line (the thin slash draws along it after the bars).
+   Each bar arrives from darkness (fade, 1.2 s, 200 ms apart) with its own
+   light sweep; hover/tap brightens the bar over 400 ms and extends a thin
+   line under the word. Default = the final state (no JS, reduced motion).
    Phone: bars bleed off the left edge and stack full width.
    ========================================================================== */
 .pillars__stage { display: grid; align-content: start; padding-top: calc(var(--topbar-h) + 6vh); padding-bottom: 8vh; }
-.pillars__head { display: grid; gap: 12px; max-width: 560px; }
+.pillars__head { display: grid; gap: 16px; max-width: 980px; }
+.pillars__thesis { max-width: 18ch; }
 .pillars__e {
   --bar-h: clamp(150px, 24vh, 220px);   /* phone: ~24 vh per bar, the three bars own the screen */
   --bar-gap: clamp(16px, 2.4vh, 28px);
   --cut: calc(var(--bar-h) * var(--slash-run));
   --step: calc((var(--bar-h) + var(--bar-gap)) * var(--slash-run));
   position: relative;
-  margin: 32px 0 0 calc(-1 * var(--gutter));
+  margin: 40px 0 0 calc(-1 * var(--gutter));
   width: calc(100% + var(--gutter));
 }
 .pillars__bars { display: grid; gap: var(--bar-gap); margin: 0; max-width: none; }
@@ -40,9 +41,8 @@
   color: var(--night);
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
-  transition: transform var(--t-micro) var(--ease-enter);
 }
-.bar__link::before, .bar__link::after {
+.bar__link::before, .bar__link::after, .bar__sweep {
   content: "";
   position: absolute;
   inset: 0;
@@ -50,11 +50,19 @@
   clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
 }
 .bar__link::before { background: linear-gradient(to right, var(--gold), color-mix(in srgb, var(--gold) 80%, var(--gold-light))); }
-.bar__link::after { background: var(--gold-light); opacity: 0; transition: opacity var(--t-micro) var(--ease-enter); }
-.bar__link:hover, .bar__link:focus-visible, .bar__link:active { transform: translateY(-3px); }
+.bar__link::after { background: var(--gold-light); opacity: 0; transition: opacity var(--t-hover) var(--ease-film); }
+.bar__sweep {
+  background: linear-gradient(var(--sweep-angle), transparent 40%, color-mix(in srgb, var(--light) 65%, transparent) 50%, transparent 60%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+  pointer-events: none;
+}
 .bar__link:hover::after, .bar__link:focus-visible::after, .bar__link:active::after { opacity: 1; }
 .bar__link:focus-visible { outline-color: var(--paper); outline-offset: -4px; }
 .bar__word {
+  position: relative;
+  width: fit-content;
   font-family: var(--font-display);
   font-variation-settings: var(--vs-display);
   font-weight: 820;
@@ -64,10 +72,13 @@
   color: var(--night);
   white-space: nowrap;
 }
+/* the thin line under the word extends on hover (400 ms) */
+.bar__word::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--gold-deep); transform: scaleX(0); transform-origin: left center; transition: transform var(--t-hover) var(--ease-film); }
+.bar__link:hover .bar__word::after, .bar__link:focus-visible .bar__word::after { transform: scaleX(1); }
 .bar__meta { display: grid; gap: 4px; }
 .bar__line { color: color-mix(in srgb, var(--night) 84%, var(--gold-deep)); max-width: 24ch; }
 @media (min-width: 768px) { .bar__line { max-width: 36ch; } }
-.bar__go { color: color-mix(in srgb, var(--night) 62%, transparent); transition: color var(--t-micro); }
+.bar__go { color: color-mix(in srgb, var(--night) 62%, transparent); transition: color var(--t-hover) var(--ease-film); }
 .bar__link:hover .bar__go, .bar__link:focus-visible .bar__go { color: var(--night); }
 .pillars__slash {
   display: none;
@@ -89,7 +100,7 @@
   .bar--2 { width: calc(100% - var(--step)); }
   .bar--3 { width: calc(100% - 2 * var(--step)); }
   .bar__link { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 32px; padding: 0 calc(var(--cut) + 20px) 0 calc(var(--cut) * .62 + 24px); }
-  .bar__link::before, .bar__link::after { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+  .bar__link::before, .bar__link::after, .bar__sweep { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
   .bar__word { font-size: clamp(36px, 3.6vw, 56px); }
   .bar__meta { text-align: right; justify-items: end; }
   .pillars__slash { display: block; }
@@ -98,17 +109,17 @@
   .pillars__e { --bar-h: 104px; --bar-gap: 36px; }
 }
 
-/* ---- entrance (JS + full motion only): bars enter along the slash normal,
-   each cut by the slash edge, 900 ms, 120 ms apart; the slash draws after */
+/* ---- the arrival (JS + full motion only) ---------------------------------- */
 html[data-js][data-motion="full"] .bar {
-  transition: clip-path var(--t-lock) var(--ease-slash), transform var(--t-lock) var(--ease-slash);
-  transition-delay: calc(var(--i, 0) * var(--t-lock-bar));
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 1200ms var(--ease-film) calc(var(--i, 0) * 200ms + 300ms), transform 1200ms var(--ease-film) calc(var(--i, 0) * 200ms + 300ms);
 }
-html[data-js][data-motion="full"] .pillars:not(.is-in) .bar {
-  clip-path: polygon(0 -8px, 0 -8px, calc(-1 * var(--cut) - 9px) calc(100% + 8px), 0 calc(100% + 8px));
-  transform: translate3d(-44px, -24px, 0);
-}
-html[data-js][data-motion="full"] .pillars__slash {
-  transition: clip-path 520ms var(--ease-slash) calc(var(--t-lock) + 2 * var(--t-lock-bar));
-}
-html[data-js][data-motion="full"] .pillars:not(.is-in) .pillars__slash { clip-path: inset(0 0 100% 0); transition-delay: 0ms; }
+html[data-js][data-motion="full"] .pillars.is-in .bar { opacity: 1; transform: none; }
+html[data-js][data-motion="full"] .pillars.is-quick .bar { transition-duration: 300ms; transition-delay: 0ms; }
+html[data-js][data-motion="full"] .pillars.is-in .bar__sweep { animation: sweep-bg var(--t-sweep) var(--ease-sweep) calc(var(--i, 0) * 200ms + 700ms) 1 both; }
+html[data-js][data-motion="full"] .pillars__slash { clip-path: inset(0 0 100% 0); transition: clip-path 1100ms var(--ease-film) 1500ms; }
+html[data-js][data-motion="full"] .pillars.is-in .pillars__slash { clip-path: inset(0 0 0 0); }
+/* the strike through "traffic" draws (600 ms) once the headline has risen */
+html[data-js][data-motion="full"] .pillars__thesis .strike-line { transform: scaleX(0); transition: transform 600ms var(--ease-film) 1100ms; }
+html[data-js][data-motion="full"] .pillars__thesis.is-in .strike-line { transform: scaleX(1); }

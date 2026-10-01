@@ -1,14 +1,13 @@
 /* ============================================================================
-   41-systems.css — #systems "The Construct": the one light room. Paper ground
-   (painted by the engine; by the section ground when static), navy ink, gold
-   only for what is active. Three real HTML dashboards in the 12-column grid,
-   each a square-cut surface with one slash notch, hairline rows, display
-   titles, mono data.
-   Default = the final, fully legible state (no JS, reduced motion, no WebGL).
-   Pre-states (panel + row slash wipes, the beats) exist only under
-   html[data-js][data-motion="full"] and animate clip-path, transform and
-   opacity only. --ph / --rh (element heights) are set by JS so every wipe
-   edge is the brand slash regardless of size.
+   41-systems.css — "The white room": the one light room. Paper ground on the
+   section, navy ink, gold only for what is active. Three real HTML dashboards
+   in the 12-column grid, each a square-cut surface with one slash notch,
+   hairline rows, display titles, mono data.
+   Default = the final, fully legible state (no JS, reduced motion).
+   Motion (JS + full): the panels fade up 200 ms apart ([data-rise]), their
+   rows fade in 60 ms apart (--r), the beats reveal their element by a fade
+   (+ rise), the lead moves with a transform, the meter scales, the waiver
+   crossfades. Opacity and transform only.
    ========================================================================== */
 .systems__stage { display: grid; gap: 44px; align-content: start; padding-top: calc(var(--topbar-h) + 5vh); padding-bottom: 10vh; }
 .systems__head { display: grid; gap: 16px; max-width: 1100px; }
@@ -18,6 +17,7 @@
 .systems .body { color: var(--navy); }
 .systems__note { color: var(--navy-2); }
 .systems :focus-visible { outline-color: var(--navy); }
+.systems ::selection { background: var(--navy); color: var(--paper); }
 
 /* ---- the grid ------------------------------------------------------------- */
 .panels { display: grid; gap: var(--col-gap); align-items: stretch; margin-top: 48px; }
@@ -42,8 +42,6 @@
   --fill: color-mix(in srgb, var(--navy) 5%, transparent);
   --notch: 18px;
   --nrun: calc(var(--notch) * var(--slash-run));
-  --ph: 460px;
-  --prun: calc(var(--ph) * var(--slash-run));
   --leadh: 70px;
   position: relative;
   display: grid;
@@ -54,8 +52,8 @@
   min-width: 0;
   background: var(--surface);
   color: var(--navy);
-  box-shadow: inset 0 0 0 1px var(--hair-2);
-  clip-path: polygon(0 0, calc(100% - var(--nrun) + var(--prun)) 0, 100% calc(100% - var(--notch)), calc(100% - var(--nrun)) 100%, 0 100%);
+  box-shadow: inset 0 0 0 1px var(--hair-2), 0 30px 60px -40px rgba(8, 24, 48, .35);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--nrun)) 100%, 0 100%);
   font-family: var(--font-mono);
   font-size: 12.5px;
   line-height: 18px;
@@ -82,13 +80,13 @@
 .row--kpi { grid-template-areas: "k v" "b b"; }
 .row--kpi .row__k { grid-area: k; } .row--kpi .row__v { grid-area: v; }
 .row--kpi .row__v b { font-weight: inherit; font-size: 14px; }
-.delta { font-style: normal; color: var(--ink-2); font-size: 11px; }
+.delta { font-style: normal; color: var(--ink-2); font-size: 12px; }
 .bars { grid-area: b; display: flex; gap: 3px; height: 22px; align-items: flex-end; margin-top: 8px; }
 .bars i { flex: 1 1 0; height: 100%; background: color-mix(in srgb, var(--navy) 34%, transparent); transform: scaleY(var(--v)); transform-origin: bottom; }
 .bars i.is-now { background: var(--gold); }
 
 /* badges, pips */
-.badge { display: inline-block; font-size: 11px; line-height: 16px; letter-spacing: .08em; text-transform: uppercase; padding: 0 6px; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--hair-2); white-space: nowrap; }
+.badge { display: inline-block; font-size: 12px; line-height: 16px; letter-spacing: .06em; text-transform: uppercase; padding: 0 6px; color: var(--ink-2); box-shadow: inset 0 0 0 1px var(--hair-2); white-space: nowrap; }
 .panel .badge--done { background: var(--navy); color: var(--paper); box-shadow: none; }
 .panel .badge--gold { background: var(--gold); color: var(--navy); box-shadow: none; }
 .row--beat { grid-template-columns: minmax(0, 1fr); row-gap: 4px; }
@@ -102,9 +100,9 @@
 .card__tag { display: flex; align-items: center; font-size: var(--mono-label); letter-spacing: .1em; color: var(--ink-2); }
 .card__title { font-weight: 700; font-size: 14px; line-height: 20px; color: var(--navy); }
 .card__text { color: var(--navy); }
-.card__meta { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; color: var(--ink-2); font-size: 11.5px; }
+.card__meta { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 2px 0 0; color: var(--ink-2); font-size: 12px; }
 .card__meta span + span::before { content: "·"; margin: 0 7px; }
-.card__actions { display: flex; gap: 8px; margin-top: 6px; transition: opacity var(--t-short) var(--ease-exit), visibility 0s linear var(--t-short); }
+.card__actions { display: flex; gap: 8px; margin-top: 6px; transition: opacity var(--t-medium) var(--ease-film), visibility 0s linear var(--t-medium); }
 .card__actions .btn { --btn-h: 44px; font-size: 13px; line-height: 18px; padding: 0 calc(var(--btn-cut) + 10px) 0 12px; }
 .btn--ghost { color: var(--navy); }
 .btn--ghost::before { background: color-mix(in srgb, var(--navy) 9%, transparent); }
@@ -120,13 +118,13 @@
 .sched__hours i { position: absolute; top: 0; left: calc(var(--x) * 100%); font-style: normal; }
 .sched__rooms { display: grid; gap: 4px; }
 .sched__rooms li { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 8px; align-items: center; }
-.sched__room { color: var(--ink-2); font-size: 11px; }
+.sched__room { color: var(--ink-2); font-size: 12px; }
 .sched__lane { position: relative; height: 24px; background: repeating-linear-gradient(to right, var(--hair) 0 1px, transparent 1px 14.2857%); }
 .blk {
   position: absolute; top: 2px; bottom: 2px;
   left: calc(var(--s) * 100%); width: calc((var(--e) - var(--s)) * 100%);
   background: color-mix(in srgb, var(--navy) 16%, transparent);
-  color: var(--navy); font-weight: inherit; font-size: 10.5px; line-height: 20px;
+  color: var(--navy); font-weight: inherit; font-size: 12px; line-height: 20px;
   padding: 0 7px 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   clip-path: polygon(0 0, 100% 0, calc(100% - 10.7px) 100%, 0 100%);
 }
@@ -134,18 +132,18 @@
 
 /* waivers */
 .waivers { display: grid; gap: 8px; }
-.waivers__head { display: flex; justify-content: space-between; font-size: 10px; letter-spacing: .1em; color: var(--ink-2); }
+.waivers__head { display: flex; justify-content: space-between; font-size: var(--mono-label); letter-spacing: .1em; color: var(--ink-2); }
 .waivers__head b { font-weight: inherit; color: var(--navy); }
 .meter { height: 4px; background: var(--hair); margin: 0; }
-.meter__fill { display: block; height: 100%; background: var(--navy); transform: scaleX(var(--p)); transform-origin: left center; transition: transform var(--t-medium) var(--ease-slash); }
+.meter__fill { display: block; height: 100%; background: var(--navy); transform: scaleX(var(--p)); transform-origin: left center; transition: transform 900ms var(--ease-film); }
 .swap { display: grid; justify-items: end; }
 .swap > * { grid-area: 1 / 1; }
-.swap__old { opacity: 0; transition: opacity 200ms linear; }
+.swap__old { opacity: 0; transition: opacity 700ms var(--ease-film); }
 
 /* the lead board: a stepper and four lanes */
-.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 8px; margin: 0; padding: 0 0 6px; font-size: 10px; letter-spacing: .08em; color: var(--ink-2); }
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 8px; margin: 0; padding: 0 0 6px; font-size: var(--mono-label); letter-spacing: .06em; color: var(--ink-2); }
 .step { position: relative; display: grid; justify-items: start; gap: 7px; min-width: 0; }
-.step i { position: relative; z-index: 1; width: 8px; height: 8px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--hair-2); clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 0 100%); transition: background var(--t-micro) var(--ease-enter); }
+.step i { position: relative; z-index: 1; width: 8px; height: 8px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--hair-2); clip-path: polygon(2px 0, 100% 0, calc(100% - 2px) 100%, 0 100%); transition: background var(--t-hover) var(--ease-film); }
 .step::before { content: ""; position: absolute; left: 12px; right: -8px; top: 3.5px; height: 1px; background: var(--hair-2); }
 .step:last-child::before { display: none; }
 .step.is-done i { background: var(--navy); box-shadow: none; }
@@ -154,7 +152,7 @@
 .lanes { display: grid; }
 .lane { display: grid; gap: 8px; padding: 10px 0; border-top: 1px solid var(--hair); min-width: 0; }
 .lane:first-child { border-top: 0; padding-top: 4px; }
-.lane__label { display: flex; align-items: baseline; justify-content: space-between; font-size: 10px; letter-spacing: .1em; color: var(--ink-2); }
+.lane__label { display: flex; align-items: baseline; justify-content: space-between; font-size: var(--mono-label); letter-spacing: .1em; color: var(--ink-2); }
 .count { font-weight: inherit; color: var(--navy); min-width: 18px; text-align: right; }
 .lane__slot { position: relative; min-height: var(--leadh); }
 .lane__empty { position: absolute; inset: 0; display: flex; align-items: center; color: var(--ink-2); padding: 0 2px; margin: 0; }
@@ -162,7 +160,7 @@
 .lead { position: relative; display: grid; gap: 3px; align-content: start; padding: 9px 12px 9px 14px; background: var(--fill); min-height: var(--leadh); min-width: 0; }
 .lead--live::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--gold); }
 .lead--live { z-index: 2; }
-.lead__tag { font-size: 10px; letter-spacing: .08em; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lead__tag { font-size: var(--mono-label); letter-spacing: .06em; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lead__title { font-weight: 700; font-size: 13px; line-height: 18px; color: var(--navy); }
 .lead__meta { color: var(--ink-2); min-height: 18px; }
 .sms {
@@ -174,51 +172,33 @@
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 6.4px) 100%, 0 100%);
 }
 .sms__text { font-size: 12.5px; line-height: 18px; min-height: 36px; }
-.sms__meta { font-size: 10px; letter-spacing: .08em; color: color-mix(in srgb, var(--paper) 68%, transparent); }
+.sms__meta { font-size: var(--mono-label); letter-spacing: .06em; color: color-mix(in srgb, var(--paper) 68%, transparent); }
 .sms.is-typing .sms__text::after { content: ""; display: inline-block; width: 7px; height: 12px; margin-left: 2px; background: var(--gold-light); vertical-align: -1px; }
 
 @media (max-width: 767px) {
   .systems__stage { gap: 32px; padding-bottom: calc(10vh + var(--bottombar-h) + var(--safe-b)); }
   .systems__title { max-width: 12ch; }
-  .panel { --ph: 560px; }
   .panel__body { padding: 12px 14px 14px; }
   .panel__bar, .panel__note { padding-inline: 14px; }
 }
 
-/* ---- motion (JS on, full motion only) ---------------------------------------
-   The panel wipes in along the slash (760 ms, 140 ms apart), then its rows,
-   line by line (520 ms, 60 ms apart). Beats reveal their element with the
-   same edge. The lead card moves with a transform; the meter scales; the
-   waiver swap wipes in over the old badge. Everything else is final CSS. */
-html[data-js][data-motion="full"] .panel { transition: clip-path 760ms var(--ease-slash) calc(var(--i, 0) * 140ms); }
-html[data-js][data-motion="full"] .panel:not(.is-in) {
-  clip-path: polygon(-1px 0, -1px 0, calc(var(--nrun) - var(--prun) - 1px) calc(100% - var(--notch)), calc(-1 * var(--prun) - 1px) 100%, -1px 100%);
-}
-html[data-js][data-motion="full"] .panel [data-row],
-html[data-js][data-motion="full"] .panel [data-beat],
+/* ---- motion (JS on, full motion only) --------------------------------------- */
+html[data-js][data-motion="full"] .panel[data-rise] { transition-delay: calc(var(--i, 0) * 200ms); }
+html[data-js][data-motion="full"] .panel [data-row] { opacity: 0; transition: opacity 700ms var(--ease-film) calc(var(--r, 0) * 60ms + 400ms); }
+html[data-js][data-motion="full"] .panel.is-run [data-row] { opacity: 1; }
+html[data-js][data-motion="full"] .panel.is-quick [data-row] { transition-duration: 300ms; transition-delay: 0ms; }
 html[data-js][data-motion="full"] .panel [data-lead],
 html[data-js][data-motion="full"] .panel [data-sms],
-html[data-js][data-motion="full"] .panel .swap__new {
-  --rh: 36px;
-  --rrun: calc(var(--rh) * var(--slash-run));
-  clip-path: polygon(0 0, calc(100% + var(--rrun)) 0, 100% 100%, 0 100%);
-  transition: clip-path 520ms var(--ease-slash);
-}
-html[data-js][data-motion="full"] .panel [data-row] { transition-delay: calc(var(--i, 0) * 140ms + 220ms + var(--r, 0) * 60ms); }
-/* once the rows have settled, release their clips so the moving lead card is never clipped by its lane */
-html[data-js][data-motion="full"] .panel.is-settled [data-row]:not([data-beat]) { clip-path: none; transition: none; }
-html[data-js][data-motion="full"] .panel:not(.is-in) [data-row],
+html[data-js][data-motion="full"] .panel [data-beat] { transition: opacity 800ms var(--ease-film), transform 800ms var(--ease-film); }
 html[data-js][data-motion="full"] .panel--leads:not(.is-lead) [data-lead],
 html[data-js][data-motion="full"] .panel--leads:not(.is-sms) [data-sms],
 html[data-js][data-motion="full"] .panel--leads:not(.is-timer) [data-beat="timer"],
-html[data-js][data-motion="full"] .panel--party:not(.is-signed) .swap__new,
-html[data-js][data-motion="full"] .panel--jarvis:not(.is-restock) [data-beat="restock"] {
-  clip-path: polygon(-1px 0, -1px 0, calc(-1 * var(--rrun) - 1px) 100%, -1px 100%);
-}
+html[data-js][data-motion="full"] .panel--jarvis:not(.is-restock) [data-beat="restock"] { opacity: 0; transform: translate3d(0, 12px, 0); }
+html[data-js][data-motion="full"] .panel--party .swap__new { transition: opacity 700ms var(--ease-film); }
+html[data-js][data-motion="full"] .panel--party:not(.is-signed) .swap__new { opacity: 0; }
 html[data-js][data-motion="full"] .panel--party:not(.is-signed) .swap__old { opacity: 1; }
-html[data-js][data-motion="full"] .panel--leads [data-lead] { transition: clip-path 520ms var(--ease-slash), transform var(--t-medium) var(--ease-slash); }
-html[data-js][data-motion="full"] .panel--leads [data-lead-meta] { transition: opacity var(--t-short) var(--ease-enter) 300ms; }
+html[data-js][data-motion="full"] .panel--leads [data-lead] { transition: opacity 800ms var(--ease-film), transform 900ms var(--ease-film); }
+html[data-js][data-motion="full"] .panel--leads [data-lead-meta] { transition: opacity var(--t-medium) var(--ease-film) 400ms; }
 html[data-js][data-motion="full"] .panel--leads:not(.is-moved) [data-lead-meta] { opacity: 0; }
-html[data-js][data-motion="full"] .bars i { transition: transform 600ms var(--ease-slash) calc(var(--i, 0) * 140ms + 500ms + var(--k, 0) * 50ms); }
-html[data-js][data-motion="full"] .panel:not(.is-in) .bars i { transform: scaleY(0); }
-html[data-js][data-motion="full"] .panel.no-trans, html[data-js][data-motion="full"] .panel.no-trans * { transition: none !important; }
+html[data-js][data-motion="full"] .bars i { transition: transform 900ms var(--ease-film) calc(600ms + var(--k, 0) * 60ms); }
+html[data-js][data-motion="full"] .panel:not(.is-run) .bars i { transform: scaleY(0); }

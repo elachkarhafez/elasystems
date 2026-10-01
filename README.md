@@ -17,10 +17,11 @@ node tools/build.mjs --pretty     # keep comments and indentation in the generat
 - `src/index.template.html` — the document shell. `<!-- @partial name -->` pulls in `src/partials/<name>.html`.
 - `src/partials/*.html` — one file per section (hero, pillars, diagnose, work, apps, systems, contact, footer, chrome).
 - `src/css/NN-*.css` — concatenated in filename order. Tokens live in `00-tokens.css`.
-- `src/js/NN-*.js` — concatenated in filename order. `00-engine.js` is the WebGL rain engine (`window.ES.rain`),
-  `01-text.js` the text effects (`window.ES.text`), `02-scroll.js` the scroll and transition bridge (`window.ES.scroll`),
-  the rest are per-section behaviours.
-- `js/vendor/` — GSAP 3.12.5 + ScrollTrigger, Lenis 1.1.18 (standard licences, no Club plugins).
+- `src/js/NN-*.js` — concatenated in filename order. `00-core.js` is the shared layer (`window.ES`: the one
+  requestAnimationFrame loop with lerps, the IntersectionObserver reveals, the film layer, the haze, the reduced-motion
+  switch), `01-scroll.js` the scroll layer (Lenis on fine pointers, the film-cut dips, scene state, scrollTo with focus),
+  the rest are per-scene behaviours.
+- `js/vendor/` — Lenis 1.1.18 (standard licence).
 - `brand/`, `work/`, `apps/`, `fonts/` — assets. Portfolio captures are the clients' own sites; never add third-party images.
 
 ## Rules that do not change
@@ -29,7 +30,8 @@ node tools/build.mjs --pretty     # keep comments and indentation in the generat
   Also `tel:+13133006898` and `mailto:elasystemdesign@gmail.com`.
 - Portfolio shows names, screenshots and links only. No counts, ratings, results or testimonials anywhere.
 - App screens are labelled concept work; dashboards are "recreated for illustration, sample data".
-- No unsourced numbers or claims. `prefers-reduced-motion` and the footer "Reduce effects" toggle give a still page.
+- No unsourced numbers or claims. `prefers-reduced-motion` and the footer "Reduce effects" toggle give a still page:
+  every scene in its final state, no film-layer motion, no fades.
 
 ## Local preview
 

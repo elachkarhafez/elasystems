@@ -1,45 +1,26 @@
 /* ============================================================================
-   50-contact.css — #contact "The live line"
-   Screen A (.stage, revealed by the front): eyebrow + the display-1 headline.
-   Screen B (.contact__live): TEXT US / Start with a message. / the number /
-   the gold pill / mono lines / the body line.
-   Default = the complete static composition (no JS, reduced motion, no WebGL):
-   the number is gold-light text, nothing is pinned.
-   html[data-js][data-motion="full"][data-webgl="ok"] = the live layout: the
-   number screen is sticky inside .contact__pin for exactly 80 vh of scroll
-   (the number catch), the DOM digits go transparent once the rain holds
-   them (.is-numbercatch), the actions arrive by the slash edge.
-   Phone: the number stacks 313- / 300- / 6898 so the digits are big enough
-   for the rain cells; one line from 1024 px up.
+   50-contact.css — #contact "The number in light"
+   TEXT US / Start with a message. / the number as big as the viewport allows
+   (Archivo 820/125, gold light, a real sms: anchor) / the gold pill / the
+   mono lines / the body line. The number is lit by a gradient and the light
+   sweep crosses it (background-position keyframe on a text clip); it fades
+   up over 1.4 s when it enters (.is-lit) and the sweep fires on any sms:
+   press (.is-sweep). Nothing is pinned. Phone: 313- / 300- / 6898 stacked;
+   one line from 1024 px up. Default = the complete composition (no JS,
+   reduced motion): the number is lit, nothing waits.
    ========================================================================== */
-
 .contact { --num-lh: .9; }
-
-/* ---- screen A ------------------------------------------------------------- */
+.contact .haze { z-index: 0; }
 .contact__stage {
-  display: grid;
-  align-content: start;
-  gap: 0;
-  padding: calc(var(--topbar-h) + 7vh) var(--gutter) 10vh;
-}
-.contact__head { display: grid; gap: 22px; max-width: 1240px; }
-.contact__title { font-size: clamp(36px, 5.4vw, 78px); line-height: .96; max-width: 18ch; }
-.contact__cue { display: none; align-items: center; gap: 14px; color: var(--mute); }
-.contact__cue i { display: block; width: 2px; height: 48px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); opacity: .55; }
-
-/* ---- screen B ------------------------------------------------------------- */
-.contact__pin { position: relative; }
-.contact__live {
   position: relative;
+  z-index: 1;
   display: grid;
-  align-content: start;
+  align-content: center;
   gap: 0;
-  width: 100%;
-  max-width: var(--max);
-  padding: calc(var(--topbar-h) + 6vh) var(--gutter) 10vh;
+  padding: calc(var(--topbar-h) + 7vh) var(--gutter) 12vh;
 }
-.contact__label { display: grid; gap: 8px; }
-.contact__start { color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.contact__label { display: grid; gap: 14px; }
+.contact__title { max-width: 14ch; }
 
 /* the number: Archivo 820/125, as big as the viewport allows, one line (desktop) */
 .contact__number {
@@ -47,6 +28,7 @@
   width: fit-content;
   max-width: 100%;
   margin-top: 26px;
+  padding-right: .06em;
   font-family: var(--font-display);
   font-variation-settings: var(--vs-display);
   font-weight: 820;
@@ -59,36 +41,43 @@
   text-decoration: none;
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
-  transition: color var(--t-micro) var(--ease-enter);
+  /* lit: a gold gradient through the glyphs, and the sweep as a second layer that travels across */
+  background-image:
+    linear-gradient(var(--sweep-angle), transparent 40%, var(--light) 50%, transparent 60%),
+    linear-gradient(to bottom, var(--light) 0%, var(--gold-light) 38%, var(--gold) 78%, var(--gold-deep) 100%);
+  background-size: 300% 100%, 100% 100%;
+  background-position: 100% 0, 0 0;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.contact__number:hover { color: var(--head); }
+.contact__number.is-sweep { animation: num-sweep var(--t-sweep) var(--ease-sweep) 1 both; }
+@keyframes num-sweep { from { background-position: 100% 0, 0 0; } to { background-position: 0% 0, 0 0; } }
 .contact__num { display: block; }
-.contact__number::selection, .contact__number *::selection { background: var(--gold); color: var(--night); }
-/* once the rain holds the digits, the DOM text steps back (the rain IS the number) */
-html[data-js][data-webgl="ok"][data-motion="full"] .contact.is-numbercatch .contact__number { color: transparent; }
-html[data-js][data-webgl="ok"][data-motion="full"] .contact.is-numbercatch .contact__number:focus-visible { color: var(--gold-light); }
+.contact__number::selection, .contact__number *::selection { background: var(--gold); -webkit-text-fill-color: var(--night); color: var(--night); }
+html[data-js][data-motion="full"] .contact__number { opacity: 0; transition: opacity 1400ms var(--ease-film); }
+html[data-js][data-motion="full"] .contact__number.is-lit { opacity: 1; }
 
 .contact__actions { display: grid; gap: 22px; margin-top: 28px; }
 .contact__cta { width: 100%; }
 .contact__lines { display: grid; gap: 10px; color: var(--paper); }
 /* every contact line is a 44 px target */
 .contact__lines a, .contact__copy { display: inline-flex; align-items: center; min-height: 44px; }
-.contact__lines a { color: var(--paper); text-decoration: none; transition: color var(--t-micro); }
+.contact__lines a { color: var(--paper); text-decoration: none; transition: color var(--t-hover) var(--ease-film); }
 .contact__lines a:hover, .contact__lines a:focus-visible { color: var(--gold-light); }
-.contact__copy { color: var(--gold); text-align: left; transition: color var(--t-micro); }
+.contact__copy { color: var(--gold); text-align: left; transition: color var(--t-hover) var(--ease-film); }
 .contact__copy:hover, .contact__copy:focus-visible { color: var(--gold-light); }
 .contact__copy.is-done { color: var(--gold-light); }
 .contact__copy.is-failed { color: var(--mute); }
 .contact__body { margin-top: 30px; max-width: 58ch; color: color-mix(in srgb, var(--paper) 82%, transparent); }
 @media (max-width: 767px) {
+  .contact__stage { padding-bottom: calc(8vh + var(--bottombar-h) + var(--safe-b)); }
   .contact__lines { gap: 0; }   /* the 44 px rows set the pitch */
   .contact__lines li { display: flex; align-items: center; min-height: 44px; }
 }
-
 @media (min-width: 768px) {
-  .contact__stage { padding-top: calc(var(--topbar-h) + 8vh); padding-bottom: 12vh; }
-  .contact__head { gap: 28px; }
-  .contact__live { padding-top: calc(var(--topbar-h) + 7vh); padding-bottom: 10vh; }
+  .contact__stage { padding-top: calc(var(--topbar-h) + 6vh); padding-bottom: 12vh; }
   .contact__number { margin-top: 30px; }
   .contact__cta { width: auto; }
   .contact__actions { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 32px; margin-top: 30px; }
@@ -103,44 +92,4 @@ html[data-js][data-webgl="ok"][data-motion="full"] .contact.is-numbercatch .cont
     margin-top: 34px;
   }
   .contact__num { display: inline; }
-}
-
-/* ---- the live layout (JS on, full motion, rain running) ----------------- */
-/* the catch span: 80 vh of content height after the sticky screen (padding would not count:
-   a sticky box is clamped to its containing block's content box) */
-html[data-js][data-motion="full"][data-webgl="ok"] .contact__pin::after { content: ""; display: block; height: 80vh; height: 80svh; }
-html[data-js][data-motion="full"][data-webgl="ok"] .contact__live {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  min-height: 100svh;
-}
-@media (min-width: 768px) {
-  html[data-js][data-motion="full"][data-webgl="ok"] .contact__live { align-content: center; padding-top: calc(var(--topbar-h) + 2vh); padding-bottom: 8vh; }
-}
-@media (max-width: 767px) {
-  html[data-js][data-motion="full"] .contact__live { padding-bottom: calc(6vh + var(--bottombar-h) + var(--safe-b)); }
-}
-html[data-js][data-motion="full"] .contact__stage { position: relative; }
-html[data-js][data-motion="full"] .contact__cue { position: absolute; left: var(--gutter); bottom: 28px; opacity: 0; transition: opacity var(--t-medium) var(--ease-enter); }
-html[data-js][data-motion="full"] .contact.is-in .contact__cue { opacity: 1; }
-html[data-js][data-motion="full"] .contact.is-in .contact__cue i { animation: cue-pulse 1200ms var(--ease-enter) 1 both; }
-/* the cue has done its job once the number screen is live: it never parks under the top bar */
-html[data-js][data-motion="full"] .contact.is-live .contact__cue { opacity: 0; }
-@media (min-width: 900px) { html[data-js][data-motion="full"] .contact__cue { display: flex; } }
-
-/* reveals: the same slash edge at element scale, 600 ms, from the left; hidden = out of the tab order too */
-html[data-js][data-motion="full"] .contact__actions,
-html[data-js][data-motion="full"] .contact__body {
-  transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s;
-  clip-path: polygon(0 -8px, calc(100% + 60% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), 0 calc(100% + 8px));
-}
-html[data-js][data-motion="full"] .contact__body { transition-delay: 140ms, 140ms, 0s; }
-html[data-js][data-motion="full"] .contact__live:not(.is-in) .contact__actions,
-html[data-js][data-motion="full"] .contact__live:not(.is-in) .contact__body {
-  clip-path: polygon(0 -8px, 0 -8px, -60% calc(100% + 8px), 0 calc(100% + 8px));
-  opacity: 0;
-  visibility: hidden;
-  transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s linear var(--t-reveal);
-  transition-delay: 0ms, 0ms, var(--t-reveal);
 }

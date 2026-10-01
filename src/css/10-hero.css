@@ -1,190 +1,109 @@
 /* ============================================================================
-   10-hero.css — "Caught in the rain"
-   Default = static flow composition (no JS, reduced motion, no WebGL):
-   intro line, mark, headline, CTA, thesis, cue, top to bottom.
-   html[data-js][data-motion="full"] = the pinned poster layout the timeline
-   drives (everything absolutely placed inside a 100vh stage).
-   Desktop: the mark is caught centred at 62vw, then YIELDS to the headline
-   (.is-copy): it moves up under the top bar and shrinks so it ends 20 px above
-   the copy block (--copy-h is measured by 10-hero.js). The reduced poster
-   uses the yielded pose directly. Phones keep the mark at top 34%.
+   10-hero.css — "Opening title". One 100svh title card composed inside the
+   letterbox: the mark (centred, slightly above centre), the wordmark under
+   it, the headline, the mono line and the pill at the bottom, the scroll cue
+   bottom-left. A flex column: the pieces can never overlap; the mark's width
+   is the room left over (--copy-h is measured by 10-hero.js).
+   Default = the complete card (no JS, reduced motion). The beats
+   (.is-mark .is-sweep .is-wm .is-title .is-cta .is-cue) exist only under
+   html[data-js][data-motion="full"]; .is-skip snaps everything in 400 ms.
    ========================================================================== */
-
-.hero { position: relative; --copy-b: 9vh; }
+.hero {
+  position: relative;
+  --mark-top: calc(max(var(--lb), var(--topbar-h)) + 2vh);
+  --mark-w: max(220px, min(56vw, 980px, calc((100svh - var(--mark-top) - 18px - 30px - 24px - var(--copy-h, 230px) - 28px - var(--lb)) * 1.65)));
+}
 .hero__stage {
   position: relative;
+  z-index: 1;
+  min-height: 100vh;
   min-height: 100svh;
-  display: grid;
-  align-content: start;
-  gap: 28px;
-  padding: calc(var(--topbar-h) + 24px) var(--gutter) 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--mark-top) var(--gutter) calc(var(--lb) + 28px);
   overflow: clip;
-  max-width: none;
 }
-.hero__intro { color: color-mix(in srgb, var(--paper) 60%, transparent); max-width: 720px; }
-.hero__mark {
-  width: 62vw;
-  max-width: 980px;
-  aspect-ratio: 660 / 400;
-  margin: 2vh auto;
-  pointer-events: none;
+.hero__par { flex: none; width: var(--mark-w); }
+.hero__mark { width: 100%; aspect-ratio: 660 / 400; pointer-events: none; }
+.hero__mark svg { width: 100%; height: 100%; overflow: visible; transform-origin: 50% 50%; }
+.hero .sweep { transform: translateX(-460px) skewX(-28.1deg); transform-box: fill-box; transform-origin: center; }
+.hero__wordmark { flex: none; margin-top: 18px; line-height: 1; }
+.hero__copy {
+  margin-top: auto;
+  padding-top: 24px;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
 }
-.hero__mark svg { width: 100%; height: 100%; }
-html[data-js] .hero__mark svg { visibility: hidden; }
-html[data-webgl="none"] .hero__mark svg { visibility: visible; }
-
-.hero__copy { display: grid; gap: 18px; justify-items: start; max-width: 1180px; }
-.hero__title { font-size: clamp(40px, 5vw, 72px); max-width: 24ch; }
-.hero__sub { color: color-mix(in srgb, var(--paper) 72%, transparent); }
-.hero__cta { margin-top: 6px; }
-.hero__thesis { display: grid; gap: 12px; max-width: 1100px; padding-top: 12px; }
-.hero__thesis .display-2 { display: block; }
-.hero__lock { color: var(--gold); }
-.strike-word { position: relative; display: inline-block; }
-.strike-line {
+.hero__title {
+  font-family: var(--font-display);
+  font-variation-settings: var(--vs-display);
+  font-weight: 820;
+  font-size: clamp(30px, 2.7vw, 44px);
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+  max-width: 30ch;
+}
+.hero__sub { color: color-mix(in srgb, var(--paper) 70%, transparent); max-width: 60ch; }
+.hero__act { margin-top: 10px; }
+.hero__cue {
   position: absolute;
-  left: -1%;
-  width: 102%;
-  top: 56%;
-  height: 2px;
-  background: var(--gold);
-  transform-origin: left center;
-  transform: scaleX(1);
-  clip-path: polygon(0 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
-  pointer-events: none;
+  left: var(--gutter);
+  bottom: calc(var(--lb) + 28px);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--mute);
 }
-.hero__cue { display: flex; align-items: center; gap: 14px; color: var(--mute); }
 .hero__cue i { display: block; width: 2px; height: 48px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); }
+.hero .haze { z-index: 0; }
 
 @media (max-width: 767px) {
-  .hero__mark { width: 84vw; }
-  /* the token (44 px) wherever "front of your" fits on one line; narrower phones scale it down (360: 40 px) so the
-     headline stays five lines instead of orphaning words */
-  .hero__title { font-size: min(var(--display-1), calc((100vw - 2 * var(--gutter)) / 8.2)); }
-  .hero__cue { display: none; }
+  .hero { --mark-w: max(200px, min(80vw, calc((100svh - var(--mark-top) - 18px - 26px - 20px - var(--copy-h, 330px) - 24px - var(--lb)) * 1.65))); }
+  .hero__stage { padding-bottom: calc(var(--lb) + 24px); }
+  .hero__copy { padding-top: 20px; gap: 12px; }
+  /* 44 px wherever "front of your" fits on one line; narrower phones scale down so the headline stays five lines */
+  .hero__title { font-size: min(44px, calc((100vw - 2 * var(--gutter)) / 8.2)); line-height: 1; max-width: none; }
+  .hero__act { width: 100%; margin-top: 6px; }
   .hero__cta { width: 100%; }
+  .hero__cue { display: none; }
+}
+/* short phones (iPhone SE/8 class, 360x640): no mono line, a 34 px headline */
+@media (max-width: 767px) and (max-height: 700px) {
+  .hero__title { font-size: 34px; }
+  .hero__sub { display: none; }
+}
+@media (min-width: 768px) and (max-height: 700px) {
+  .hero { --mark-top: calc(max(var(--lb), var(--topbar-h)) + 1vh); }
+  .hero__title { font-size: clamp(28px, 2.4vw, 36px); }
 }
 
-/* the yielded mark pose (desktop): under the top bar, as wide as the room above the copy block allows */
-@media (min-width: 768px) {
-  .hero {
-    --mark-top: calc(var(--topbar-h) + 36px);
-    --mark-w: min(62vw, 980px, calc((100vh - var(--mark-top) - 20px - var(--copy-h, 330px) - var(--copy-b)) * 1.65));
-    --mark-w: min(62vw, 980px, calc((100svh - var(--mark-top) - 20px - var(--copy-h, 330px) - var(--copy-b)) * 1.65));
-  }
-}
-@media (min-width: 768px) and (max-height: 760px) { .hero { --copy-b: 6vh; } }
-
-/* ---- the live layout (JS on, full motion) ------------------------------- */
-html[data-js][data-motion="full"] .hero { height: 100vh; }
-html[data-js][data-motion="full"][data-input="coarse"] .hero { height: 160svh; }
-html[data-js][data-motion="full"] .hero__stage {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
-  min-height: 0;
-  display: block;
-  padding: 0;
-  gap: 0;
-}
-html[data-js][data-motion="full"][data-input="fine"] .hero__stage { position: relative; }
-html[data-js][data-motion="full"] .hero__intro {
-  position: absolute;
-  top: calc(var(--topbar-h) + 12px);
-  left: var(--gutter);
-  right: var(--gutter);
+/* ---- the opening (JS on, full motion) ---------------------------------- */
+html[data-js][data-motion="full"] .hero__mark { opacity: 0; transition: opacity 1600ms var(--ease-film); }
+html[data-js][data-motion="full"] .hero.is-mark .hero__mark { opacity: 1; }
+html[data-js][data-motion="full"] .hero.is-mark .hero__mark svg { animation: hero-push 7000ms var(--ease-push) both; }
+@keyframes hero-push { from { transform: scale(1.1); } to { transform: scale(1); } }
+html[data-js][data-motion="full"] .hero.is-sweep .sweep { animation: hero-sweep var(--t-sweep) var(--ease-sweep) 1 both; }
+@keyframes hero-sweep { from { transform: translateX(-460px) skewX(-28.1deg); } to { transform: translateX(790px) skewX(-28.1deg); } }
+html[data-js][data-motion="full"] .hero [data-beat] {
   opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 1200ms var(--ease-film), transform 1200ms var(--ease-film);
 }
-html[data-js][data-motion="full"] .hero__mark {
-  position: absolute;
-  left: 50%;
-  top: 46%;
-  margin: 0;
-  translate: -50% -50%;
-}
-html[data-js][data-motion="full"] .hero__copy--one {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  bottom: var(--copy-b);
-  opacity: 0;
-  will-change: transform, opacity;
-}
-/* the subline and the pill exist only from their own arrival (4.0 s): never final, then scrambled */
-html[data-js][data-motion="full"] .hero__sub,
-html[data-js][data-motion="full"] .hero__cta { opacity: 0; }
+html[data-js][data-motion="full"] .hero .hero__act { transition-delay: 160ms; }
+html[data-js][data-motion="full"] .hero.is-wm .hero__wordmark,
+html[data-js][data-motion="full"] .hero.is-title .hero__title,
 html[data-js][data-motion="full"] .hero.is-cta .hero__sub,
-html[data-js][data-motion="full"] .hero.is-cta .hero__cta { opacity: 1; }
-html[data-js][data-motion="full"] .hero__thesis {
-  position: absolute;
-  left: var(--gutter);
-  right: var(--gutter);
-  top: 50%;
-  translate: 0 -50%;
-  padding: 0;
-  opacity: 0;
-}
-html[data-js][data-motion="full"] .hero__cue {
-  position: absolute;
-  left: var(--gutter);
-  bottom: 28px;
-  opacity: 0;
-}
-html[data-js][data-motion="full"] .hero__thesis .strike-line { transform: scaleX(0); }
-html[data-js][data-motion="full"] .hero__lock { color: inherit; }
-html[data-js][data-motion="full"] .hero.is-idle .hero__intro,
-html[data-js][data-motion="full"] .hero.is-idle .hero__copy--one,
-html[data-js][data-motion="full"] .hero.is-idle .hero__cue { opacity: 1; }
-
-@media (min-width: 768px) {
-  /* the headline arrives (3.2 s): the mark yields, 600 ms on the slash ease; 10-hero.js keeps the engine's rect on the box */
-  html[data-js][data-motion="full"] .hero.is-copy .hero__mark {
-    width: var(--mark-w);
-    top: var(--mark-top);
-    translate: -50% 0;
-    transition: width 600ms var(--ease-slash), top 600ms var(--ease-slash), translate 600ms var(--ease-slash);
-  }
-  /* the thesis sits below the mark's centre: its first words never share a line with the departing copy */
-  html[data-js][data-motion="full"] .hero__thesis { top: 58%; }
-}
-@media (max-width: 767px) {
-  html[data-js][data-motion="full"] .hero__mark { top: 34%; }
-  html[data-js][data-motion="full"] .hero__copy--one { bottom: calc(18px + var(--safe-b)); }
-  html[data-js][data-motion="full"] .hero__thesis { top: 46%; }
-}
-/* short phones (iPhone SE/8 class, 360x640): a smaller mark higher up, a 34 px headline, no subline, so the
-   bottom-anchored copy always clears the caught mark */
-@media (max-width: 767px) and (max-height: 700px) {
-  html[data-js][data-motion="full"] .hero__mark { width: 66vw; top: 27%; }
-  html[data-js][data-motion="reduced"] .hero__mark { width: 66vw; top: 27vh; top: 27svh; }
-  html[data-js] .hero__title { font-size: 34px; }
-  html[data-js] .hero__sub { display: none; }
-}
-
-/* ---- reduced motion (JS on): the idle poster in exactly one viewport (the engine's still frame
-   holds the caught mark at this layout), then the thesis on its own night ground so nothing ever
-   scrolls over the mark. Offsets in viewport units: the stage is taller than the screen. -------- */
-html[data-js][data-motion="reduced"] .hero__stage { position: relative; display: block; min-height: 100vh; min-height: 100svh; padding: 0; }
-html[data-js][data-motion="reduced"] .hero__intro { position: absolute; top: calc(var(--topbar-h) + 12px); left: var(--gutter); right: var(--gutter); }
-html[data-js][data-motion="reduced"] .hero__mark { position: absolute; left: 50%; top: 46vh; top: 46svh; margin: 0; translate: -50% -50%; }
-html[data-js][data-motion="reduced"] .hero__copy--one { position: absolute; left: var(--gutter); right: var(--gutter); top: calc(100vh - var(--copy-b)); top: calc(100svh - var(--copy-b)); translate: 0 -100%; }
-html[data-js][data-motion="reduced"] .hero__cue { position: absolute; left: var(--gutter); top: calc(100vh - 28px); top: calc(100svh - 28px); translate: 0 -100%; }
-html[data-js][data-motion="reduced"] .hero__thesis { position: relative; margin-top: 100vh; margin-top: 100svh; padding: 12vh var(--gutter) 14vh; max-width: none; background: var(--night); }
-html[data-js][data-motion="reduced"] .hero__thesis .display-2 { max-width: 1100px; }
-@media (min-width: 768px) {
-  /* the poster uses the yielded pose: the mark never shares its band with the headline */
-  html[data-js][data-motion="reduced"] .hero__mark { width: var(--mark-w); top: var(--mark-top); translate: -50% 0; }
-}
-@media (max-width: 767px) {
-  html[data-js][data-motion="reduced"] .hero__mark { top: 34vh; top: 34svh; }
-  html[data-js][data-motion="reduced"] .hero__copy--one { top: calc(100vh - 18px - var(--safe-b)); top: calc(100svh - 18px - var(--safe-b)); }
-  html[data-js][data-motion="reduced"] .hero__thesis { padding: 10vh var(--gutter) 12vh; }
-}
-@media (max-width: 767px) and (max-height: 700px) {
-  html[data-js][data-motion="reduced"] .hero__mark { top: 27vh; top: 27svh; }
-}
-
-/* cue pulse: the hairline flashes once (one pulse, never repeats) */
-@keyframes cue-pulse { 0% { opacity: .2; } 50% { opacity: 1; } 100% { opacity: .55; } }
-html[data-js][data-motion="full"] .hero.is-idle .hero__cue i { animation: cue-pulse 1200ms var(--ease-enter) 1 both; }
+html[data-js][data-motion="full"] .hero.is-cta .hero__act,
+html[data-js][data-motion="full"] .hero.is-cue .hero__cue { opacity: 1; transform: none; }
+/* skipped: everything lands in 400 ms */
+html[data-js][data-motion="full"] .hero.is-skip [data-beat],
+html[data-js][data-motion="full"] .hero.is-skip .hero__mark { transition-duration: 400ms; transition-delay: 0ms; }
+html[data-js][data-motion="full"] .hero.is-skip .hero__mark svg { animation-duration: 400ms; }
+html[data-js][data-motion="full"] .hero.is-skip .sweep { animation: none; transform: translateX(790px) skewX(-28.1deg); }

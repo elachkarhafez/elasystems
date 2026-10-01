@@ -1,163 +1,127 @@
 /* ============================================================================
-   30-work.css — #work "The storefront decode"
-   Default = the complete static composition (no JS, reduced motion, no WebGL):
-   head, three storefront frames fully decoded, six slanted tiles.
-   html[data-js][data-motion="full"] = the live layout: each decode is a sticky
-   100vh screen inside a taller article (the scroll span the decode scrubs),
-   the frame is transparent so the rain engine draws the decode under it, the
-   real image arrives by a slash cut, then the tall capture scrubs inside.
+   30-work.css — #work "Bullet time"
+   The head screen, three cinematic shots and the quiet grid.
+   A shot: copy at left, at right a desktop capture standing in 3D space
+   (perspective 1600 px) with the phone capture floating in front of it,
+   lower right, in depth; a soft radial glow in the client's tint on the
+   ground, a thin gold rim light on the lit edge. The rig's rotateY (--ry),
+   the phone's drift (--px) and the tall capture's drift are written by
+   30-work.js from the scroll position through a lerp. Nothing is pinned.
+   Phone: the phone capture is the hero of the shot, the desktop capture
+   behind it at 70 % scale, 60 % opacity.
+   Default = the complete static composition (no JS, reduced motion).
    ========================================================================== */
+.work { --tile-cut: 33.44%; --cut-span: 100%; padding-bottom: 12vh; }
 
-.work { --span: 100vh; --bw: 36px; --cut-span: 100%; --tile-cut: 33.44%; padding-bottom: 12vh; }
-
-/* ---- stage: head + the ghost frame ---------------------------------------- */
+/* ---- the head screen -------------------------------------------------------- */
 .work__stage { display: grid; gap: 40px; align-content: center; }
-.work__head { max-width: 760px; }
-.work__ghost { display: grid; gap: 22px; align-content: end; }
-.work__ghost-label { color: var(--mute); }
-.work__nodes { display: grid; gap: 8px; }
-.work__nodes a { color: var(--paper); text-decoration: none; text-transform: uppercase; letter-spacing: .08em; transition: color var(--t-micro); }
+.work__head { max-width: 820px; }
+.work__nodes { display: grid; gap: 10px; align-content: end; }
+.work__nodes a { display: inline-flex; align-items: center; min-height: 32px; color: var(--paper); text-decoration: none; text-transform: uppercase; letter-spacing: .08em; transition: color var(--t-hover) var(--ease-film); }
 .work__nodes a:hover, .work__nodes a:focus-visible { color: var(--gold-light); }
-.work__nodes a::before { content: "/ "; color: var(--gold); }
-.work__cue { display: none; align-items: center; gap: 14px; color: var(--mute); }
-.work__cue i { display: block; width: 2px; height: 36px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); opacity: .55; }
-html[data-js][data-motion="full"] .work__cue.is-on i { animation: cue-pulse 1200ms var(--ease-enter) 1 both; }
-html[data-motion="reduced"] .work__cue, html:not([data-js]) .work__cue, html[data-webgl="none"] .work__cue { display: none !important; }
-
+.work__nodes a::before { content: "/ "; color: var(--gold); white-space: pre; }
 @media (min-width: 768px) {
-  .work__stage { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: calc(var(--topbar-h) + 5vh) 7vh; }
-  .work__head { grid-column: 1 / 6; max-width: none; }
-  .work__ghost {
-    grid-column: 6 / 13;
-    justify-self: end;
-    width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.6));
-    aspect-ratio: 16 / 10;
-    box-shadow: inset 0 0 0 1px var(--line);
-    padding: 22px 26px;
-    grid-template-rows: auto 1fr auto;
-    align-content: stretch;
-  }
-  .work__nodes { align-self: end; }
-  .work__cue { display: flex; }
+  .work__stage { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: end; padding-block: calc(var(--topbar-h) + 8vh) 10vh; }
+  .work__head { grid-column: 1 / 8; max-width: none; }
+  .work__nodes { grid-column: 9 / 13; }
 }
+@media (max-width: 767px) { .work__nodes a { min-height: 44px; } }
 
-/* ---- the decodes ---------------------------------------------------------- */
-.decodes { position: relative; padding-inline: 0; max-width: none; }
-.decode { position: relative; display: block; padding: 0; min-height: 0; gap: 0; align-content: start; }
-.decode__anchor { position: absolute; left: 0; top: 0; width: 1px; height: 1px; pointer-events: none; }
-.decode__screen {
+/* ---- the shots --------------------------------------------------------------- */
+.shots { position: relative; }
+.shot {
   position: relative;
+  display: grid;
+  align-content: center;
+  min-height: 100vh;
+  min-height: 100svh;
   width: 100%;
   max-width: var(--max);
-  padding: calc(var(--topbar-h) + 6vh) var(--gutter) 8vh;
-  display: grid;
-  gap: 20px;
-  align-content: center;
+  padding: calc(var(--topbar-h) + 4vh) var(--gutter) 8vh;
+  scroll-margin-top: 0;
 }
-.decode__copy { display: grid; gap: 12px; align-content: start; }
-.decode__tag { display: flex; align-items: center; gap: 12px; color: var(--gold); }
-.decode__tag::before { content: ""; display: block; width: 2px; height: 14px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); flex: none; }
-.decode__name { max-width: 12ch; }
-.decode__kind { color: color-mix(in srgb, var(--paper) 82%, transparent); }
-.decode__open { margin-top: 4px; }
-.decode__frame {
+.shot__screen { display: grid; gap: 24px; }
+.shot__copy { display: grid; gap: 12px; align-content: start; }
+.shot__tag { display: flex; align-items: center; gap: 12px; color: var(--gold); }
+.shot__tag::before { content: ""; display: block; width: 2px; height: 14px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); flex: none; }
+.shot__name { max-width: 12ch; }
+.shot__kind { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.shot__open { margin-top: 4px; }
+.shot__scene {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 11.4;
+  perspective: 1600px;
+  perspective-origin: 50% 44%;
+}
+.shot__glow {
+  position: absolute;
+  left: -6%; right: -14%; top: 18%; bottom: -28%;
+  background: radial-gradient(ellipse at 56% 62%, color-mix(in srgb, var(--tint, var(--gold)) 26%, transparent), transparent 68%);
+  pointer-events: none;
+}
+.shot__rig { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(var(--ry, -4deg)); }
+.shot__desk, .shot__phone {
+  position: absolute;
+  margin: 0;
   overflow: hidden;
   background: color-mix(in srgb, var(--tint, var(--gold)) 10%, var(--night));
+  backface-visibility: hidden;
 }
-.decode__frame::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
-/* phones: the frame edge reads while the frame rises through the viewport still full of tinted rain */
-html[data-input="coarse"] .decode__frame::after { box-shadow: inset 0 0 0 1px var(--line-strong); }
-.decode__mosaic { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; opacity: 0; pointer-events: none; }
-.decode__shot { position: absolute; inset: 0; display: block; }
-.decode__shot img {
-  position: absolute; left: 0; top: 0;
-  width: 100%; height: auto;
-  min-height: 100%;
-  object-fit: cover; object-position: top;
-  display: block;
+.shot__desk {
+  left: 0; top: 0;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  box-shadow: 0 44px 90px -34px rgba(0, 0, 0, .75);
 }
-
-/* the glyph-mosaic band (DOM copy of the rain's head band: atlas glyphs as a background) */
-/* shown/hidden with display (never visibility: a visible descendant would defeat the inherited
-   visibility: hidden the front helper puts on a finished section under the next one) */
-.glyph-band {
-  position: absolute; inset: 0;
-  display: none;
+.shot__phone {
+  right: 4%; bottom: 0;
+  width: 23%;
+  aspect-ratio: 9 / 19.5;
+  border-radius: 10px;
+  transform: translate3d(var(--px, 0px), 0, 120px);
+  box-shadow: 0 30px 70px -20px rgba(0, 0, 0, .8);
+}
+/* the gold rim light on the lit (top-left) edge */
+.shot__desk::after, .shot__phone::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  background-color: color-mix(in srgb, var(--night) 74%, transparent);
-  background-image: var(--glyph-sheet);
-  background-size: 1020px 300px;
-  background-repeat: repeat;
-  background-position: 0 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 28%, transparent), inset 1px 1px 0 color-mix(in srgb, var(--gold-light) 70%, transparent);
 }
-.glyph-band.is-on { display: block; }
-.no-trans { transition: none !important; }
-html:not([data-js]) .glyph-band { display: none; }
-@media (min-width: 768px) { .glyph-band { background-size: 1224px 360px; } }
+.shot__desk img { position: absolute; left: 0; top: 0; width: 100%; height: auto; display: block; }
+.shot__phone img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+html[data-js][data-motion="full"] .shot.is-near .shot__rig,
+html[data-js][data-motion="full"] .shot.is-near .shot__desk img { will-change: transform; }
 
-@media (max-width: 767px) {
-  .decode__screen { padding-top: calc(var(--topbar-h) + 10px); gap: 14px; }
-  .decode__frame { aspect-ratio: 9 / 16; margin-inline: calc(-1 * var(--gutter)); width: auto; }
-  .decode__kind { font-size: 15px; line-height: 22px; }
-  .decode__copy { grid-template-columns: 1fr auto; column-gap: 16px; row-gap: 6px; align-items: end; }
-  .decode__tag, .decode__name { grid-column: 1 / -1; }
-  .decode__open { margin: 0; }
-  .decode__open .link-arrow { min-height: 44px; padding-block: 12px; }   /* a 44 px tap target */
-}
 @media (min-width: 768px) {
-  .decode { min-height: 0; gap: 0; }
-  .decode__screen { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: calc(var(--topbar-h) + 5vh) 7vh; }
-  /* one stack: tag, name, what it is, the link (never spread across the screen) */
-  .decode__copy { grid-column: 1 / 6; align-self: center; align-content: start; gap: 18px; }
-  .decode__name { max-width: 8ch; }
-  .decode__open { margin-top: 6px; }
-  .decode__frame { grid-column: 6 / 13; justify-self: end; width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.6)); }
+  .shot__screen { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; }
+  .shot__copy { grid-column: 1 / 5; gap: 18px; }
+  .shot__name { max-width: 8ch; }
+  .shot__scene { grid-column: 5 / 13; }
 }
-
-/* ---- live layout (JS on, full motion): sticky screens + scroll spans -------- */
-html[data-js][data-motion="full"] .decode { height: calc(100vh + var(--span)); }
-/* the sticky scrub runs over the first --span px after the article top (q = offset / span): land at q = 0.4,
-   the capture resolved and the slash about to bring the real image in */
-html[data-js][data-motion="full"] .decode__anchor { top: calc(0.4 * var(--span)); }
-html[data-js][data-motion="full"] .decode__screen {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+@media (min-width: 768px) and (max-height: 760px) {
+  .shot__scene { width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.45)); justify-self: end; }
 }
-html[data-js][data-motion="full"] .decode__frame { background: transparent; }
-html[data-js][data-motion="full"] .decode__shot img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
 @media (max-width: 767px) {
-  html[data-js][data-motion="full"] .work { --span: 80svh; --bw: 28px; }
-  html[data-js][data-motion="full"] .decode { height: calc(100svh + var(--span)); }
-  html[data-js][data-motion="full"] .decode__anchor { top: calc(0.4 * var(--span)); }
-  html[data-js][data-motion="full"] .decode__screen {
-    height: 100svh;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: 0;
-    gap: 12px;
-  }
-  html[data-js][data-motion="full"] .decode__copy { flex: none; }
-  html[data-js][data-motion="full"] .decode__frame {
-    aspect-ratio: auto;
-    flex: 1 1 0;
-    min-height: 0;
-    margin-bottom: calc(var(--bottombar-h) + 20px + var(--safe-b));
-  }
-  html[data-js][data-motion="full"][data-input="fine"] .decode__frame { margin-bottom: 16px; }
+  .shot { min-height: 90vh; min-height: 90svh; padding: calc(var(--topbar-h) + 10px) var(--gutter) calc(var(--bottombar-h) + 24px + var(--safe-b)); }
+  .shot__screen { gap: 18px; }
+  .shot__copy { grid-template-columns: 1fr auto; column-gap: 16px; row-gap: 6px; align-items: end; }
+  .shot__tag, .shot__name { grid-column: 1 / -1; }
+  .shot__kind { font-size: 15px; line-height: 22px; }
+  .shot__open { margin: 0; }
+  .shot__open .link-arrow { min-height: 44px; padding-block: 12px; }
+  .shot__scene { aspect-ratio: 1 / 1.14; perspective: 1100px; }
+  .shot__desk { width: 88%; left: 0; top: 4%; transform: scale(.7) translateZ(-40px); transform-origin: 0 0; opacity: .6; }
+  .shot__phone { width: 52%; right: 4%; bottom: 0; transform: translate3d(var(--px, 0px), 0, 60px); }
+  .shot__glow { left: -10%; right: -10%; top: 30%; bottom: -20%; }
 }
 
-/* ---- reduced motion / no WebGL: every storefront fully decoded; no band over the work (the section ground's
-   static slash edge is the composition's one cut) */
-html[data-motion="reduced"] .decode__shot img, html:not([data-js]) .decode__shot img { clip-path: none !important; transform: none !important; opacity: 1 !important; }
-html[data-motion="reduced"] .decode__band { display: none; }
-
-/* ---- the grid of slanted tiles ------------------------------------------- */
-.work__more { width: 100%; max-width: var(--max); padding-inline: var(--gutter); margin-top: 10vh; }
-.work__more-label { margin-bottom: 24px; }   /* the label clears the first capture (the ul reset zeroes the grid's own margin) */
+/* ---- the quiet grid ---------------------------------------------------------- */
+.work__more { position: relative; width: 100%; max-width: var(--max); padding: 6vh var(--gutter) 0; margin-top: 4vh; }
+.work__more-label { margin-bottom: 24px; }
 .tiles { display: grid; gap: 44px 32px; }
 .tile { position: relative; scroll-margin-top: calc(var(--topbar-h) + 20px); }
 .tile__link { display: block; text-decoration: none; color: var(--mute); }
@@ -166,27 +130,27 @@ html[data-motion="reduced"] .decode__band { display: none; }
   display: block;
   aspect-ratio: 4 / 5;
   overflow: hidden;
+  background: color-mix(in srgb, var(--tint, var(--gold)) 12%, var(--night));
   clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut-span)), calc(100% - var(--tile-cut)) 100%, 0 100%);
-  transition: transform var(--t-short) var(--ease-enter);
 }
-.tile__reveal { position: absolute; inset: 0; display: block; background: color-mix(in srgb, var(--tint, var(--gold)) 12%, var(--night)); }
-.tile__reveal picture, .tile__reveal img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-.tile__step { opacity: 0; }
+.tile__frame::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 22%, transparent), inset 1px 1px 0 color-mix(in srgb, var(--gold-light) 40%, transparent);
+  transition: box-shadow var(--t-medium) var(--ease-film);
+}
+a.tile__link:hover .tile__frame::after, a.tile__link:focus-visible .tile__frame::after { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 55%, transparent), inset 1px 1px 0 var(--gold-light); }
+.tile__pic, .tile__pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.tile__pic img { transition: transform 1400ms var(--ease-film); }
+a.tile__link:hover .tile__pic img, a.tile__link:focus-visible .tile__pic img { transform: scale(1.04); }
+.tile__step { opacity: 0; transition: opacity 1600ms var(--ease-film); }
 .tile__step.is-on { opacity: 1; }
-.tile__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 14px; color: var(--mute); transition: color var(--t-micro); }
-.tile__arrow { color: var(--gold); flex: none; }
+.tile__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 14px; color: var(--mute); transition: color var(--t-hover) var(--ease-film); }
+.tile__arrow { color: var(--gold); flex: none; transition: color var(--t-hover) var(--ease-film); }
 .tile__link:hover .tile__meta, .tile__link:focus-visible .tile__meta { color: var(--paper); }
 .tile__link:hover .tile__arrow { color: var(--gold-light); }
-a.tile__link:hover .tile__frame { transform: translate3d(0, -3px, 0); }
-html[data-js][data-motion="full"] .tile__reveal, html[data-js][data-motion="full"] .tile__band { transition: clip-path var(--t-reveal) var(--ease-slash); }
-html[data-js][data-motion="full"] .tile__reveal { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
-html[data-js][data-motion="full"] .tile.is-shown .tile__reveal { clip-path: none; }
-
-/* reduced / no-JS: tiles complete, a thin static band along the cut edge */
-html[data-motion="reduced"] .tile__band {
-  display: block;
-  clip-path: polygon(calc(100% - 14px) calc(100% - var(--cut-span)), 100% calc(100% - var(--cut-span)), calc(100% - var(--tile-cut)) 100%, calc(100% - var(--tile-cut) - 14px) 100%);
-}
+html[data-js][data-motion="full"] .tile.is-in .tile__pic { animation: kb var(--t-kb) var(--ease-film) both; }
 
 @media (max-width: 767px) {
   .work { --cut-span: 36%; --tile-cut: 24.1%; }
@@ -194,7 +158,7 @@ html[data-motion="reduced"] .tile__band {
   .tile__meta { min-height: 44px; align-items: center; padding-block: 8px; margin-top: 6px; }   /* a 44 px tap row under the capture */
 }
 @media (min-width: 768px) {
-  .work__more { margin-top: 12vh; }
+  .work__more { margin-top: 6vh; }
   .tiles { grid-template-columns: 1fr 1fr; gap: 56px var(--col-gap); }
   .tile:nth-child(even) { margin-top: 72px; }
   .tile__frame { aspect-ratio: 16 / 10; }

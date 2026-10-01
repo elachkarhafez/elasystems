@@ -27,12 +27,11 @@
 <link rel="preload" href="fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
-<script>(function(){var h=document.documentElement,s=null;try{s=localStorage.getItem('es-motion')}catch(e){}var r=s?s==='reduced':matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.motion=r?'reduced':'full';h.dataset.js='1';h.dataset.input=(matchMedia('(pointer: fine)').matches&&!matchMedia('(hover: none)').matches)?'fine':'coarse';})();</script>
+<script>(function(){var h=document.documentElement,s=null;try{s=localStorage.getItem('es-motion')}catch(e){}var r=s?s==='reduced':matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.motion=r?'reduced':'full';h.dataset.js='1';h.dataset.input=(matchMedia('(pointer: fine)').matches&&!matchMedia('(hover: none)').matches)?'fine':'coarse';if(!r&&!location.hash){h.dataset.intro='1';h.dataset.lb='on';}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"ElaSystems","url":"https://elasystems.com/","slogan":"We build digital systems that grow businesses.","description":"Websites, apps and business systems. Detroit, MI.","telephone":"+1-313-300-6898","email":"elasystemdesign@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Detroit","addressRegion":"MI","addressCountry":"US"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Websites"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Apps"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Business systems"}}]}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<canvas id="rain" aria-hidden="true"></canvas>
 <div id="app">
 <header class="topbar" id="topbar">
   <a class="topbar__brand" href="#hero" aria-label="ElaSystems, back to the top">
@@ -41,7 +40,7 @@
       <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
       <path class="mark-s" fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
     </svg>
-    <span class="wordmark" id="wordmark"><span aria-hidden="true" data-scramble-part>EL</span><svg viewBox="0 0 70 100" aria-hidden="true" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b aria-hidden="true" data-scramble-part>SYSTEMS</b></span>
+    <span class="wordmark" id="wordmark"><span aria-hidden="true">EL</span><svg viewBox="0 0 70 100" aria-hidden="true" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b aria-hidden="true">SYSTEMS</b></span>
   </a>
   <nav class="topbar__nav mono-label" aria-label="Sections">
     <a href="#work">Work</a>
@@ -52,69 +51,81 @@
   <a class="topbar__cta mono-label" id="topbar-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a>
 </header>
 <main id="main">
-<section id="hero" class="section hero" data-scene="hero" data-front-range="0.6 1" data-front-range-touch="0.2 0.8" aria-label="Introduction">
-  <div class="stage hero__stage">
-    <p class="hero__intro mono-label" data-textmask data-scramble>Websites · Apps · Systems — for Detroit's owner-operated businesses.</p>
-    <div class="hero__mark" id="hero-mark" aria-hidden="true">
-      <svg viewBox="10 20 660 400" focusable="false">
-        <defs>
-          <linearGradient id="hero-g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#8A5A12"/><stop offset=".5" stop-color="#E3A02A"/><stop offset="1" stop-color="#F4CD72"/>
-          </linearGradient>
-        </defs>
-        <g fill="url(#hero-g)">
-          <path d="M62 65H365L332.3 125H26Z"/>
-          <path d="M62 198H292.5L259.8 258H26Z"/>
-          <path d="M62 322H225.1L192.4 382H26Z"/>
-        </g>
-        <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
-        <path fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
-      </svg>
+<section id="hero" class="section hero" data-scene="hero" data-dip aria-label="Introduction">
+  <div class="haze" data-haze="hero" aria-hidden="true"></div>
+  <div class="hero__stage">
+    <div class="hero__par" id="hero-par">
+      <div class="hero__mark" id="hero-mark" aria-hidden="true">
+        <svg viewBox="10 20 660 400" focusable="false">
+          <defs>
+            <linearGradient id="hero-g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#8A5A12"/><stop offset=".5" stop-color="#E3A02A"/><stop offset="1" stop-color="#F4CD72"/>
+            </linearGradient>
+            <linearGradient id="hero-sw" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFF4D6" stop-opacity="0"/><stop offset=".5" stop-color="#FFF4D6" stop-opacity=".9"/><stop offset="1" stop-color="#FFF4D6" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="hero-swp" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".75"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+            </linearGradient>
+            <clipPath id="hero-ce"><path d="M62 65H365L332.3 125H26Z"/><path d="M62 198H292.5L259.8 258H26Z"/><path d="M62 322H225.1L192.4 382H26Z"/><path d="M402.5 20h4L188.5 420h-4Z"/></clipPath>
+            <clipPath id="hero-cs"><path d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/></clipPath>
+          </defs>
+          <g fill="url(#hero-g)">
+            <path d="M62 65H365L332.3 125H26Z"/>
+            <path d="M62 198H292.5L259.8 258H26Z"/>
+            <path d="M62 322H225.1L192.4 382H26Z"/>
+          </g>
+          <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
+          <path fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
+          <g clip-path="url(#hero-ce)"><rect class="sweep" x="0" y="-60" width="300" height="560" fill="url(#hero-sw)"/></g>
+          <g clip-path="url(#hero-cs)"><rect class="sweep" x="0" y="-60" width="300" height="560" fill="url(#hero-swp)"/></g>
+        </svg>
+      </div>
     </div>
-    <div class="hero__copy hero__copy--one" id="hero-copy" data-textmask>
-      <h1 class="display-1 hero__title" id="hero-title" data-solidify>We build the front of your business, and everything behind it.</h1>
-      <p class="hero__sub mono-code" id="hero-sub" data-scramble>Every touchpoint, from first click to final conversion.</p>
-      <a class="btn hero__cta" id="hero-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a>
+    <p class="hero__wordmark" id="hero-wm" data-beat><span class="sr-only">ElaSystems</span><span class="wordmark wordmark--lg" aria-hidden="true"><span>EL</span><svg viewBox="0 0 70 100" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b>SYSTEMS</b></span></p>
+    <div class="hero__copy" id="hero-copy">
+      <h1 class="hero__title" id="hero-title" data-beat>We build the front of your business, and everything behind it.</h1>
+      <p class="hero__sub mono-code" id="hero-sub" data-beat>Websites · Apps · Systems — for Detroit's owner-operated businesses.</p>
+      <p class="hero__act" data-beat><a class="btn hero__cta" id="hero-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a></p>
     </div>
-    <div class="hero__thesis" id="hero-thesis" data-textmask>
-      <h2 class="sr-only">The problem</h2>
-      <p class="display-2 hero__line" id="hero-line-1" data-solidify>Most businesses don't have a <span class="strike-word" id="hero-strike">traffic<i class="strike-line" aria-hidden="true"></i></span> problem.</p>
-      <p class="display-2 hero__line" id="hero-line-2" data-solidify>They have a <span class="hero__lock" id="hero-lock">system</span> problem.</p>
-    </div>
-    <p class="hero__cue mono-label" id="hero-cue" aria-hidden="true"><i></i>Scroll — the system behind the storefront</p>
+    <p class="hero__cue mono-label" id="hero-cue" data-beat aria-hidden="true"><i></i>Scroll</p>
   </div>
 </section>
-<section id="pillars" class="section pillars" data-scene="page" aria-labelledby="pillars-title">
-  <div class="stage pillars__stage">
-    <div class="pillars__head" data-textmask>
-      <h2 class="mono-label eyebrow" id="pillars-title" data-scramble>Websites · Apps · Systems</h2>
-      <p class="body">We build digital systems that grow businesses.</p>
+<section id="pillars" class="section pillars" data-scene="page" data-dip aria-labelledby="pillars-title">
+  <div class="stage pillars__stage" data-scene-in>
+    <div class="pillars__head">
+      <p class="mono-label eyebrow" id="pillars-title" data-rise="0">Websites · Apps · Systems</p>
+      <h2 class="display-2 pillars__thesis" data-rise="1">Most businesses don't have a <span class="strike-word" id="pillars-strike">traffic<i class="strike-line" aria-hidden="true"></i></span> problem. They have a <span class="gold">system</span> problem.</h2>
+      <p class="body" data-rise="2">We build digital systems that grow businesses.</p>
     </div>
     <div class="pillars__e" id="pillars-e">
       <ul class="pillars__bars" id="pillars-bars">
         <li class="bar bar--1" style="--i:0">
           <a class="bar__link" href="#work">
-            <span class="bar__word" data-solidify>Websites</span>
+            <i class="bar__sweep" aria-hidden="true"></i>
+            <span class="bar__word">Websites</span>
             <span class="bar__meta">
-              <span class="bar__line mono-code" data-scramble>What your customers see first.</span>
+              <span class="bar__line mono-code">What your customers see first.</span>
               <span class="bar__go mono-label">Work <span aria-hidden="true">↗</span></span>
             </span>
           </a>
         </li>
         <li class="bar bar--2" style="--i:1">
           <a class="bar__link" href="#apps">
-            <span class="bar__word" data-solidify>Apps</span>
+            <i class="bar__sweep" aria-hidden="true"></i>
+            <span class="bar__word">Apps</span>
             <span class="bar__meta">
-              <span class="bar__line mono-code" data-scramble>What they keep in their pocket.</span>
+              <span class="bar__line mono-code">What they keep in their pocket.</span>
               <span class="bar__go mono-label">Concept work <span aria-hidden="true">↗</span></span>
             </span>
           </a>
         </li>
         <li class="bar bar--3" style="--i:2">
           <a class="bar__link" href="#systems">
-            <span class="bar__word" data-solidify>Systems</span>
+            <i class="bar__sweep" aria-hidden="true"></i>
+            <span class="bar__word">Systems</span>
             <span class="bar__meta">
-              <span class="bar__line mono-code" data-scramble>What runs the business behind it.</span>
+              <span class="bar__line mono-code">What runs the business behind it.</span>
               <span class="bar__go mono-label">Systems <span aria-hidden="true">↗</span></span>
             </span>
           </a>
@@ -124,14 +135,14 @@
     </div>
   </div>
 </section>
-<section id="diagnose" class="section diagnose" data-scene="page" aria-labelledby="diagnose-title">
-  <div class="stage diagnose__stage">
-    <div class="diagnose__head section-head" data-textmask>
-      <p class="mono-label eyebrow" id="diagnose-eyebrow" data-scramble>Diagnose</p>
-      <h2 class="display-2" id="diagnose-title" data-solidify>What do you run?</h2>
-      <p class="body body--mute">Pick what you run. We mark where it usually leaks, and what we build for it.</p>
+<section id="diagnose" class="section diagnose" data-scene="page" data-dip aria-labelledby="diagnose-title">
+  <div class="stage diagnose__stage" data-scene-in>
+    <div class="diagnose__head section-head">
+      <p class="mono-label eyebrow" id="diagnose-eyebrow" data-rise="0">Diagnose</p>
+      <h2 class="display-2" id="diagnose-title" data-rise="1">What do you run?</h2>
+      <p class="body body--mute" data-rise="2">Pick what you run. We mark where it usually leaks, and what we build for it.</p>
     </div>
-    <div class="chips" role="group" aria-label="Pick the kind of business you run" id="diagnose-chips">
+    <div class="chips" role="group" data-rise="3" aria-label="Pick the kind of business you run" id="diagnose-chips">
       <button type="button" class="chip" data-kind="bakery" aria-pressed="true">Bakery</button>
       <button type="button" class="chip" data-kind="barber" aria-pressed="false">Barber</button>
       <button type="button" class="chip" data-kind="cafe" aria-pressed="false">Cafe</button>
@@ -144,8 +155,8 @@
     </div>
     <p class="sr-only" id="dx-status" aria-live="polite"></p>
 
-    <div class="dx__live dx__body" id="dx-live" data-kind="bakery">
-      <ol class="dx__print" id="dx-print" data-textmask>
+    <div class="dx__live dx__body" id="dx-live" data-kind="bakery" data-rise="4">
+      <ol class="dx__print" id="dx-print">
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
         <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">menu, online ordering, catering requests, English and Arabic</span></li>
@@ -153,11 +164,11 @@
         <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">instant text reply</span></li>
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
       </ol>
-      <div class="dx__readout" data-textmask>
-        <p class="mono-label dx__tag" id="dx-tag" data-scramble>Matching work · W Warren Ave</p>
-        <p class="dx__see"><a class="link-arrow" id="dx-see" href="#work-family-bakery" data-slug="family-bakery"><span data-scramble>See: Family Bakery</span> <span aria-hidden="true">↗</span></a></p>
-        <p class="dx__msg"><span class="mono-label dx__msg-label">Your text</span><span class="mono-code" id="dx-msg" data-scramble>Hi, I run a bakery in Detroit. I want to talk about a system.</span></p>
-        <p class="dx__cta"><a class="btn" id="diagnose-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a></p>
+      <div class="dx__readout">
+        <p class="mono-label dx__tag" id="dx-tag">Matching work · W Warren Ave</p>
+        <p class="dx__see"><a class="link-arrow" id="dx-see" href="#work-family-bakery" data-slug="family-bakery"><span id="dx-see-text">See: Family Bakery</span> <span aria-hidden="true">↗</span></a></p>
+        <p class="dx__msg"><span class="mono-label dx__msg-label">Your text</span><span class="mono-code" id="dx-msg">Hi, I run a bakery in Detroit. I want to talk about a system.</span></p>
+        <p class="dx__cta"><a class="btn" id="diagnose-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a></p>
       </div>
     </div>
 
@@ -276,239 +287,226 @@
   </div>
 </section>
 <section id="work" class="section work" data-scene="page" aria-labelledby="work-title">
-  <div class="stage work__stage">
-    <div class="work__head section-head" data-textmask>
-      <p class="mono-label eyebrow" id="work-eyebrow" data-scramble>Work</p>
-      <h2 class="display-2" id="work-title" data-solidify>Designed for the screen it's opened on.</h2>
-      <p class="body">Every site is composed twice: for the desk, and for the phone in someone's hand. Same brand, two different compositions.</p>
+  <div class="stage work__stage" data-scene-in data-dip>
+    <div class="work__head section-head">
+      <p class="mono-label eyebrow" id="work-eyebrow" data-rise="0">Work</p>
+      <h2 class="display-2" id="work-title" data-rise="1">Designed for the screen it's opened on.</h2>
+      <p class="body" data-rise="2">Every site is composed twice: for the desk, and for the phone in someone's hand. Same brand, two different compositions.</p>
     </div>
-    <div class="work__ghost" id="work-ghost" aria-label="Storefronts in this section">
-      <p class="mono-label work__ghost-label" id="work-ghost-label" data-scramble>The storefront decode</p>
-      <ul class="work__nodes mono-code" id="work-nodes" data-textmask>
-        <li><a href="#work-family-bakery" data-scramble>Family Bakery · W Warren Ave</a></li>
-        <li><a href="#work-dmoda-shoes" data-scramble>D'Moda Shoes · Monroe St</a></li>
-        <li><a href="#work-bounce-it-up" data-scramble>Bounce It Up · Plymouth Rd</a></li>
-      </ul>
-      <p class="mono-label work__cue" id="work-cue" aria-hidden="true"><i></i>Scroll — each site resolves out of the rain</p>
-    </div>
+    <ul class="work__nodes mono-code" id="work-nodes" aria-label="Featured storefronts" data-rise="3">
+      <li><a href="#work-family-bakery">Family Bakery · W Warren Ave</a></li>
+      <li><a href="#work-dmoda-shoes">D'Moda Shoes · Monroe St</a></li>
+      <li><a href="#work-bounce-it-up">Bounce It Up · Plymouth Rd</a></li>
+    </ul>
   </div>
 
-  <div class="decodes" id="work-decodes">
-    <article class="decode" data-decode data-slug="family-bakery" data-tint="#C85F2A" data-shot-d="work/family-bakery-d-960.webp" data-shot-m="work/family-bakery-m-390.webp" style="--tint:#C85F2A" aria-labelledby="work-family-bakery-name">
-      <i class="decode__anchor" id="work-family-bakery" aria-hidden="true"></i>
-      <div class="decode__screen">
-        <div class="decode__copy" data-textmask>
-          <p class="mono-label decode__tag" data-scramble>Family Bakery · W Warren Ave</p>
-          <h3 class="display-2 decode__name" id="work-family-bakery-name" data-solidify>Family Bakery</h3>
-          <p class="body decode__kind">Middle Eastern bakery, English &amp; Arabic.</p>
-          <p class="decode__open"><a class="link-arrow" href="https://familybakerydetroit.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
+  <div class="shots" id="work-shots">
+    <article class="shot" id="work-family-bakery" data-shot data-slug="family-bakery" data-scene-in data-dip style="--tint:#C85F2A" aria-labelledby="work-family-bakery-name">
+      <div class="shot__screen">
+        <div class="shot__copy">
+          <p class="mono-label shot__tag" data-rise="0">Family Bakery · W Warren Ave</p>
+          <h3 class="display-2 shot__name" id="work-family-bakery-name" data-rise="1">Family Bakery</h3>
+          <p class="body shot__kind" data-rise="2">Middle Eastern bakery, English &amp; Arabic.</p>
+          <p class="shot__open" data-rise="3"><a class="link-arrow" href="https://familybakerydetroit.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
         </div>
-        <div class="decode__frame" data-frame>
-          <picture class="decode__shot">
-            <source media="(max-width: 767px)" srcset="work/family-bakery-mt-360.webp 360w, work/family-bakery-mt-720.webp 720w" sizes="100vw" width="720" height="4800">
-            <img src="work/family-bakery-dt-1200.webp" srcset="work/family-bakery-dt-560.webp 560w, work/family-bakery-dt-1200.webp 1200w, work/family-bakery-dt-1800.webp 1800w" sizes="(min-width: 768px) min(55vw, 800px), 100vw" width="1200" height="2500" alt="Family Bakery website, full-page capture" loading="lazy" decoding="async">
-          </picture>
-          <i class="decode__band glyph-band" aria-hidden="true"></i>
-        </div>
-      </div>
-    </article>
-
-    <article class="decode" data-decode data-slug="dmoda-shoes" data-tint="#D71920" data-shot-d="work/dmoda-shoes-d-960.webp" data-shot-m="work/dmoda-shoes-m-390.webp" style="--tint:#D71920" aria-labelledby="work-dmoda-shoes-name">
-      <i class="decode__anchor" id="work-dmoda-shoes" aria-hidden="true"></i>
-      <div class="decode__screen">
-        <div class="decode__copy" data-textmask>
-          <p class="mono-label decode__tag" data-scramble>D'Moda Shoes · Monroe St</p>
-          <h3 class="display-2 decode__name" id="work-dmoda-shoes-name" data-solidify>D'Moda Shoes</h3>
-          <p class="body decode__kind">Boutique footwear, online store.</p>
-          <p class="decode__open"><a class="link-arrow" href="https://dmodashoes.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
-        </div>
-        <div class="decode__frame" data-frame>
-          <picture class="decode__shot">
-            <source media="(max-width: 767px)" srcset="work/dmoda-shoes-mt-360.webp 360w, work/dmoda-shoes-mt-720.webp 720w" sizes="100vw" width="720" height="4800">
-            <img src="work/dmoda-shoes-dt-1200.webp" srcset="work/dmoda-shoes-dt-560.webp 560w, work/dmoda-shoes-dt-1200.webp 1200w, work/dmoda-shoes-dt-1800.webp 1800w" sizes="(min-width: 768px) min(55vw, 800px), 100vw" width="1200" height="2500" alt="D'Moda Shoes website, full-page capture" loading="lazy" decoding="async">
-          </picture>
-          <i class="decode__band glyph-band" aria-hidden="true"></i>
+        <div class="shot__scene">
+          <i class="shot__glow" aria-hidden="true"></i>
+          <div class="shot__rig" data-rig>
+            <figure class="shot__desk">
+              <img src="work/family-bakery-dt-1200.webp" srcset="work/family-bakery-dt-560.webp 560w, work/family-bakery-dt-1200.webp 1200w, work/family-bakery-dt-1800.webp 1800w" sizes="(min-width: 768px) min(56vw, 880px), 86vw" width="1200" height="2500" alt="Family Bakery website, full-page capture" loading="lazy" decoding="async" data-drift>
+            </figure>
+            <figure class="shot__phone">
+              <img src="work/family-bakery-m-390.webp" srcset="work/family-bakery-m-390.webp 390w, work/family-bakery-m-780.webp 780w" sizes="(min-width: 768px) 200px, 52vw" width="390" height="844" alt="Family Bakery website on a phone" loading="lazy" decoding="async">
+            </figure>
+          </div>
         </div>
       </div>
     </article>
 
-    <article class="decode" data-decode data-slug="bounce-it-up" data-tint="#27F5FF" data-shot-d="work/bounce-it-up-d-960.webp" data-shot-m="work/bounce-it-up-m-390.webp" style="--tint:#27F5FF" aria-labelledby="work-bounce-it-up-name">
-      <i class="decode__anchor" id="work-bounce-it-up" aria-hidden="true"></i>
-      <div class="decode__screen">
-        <div class="decode__copy" data-textmask>
-          <p class="mono-label decode__tag" data-scramble>Bounce It Up · Plymouth Rd</p>
-          <h3 class="display-2 decode__name" id="work-bounce-it-up-name" data-solidify>Bounce It Up</h3>
-          <p class="body decode__kind">Indoor adventure park, Livonia.</p>
-          <p class="decode__open"><a class="link-arrow" href="https://bounceituplivonia.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
+    <article class="shot" id="work-dmoda-shoes" data-shot data-slug="dmoda-shoes" data-scene-in data-dip style="--tint:#D71920" aria-labelledby="work-dmoda-shoes-name">
+      <div class="shot__screen">
+        <div class="shot__copy">
+          <p class="mono-label shot__tag" data-rise="0">D'Moda Shoes · Monroe St</p>
+          <h3 class="display-2 shot__name" id="work-dmoda-shoes-name" data-rise="1">D'Moda Shoes</h3>
+          <p class="body shot__kind" data-rise="2">Boutique footwear, online store.</p>
+          <p class="shot__open" data-rise="3"><a class="link-arrow" href="https://dmodashoes.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
         </div>
-        <div class="decode__frame" data-frame>
-          <picture class="decode__shot">
-            <source media="(max-width: 767px)" srcset="work/bounce-it-up-mt-360.webp 360w, work/bounce-it-up-mt-720.webp 720w" sizes="100vw" width="720" height="4800">
-            <img src="work/bounce-it-up-dt-1200.webp" srcset="work/bounce-it-up-dt-560.webp 560w, work/bounce-it-up-dt-1200.webp 1200w, work/bounce-it-up-dt-1800.webp 1800w" sizes="(min-width: 768px) min(55vw, 800px), 100vw" width="1200" height="2500" alt="Bounce It Up website, full-page capture" loading="lazy" decoding="async">
-          </picture>
-          <i class="decode__band glyph-band" aria-hidden="true"></i>
+        <div class="shot__scene">
+          <i class="shot__glow" aria-hidden="true"></i>
+          <div class="shot__rig" data-rig>
+            <figure class="shot__desk">
+              <img src="work/dmoda-shoes-dt-1200.webp" srcset="work/dmoda-shoes-dt-560.webp 560w, work/dmoda-shoes-dt-1200.webp 1200w, work/dmoda-shoes-dt-1800.webp 1800w" sizes="(min-width: 768px) min(56vw, 880px), 86vw" width="1200" height="2500" alt="D'Moda Shoes website, full-page capture" loading="lazy" decoding="async" data-drift>
+            </figure>
+            <figure class="shot__phone">
+              <img src="work/dmoda-shoes-m-390.webp" srcset="work/dmoda-shoes-m-390.webp 390w, work/dmoda-shoes-m-780.webp 780w" sizes="(min-width: 768px) 200px, 52vw" width="390" height="844" alt="D'Moda Shoes website on a phone" loading="lazy" decoding="async">
+            </figure>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="shot" id="work-bounce-it-up" data-shot data-slug="bounce-it-up" data-scene-in data-dip style="--tint:#27F5FF" aria-labelledby="work-bounce-it-up-name">
+      <div class="shot__screen">
+        <div class="shot__copy">
+          <p class="mono-label shot__tag" data-rise="0">Bounce It Up · Plymouth Rd</p>
+          <h3 class="display-2 shot__name" id="work-bounce-it-up-name" data-rise="1">Bounce It Up</h3>
+          <p class="body shot__kind" data-rise="2">Indoor adventure park, Livonia.</p>
+          <p class="shot__open" data-rise="3"><a class="link-arrow" href="https://bounceituplivonia.com" target="_blank" rel="noopener">Open site <span aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></a></p>
+        </div>
+        <div class="shot__scene">
+          <i class="shot__glow" aria-hidden="true"></i>
+          <div class="shot__rig" data-rig>
+            <figure class="shot__desk">
+              <img src="work/bounce-it-up-dt-1200.webp" srcset="work/bounce-it-up-dt-560.webp 560w, work/bounce-it-up-dt-1200.webp 1200w, work/bounce-it-up-dt-1800.webp 1800w" sizes="(min-width: 768px) min(56vw, 880px), 86vw" width="1200" height="2500" alt="Bounce It Up website, full-page capture" loading="lazy" decoding="async" data-drift>
+            </figure>
+            <figure class="shot__phone">
+              <img src="work/bounce-it-up-m-390.webp" srcset="work/bounce-it-up-m-390.webp 390w, work/bounce-it-up-m-780.webp 780w" sizes="(min-width: 768px) 200px, 52vw" width="390" height="844" alt="Bounce It Up website on a phone" loading="lazy" decoding="async">
+            </figure>
+          </div>
         </div>
       </div>
     </article>
   </div>
 
-  <div class="work__more" id="work-more">
-    <p class="mono-label eyebrow work__more-label" id="work-more-label" data-scramble>More storefronts</p>
+  <div class="work__more" id="work-more" data-scene-in data-dip>
+    <p class="mono-label eyebrow work__more-label" id="work-more-label" data-rise="0">More storefronts</p>
     <ul class="tiles" id="work-tiles" aria-label="More client sites">
-      <li class="tile" id="work-snug-mug" data-tile data-slug="snug-mug" style="--tint:#B69A3A">
+      <li class="tile" id="work-snug-mug" data-tile data-slug="snug-mug" data-rise="0" style="--tint:#B69A3A">
         <a class="tile__link" href="https://thesnugmugbyally.com" target="_blank" rel="noopener">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture>
-                <source media="(max-width: 767px)" srcset="work/snug-mug-m-390.webp 390w, work/snug-mug-m-780.webp 780w" sizes="100vw" width="780" height="1688">
-                <img src="work/snug-mug-d-1600.webp" srcset="work/snug-mug-d-960.webp 960w, work/snug-mug-d-1600.webp 1600w, work/snug-mug-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="The Snug Mug website, home page capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic">
+              <source media="(max-width: 767px)" srcset="work/snug-mug-m-390.webp 390w, work/snug-mug-m-780.webp 780w" sizes="100vw" width="780" height="1688">
+              <img src="work/snug-mug-d-1600.webp" srcset="work/snug-mug-d-960.webp 960w, work/snug-mug-d-1600.webp 1600w, work/snug-mug-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="The Snug Mug website, home page capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>The Snug Mug · Middlebelt Rd</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">The Snug Mug · Middlebelt Rd</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
         </a>
       </li>
-      <li class="tile" id="work-creative-style" data-tile data-slug="creative-style" style="--tint:#2F6A47">
+      <li class="tile" id="work-creative-style" data-tile data-slug="creative-style" data-rise="1" style="--tint:#2F6A47">
         <a class="tile__link" href="https://creativestylewiss.com" target="_blank" rel="noopener">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture>
-                <source media="(max-width: 767px)" srcset="work/creative-style-m-390.webp 390w, work/creative-style-m-780.webp 780w" sizes="100vw" width="780" height="1688">
-                <img src="work/creative-style-d-1600.webp" srcset="work/creative-style-d-960.webp 960w, work/creative-style-d-1600.webp 1600w, work/creative-style-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Creative Style website, home page capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic">
+              <source media="(max-width: 767px)" srcset="work/creative-style-m-390.webp 390w, work/creative-style-m-780.webp 780w" sizes="100vw" width="780" height="1688">
+              <img src="work/creative-style-d-1600.webp" srcset="work/creative-style-d-960.webp 960w, work/creative-style-d-1600.webp 1600w, work/creative-style-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Creative Style website, home page capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>Creative Style · Ford Rd</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">Creative Style · Ford Rd</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
         </a>
       </li>
-      <li class="tile" id="work-monarch-urgent-care" data-tile data-slug="monarch-urgent-care" style="--tint:#B8923A">
+      <li class="tile" id="work-monarch-urgent-care" data-tile data-slug="monarch-urgent-care" data-rise="0" style="--tint:#B8923A">
         <div class="tile__link">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture>
-                <source media="(max-width: 767px)" srcset="work/monarch-urgent-care-m-390.webp 390w, work/monarch-urgent-care-m-780.webp 780w" sizes="100vw" width="780" height="1688">
-                <img src="work/monarch-urgent-care-d-1600.webp" srcset="work/monarch-urgent-care-d-960.webp 960w, work/monarch-urgent-care-d-1600.webp 1600w, work/monarch-urgent-care-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Monarch Urgent Care website, home page capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic">
+              <source media="(max-width: 767px)" srcset="work/monarch-urgent-care-m-390.webp 390w, work/monarch-urgent-care-m-780.webp 780w" sizes="100vw" width="780" height="1688">
+              <img src="work/monarch-urgent-care-d-1600.webp" srcset="work/monarch-urgent-care-d-960.webp 960w, work/monarch-urgent-care-d-1600.webp 1600w, work/monarch-urgent-care-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Monarch Urgent Care website, home page capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>Monarch Urgent Care · Allen Park</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">Monarch Urgent Care · Allen Park</span></span>
         </div>
       </li>
-      <li class="tile" id="work-big-wiss-matcha" data-tile data-slug="big-wiss-matcha" style="--tint:#7DCEA0">
+      <li class="tile" id="work-big-wiss-matcha" data-tile data-slug="big-wiss-matcha" data-rise="1" style="--tint:#7DCEA0">
         <a class="tile__link" href="https://bigwissmatcha.com" target="_blank" rel="noopener">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture>
-                <source media="(max-width: 767px)" srcset="work/big-wiss-matcha-m-390.webp 390w, work/big-wiss-matcha-m-780.webp 780w" sizes="100vw" width="780" height="1688">
-                <img src="work/big-wiss-matcha-d-1600.webp" srcset="work/big-wiss-matcha-d-960.webp 960w, work/big-wiss-matcha-d-1600.webp 1600w, work/big-wiss-matcha-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Big Wiss Matcha website, home page capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic">
+              <source media="(max-width: 767px)" srcset="work/big-wiss-matcha-m-390.webp 390w, work/big-wiss-matcha-m-780.webp 780w" sizes="100vw" width="780" height="1688">
+              <img src="work/big-wiss-matcha-d-1600.webp" srcset="work/big-wiss-matcha-d-960.webp 960w, work/big-wiss-matcha-d-1600.webp 1600w, work/big-wiss-matcha-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Big Wiss Matcha website, home page capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>Big Wiss Matcha · Dearborn</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">Big Wiss Matcha · Dearborn</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
         </a>
       </li>
-      <li class="tile" id="work-313-apparel" data-tile data-slug="313-apparel" style="--tint:#941018">
+      <li class="tile" id="work-313-apparel" data-tile data-slug="313-apparel" data-rise="0" style="--tint:#941018">
         <a class="tile__link" href="https://313apparelmi.com" target="_blank" rel="noopener">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture>
-                <source media="(max-width: 767px)" srcset="work/313-apparel-m-390.webp 390w, work/313-apparel-m-780.webp 780w" sizes="100vw" width="780" height="1688">
-                <img src="work/313-apparel-d-1600.webp" srcset="work/313-apparel-d-960.webp 960w, work/313-apparel-d-1600.webp 1600w, work/313-apparel-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="313 Apparel website, home page capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic">
+              <source media="(max-width: 767px)" srcset="work/313-apparel-m-390.webp 390w, work/313-apparel-m-780.webp 780w" sizes="100vw" width="780" height="1688">
+              <img src="work/313-apparel-d-1600.webp" srcset="work/313-apparel-d-960.webp 960w, work/313-apparel-d-1600.webp 1600w, work/313-apparel-d-2400.webp 2400w" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="313 Apparel website, home page capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>313 Apparel · Online</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">313 Apparel · Online</span><span class="tile__arrow" aria-hidden="true">↗</span><span class="sr-only">(opens in a new tab)</span></span>
         </a>
       </li>
-      <li class="tile tile--steps" id="work-express-poultry-fish" data-tile data-slug="express-poultry-fish" data-steps style="--tint:#1E4FA0">
+      <li class="tile tile--steps" id="work-express-poultry-fish" data-tile data-slug="express-poultry-fish" data-steps data-rise="1" style="--tint:#1E4FA0">
         <div class="tile__link">
           <span class="tile__frame">
-            <span class="tile__reveal">
-              <picture class="tile__step is-on" data-step="0">
-                <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf0-720.webp" sizes="100vw" width="720" height="1558">
-                <img src="work/express-poultry-fish-f0-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, home page capture" loading="lazy" decoding="async">
-              </picture>
-              <picture class="tile__step" data-step="1" aria-hidden="true">
-                <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf1-720.webp" sizes="100vw" width="720" height="1558">
-                <img src="work/express-poultry-fish-f1-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, Chester's section capture" loading="lazy" decoding="async">
-              </picture>
-              <picture class="tile__step" data-step="2" aria-hidden="true">
-                <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf2-720.webp" sizes="100vw" width="720" height="1558">
-                <img src="work/express-poultry-fish-f2-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, menu section capture" loading="lazy" decoding="async">
-              </picture>
-            </span>
-            <i class="tile__band glyph-band" aria-hidden="true"></i>
+            <picture class="tile__pic tile__step is-on" data-step="0">
+              <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf0-720.webp" sizes="100vw" width="720" height="1558">
+              <img src="work/express-poultry-fish-f0-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, home page capture" loading="lazy" decoding="async">
+            </picture>
+            <picture class="tile__pic tile__step" data-step="1" aria-hidden="true">
+              <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf1-720.webp" sizes="100vw" width="720" height="1558">
+              <img src="work/express-poultry-fish-f1-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, Chester's section capture" loading="lazy" decoding="async">
+            </picture>
+            <picture class="tile__pic tile__step" data-step="2" aria-hidden="true">
+              <source media="(max-width: 767px)" srcset="work/express-poultry-fish-mf2-720.webp" sizes="100vw" width="720" height="1558">
+              <img src="work/express-poultry-fish-f2-1600.webp" sizes="(min-width: 768px) min(48vw, 700px), 100vw" width="1600" height="1000" alt="Express Poultry &amp; Fish website, menu section capture" loading="lazy" decoding="async">
+            </picture>
           </span>
-          <span class="tile__meta mono-label" data-textmask><span class="tile__name" data-scramble>Express Poultry &amp; Fish · Fish market</span></span>
+          <span class="tile__meta mono-label"><span class="tile__name">Express Poultry &amp; Fish · Fish market</span></span>
         </div>
       </li>
     </ul>
   </div>
 </section>
-<section id="apps" class="section apps" data-scene="page" aria-labelledby="apps-title">
-  <div class="stage apps__stage">
+<section id="apps" class="section apps" data-scene="page" data-dip="paper" aria-labelledby="apps-title">
+  <div class="stage apps__stage" data-scene-in>
     <div class="apps__top">
-      <div class="apps__head" data-textmask>
-        <p class="mono-label eyebrow apps__eyebrow" id="apps-label" data-scramble>Concept work</p>
-        <h2 class="display-2 apps__title" id="apps-title" data-solidify>The brand, in their pocket.</h2>
+      <div class="apps__head">
+        <p class="mono-label eyebrow apps__eyebrow" id="apps-label" data-rise="0">Concept work</p>
+        <h2 class="display-2 apps__title" id="apps-title" data-rise="1">The brand, in their pocket.</h2>
       </div>
-      <div class="apps__copy" data-textmask>
-        <p class="body">Ordering, drops, loyalty. Three concepts showing how we design apps customers come back to.</p>
-        <p class="note mono-code apps__note">Concept work. Screens designed by ElaSystems to show our approach; not shipped apps.</p>
+      <div class="apps__copy">
+        <p class="body" data-rise="2">Ordering, drops, loyalty. Three concepts showing how we design apps customers come back to.</p>
+        <p class="note mono-code apps__note" data-rise="3">Concept work. Screens designed by ElaSystems to show our approach; not shipped apps.</p>
       </div>
     </div>
 
     <div class="apps__shelf" id="apps-shelf" data-lenis-prevent>
-      <ul class="apps__rail" id="apps-rail" aria-label="Concept screens, paper cut-outs">
-        <li class="cut cut--tall" style="--i:0;--ar:.8" data-app="dmoda">
-          <img src="apps/dmoda-berlin-edge.webp" width="1164" height="1454" alt="D'Moda Shoes app concept, product screen: the Berlin Edge heel" loading="lazy" decoding="async">
+      <ul class="apps__field" id="apps-field" aria-label="Concept screens">
+        <li class="cut cut--a" data-layer="2" data-rise="0" style="--ar:.8">
+          <span class="cut__par"><img src="apps/dmoda-berlin-edge.webp" width="1164" height="1454" alt="D'Moda Shoes app concept, product screen: the Berlin Edge heel" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--r1 cut--c2" style="--i:1;--ar:.9" data-app="dmoda">
-          <img src="apps/dmoda-celina-muse.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Celina Muse" loading="lazy" decoding="async">
+        <li class="cut cut--b" data-layer="3" data-rise="1" style="--ar:1.02">
+          <span class="cut__par"><img src="apps/dmoda-celina-muse.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Celina Muse" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--r1 cut--c3" style="--i:2;--ar:.9" data-app="dmoda">
-          <img src="apps/dmoda-chaya-pulse.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Chaya Pulse" loading="lazy" decoding="async">
+        <li class="cut cut--c" data-layer="1" data-rise="2" style="--ar:1.02">
+          <span class="cut__par"><img src="apps/dmoda-chaya-pulse.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Chaya Pulse" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--r2 cut--c2" style="--i:1.5;--ar:.9" data-app="dmoda">
-          <img src="apps/dmoda-cynthia-sculpt.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Cynthia Sculpt" loading="lazy" decoding="async">
+        <li class="cut cut--d" data-layer="3" data-rise="3" style="--ar:1.02">
+          <span class="cut__par"><img src="apps/dmoda-cynthia-sculpt.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Cynthia Sculpt" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--r2 cut--c3" style="--i:2.5;--ar:.9" data-app="dmoda">
-          <img src="apps/dmoda-nicky-mode.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Nicky Mode" loading="lazy" decoding="async">
+        <li class="cut cut--e" data-layer="2" data-rise="4" style="--ar:1.02">
+          <span class="cut__par"><img src="apps/dmoda-nicky-mode.webp" width="530" height="520" alt="D'Moda Shoes app concept, product card: Nicky Mode" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--photo cut--r1 cut--c4" style="--i:3;--ar:1.1" data-app="snug">
-          <img src="apps/snug-honey-bear.webp" width="832" height="856" alt="The Snug Mug app concept, drink screen: the Honey Bear iced latte" loading="lazy" decoding="async">
+        <li class="cut cut--f cut--photo" data-layer="1" data-rise="5" style="--ar:.97">
+          <span class="cut__par"><img src="apps/snug-honey-bear.webp" width="832" height="856" alt="The Snug Mug app concept, drink screen: the Honey Bear iced latte" loading="lazy" decoding="async" data-kb></span>
         </li>
-        <li class="cut cut--r2 cut--c4" style="--i:3.5;--ar:.64" data-app="snug">
-          <img src="apps/snug-bear.webp" width="208" height="324" alt="The Snug Mug app concept, loyalty screen: the barista bear" loading="lazy" decoding="async">
+        <li class="cut cut--g" data-layer="3" data-rise="6" style="--ar:.64">
+          <span class="cut__par"><img src="apps/snug-bear.webp" width="208" height="324" alt="The Snug Mug app concept, loyalty screen: the barista bear" loading="lazy" decoding="async" data-kb></span>
         </li>
       </ul>
     </div>
 
-    <ul class="apps__caps" aria-label="What the cut-outs show" data-textmask>
-      <li class="apps__cap"><b class="mono-label" data-scramble>Drops · D'Moda Shoes</b><span class="mono-code">Product screen and product cards</span></li>
-      <li class="apps__cap"><b class="mono-label" data-scramble>Ordering · Loyalty · The Snug Mug</b><span class="mono-code">Drink screen and the barista bear</span></li>
+    <ul class="apps__caps" aria-label="What the screens show">
+      <li class="apps__cap" data-rise="0"><b class="mono-label">Drops · D'Moda Shoes</b><span class="mono-code">Product screen and product cards</span></li>
+      <li class="apps__cap" data-rise="1"><b class="mono-label">Ordering · Loyalty · The Snug Mug</b><span class="mono-code">Drink screen and the barista bear</span></li>
     </ul>
   </div>
 </section>
-<section id="systems" class="section systems" data-scene="construct" aria-labelledby="systems-title">
-  <div class="stage systems__stage">
-    <div class="systems__head" data-textmask>
-      <p class="mono-label eyebrow systems__eyebrow" id="systems-eyebrow" data-scramble>Systems · The construct</p>
-      <h2 class="display-2 systems__title" id="systems-title" data-solidify>We don't build things that look good. We build systems that work.</h2>
+<section id="systems" class="section systems" data-scene="construct" data-dip="night" aria-labelledby="systems-title">
+  <div class="stage systems__stage" data-scene-in>
+    <div class="systems__head">
+      <p class="mono-label eyebrow systems__eyebrow" id="systems-eyebrow" data-rise="0">Systems · The white room</p>
+      <h2 class="display-2 systems__title" id="systems-title" data-rise="1">We don't build things that look good. We build systems that work.</h2>
       <div class="systems__copy">
-        <p class="body">Behind every good storefront is a system: the dashboards, operations tools and automations that run the business quietly behind the site.</p>
-        <p class="note mono-code systems__note">Interfaces recreated for illustration. All figures are sample data.</p>
+        <p class="body" data-rise="2">Behind every good storefront is a system: the dashboards, operations tools and automations that run the business quietly behind the site.</p>
+        <p class="note mono-code systems__note" data-rise="3">Interfaces recreated for illustration. All figures are sample data.</p>
       </div>
     </div>
 
     <div class="panels" id="panels">
 
-      <article class="panel panel--jarvis" id="panel-jarvis" data-panel="jarvis" style="--i:0" aria-labelledby="panel-jarvis-title">
+      <article class="panel panel--jarvis" id="panel-jarvis" data-panel="jarvis" data-rise="0" style="--i:0" aria-labelledby="panel-jarvis-title">
         <header class="panel__bar">
           <div class="panel__id">
             <h3 class="panel__title" id="panel-jarvis-title">Jarvis</h3>
@@ -519,7 +517,7 @@
         <div class="panel__body">
           <div class="card card--live" data-row data-approval>
             <p class="card__tag mono-label"><i class="pip pip--gold" aria-hidden="true"></i>Needs your OK</p>
-            <p class="card__title" data-scr>Approve: flats promotion</p>
+            <p class="card__title">Approve: flats promotion</p>
             <p class="card__text">Inside the discount guardrail. Needs your OK.</p>
             <p class="card__meta mono-code"><span>15% off flats</span><span>Fri to Sun</span><span>Guardrail: max 20%</span></p>
             <div class="card__actions">
@@ -529,11 +527,11 @@
             <p class="card__status mono-code" data-status aria-live="polite"></p>
           </div>
           <ul class="rows">
-            <li class="row" data-row><span class="row__k" data-scr>Spring drop campaign</span><span class="row__v"><b class="badge">Sat 9:00</b></span></li>
+            <li class="row" data-row><span class="row__k">Spring drop campaign</span><span class="row__v"><b class="badge">Sat 9:00</b></span></li>
             <li class="row" data-row><span class="row__k">Flats in stock</span><span class="row__v">7 styles</span></li>
             <li class="row row--kpi" data-row>
               <span class="row__k">Orders this week</span>
-              <span class="row__v"><b data-scr>$8,420</b><i class="delta">+12%</i></span>
+              <span class="row__v"><b>$8,420</b><i class="delta">+12%</i></span>
               <span class="bars" aria-hidden="true"><i style="--v:.38"></i><i style="--v:.52"></i><i style="--v:.46"></i><i style="--v:.7"></i><i style="--v:.58"></i><i style="--v:.84"></i><i class="is-now" style="--v:.62"></i></span>
             </li>
             <li class="row" data-row><span class="row__k">Low stock</span><span class="row__v">Celina Muse · 2 left</span></li>
@@ -546,7 +544,7 @@
         <footer class="panel__note mono-label">Recreated for illustration · sample data</footer>
       </article>
 
-      <article class="panel panel--party" id="panel-party" data-panel="party" style="--i:1" aria-labelledby="panel-party-title">
+      <article class="panel panel--party" id="panel-party" data-panel="party" data-rise="1" style="--i:1" aria-labelledby="panel-party-title">
         <header class="panel__bar">
           <div class="panel__id">
             <h3 class="panel__title" id="panel-party-title">Party booking</h3>
@@ -556,7 +554,7 @@
         </header>
         <div class="panel__body">
           <div class="sched">
-            <p class="sched__head mono-label" data-row><span data-scr>Saturday</span><span class="sched__hours" aria-hidden="true"><i style="--x:0">11</i><i style="--x:.286">1</i><i style="--x:.571">3</i><i style="--x:.857">5</i></span></p>
+            <p class="sched__head mono-label" data-row><span>Saturday</span><span class="sched__hours" aria-hidden="true"><i style="--x:0">11</i><i style="--x:.286">1</i><i style="--x:.571">3</i><i style="--x:.857">5</i></span></p>
             <ul class="sched__rooms mono-code">
               <li data-row><span class="sched__room">Room 1</span><span class="sched__lane"><b class="blk" style="--s:0;--e:.286">Open play</b></span></li>
               <li data-row><span class="sched__room">Room 2</span><span class="sched__lane"><b class="blk blk--active" style="--s:.429;--e:.714">Ava's 7th</b></span></li>
@@ -565,14 +563,14 @@
           </div>
           <div class="card card--live" data-row>
             <p class="card__tag mono-label"><i class="pip pip--gold" aria-hidden="true"></i>Saturday · Room 2 · 2:00 to 4:00</p>
-            <p class="card__title" data-scr>Ava's 7th · 18 kids</p>
+            <p class="card__title">Ava's 7th · 18 kids</p>
             <p class="card__text mono-code">Deposit received · pizza order sent to the kitchen</p>
           </div>
           <div class="waivers">
             <p class="waivers__head mono-label" data-row><span>Waivers signed</span><b><span data-waivers>15</span> of 18</b></p>
             <p class="meter" data-row aria-hidden="true"><i class="meter__fill" data-meter style="--p:.833"></i></p>
             <ul class="rows rows--tight mono-code">
-              <li class="row" data-row><span class="row__k" data-scr>Mila R.</span><span class="row__v"><b class="badge badge--done">Signed</b></span></li>
+              <li class="row" data-row><span class="row__k">Mila R.</span><span class="row__v"><b class="badge badge--done">Signed</b></span></li>
               <li class="row" data-row><span class="row__k">Theo K.</span><span class="row__v"><b class="badge badge--done">Signed</b></span></li>
               <li class="row" data-row data-beat="waiver"><span class="row__k">Noah P.</span><span class="row__v swap"><b class="badge badge--pending swap__old">Pending</b><b class="badge badge--done swap__new">Signed</b></span></li>
               <li class="row" data-row><span class="row__k">12 more signed</span><span class="row__v">3 pending</span></li>
@@ -582,7 +580,7 @@
         <footer class="panel__note mono-label">Recreated for illustration · sample data</footer>
       </article>
 
-      <article class="panel panel--leads" id="panel-leads" data-panel="leads" style="--i:2" aria-labelledby="panel-leads-title">
+      <article class="panel panel--leads" id="panel-leads" data-panel="leads" data-rise="2" style="--i:2" aria-labelledby="panel-leads-title">
         <header class="panel__bar">
           <div class="panel__id">
             <h3 class="panel__title" id="panel-leads-title">Lead follow-up</h3>
@@ -614,11 +612,11 @@
               <div class="lane__slot has-lead" data-slot="contacted">
                 <div class="lead lead--live" data-lead>
                   <p class="lead__tag mono-label">Website form · 2:14 pm</p>
-                  <p class="lead__title" data-scr>Party quote · 12 kids</p>
+                  <p class="lead__title">Party quote · 12 kids</p>
                   <p class="lead__meta mono-code" data-lead-meta>Replied by text · 2:14 pm</p>
                 </div>
               </div>
-              <div class="lead"><p class="lead__tag mono-label">Phone · 11:40 am</p><p class="lead__title" data-scr>Catering request · Friday</p><p class="lead__meta mono-code">Replied · quote sent</p></div>
+              <div class="lead"><p class="lead__tag mono-label">Phone · 11:40 am</p><p class="lead__title">Catering request · Friday</p><p class="lead__meta mono-code">Replied · quote sent</p></div>
             </div>
             <div class="lane" data-lane="follow" data-row>
               <p class="lane__label mono-label"><span>Follow-up</span><b class="count">24 h</b></p>
@@ -627,7 +625,7 @@
                 <p class="lead__title">Party quote · 12 kids</p>
                 <p class="lead__meta mono-code" data-timer>Due tomorrow 2:14 pm</p>
               </div>
-              <div class="lead"><p class="lead__tag mono-label">Timer · tomorrow 10:00</p><p class="lead__title" data-scr>Walk-in quote</p><p class="lead__meta mono-code">Call back</p></div>
+              <div class="lead"><p class="lead__tag mono-label">Timer · tomorrow 10:00</p><p class="lead__title">Walk-in quote</p><p class="lead__meta mono-code">Call back</p></div>
             </div>
           </div>
         </div>
@@ -637,38 +635,30 @@
     </div>
   </div>
 </section>
-<section id="contact" class="section contact" data-scene="contact" aria-labelledby="contact-title">
-  <div class="stage contact__stage">
-    <div class="contact__head" data-textmask>
-      <p class="mono-label eyebrow eyebrow-row" id="contact-eyebrow" data-scramble>Contact · The live line</p>
-      <h2 class="display-1 contact__title" id="contact-title" data-solidify>Quick call. No pressure. Just clarity on how to grow your business.</h2>
+<section id="contact" class="section contact" data-scene="contact" data-dip aria-labelledby="contact-title">
+  <div class="haze" data-haze="contact" aria-hidden="true"></div>
+  <div class="stage contact__stage" data-scene-in>
+    <div class="contact__label">
+      <p class="mono-label eyebrow" id="contact-label" data-rise="0">Text us</p>
+      <h2 class="display-2 contact__title" id="contact-title" data-rise="1">Start with a message.</h2>
     </div>
-    <p class="contact__cue mono-label" id="contact-cue" aria-hidden="true"><i></i>Scroll — the live line</p>
-  </div>
-  <div class="contact__pin" id="contact-pin">
-    <div class="contact__live" id="contact-live">
-      <div class="contact__label" data-textmask>
-        <p class="mono-label eyebrow" id="contact-label" data-scramble>Text us</p>
-        <p class="mono-code contact__start" id="contact-start" data-scramble>Start with a message.</p>
-      </div>
-      <a class="contact__number" id="contact-number" href="sms:+13133006898" data-sms aria-label="Text 313-300-6898"><span class="contact__num" data-line>313-</span><span class="contact__num" data-line>300-</span><span class="contact__num" data-line>6898</span></a>
-      <div class="contact__actions" id="contact-actions">
-        <a class="btn contact__cta" id="contact-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a>
-        <ul class="contact__lines mono-code" id="contact-lines" data-textmask>
-          <li><a href="tel:+13133006898" id="contact-call">Call 313-300-6898</a></li>
-          <li><a href="mailto:elasystemdesign@gmail.com" id="contact-mail">elasystemdesign@gmail.com</a></li>
-          <li><button type="button" class="contact__copy" id="contact-copy" aria-label="Copy the number 313-300-6898"><span id="contact-copy-label">Copy number</span></button><span class="sr-only" id="contact-copied" role="status" aria-live="polite"></span></li>
-          <li id="contact-place">Detroit, MI</li>
-        </ul>
-      </div>
-      <p class="body contact__body" id="contact-body" data-textmask>Tell us what the business does and what isn't working. Quick call, no pressure. Just clarity on how to grow your business.</p>
+    <a class="contact__number" id="contact-number" href="sms:+13133006898" data-sms aria-label="Text 313-300-6898"><span class="contact__num">313-</span><span class="contact__num">300-</span><span class="contact__num">6898</span></a>
+    <div class="contact__actions" id="contact-actions" data-rise="2">
+      <a class="btn contact__cta" id="contact-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a>
+      <ul class="contact__lines mono-code" id="contact-lines">
+        <li><a href="tel:+13133006898" id="contact-call">Call 313-300-6898</a></li>
+        <li><a href="mailto:elasystemdesign@gmail.com" id="contact-mail">elasystemdesign@gmail.com</a></li>
+        <li><button type="button" class="contact__copy" id="contact-copy" aria-label="Copy the number 313-300-6898"><span id="contact-copy-label">Copy number</span></button><span class="sr-only" id="contact-copied" role="status" aria-live="polite"></span></li>
+        <li id="contact-place">Detroit, MI</li>
+      </ul>
     </div>
+    <p class="body contact__body" id="contact-body" data-rise="3">Tell us what the business does and what isn't working. Quick call, no pressure. Just clarity on how to grow your business.</p>
   </div>
 </section>
 </main>
 <footer class="footer" id="footer">
-  <div class="footer__grid" data-textmask>
-    <div class="footer__brand">
+  <div class="footer__grid">
+    <div class="footer__brand" data-rise="0">
       <svg class="footer__mark" viewBox="10 20 660 400" aria-hidden="true" focusable="false">
         <path fill="#E3A02A" d="M62 65H365L332.3 125H26Z M62 198H292.5L259.8 258H26Z M62 322H225.1L192.4 382H26Z"/>
         <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
@@ -678,7 +668,7 @@
       <p class="mono-label footer__pillars">Websites · Apps · Systems</p>
       <p class="mono-code mute">Detroit, Michigan</p>
     </div>
-    <div class="footer__col">
+    <div class="footer__col" data-rise="1">
       <p class="mono-label footer__head">Contact</p>
       <ul class="footer__list mono-code">
         <li><a href="sms:+13133006898" data-sms>Text 313-300-6898</a></li>
@@ -686,7 +676,7 @@
         <li><a href="mailto:elasystemdesign@gmail.com">elasystemdesign@gmail.com</a></li>
       </ul>
     </div>
-    <div class="footer__col">
+    <div class="footer__col" data-rise="2">
       <p class="mono-label footer__head">Clients</p>
       <ul class="footer__list footer__list--clients mono-code">
         <li><a href="https://familybakerydetroit.com" target="_blank" rel="noopener">Family Bakery</a></li>
@@ -700,21 +690,25 @@
         <li>Express Poultry &amp; Fish</li>
       </ul>
     </div>
-    <div class="footer__col">
+    <div class="footer__col" data-rise="3">
       <p class="mono-label footer__head">Display</p>
       <label class="toggle mono-code" for="reduce-fx"><input type="checkbox" id="reduce-fx" data-reduce-fx><span>Reduce effects</span></label>
-      <p class="mono-code mute footer__hint">A still page: no rain, no pinned scroll.</p>
+      <p class="mono-code mute footer__hint">A still page: no film motion, no fades.</p>
     </div>
   </div>
-  <p class="footer__legal mono-code" data-textmask>ElaSystems · Websites, apps and systems · Detroit, Michigan</p>
+  <p class="footer__legal mono-code" data-rise="4">ElaSystems · Websites, apps and systems · Detroit, Michigan</p>
 </footer>
 <nav class="bottombar" id="bottombar" aria-label="Quick contact">
   <a class="btn" href="sms:+13133006898" data-sms>Text 313-300-6898</a>
   <a class="btn btn--line" href="tel:+13133006898" aria-label="Call 313-300-6898">Call</a>
 </nav>
+<div class="film" id="film" aria-hidden="true">
+  <i class="film__vignette"></i>
+  <i class="film__grain" id="film-grain"></i>
+  <i class="film__bar film__bar--top"></i>
+  <i class="film__bar film__bar--bottom"></i>
 </div>
-<script src="js/vendor/gsap.min.js"></script>
-<script src="js/vendor/ScrollTrigger.min.js"></script>
+</div>
 <script src="js/vendor/lenis.min.js"></script>
 <script src="js/site.js"></script>
 </body>

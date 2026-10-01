@@ -45,11 +45,13 @@
   function buildDips() {
     var els = document.querySelectorAll('[data-dip]');
     for (var i = 0; i < els.length; i++) {
-      var el = els[i], ov = document.createElement('i');
-      ov.className = 'dip' + (el.dataset.dip === 'paper' ? ' dip--paper' : '');
+      var el = els[i], ov = document.createElement('i'), kind = el.dataset.dip || 'black';
+      ov.className = 'dip' + (kind !== 'black' ? ' dip--' + kind : '');
       ov.setAttribute('aria-hidden', 'true');
       el.appendChild(ov);
-      dips.push({ el: el, ov: ov, top: 0, h: 1, dim: U.smooth(6, 0), near: false, last: -1 });
+      /* a cut that changes the ground (night -> paper, paper -> night) goes all the way so the seam between the two
+         grounds never shows; a night-on-night cut dims to 85 % */
+      dips.push({ el: el, ov: ov, max: kind === 'black' ? 0.85 : 1, span: kind === 'black' ? 0.6 : 0.5, top: 0, h: 1, dim: U.smooth(6, 0), near: false, last: -1 });
     }
   }
   function measureDips() { for (var i = 0; i < dips.length; i++) { var d = dips[i]; d.top = U.docTop(d.el); d.h = Math.max(1, d.el.offsetHeight); } }
@@ -61,8 +63,8 @@
       var near = bottom > -0.5 * H && top < 1.5 * H;
       if (near !== d.near) { d.near = near; d.ov.classList.toggle('is-near', near); }
       if (!near) { if (d.last !== 0 && d.dim.v === 0) continue; }
-      var e = clamp((H - bottom) / (0.6 * H), 0, 1);
-      d.dim.to(near ? 0.85 * easeDim(e) : 0);
+      var e = clamp((H - bottom) / (d.span * H), 0, 1);
+      d.dim.to(near ? d.max * easeDim(e) : 0);
       if (d.dim.step(dt)) busy = true;
       var v = Math.round(d.dim.v * 500) / 500;
       if (v !== d.last) { d.last = v; d.ov.style.opacity = v ? String(v) : ''; }

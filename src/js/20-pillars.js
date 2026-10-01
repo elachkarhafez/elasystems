@@ -15,5 +15,6 @@
   /* the stage's own fade-up (00-core) is the cue: the bars follow it */
   new MutationObserver(function () { if (stage.classList.contains('is-on')) sec.classList.add('is-in'); }).observe(stage, { attributes: true, attributeFilter: ['class'] });
   if (stage.classList.contains('is-on')) sec.classList.add('is-in');
+  sec.addEventListener('focusin', function () { if (!sec.classList.contains('is-in')) { sec.classList.add('is-quick'); sec.classList.add('is-in'); } });
   ES.motion.on(function (r) { if (r) sec.classList.add('is-in'); });
 })();

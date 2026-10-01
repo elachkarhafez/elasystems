@@ -1,7 +1,9 @@
 /* ============================================================================
-   01-base.css — reset, grid, type roles, buttons, chrome, utilities,
-   shared section pieces (every section rule lives in its own 2x-5x file),
-   reduced-motion / no-JS / no-WebGL static compositions.
+   01-base.css — reset, grid, type roles, buttons, chrome, utilities, the
+   film layer (vignette, grain, letterbox), the film-cut grammar (reveals,
+   scene fade-up with push-in, the exit dip), haze, Ken Burns, light sweeps.
+   Default CSS = the final, complete page (no JS, reduced motion). Every
+   pre-state exists only under html[data-js][data-motion="full"].
    ========================================================================== */
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -30,24 +32,14 @@ a { color: inherit; }
 ::selection { background: var(--gold); color: var(--night); }
 :focus-visible { outline: 2px solid var(--gold-light); outline-offset: 3px; }
 :focus:not(:focus-visible) { outline: 0; }
-/* scroll targets the page focuses itself (sections, decode anchors): no ring around a container */
+/* scroll targets the page focuses itself (sections, shots): no ring around a container */
 [tabindex="-1"]:focus-visible { outline: 0; }
 
-/* the one fixed WebGL canvas, behind everything */
-#rain {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: var(--z-rain);
-  pointer-events: none;
-  background: var(--night);
-}
-html[data-webgl="none"] #rain { display: none; }
 /* #app repeats the body typography so the page does not depend on the body element it is served in */
 #app {
   position: relative;
   z-index: var(--z-page);
+  background: var(--night);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--body);
@@ -66,6 +58,7 @@ html[data-webgl="none"] #rain { display: none; }
   max-width: var(--max);
 }
 .section + .section { scroll-margin-top: 0; }
+.section[data-scene="construct"] { --ink: var(--navy); --ink-2: var(--navy-2); --line: color-mix(in srgb, var(--navy) 14%, transparent); --line-strong: color-mix(in srgb, var(--navy) 28%, transparent); color: var(--navy); background: var(--paper); }
 
 /* ---- type roles --------------------------------------------------------- */
 .display-1, .display-2, .h3 {
@@ -117,6 +110,22 @@ html[data-webgl="none"] #rain { display: none; }
 }
 .wordmark svg { width: .66em; height: .9em; margin: 0 .22em 0 .06em; fill: currentColor; flex: none; }
 .wordmark b { font-weight: inherit; color: var(--gold); }
+.wordmark--lg { font-size: clamp(16px, 1.6vw, 22px); letter-spacing: .26em; }
+
+/* the strike through a word: a 2 px gold line at the slash angle (drawn by the scene that owns it) */
+.strike-word { position: relative; display: inline-block; }
+.strike-line {
+  position: absolute;
+  left: -1%;
+  width: 102%;
+  top: 57%;
+  height: 2px;
+  background: var(--gold);
+  transform-origin: left center;
+  transform: scaleX(1);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 2px) 100%, 0 100%);
+  pointer-events: none;
+}
 
 /* ---- the square-cut gold pill with one slashed edge --------------------- */
 .btn {
@@ -138,15 +147,22 @@ html[data-webgl="none"] #rain { display: none; }
   white-space: nowrap;
   -webkit-tap-highlight-color: transparent;
 }
-.btn::before {
+.btn::before, .btn::after {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--gold);
   clip-path: polygon(0 0, 100% 0, calc(100% - var(--btn-cut)) 100%, 0 100%);
-  transition: background var(--t-micro) var(--ease-enter);
 }
+.btn::before { background: var(--gold); transition: background var(--t-hover) var(--ease-film); }
+/* the light sweep on press (01-scroll adds .is-sweep on pointerdown): a soft highlight crossing the pill once */
+.btn::after {
+  background: linear-gradient(var(--sweep-angle), transparent 38%, color-mix(in srgb, var(--light) 70%, transparent) 50%, transparent 62%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  opacity: 0;
+}
+.btn.is-sweep::after { animation: sweep-bg 900ms var(--ease-sweep) 1 both; }
 .btn:hover::before, .btn:focus-visible::before, .btn:active::before { background: var(--gold-light); }
 .btn--line { color: var(--paper); }
 .btn--line::before { background: color-mix(in srgb, var(--paper) 10%, transparent); box-shadow: inset 0 0 0 1px var(--line-strong); }
@@ -161,9 +177,10 @@ html[data-webgl="none"] #rain { display: none; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  transition: color var(--t-hover) var(--ease-film);
 }
 .link-arrow:hover { color: var(--gold-light); text-decoration: underline; text-underline-offset: 3px; }
-
+@keyframes sweep-bg { from { background-position: 100% 0; opacity: 1; } to { background-position: 0% 0; opacity: 1; } }
 
 /* ---- skip link + top bar + bottom bar ----------------------------------- */
 .skip {
@@ -190,54 +207,32 @@ html[data-webgl="none"] #rain { display: none; }
   justify-content: space-between;
   gap: 16px;
   padding: 0 var(--gutter);
-  /* two grounds: ::before carries the leading scene's, ::after the arriving scene's, cut in by the same Slash Front as
-     everything else (--front); 52-chrome.css firms both up once the page has scrolled */
-  --bar-night: linear-gradient(to bottom, var(--night-85), transparent);
-  --bar-paper: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 90%, transparent), transparent);
-  --bar-ground: var(--bar-night);
-  --bar-new: var(--bar-night);
-  transition: color var(--t-short) var(--ease-enter), transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit);
+  transition: opacity 900ms var(--ease-film), transform var(--t-hover) var(--ease-film);
 }
-.topbar::before, .topbar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-.topbar::before { background: var(--bar-ground); }
-.topbar::after {
-  display: none;
-  background: var(--bar-new);
-  --x0: calc(-1 * var(--slash-run) * 100vh + var(--front) * (100vw + var(--slash-run) * 100vh));
-  clip-path: polygon(0 0, calc(var(--x0) + var(--slash-run) * 100vh) 0, calc(var(--x0) + var(--slash-run) * (100vh - 100%)) 100%, 0 100%);
-}
+/* two grounds, cross-faded: night (::before) and paper for the white room (::after) */
+.topbar::before, .topbar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; transition: opacity var(--t-medium) var(--ease-film); }
+.topbar::before { background: linear-gradient(to bottom, var(--night-85), transparent); }
+.topbar::after { background: linear-gradient(to bottom, color-mix(in srgb, var(--paper) 90%, transparent), transparent); opacity: 0; }
+html[data-scene="construct"] .topbar::after { opacity: 1; }
+html[data-intro] .topbar { opacity: 0; }
 html[data-topbar="off"] .topbar { transform: translateY(-100%); opacity: 0; }
-.topbar__brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--paper); min-width: 0; }
+.topbar__brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--paper); min-width: 0; transition: color var(--t-medium) var(--ease-film); }
+.topbar__brand .wordmark { transition: color var(--t-medium) var(--ease-film); }
 .topbar__mark { width: 46px; height: 28px; flex: none; }
+.topbar__mark .mark-s { transition: fill var(--t-medium) var(--ease-film); }
 .topbar__nav { display: none; align-items: center; gap: 28px; }
-.topbar__nav a { color: var(--mute); text-decoration: none; transition: color var(--t-micro); }
+.topbar__nav a { color: var(--mute); text-decoration: none; transition: color var(--t-hover) var(--ease-film); }
 .topbar__nav a:hover, .topbar__nav a[aria-current="true"] { color: var(--paper); }
 /* the persistent CTA: a 44 px tap target inside the 56 px bar (the padding keeps its text on the gutter line) */
-.topbar__cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin-right: -10px; color: var(--gold); text-decoration: none; white-space: nowrap; flex: none; }
+.topbar__cta { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; margin-right: -10px; color: var(--gold); text-decoration: none; white-space: nowrap; flex: none; transition: color var(--t-hover) var(--ease-film); }
 .topbar__cta:hover { color: var(--gold-light); }
-/* scene-aware chrome: the construct is the one light room */
-.bottombar { transition: background var(--t-short) var(--ease-enter), color var(--t-short) var(--ease-enter), transform var(--t-short) var(--ease-exit), opacity var(--t-short) var(--ease-exit), clip-path var(--t-reveal) var(--ease-slash); }
-html[data-scene="construct"] .topbar { --bar-ground: var(--bar-paper); }
-/* ink on paper: by scene, or per element while a sweep runs (02-scroll sets data-ink as the front crosses each one) */
-html[data-scene="construct"] .topbar__brand:not([data-ink]), html[data-scene="construct"] .topbar__brand:not([data-ink]) .wordmark,
-.topbar__brand[data-ink="paper"], .topbar__brand[data-ink="paper"] .wordmark { color: var(--navy); }
-html[data-scene="construct"] .topbar__brand:not([data-ink]) .topbar__mark .mark-s, .topbar__brand[data-ink="paper"] .topbar__mark .mark-s { fill: var(--navy); }
-html[data-scene="construct"] .topbar__nav:not([data-ink]) a, .topbar__nav[data-ink="paper"] a { color: var(--navy-2); }
-html[data-scene="construct"] .topbar__nav:not([data-ink]) a:hover, html[data-scene="construct"] .topbar__nav:not([data-ink]) a[aria-current="true"],
-.topbar__nav[data-ink="paper"] a:hover, .topbar__nav[data-ink="paper"] a[aria-current="true"] { color: var(--navy); }
-html[data-scene="construct"] .topbar__cta:not([data-ink]), .topbar__cta[data-ink="paper"] { color: var(--gold-deep); }
-.topbar__brand[data-ink="night"], .topbar__brand[data-ink="night"] .wordmark { color: var(--paper); }
-.topbar__brand[data-ink="night"] .topbar__mark .mark-s { fill: #F2EFE8; }
-.topbar__nav[data-ink="night"] a { color: var(--mute); }
-.topbar__nav[data-ink="night"] a:hover, .topbar__nav[data-ink="night"] a[aria-current="true"] { color: var(--paper); }
-.topbar__cta[data-ink="night"] { color: var(--gold); }
+/* ink on paper in the white room */
+html[data-scene="construct"] .topbar__brand, html[data-scene="construct"] .topbar__brand .wordmark { color: var(--navy); }
+html[data-scene="construct"] .topbar__mark .mark-s { fill: var(--navy); }
+html[data-scene="construct"] .topbar__nav a { color: var(--navy-2); }
+html[data-scene="construct"] .topbar__nav a:hover, html[data-scene="construct"] .topbar__nav a[aria-current="true"] { color: var(--navy); }
+html[data-scene="construct"] .topbar__cta { color: var(--gold-deep); }
 html[data-scene="construct"] .topbar :focus-visible, html[data-scene="construct"] .bottombar :focus-visible { outline-color: var(--navy); }
-html[data-scene="construct"] .bottombar { background: linear-gradient(to top, var(--paper) 55%, transparent); }
-/* mid-sweep (02-scroll writes html[data-pair="old-new"] while a window runs): the leading ground stays under the whole
-   bar and the arriving one is cut in by the front; the ink still switches at 50 % (text cannot be split) */
-html[data-pair$="-construct"] .topbar { --bar-ground: var(--bar-night); --bar-new: var(--bar-paper); }
-html[data-pair^="construct-"] .topbar { --bar-ground: var(--bar-paper); --bar-new: var(--bar-night); }
-html[data-pair$="-construct"] .topbar::after, html[data-pair^="construct-"] .topbar::after { display: block; }
 @media (min-width: 900px) { .topbar__nav { display: flex; } }
 @media (max-width: 767px) { .topbar .wordmark { font-size: 13px; letter-spacing: .14em; } .topbar__cta { font-size: 12px; letter-spacing: .06em; } }
 @media (max-width: 359px) { .topbar .wordmark { display: none; } }
@@ -249,23 +244,25 @@ html[data-pair$="-construct"] .topbar::after, html[data-pair^="construct-"] .top
   display: none;
   gap: 8px;
   padding: 10px var(--gutter) calc(10px + var(--safe-b));
-  background: linear-gradient(to top, var(--night) 55%, transparent);
-  clip-path: polygon(-120% 0, -20% 0, calc(-20% - 60px) 100%, -120% 100%);
-  transition: clip-path var(--t-reveal) var(--ease-slash);
+  transform: translateY(110%);
+  opacity: 0;
+  transition: transform var(--t-medium) var(--ease-film), opacity var(--t-medium) var(--ease-film);
 }
+.bottombar::before, .bottombar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; transition: opacity var(--t-medium) var(--ease-film); }
+.bottombar::before { background: linear-gradient(to top, var(--night) 62%, transparent); }
+.bottombar::after { background: linear-gradient(to top, var(--paper) 62%, transparent); opacity: 0; }
+html[data-scene="construct"] .bottombar::after { opacity: 1; }
 .bottombar .btn { flex: 1 1 0; min-width: 0; padding-left: 16px; }
 .bottombar .btn--line { flex: 0 0 auto; }
-html[data-bottombar="on"] .bottombar { clip-path: polygon(0 0, 220% 0, calc(220% - 60px) 100%, 0 100%); }
+html[data-bottombar="on"] .bottombar { transform: none; opacity: 1; }
+html[data-numberview="1"] .bottombar { transform: translateY(110%); opacity: 0; }
 @media (max-width: 767px) {
   html[data-input="coarse"] .bottombar { display: flex; }
-  html[data-motion="reduced"] .bottombar, html:not([data-js]) .bottombar { clip-path: none; }
-  /* still page: no slash cut, but the bar still waits for the hero to pass */
-  html[data-js][data-motion="reduced"]:not([data-bottombar="on"]) .bottombar { transform: translateY(120%); }
 }
 
 /* ---- motion switches ------------------------------------------------------
-   html[data-motion="reduced"]: still page. No rain loop (engine renders one
-   poster frame), no scramble/solidify, no pinning, native scroll.            */
+   html[data-motion="reduced"]: the still page. No transitions, no keyframes,
+   every block in its final state (the pre-states below never apply).        */
 html[data-motion="reduced"] *,
 html[data-motion="reduced"] *::before,
 html[data-motion="reduced"] *::after {
@@ -273,8 +270,7 @@ html[data-motion="reduced"] *::after {
   transition: none !important;
   scroll-behavior: auto !important;
 }
-html[data-motion="reduced"] [data-solidify],
-html:not([data-js]) [data-solidify] { font-variation-settings: var(--vs-display); opacity: 1; }
+.no-trans, .no-trans *, .no-trans *::before, .no-trans *::after { transition: none !important; }
 
 /* Lenis */
 html.lenis, html.lenis body { height: auto; }
@@ -282,29 +278,83 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* ---- static ground: one slash edge per section (reduced / no-JS / no-WebGL)
-   The rain poster shows through a diagonal stripe on the left; the section's
-   ground (night, or paper for the construct) carries the copy.             */
-.section { --ground: var(--night); --win-h: 36vh; --win-w: calc(36vh * var(--slash-run)); }
-.section[data-scene="construct"] { --ground: var(--paper); --ink: var(--navy); --ink-2: var(--navy-2); --line: color-mix(in srgb, var(--navy) 14%, transparent); --line-strong: color-mix(in srgb, var(--navy) 28%, transparent); color: var(--navy); }
-html[data-motion="reduced"] .section:not(#hero)::before,
-html:not([data-js]) .section:not(#hero)::before,
-html[data-webgl="none"] .section:not(#hero)::before {
-  content: "";
+/* ---- the film layer -----------------------------------------------------
+   One fixed div above the page, under the chrome: a vignette, one static
+   grain tile (generated once, drifting under 1 px/s), the letterbox bars. */
+.film { position: fixed; inset: 0; z-index: var(--z-film); pointer-events: none; overflow: hidden; }
+.film i { display: block; }
+.film__vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 82% 72% at 50% 46%, transparent 52%, rgba(0, 0, 0, .34) 100%); transition: opacity 1200ms var(--ease-film); }
+/* the white room is lit: the vignette steps back */
+html[data-scene="construct"] .film__vignette { opacity: .28; }
+.film__grain {
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: var(--ground);
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--win-h)), calc(100% - var(--win-w)) 100%, 0 100%);
+  left: -50%; top: -50%;
+  width: 200%; height: 200%;
+  background-repeat: repeat;
+  background-size: 96px 96px;
+  opacity: .035;
+  animation: grain-drift 128s linear infinite;
 }
-html[data-motion="reduced"] .footer, html:not([data-js]) .footer, html[data-webgl="none"] .footer { background: var(--night); }
-html[data-webgl="none"] .section[data-scene="construct"],
-html[data-motion="reduced"] .section[data-scene="construct"],
-html:not([data-js]) .section[data-scene="construct"] { background: transparent; }
-html[data-webgl="none"] #app { background: var(--night); }
+@keyframes grain-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-96px, -96px, 0); } }
+.film__bar { position: absolute; left: 0; right: 0; height: var(--lb); background: #000; transition: transform var(--t-lb) var(--ease-film); }
+.film__bar--top { top: 0; transform: translateY(-101%); }
+.film__bar--bottom { bottom: 0; transform: translateY(101%); }
+html[data-lb="on"] .film__bar { transform: none; }
+html:not([data-js]) .film__bar, html:not([data-js]) .film__grain { display: none; }
 
-/* ---- shared section pieces (every other section rule lives in its own 2x-5x file) ---- */
+/* ---- the film-cut grammar -------------------------------------------------
+   [data-rise]      fade + 24 px rise, 1.1 s, staggered by --i (120 ms), once
+   [data-scene-in]  the incoming scene fades up from black with the slow
+                    push-in (1.04 -> 1.00, 1.2 s) when it enters the viewport
+   .dip             the outgoing scene's dim toward black (or paper): an
+                    overlay on the last 100 vh of the block, opacity driven
+                    0 -> 85 % by scroll through a lerp (01-scroll)          */
+html[data-js][data-motion="full"] [data-rise] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity var(--t-rise) var(--ease-film) calc(var(--i, 0) * var(--t-stagger)), transform var(--t-rise) var(--ease-film) calc(var(--i, 0) * var(--t-stagger));
+}
+html[data-js][data-motion="full"] [data-rise].is-in { opacity: 1; transform: none; }
+html[data-js][data-motion="full"] [data-scene-in] {
+  opacity: 0;
+  transform: scale(1.04);
+  transform-origin: 50% 40%;
+  transition: opacity var(--t-scene) var(--ease-film), transform var(--t-scene) var(--ease-push);
+}
+html[data-js][data-motion="full"] [data-scene-in].is-on { opacity: 1; transform: none; }
+/* revealed by keyboard focus: at once, so the focused control is never invisible */
+html[data-js][data-motion="full"] [data-rise].is-quick, html[data-js][data-motion="full"] [data-scene-in].is-quick { transition-duration: 300ms; transition-delay: 0ms; }
+.dip {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 100vh;
+  height: 100svh;
+  max-height: 100%;
+  z-index: 6;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 70%);
+}
+.dip--paper { background: linear-gradient(to bottom, rgba(242, 239, 232, 0) 0%, var(--paper) 70%); }
+.dip--night { background: linear-gradient(to bottom, rgba(5, 11, 22, 0) 0%, var(--night) 70%); }
+.dip.is-near { will-change: opacity; }
+html:not([data-js]) .dip, html[data-motion="reduced"] .dip { display: none; }
+
+/* Ken Burns: an image arrives at 1.08 and settles over 6 s */
+@keyframes kb { from { transform: scale(1.08); } to { transform: scale(1); } }
+
+/* the haze: out-of-focus gold discs (radial gradients, pre-blurred), drifting a few px over ~20 s */
+.haze { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.haze i {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--gold-light) 0%, color-mix(in srgb, var(--gold) 55%, transparent) 32%, transparent 68%);
+  transform: translate3d(0, 0, 0);
+  animation: haze-drift 20s ease-in-out infinite alternate;
+}
+@keyframes haze-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(var(--dx, 6px), var(--dy, -4px), 0); } }
+
+/* ---- shared section pieces ---- */
 .section-head { display: grid; gap: 14px; max-width: 980px; }
 .section-head .body { margin-top: 6px; }
 .eyebrow-row { display: flex; align-items: center; gap: 14px; color: var(--gold); }

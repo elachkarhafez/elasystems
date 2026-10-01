@@ -123,6 +123,8 @@
   /* ------------------------------------------------------------- panels */
   panels.forEach(function (P) { still(P, function () { pre(P); }); });
   panels.forEach(function (P) {
+    /* keyboard focus into a panel that has not run yet: run it at once (the rows must be visible under the focus) */
+    P.el.addEventListener('focusin', function () { if (!P.ran) { P.el.classList.add('is-quick'); run(P); } });
     new IntersectionObserver(function (en) { if (en[0].isIntersecting) run(P); }, { threshold: 0.3 }).observe(P.el);
     new IntersectionObserver(function (en) { if (!en[0].isIntersecting) rearm(P); }, { threshold: 0 }).observe(P.el);
   });

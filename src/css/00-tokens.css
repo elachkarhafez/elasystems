@@ -3,6 +3,7 @@
    Colours: only these tokens (or color-mix of them) anywhere on the site.
    Geometry: --slash-run is the single source of truth for the brand slash
    (horizontal run per unit of rise, 28.1 deg from vertical, leaning like "/").
+   Motion: one easing for the film (heavy, cinematic), long durations.
    ========================================================================== */
 
 @font-face {
@@ -33,7 +34,7 @@
   --gold-deep: #8A5A12;
   --paper: #F2EFE8;
   --mute: #9DB0C8;
-  --head: #FFF4D6;                 /* rain stream head (gold-light pushed to paper) */
+  --light: #FFF4D6;                /* the highlight of the light sweep (gold-light pushed to paper) */
 
   /* derived */
   --ink: var(--paper);
@@ -43,7 +44,6 @@
   --gold-glow: color-mix(in srgb, var(--gold) 28%, transparent);
   --night-85: color-mix(in srgb, var(--night) 85%, transparent);
   --night-60: color-mix(in srgb, var(--night) 60%, transparent);
-  --navy-field: color-mix(in srgb, var(--night) 65%, var(--navy));
 
   /* type */
   --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
@@ -67,14 +67,13 @@
   --measure: 65ch;
 
   --vs-display: "wght" 820, "wdth" 125;
-  --vs-display-soft: "wght" 400, "wdth" 86;
   --vs-body: "wght" 400, "wdth" 100;
   --vs-wordmark: "wght" 400, "wdth" 125;
 
   /* geometry */
   --slash-run: 0.535;                 /* horizontal run per unit of rise */
-  --slash-angle: 28.1deg;             /* from vertical, informational */
-  --front: -0.25;                     /* the live Slash Front, written by JS (-0.25 .. 1.25) */
+  --slash-angle: 28.1deg;             /* from vertical */
+  --sweep-angle: 118.1deg;            /* a gradient whose bands are parallel to the slash */
   --gutter: 16px;
   --col-gap: 16px;
   --max: 1440px;
@@ -83,30 +82,26 @@
   --btn-h: 56px;
   --btn-cut: calc(var(--btn-h) * var(--slash-run));
   --safe-b: env(safe-area-inset-bottom, 0px);
+  --lb: 0px;                          /* the hero letterbox bar height (set under the film, below) */
 
-  /* motion */
+  /* motion: the film */
+  --ease-film: cubic-bezier(.22, .61, .36, 1);
+  --ease-push: cubic-bezier(.16, .6, .3, 1);
+  --ease-sweep: cubic-bezier(.45, .05, .55, .95);
   --t-micro: 160ms;
   --t-short: 260ms;
-  --t-char: 300ms;
-  --t-char-stagger: 18ms;
-  --t-lock: 900ms;
-  --t-lock-bar: 120ms;
-  --t-bullet-in: 450ms;
-  --t-bullet-out: 600ms;
-  --t-digits: 60ms;
-  --t-solidify: 600ms;
-  --t-solidify-word: 40ms;
+  --t-hover: 400ms;
   --t-medium: 700ms;
-  --t-reveal: 600ms;
-  --t-transition: 1100ms;
-  --t-construct: 6000ms;
-  --ease-enter: cubic-bezier(.2, .8, .2, 1);
-  --ease-exit: cubic-bezier(.6, 0, .9, .3);
-  --ease-slash: cubic-bezier(.52, 0, .12, 1);
+  --t-rise: 1100ms;
+  --t-stagger: 120ms;
+  --t-scene: 1200ms;
+  --t-sweep: 2400ms;
+  --t-kb: 6000ms;
+  --t-lb: 1400ms;
 
   /* z */
-  --z-rain: 0;
   --z-page: 1;
+  --z-film: 20;
   --z-chrome: 30;
   --z-skip: 40;
 }
@@ -123,4 +118,9 @@
     --body: 17px;
     --body-lh: 26px;
   }
+}
+/* the 2.39:1 letterbox, capped so the opening still has a room to compose in; only while the film runs */
+html[data-js][data-motion="full"][data-lb] { --lb: min(max(0px, calc((100svh - 100vw / 2.39) / 2)), 10vh); }
+@media (max-height: 700px) {
+  html[data-js][data-motion="full"][data-lb] { --lb: min(max(0px, calc((100svh - 100vw / 2.39) / 2)), 7vh); }
 }

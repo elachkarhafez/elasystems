@@ -131,8 +131,8 @@
   /* keyboard: Tab into something not revealed yet reveals its block at once (nothing hides from the tab order) */
   document.addEventListener('focusin', function (e) {
     var el = e.target; if (!el || !el.closest) return;
-    var r = el.closest('[data-rise]:not(.is-in)'); while (r) { show(r, 'is-in'); r = r.parentElement && r.parentElement.closest('[data-rise]:not(.is-in)'); }
-    var s = el.closest('[data-scene-in]:not(.is-on)'); if (s) show(s, 'is-on');
+    var r = el.closest('[data-rise]:not(.is-in)'); while (r) { show(r, 'is-quick'); show(r, 'is-in'); r = r.parentElement && r.parentElement.closest('[data-rise]:not(.is-in)'); }
+    var s = el.closest('[data-scene-in]:not(.is-on)'); if (s) { show(s, 'is-quick'); show(s, 'is-on'); }
   });
 
   /* ------------------------------------------------------------ the film */

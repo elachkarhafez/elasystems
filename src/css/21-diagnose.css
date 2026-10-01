@@ -3,14 +3,15 @@
    touchpoints on a spine (the leaks struck, what we build in gold beneath),
    the matching client, the prefilled text, the CTA.
    JS on: one live block (#dx-live). JS off: the nine static blocks.
-   Default = final state; print pre-states only under html[data-js][data-motion="full"].
+   Default = final state; the print's pre-states (.is-wait .is-fixwait, the
+   readout before .is-read) only under html[data-js][data-motion="full"].
    ========================================================================== */
 .diagnose__stage { display: grid; align-content: start; gap: 28px; padding-top: calc(var(--topbar-h) + 6vh); padding-bottom: calc(8vh + var(--bottombar-h) + var(--safe-b)); }
 .diagnose__head { max-width: 760px; }
 html:not([data-js]) .chips, html:not([data-js]) .dx__live { display: none; }
 html[data-js] .dx__static { display: none; }
 
-/* chips: square-cut mono tokens with one slashed edge, like the CTA pill */
+/* chips: square-cut mono tokens with one slashed edge, like the CTA pill (48 px tall) */
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
 .chip {
   --chip-h: 48px;
@@ -24,15 +25,13 @@ html[data-js] .dx__static { display: none; }
   line-height: 20px;
   letter-spacing: .04em;
   color: var(--paper);
-  box-shadow: none;
   -webkit-tap-highlight-color: transparent;
-  transition: color var(--t-micro) var(--ease-enter);
+  transition: color var(--t-hover) var(--ease-film);
 }
 .chip::before, .chip::after { content: ""; position: absolute; z-index: -1; clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
-.chip::before { inset: 0; background: var(--line-strong); transition: background var(--t-micro) var(--ease-enter); }
-.chip::after { inset: 1px 2px 1px 1px; background: var(--night); transition: opacity var(--t-micro) var(--ease-enter); }
+.chip::before { inset: 0; background: var(--line-strong); transition: background var(--t-hover) var(--ease-film); }
+.chip::after { inset: 1px 2px 1px 1px; background: var(--night); transition: opacity var(--t-hover) var(--ease-film); }
 .chip:hover::before { background: var(--paper); }
-.chip:hover { color: var(--paper); }
 .chip[aria-pressed="true"] { color: var(--night); }
 .chip[aria-pressed="true"]::before { background: var(--gold); }
 .chip[aria-pressed="true"]::after { opacity: 0; }
@@ -48,7 +47,7 @@ html[data-js] .dx__static { display: none; }
   width: 10px; height: 9px;
   background: var(--gold);
   clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
-  transition: background var(--t-short) var(--ease-enter), box-shadow var(--t-short) var(--ease-enter);
+  transition: background var(--t-medium) var(--ease-film);
 }
 .tp.is-leak .tp__node { background: var(--mute); }
 .tp.is-leak.is-fixed .tp__node { background: var(--gold); }
@@ -67,8 +66,7 @@ html[data-js] .dx__static { display: none; }
 .tp__fix { display: block; font-family: var(--font-mono); font-size: var(--mono-code); line-height: var(--mono-code-lh); color: var(--gold); max-width: 58ch; }
 .tp:not(.is-leak) .tp__fix { display: none; }
 .tp .strike-line { top: 50%; }
-html[data-js][data-motion="full"] .tp.is-wait .tp__name { visibility: hidden; }
-html[data-js][data-motion="full"] .tp.is-fixwait .tp__fix { visibility: hidden; }
+.tp:not(.is-leak) .strike-line { display: none; }
 
 /* the readout: matching work, the prefilled text, the CTA */
 .dx__readout { display: grid; gap: 18px; align-content: start; justify-items: start; padding-top: 18px; border-top: 1px solid var(--line-strong); max-width: 520px; }
@@ -78,9 +76,6 @@ html[data-js][data-motion="full"] .tp.is-fixwait .tp__fix { visibility: hidden; 
 .dx__msg { display: grid; gap: 6px; color: color-mix(in srgb, var(--paper) 74%, transparent); max-width: 44ch; }
 .dx__msg-label { color: var(--mute); }
 .dx__cta { margin-top: 6px; }
-html[data-js][data-motion="full"] .dx__readout { transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s; clip-path: polygon(0 -8px, calc(100% + 60% + 8px) -8px, calc(100% + 8px) calc(100% + 8px), 0 calc(100% + 8px)); }
-/* while the print runs the readout is out of the tab order too (visibility flips after the clip-out, before the clip-in) */
-html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { clip-path: polygon(0 -8px, 0 -8px, -60% calc(100% + 8px), 0 calc(100% + 8px)); opacity: 0; visibility: hidden; transition: clip-path var(--t-reveal) var(--ease-slash), opacity var(--t-reveal) var(--ease-slash), visibility 0s linear var(--t-reveal); }
 
 /* no-JS: the nine kinds as a readable list */
 .dx__static { display: grid; gap: 44px; max-width: 760px; }
@@ -97,3 +92,14 @@ html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { clip-pa
   .dx__body { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); column-gap: calc(2 * var(--col-gap)); }
   .dx__readout { padding-top: 0; border-top: 0; padding-left: 28px; border-left: 1px solid var(--line-strong); }
 }
+
+/* ---- the print (JS + full motion only): lines rise 120 ms apart, the strike draws over 600 ms, the fix fades in,
+   the readout rises last (and stays out of the tab order until then) */
+html[data-js][data-motion="full"] .tp { transition: opacity 900ms var(--ease-film), transform 900ms var(--ease-film); }
+html[data-js][data-motion="full"] .tp.is-wait { opacity: 0; transform: translate3d(0, 14px, 0); }
+html[data-js][data-motion="full"] .tp .strike-line { transform: scaleX(0); transition: transform 600ms var(--ease-film); }
+html[data-js][data-motion="full"] .tp.is-fixed .strike-line { transform: scaleX(1); }
+html[data-js][data-motion="full"] .tp__fix { transition: opacity 800ms var(--ease-film); }
+html[data-js][data-motion="full"] .tp.is-fixwait .tp__fix { opacity: 0; }
+html[data-js][data-motion="full"] .dx__readout { transition: opacity 1000ms var(--ease-film), transform 1000ms var(--ease-film), visibility 0s; }
+html[data-js][data-motion="full"] .diagnose:not(.is-read) .dx__readout { opacity: 0; transform: translate3d(0, 18px, 0); visibility: hidden; transition: opacity 600ms var(--ease-film), transform 600ms var(--ease-film), visibility 0s linear 600ms; }
