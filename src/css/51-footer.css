@@ -1,0 +1,64 @@
+/* ============================================================================
+   51-footer.css — the footer: mark 40 px, wordmark, the pillars line, email,
+   phone, Detroit, the nine clients (mono links where a link exists), the
+   "Reduce effects" toggle. Static; the quiet rain field continues behind it
+   (both blocks are text masks), a hairline above, the slash tick on the
+   legal line. Night ground under reduced motion / no JS / no WebGL (01-base).
+   ========================================================================== */
+.footer {
+  position: relative;
+  z-index: 1;
+  padding: 72px var(--gutter) calc(40px + var(--bottombar-h) + var(--safe-b));
+  border-top: 1px solid var(--line);
+}
+.footer__grid { display: grid; gap: 40px; width: 100%; max-width: var(--max); }
+.footer__brand { display: grid; gap: 16px; justify-items: start; align-content: start; }
+.footer__mark { width: 66px; height: 40px; }
+.footer__wordmark { line-height: 1; }
+.footer__pillars { color: var(--paper); }
+.footer__col { display: grid; gap: 0; align-content: start; }
+.footer__head { color: var(--gold); margin-bottom: 14px; }
+.footer__list { display: grid; gap: 10px; color: var(--mute); }
+.footer__list a { color: var(--paper); text-decoration: none; transition: color var(--t-micro); }
+.footer__list a:hover, .footer__list a:focus-visible { color: var(--gold-light); }
+.footer__hint { margin-top: 12px; max-width: 24ch; }
+.footer__legal { display: flex; align-items: center; gap: 14px; margin-top: 56px; color: var(--mute); }
+.footer__legal::before { content: ""; display: block; flex: none; width: 2px; height: 14px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); }
+
+/* the toggle: a square box, gold fill with the slash cut when checked */
+.toggle { position: relative; display: inline-flex; align-items: center; gap: 12px; cursor: pointer; color: var(--paper); }
+.toggle input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex: none;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  cursor: pointer;
+  transition: box-shadow var(--t-micro);
+}
+.toggle input::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--gold);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+  opacity: 0;
+  transition: opacity var(--t-micro) var(--ease-enter);
+}
+.toggle input:checked::before { opacity: 1; }
+.toggle input:checked { box-shadow: inset 0 0 0 1px var(--gold); }
+.toggle:hover input { box-shadow: inset 0 0 0 1px var(--paper); }
+.toggle:hover input:checked { box-shadow: inset 0 0 0 1px var(--gold-light); }
+
+@media (min-width: 768px) {
+  .footer { padding-top: 88px; }
+  .footer__grid { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1.9fr) minmax(0, 1fr); gap: 32px; }
+  .footer__list--clients { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
+}
+@media (min-width: 1100px) {
+  .footer__grid { grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr); }
+}

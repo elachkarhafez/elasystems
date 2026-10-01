@@ -1,0 +1,200 @@
+/* ============================================================================
+   30-work.css — #work "The storefront decode"
+   Default = the complete static composition (no JS, reduced motion, no WebGL):
+   head, three storefront frames fully decoded, six slanted tiles.
+   html[data-js][data-motion="full"] = the live layout: each decode is a sticky
+   100vh screen inside a taller article (the scroll span the decode scrubs),
+   the frame is transparent so the rain engine draws the decode under it, the
+   real image arrives by a slash cut, then the tall capture scrubs inside.
+   ========================================================================== */
+
+.work { --span: 100vh; --bw: 36px; --cut-span: 100%; --tile-cut: 33.44%; padding-bottom: 12vh; }
+
+/* ---- stage: head + the ghost frame ---------------------------------------- */
+.work__stage { display: grid; gap: 40px; align-content: center; }
+.work__head { max-width: 760px; }
+.work__ghost { display: grid; gap: 22px; align-content: end; }
+.work__ghost-label { color: var(--mute); }
+.work__nodes { display: grid; gap: 8px; }
+.work__nodes a { color: var(--paper); text-decoration: none; text-transform: uppercase; letter-spacing: .08em; transition: color var(--t-micro); }
+.work__nodes a:hover, .work__nodes a:focus-visible { color: var(--gold-light); }
+.work__nodes a::before { content: "/ "; color: var(--gold); }
+.work__cue { display: none; align-items: center; gap: 14px; color: var(--mute); }
+.work__cue i { display: block; width: 2px; height: 36px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); opacity: .55; }
+html[data-js][data-motion="full"] .work__cue.is-on i { animation: cue-pulse 1200ms var(--ease-enter) 1 both; }
+html[data-motion="reduced"] .work__cue, html:not([data-js]) .work__cue, html[data-webgl="none"] .work__cue { display: none !important; }
+
+@media (min-width: 768px) {
+  .work__stage { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: calc(var(--topbar-h) + 5vh) 7vh; }
+  .work__head { grid-column: 1 / 6; max-width: none; }
+  .work__ghost {
+    grid-column: 6 / 13;
+    justify-self: end;
+    width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.6));
+    aspect-ratio: 16 / 10;
+    box-shadow: inset 0 0 0 1px var(--line);
+    padding: 22px 26px;
+    grid-template-rows: auto 1fr auto;
+    align-content: stretch;
+  }
+  .work__nodes { align-self: end; }
+  .work__cue { display: flex; }
+}
+
+/* ---- the decodes ---------------------------------------------------------- */
+.decodes { position: relative; padding-inline: 0; max-width: none; }
+.decode { position: relative; display: block; padding: 0; min-height: 0; gap: 0; align-content: start; }
+.decode__anchor { position: absolute; left: 0; top: 0; width: 1px; height: 1px; pointer-events: none; }
+.decode__screen {
+  position: relative;
+  width: 100%;
+  max-width: var(--max);
+  padding: calc(var(--topbar-h) + 6vh) var(--gutter) 8vh;
+  display: grid;
+  gap: 20px;
+  align-content: center;
+}
+.decode__copy { display: grid; gap: 12px; align-content: start; }
+.decode__tag { display: flex; align-items: center; gap: 12px; color: var(--gold); }
+.decode__tag::before { content: ""; display: block; width: 2px; height: 14px; background: var(--gold); transform: skewX(calc(-1 * var(--slash-angle))); flex: none; }
+.decode__name { max-width: 12ch; }
+.decode__kind { color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.decode__open { margin-top: 4px; }
+.decode__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--tint, var(--gold)) 10%, var(--night));
+}
+.decode__frame::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px var(--line); pointer-events: none; }
+.decode__mosaic { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; opacity: 0; pointer-events: none; }
+.decode__shot { position: absolute; inset: 0; display: block; }
+.decode__shot img {
+  position: absolute; left: 0; top: 0;
+  width: 100%; height: auto;
+  min-height: 100%;
+  object-fit: cover; object-position: top;
+  display: block;
+}
+
+/* the glyph-mosaic band (DOM copy of the rain's head band: atlas glyphs as a background) */
+/* shown/hidden with display (never visibility: a visible descendant would defeat the inherited
+   visibility: hidden the front helper puts on a finished section under the next one) */
+.glyph-band {
+  position: absolute; inset: 0;
+  display: none;
+  pointer-events: none;
+  background-color: color-mix(in srgb, var(--night) 74%, transparent);
+  background-image: var(--glyph-sheet);
+  background-size: 1020px 300px;
+  background-repeat: repeat;
+  background-position: 0 0;
+}
+.glyph-band.is-on { display: block; }
+.no-trans { transition: none !important; }
+html:not([data-js]) .glyph-band { display: none; }
+@media (min-width: 768px) { .glyph-band { background-size: 1224px 360px; } }
+
+@media (max-width: 767px) {
+  .decode__screen { padding-top: calc(var(--topbar-h) + 10px); gap: 14px; }
+  .decode__frame { aspect-ratio: 9 / 16; margin-inline: calc(-1 * var(--gutter)); width: auto; }
+  .decode__kind { font-size: 15px; line-height: 22px; }
+  .decode__copy { grid-template-columns: 1fr auto; column-gap: 16px; row-gap: 6px; align-items: end; }
+  .decode__tag, .decode__name { grid-column: 1 / -1; }
+  .decode__open { margin: 0; }
+}
+@media (min-width: 768px) {
+  .decode { min-height: 0; gap: 0; }
+  .decode__screen { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: center; padding-block: calc(var(--topbar-h) + 5vh) 7vh; }
+  .decode__copy { grid-column: 1 / 6; align-self: stretch; display: flex; flex-direction: column; gap: 14px; }
+  .decode__name { max-width: 8ch; }
+  .decode__open { margin-top: auto; padding-top: 24px; }
+  .decode__frame { grid-column: 6 / 13; justify-self: end; width: min(100%, calc((100vh - var(--topbar-h) - 14vh) * 1.6)); }
+}
+
+/* ---- live layout (JS on, full motion): sticky screens + scroll spans -------- */
+html[data-js][data-motion="full"] .decode { height: calc(100vh + var(--span)); }
+/* the sticky scrub runs over the first --span px after the article top (q = offset / span): land at q = 0.4,
+   the capture resolved and the slash about to bring the real image in */
+html[data-js][data-motion="full"] .decode__anchor { top: calc(0.4 * var(--span)); }
+html[data-js][data-motion="full"] .decode__screen {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+html[data-js][data-motion="full"] .decode__frame { background: transparent; }
+html[data-js][data-motion="full"] .decode__shot img { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+@media (max-width: 767px) {
+  html[data-js][data-motion="full"] .work { --span: 80svh; --bw: 28px; }
+  html[data-js][data-motion="full"] .decode { height: calc(100svh + var(--span)); }
+  html[data-js][data-motion="full"] .decode__anchor { top: calc(0.4 * var(--span)); }
+  html[data-js][data-motion="full"] .decode__screen {
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+    gap: 12px;
+  }
+  html[data-js][data-motion="full"] .decode__copy { flex: none; }
+  html[data-js][data-motion="full"] .decode__frame {
+    aspect-ratio: auto;
+    flex: 1 1 0;
+    min-height: 0;
+    margin-bottom: calc(var(--bottombar-h) + 20px + var(--safe-b));
+  }
+  html[data-js][data-motion="full"][data-input="fine"] .decode__frame { margin-bottom: 16px; }
+}
+
+/* ---- reduced motion / no WebGL: every storefront fully decoded, one thin static band */
+html[data-motion="reduced"] .decode__shot img, html:not([data-js]) .decode__shot img { clip-path: none !important; transform: none !important; opacity: 1 !important; }
+html[data-motion="reduced"] .decode__band {
+  display: block;
+  clip-path: polygon(calc(46% + 33.4%) 0, calc(46% + 33.4% + 16px) 0, calc(46% + 16px) 100%, 46% 100%);
+}
+@media (max-width: 767px) {
+  html[data-motion="reduced"] .decode__band { clip-path: polygon(calc(8% + 95.1%) 0, calc(8% + 95.1% + 14px) 0, calc(8% + 14px) 100%, 8% 100%); }
+}
+
+/* ---- the grid of slanted tiles ------------------------------------------- */
+.work__more { width: 100%; max-width: var(--max); padding-inline: var(--gutter); margin-top: 10vh; }
+.tiles { display: grid; gap: 44px 32px; margin-top: 26px; }
+.tile { position: relative; scroll-margin-top: calc(var(--topbar-h) + 20px); }
+.tile__link { display: block; text-decoration: none; color: var(--mute); }
+.tile__frame {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut-span)), calc(100% - var(--tile-cut)) 100%, 0 100%);
+  transition: transform var(--t-short) var(--ease-enter);
+}
+.tile__reveal { position: absolute; inset: 0; display: block; background: color-mix(in srgb, var(--tint, var(--gold)) 12%, var(--night)); }
+.tile__reveal picture, .tile__reveal img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.tile__step { opacity: 0; }
+.tile__step.is-on { opacity: 1; }
+.tile__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 14px; color: var(--mute); transition: color var(--t-micro); }
+.tile__arrow { color: var(--gold); flex: none; }
+.tile__link:hover .tile__meta, .tile__link:focus-visible .tile__meta { color: var(--paper); }
+.tile__link:hover .tile__arrow { color: var(--gold-light); }
+a.tile__link:hover .tile__frame { transform: translate3d(0, -3px, 0); }
+html[data-js][data-motion="full"] .tile__reveal, html[data-js][data-motion="full"] .tile__band { transition: clip-path var(--t-reveal) var(--ease-slash); }
+html[data-js][data-motion="full"] .tile__reveal { clip-path: polygon(0 0, 0 0, 0 100%, 0 100%); }
+html[data-js][data-motion="full"] .tile.is-shown .tile__reveal { clip-path: none; }
+
+/* reduced / no-JS: tiles complete, a thin static band along the cut edge */
+html[data-motion="reduced"] .tile__band {
+  display: block;
+  clip-path: polygon(calc(100% - 14px) calc(100% - var(--cut-span)), 100% calc(100% - var(--cut-span)), calc(100% - var(--tile-cut)) 100%, calc(100% - var(--tile-cut) - 14px) 100%);
+}
+
+@media (max-width: 767px) {
+  .work { --cut-span: 36%; --tile-cut: 24.1%; }
+  .tiles { gap: 32px; }
+}
+@media (min-width: 768px) {
+  .work__more { margin-top: 12vh; }
+  .tiles { grid-template-columns: 1fr 1fr; gap: 56px var(--col-gap); }
+  .tile:nth-child(even) { margin-top: 72px; }
+  .tile__frame { aspect-ratio: 16 / 10; }
+}

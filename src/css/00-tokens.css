@@ -1,0 +1,126 @@
+/* ============================================================================
+   00-tokens.css — every design token lives here. One deliberate dark theme.
+   Colours: only these tokens (or color-mix of them) anywhere on the site.
+   Geometry: --slash-run is the single source of truth for the brand slash
+   (horizontal run per unit of rise, 28.1 deg from vertical, leaning like "/").
+   ========================================================================== */
+
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  src: url("../fonts/archivo-var-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-var-latin.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: dark;
+
+  /* ground + ink */
+  --night: #050B16;
+  --navy: #081830;
+  --navy-2: #102848;
+  --gold: #E3A02A;
+  --gold-light: #F4CD72;
+  --gold-deep: #8A5A12;
+  --paper: #F2EFE8;
+  --mute: #9DB0C8;
+  --head: #FFF4D6;                 /* rain stream head (gold-light pushed to paper) */
+
+  /* derived */
+  --ink: var(--paper);
+  --ink-2: var(--mute);
+  --line: color-mix(in srgb, var(--paper) 12%, transparent);
+  --line-strong: color-mix(in srgb, var(--paper) 24%, transparent);
+  --gold-glow: color-mix(in srgb, var(--gold) 28%, transparent);
+  --night-85: color-mix(in srgb, var(--night) 85%, transparent);
+  --night-60: color-mix(in srgb, var(--night) 60%, transparent);
+  --navy-field: color-mix(in srgb, var(--night) 65%, var(--navy));
+
+  /* type */
+  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --display-1: clamp(44px, 8.5vw, 120px);
+  --display-1-lh: 0.92;
+  --display-2: clamp(32px, 5.5vw, 72px);
+  --display-2-lh: 1;
+  --h3: 28px;
+  --h3-lh: 32px;
+  --body: 18px;
+  --body-lh: 28px;
+  --mono-label: 12px;
+  --mono-label-lh: 16px;
+  --mono-code: 14px;
+  --mono-code-lh: 20px;
+  --cta: 18px;
+  --cta-lh: 24px;
+  --measure: 65ch;
+
+  --vs-display: "wght" 820, "wdth" 125;
+  --vs-display-soft: "wght" 400, "wdth" 86;
+  --vs-body: "wght" 400, "wdth" 100;
+  --vs-wordmark: "wght" 400, "wdth" 125;
+
+  /* geometry */
+  --slash-run: 0.535;                 /* horizontal run per unit of rise */
+  --slash-angle: 28.1deg;             /* from vertical, informational */
+  --front: -0.25;                     /* the live Slash Front, written by JS (-0.25 .. 1.25) */
+  --gutter: 16px;
+  --col-gap: 16px;
+  --max: 1440px;
+  --topbar-h: 56px;
+  --bottombar-h: 56px;
+  --btn-h: 56px;
+  --btn-cut: calc(var(--btn-h) * var(--slash-run));
+  --safe-b: env(safe-area-inset-bottom, 0px);
+
+  /* motion */
+  --t-micro: 160ms;
+  --t-short: 260ms;
+  --t-char: 300ms;
+  --t-char-stagger: 18ms;
+  --t-lock: 900ms;
+  --t-lock-bar: 120ms;
+  --t-bullet-in: 450ms;
+  --t-bullet-out: 600ms;
+  --t-digits: 60ms;
+  --t-solidify: 600ms;
+  --t-solidify-word: 40ms;
+  --t-medium: 700ms;
+  --t-reveal: 600ms;
+  --t-transition: 1100ms;
+  --t-construct: 6000ms;
+  --ease-enter: cubic-bezier(.2, .8, .2, 1);
+  --ease-exit: cubic-bezier(.6, 0, .9, .3);
+  --ease-slash: cubic-bezier(.52, 0, .12, 1);
+
+  /* z */
+  --z-rain: 0;
+  --z-page: 1;
+  --z-chrome: 30;
+  --z-skip: 40;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 32px;
+    --col-gap: 32px;
+    --topbar-h: 64px;
+  }
+}
+@media (max-width: 767px) {
+  :root {
+    --body: 17px;
+    --body-lh: 26px;
+  }
+}

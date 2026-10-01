@@ -11,6 +11,7 @@ Edit the sources in `src/`, then rebuild. The generated files at the root (`inde
 ```
 node tools/build.mjs              # writes index.html, css/site.css, js/site.js at the repo root
 node tools/build.mjs --out DIR    # same three files into DIR (for isolated testing), assets symlinked
+node tools/build.mjs --pretty     # keep comments and indentation in the generated css/js (default: stripped)
 ```
 
 - `src/index.template.html` — the document shell. `<!-- @partial name -->` pulls in `src/partials/<name>.html`.

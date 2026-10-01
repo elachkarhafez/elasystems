@@ -1,0 +1,75 @@
+/* ============================================================================
+   52-chrome.css — chrome refinements (top bar ground when scrolled, the phone
+   bottom bar at exactly 56 px above the safe area, its number-view cut) and
+   the branded 404 (.notfound), which shares this stylesheet.
+   ========================================================================== */
+
+/* top bar: a firmer ground once the page has moved (storefront captures below) */
+html[data-scrolled="1"] .topbar { background: linear-gradient(to bottom, var(--night) 0%, var(--night-85) 48%, transparent 100%); }
+html[data-scrolled="1"][data-scene="construct"] .topbar { background: linear-gradient(to bottom, var(--paper) 0%, color-mix(in srgb, var(--paper) 88%, transparent) 48%, transparent 100%); }
+.topbar__cta { font-variation-settings: normal; font-weight: 600; }
+
+/* bottom bar: 56 px + the safe area, two square-cut buttons, slash-cut in/out */
+.bottombar {
+  min-height: calc(var(--bottombar-h) + var(--safe-b));
+  padding: 6px var(--gutter) calc(6px + var(--safe-b));
+  gap: 8px;
+  background: linear-gradient(to top, var(--night) 62%, transparent);
+  align-items: center;
+}
+.bottombar .btn { --btn-h: 44px; font-size: 16px; line-height: 22px; padding-left: 18px; }
+.bottombar .btn--line { flex: 0 0 auto; min-width: 92px; padding-right: calc(var(--btn-cut) + 14px); }
+html[data-scene="construct"] .bottombar .btn--line { color: var(--navy); }
+html[data-scene="construct"] .bottombar .btn--line::before { background: color-mix(in srgb, var(--navy) 9%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--navy) 30%, transparent); }
+html[data-numberview="1"] .bottombar { clip-path: polygon(-120% 0, -20% 0, calc(-20% - 60px) 100%, -120% 100%); }
+html[data-motion="reduced"][data-numberview="1"] .bottombar { clip-path: none; transform: translateY(120%); }
+
+/* ---- 404 ------------------------------------------------------------------ */
+.notfound { min-height: 100vh; min-height: 100svh; display: grid; grid-template-rows: 1fr auto; }
+.notfound__main {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: var(--max);
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: calc(var(--topbar-h) + 8vh) var(--gutter) 12vh;
+  overflow: clip;
+}
+.notfound__title { max-width: 12ch; }
+.notfound__body { max-width: 46ch; color: color-mix(in srgb, var(--paper) 82%, transparent); }
+.notfound__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; margin-top: 10px; }
+.notfound__lines { color: var(--mute); }
+.notfound__lines a { color: var(--paper); text-decoration: none; }
+.notfound__lines a:hover, .notfound__lines a:focus-visible { color: var(--gold-light); }
+.notfound__slash {
+  position: absolute;
+  z-index: -1;
+  right: 20vw;
+  top: -14vh;
+  height: 128vh;
+  width: 2px;
+  background: var(--gold);
+  opacity: .85;
+  transform: skewX(calc(-1 * var(--slash-angle)));
+  pointer-events: none;
+}
+.notfound__slash::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--gold-deep);
+  opacity: .5;
+}
+.notfound__footer { border-top: 1px solid var(--line); padding: 28px var(--gutter) calc(28px + var(--safe-b)); }
+.notfound__footer .footer__legal { margin-top: 0; }
+@media (max-width: 767px) {
+  .notfound__slash { right: 10vw; }
+  .notfound__actions .btn { width: 100%; }
+}

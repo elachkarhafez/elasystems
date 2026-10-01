@@ -1,0 +1,151 @@
+<section id="diagnose" class="section diagnose" data-scene="page" aria-labelledby="diagnose-title">
+  <div class="stage diagnose__stage">
+    <div class="diagnose__head section-head" data-textmask>
+      <p class="mono-label eyebrow" id="diagnose-eyebrow" data-scramble>Diagnose</p>
+      <h2 class="display-2" id="diagnose-title" data-solidify>What do you run?</h2>
+      <p class="body body--mute">Pick what you run. We mark where it usually leaks, and what we build for it.</p>
+    </div>
+    <div class="chips" role="group" aria-label="Pick the kind of business you run" id="diagnose-chips">
+      <button type="button" class="chip" data-kind="bakery" aria-pressed="true">Bakery</button>
+      <button type="button" class="chip" data-kind="barber" aria-pressed="false">Barber</button>
+      <button type="button" class="chip" data-kind="cafe" aria-pressed="false">Cafe</button>
+      <button type="button" class="chip" data-kind="matcha" aria-pressed="false">Matcha pop-up</button>
+      <button type="button" class="chip" data-kind="fun" aria-pressed="false">Fun center</button>
+      <button type="button" class="chip" data-kind="shoes" aria-pressed="false">Shoe boutique</button>
+      <button type="button" class="chip" data-kind="streetwear" aria-pressed="false">Streetwear</button>
+      <button type="button" class="chip" data-kind="urgent" aria-pressed="false">Urgent care</button>
+      <button type="button" class="chip" data-kind="fish" aria-pressed="false">Fish market</button>
+    </div>
+    <p class="sr-only" id="dx-status" aria-live="polite"></p>
+
+    <div class="dx__live dx__body" id="dx-live" data-kind="bakery">
+      <ol class="dx__print" id="dx-print" data-textmask>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">menu, online ordering, catering requests, English and Arabic</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">order / booking</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">instant text reply</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+      </ol>
+      <div class="dx__readout" data-textmask>
+        <p class="mono-label dx__tag" id="dx-tag" data-scramble>Matching work · W Warren Ave</p>
+        <p class="dx__see"><a class="link-arrow" id="dx-see" href="#work-family-bakery" data-slug="family-bakery"><span data-scramble>See: Family Bakery</span> <span aria-hidden="true">↗</span></a></p>
+        <p class="dx__msg"><span class="mono-label dx__msg-label">Your text</span><span class="mono-code" id="dx-msg" data-scramble>Hi, I run a bakery in Detroit. I want to talk about a system.</span></p>
+        <p class="dx__cta"><a class="btn" id="diagnose-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a></p>
+      </div>
+    </div>
+
+    <div class="dx__static" id="dx-static">
+      <h3 class="sr-only">The nine kinds of business, and what we build for each</h3>
+      <article class="dx__kind" id="dx-bakery">
+        <h3 class="h3 dx__kind-title">Bakery</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">menu, online ordering, catering requests, English and Arabic</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">order / booking</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">instant text reply</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-family-bakery" data-slug="family-bakery">See: Family Bakery <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-barber">
+        <h3 class="h3 dx__kind-title">Barber</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">the site</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">online booking by barber and chair, confirmed by text</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a reminder text before the cut, a rebook link after</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-creative-style" data-slug="creative-style">See: Creative Style <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-cafe">
+        <h3 class="h3 dx__kind-title">Cafe</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">first click<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">hours, menu and directions on the first tap</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">the site</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">order ahead for pickup, built into the site</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">follow-up text</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">return visit<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a loyalty card that lives in their phone</span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-snug-mug" data-slug="snug-mug">See: The Snug Mug <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-matcha">
+        <h3 class="h3 dx__kind-title">Matcha pop-up</h3>
+        <ol class="dx__print">
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">search<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a page for this week's spot, with hours and a map</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">the menu and the drops, with where the cart is today</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">order / booking</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">follow-up text</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">return visit<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a text when the next drop goes live</span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-big-wiss-matcha" data-slug="big-wiss-matcha">See: Big Wiss Matcha <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-fun">
+        <h3 class="h3 dx__kind-title">Fun center</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">hours, passes and parties, built for a parent on a phone</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">party booking with online waivers</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">booking confirmed by text, waiver link included</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-bounce-it-up" data-slug="bounce-it-up">See: Bounce It Up <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-shoes">
+        <h3 class="h3 dx__kind-title">Shoe boutique</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">an online store with sizes in stock, synced with the shelf</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">checkout that works on a phone, pickup or shipping</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">follow-up text</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">return visit<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a text when a size is back or the next drop lands</span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-dmoda-shoes" data-slug="dmoda-shoes">See: D'Moda Shoes <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-streetwear">
+        <h3 class="h3 dx__kind-title">Streetwear</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a storefront built around drops, with a waitlist</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">order / booking</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">drop alerts by text, with the link to buy</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">return visit<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a members list that hears about the next drop first</span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-313-apparel" data-slug="313-apparel">See: 313 Apparel <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-urgent">
+        <h3 class="h3 dx__kind-title">Urgent care</h3>
+        <ol class="dx__print">
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">search<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">a clinic page with hours, services and insurance, built for a phone</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">first click<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">one tap to call, one tap to directions</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">the site</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">online check-in before leaving the house</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">follow-up text</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-monarch-urgent-care" data-slug="monarch-urgent-care">See: Monarch Urgent Care <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <article class="dx__kind" id="dx-fish">
+        <h3 class="h3 dx__kind-title">Fish market</h3>
+        <ol class="dx__print">
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">the counter online: today's fish, zabiha halal chicken, hours</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">order / booking<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">call-ahead orders taken on the site, ready at the counter</span></li>
+        <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">instant text reply when someone asks what's fresh</span></li>
+        <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
+        </ol>
+        <p class="mono-code dx__see"><a class="link-arrow" href="#work-express-poultry-fish" data-slug="express-poultry-fish">See: Express Poultry &amp; Fish <span aria-hidden="true">↗</span></a></p>
+      </article>
+      <p class="dx__cta"><a class="btn" href="sms:+13133006898" data-sms>Text 313-300-6898</a></p>
+    </div>
+  </div>
+</section>

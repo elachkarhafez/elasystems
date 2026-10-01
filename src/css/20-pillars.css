@@ -1,0 +1,114 @@
+/* ============================================================================
+   20-pillars.css — the E of the mark at page scale: three slash-cut gold
+   panels (ends cut parallel to the brand slash), stepped by exactly
+   slash-run x pitch so every end sits on ONE slash line, which the thin
+   slash draws along after the bars. Rain falls through the gaps.
+   Default = the final state (no JS, reduced motion, no WebGL). The entrance
+   pre-state exists only under html[data-js][data-motion="full"].
+   Phone: bars bleed off the left edge and stack full width.
+   ========================================================================== */
+.pillars__stage { display: grid; align-content: start; padding-top: calc(var(--topbar-h) + 6vh); padding-bottom: 8vh; }
+.pillars__head { display: grid; gap: 12px; max-width: 560px; }
+.pillars__e {
+  --bar-h: clamp(128px, 18vh, 172px);
+  --bar-gap: clamp(22px, 3.2vh, 34px);
+  --cut: calc(var(--bar-h) * var(--slash-run));
+  --step: calc((var(--bar-h) + var(--bar-gap)) * var(--slash-run));
+  position: relative;
+  margin: 32px 0 0 calc(-1 * var(--gutter));
+  width: calc(100% + var(--gutter));
+}
+.pillars__bars { display: grid; gap: var(--bar-gap); margin: 0; max-width: none; }
+.bar {
+  --bar-h: inherit;
+  --cut: calc(var(--bar-h) * var(--slash-run));
+  position: relative;
+  isolation: isolate;
+  min-height: var(--bar-h);
+  width: 100%;
+  clip-path: polygon(0 -8px, calc(100% + var(--cut) + 9px) -8px, calc(100% + 9px) calc(100% + 8px), 0 calc(100% + 8px));
+}
+.bar--2 { width: 92%; }
+.bar--3 { width: 84%; }
+.bar__link {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  min-height: var(--bar-h);
+  padding: 18px calc(var(--cut) + 12px) 18px var(--gutter);
+  color: var(--night);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--t-micro) var(--ease-enter);
+}
+.bar__link::before, .bar__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+}
+.bar__link::before { background: linear-gradient(to right, var(--gold), color-mix(in srgb, var(--gold) 80%, var(--gold-light))); }
+.bar__link::after { background: var(--gold-light); opacity: 0; transition: opacity var(--t-micro) var(--ease-enter); }
+.bar__link:hover, .bar__link:focus-visible, .bar__link:active { transform: translateY(-3px); }
+.bar__link:hover::after, .bar__link:focus-visible::after, .bar__link:active::after { opacity: 1; }
+.bar__link:focus-visible { outline-color: var(--paper); outline-offset: -4px; }
+.bar__word {
+  font-family: var(--font-display);
+  font-variation-settings: var(--vs-display);
+  font-weight: 820;
+  font-size: clamp(34px, 9.2vw, 44px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--night);
+  white-space: nowrap;
+}
+.bar__meta { display: grid; gap: 4px; }
+.bar__line { color: color-mix(in srgb, var(--night) 84%, var(--gold-deep)); max-width: 24ch; }
+@media (min-width: 768px) { .bar__line { max-width: 36ch; } }
+.bar__go { color: color-mix(in srgb, var(--night) 62%, transparent); transition: color var(--t-micro); }
+.bar__link:hover .bar__go, .bar__link:focus-visible .bar__go { color: var(--night); }
+.pillars__slash {
+  display: none;
+  position: absolute;
+  top: calc(-0.33 * var(--bar-h));
+  bottom: calc(-0.33 * var(--bar-h));
+  left: calc(100% + 16px + 0.33 * var(--cut));
+  width: 2px;
+  background: var(--gold);
+  opacity: .9;
+  transform-origin: 0 0;
+  transform: skewX(calc(-1 * var(--slash-angle)));
+  clip-path: inset(0 0 0 0);
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .pillars__e { --bar-h: clamp(104px, 15.5vh, 148px); --bar-gap: clamp(36px, 6.5vh, 62px); margin-left: 0; width: min(100%, 1240px); }
+  .bar--2 { width: calc(100% - var(--step)); }
+  .bar--3 { width: calc(100% - 2 * var(--step)); }
+  .bar__link { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 32px; padding: 0 calc(var(--cut) + 20px) 0 calc(var(--cut) * .62 + 24px); }
+  .bar__link::before, .bar__link::after { clip-path: polygon(var(--cut) 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%); }
+  .bar__word { font-size: clamp(36px, 3.6vw, 56px); }
+  .bar__meta { text-align: right; justify-items: end; }
+  .pillars__slash { display: block; }
+}
+@media (min-width: 768px) and (max-height: 700px) {
+  .pillars__e { --bar-h: 104px; --bar-gap: 36px; }
+}
+
+/* ---- entrance (JS + full motion only): bars enter along the slash normal,
+   each cut by the slash edge, 900 ms, 120 ms apart; the slash draws after */
+html[data-js][data-motion="full"] .bar {
+  transition: clip-path var(--t-lock) var(--ease-slash), transform var(--t-lock) var(--ease-slash);
+  transition-delay: calc(var(--i, 0) * var(--t-lock-bar));
+}
+html[data-js][data-motion="full"] .pillars:not(.is-in) .bar {
+  clip-path: polygon(0 -8px, 0 -8px, calc(-1 * var(--cut) - 9px) calc(100% + 8px), 0 calc(100% + 8px));
+  transform: translate3d(-44px, -24px, 0);
+}
+html[data-js][data-motion="full"] .pillars__slash {
+  transition: clip-path 520ms var(--ease-slash) calc(var(--t-lock) + 2 * var(--t-lock-bar));
+}
+html[data-js][data-motion="full"] .pillars:not(.is-in) .pillars__slash { clip-path: inset(0 0 100% 0); transition-delay: 0ms; }

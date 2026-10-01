@@ -1,0 +1,142 @@
+<section id="systems" class="section systems" data-scene="construct" aria-labelledby="systems-title">
+  <div class="stage systems__stage">
+    <div class="systems__head" data-textmask>
+      <p class="mono-label eyebrow systems__eyebrow" id="systems-eyebrow" data-scramble>Systems · The construct</p>
+      <h2 class="display-2 systems__title" id="systems-title" data-solidify>We don't build things that look good. We build systems that work.</h2>
+      <div class="systems__copy">
+        <p class="body">Behind every good storefront is a system: the dashboards, operations tools and automations that run the business quietly behind the site.</p>
+        <p class="note mono-code systems__note">Interfaces recreated for illustration. All figures are sample data.</p>
+      </div>
+    </div>
+
+    <div class="panels" id="panels">
+
+      <article class="panel panel--jarvis" id="panel-jarvis" data-panel="jarvis" style="--i:0" aria-labelledby="panel-jarvis-title">
+        <header class="panel__bar">
+          <div class="panel__id">
+            <h3 class="panel__title" id="panel-jarvis-title">Jarvis</h3>
+            <p class="panel__sub mono-label">Assistant · D'Moda Shoes</p>
+          </div>
+          <p class="panel__tabs mono-label"><b aria-current="true">Approvals</b><span>Campaigns</span><span>Inventory</span></p>
+        </header>
+        <div class="panel__body">
+          <div class="card card--live" data-row data-approval>
+            <p class="card__tag mono-label"><i class="pip pip--gold" aria-hidden="true"></i>Needs your OK</p>
+            <p class="card__title" data-scr>Approve: flats promotion</p>
+            <p class="card__text">Inside the discount guardrail. Needs your OK.</p>
+            <p class="card__meta mono-code"><span>15% off flats</span><span>Fri to Sun</span><span>Guardrail: max 20%</span></p>
+            <div class="card__actions">
+              <button type="button" class="btn btn--sm" data-approve>Approve</button>
+              <button type="button" class="btn btn--sm btn--ghost" data-hold>Hold</button>
+            </div>
+            <p class="card__status mono-code" data-status aria-live="polite"></p>
+          </div>
+          <ul class="rows">
+            <li class="row" data-row><span class="row__k" data-scr>Spring drop campaign</span><span class="row__v"><b class="badge">Sat 9:00</b></span></li>
+            <li class="row" data-row><span class="row__k">Flats in stock</span><span class="row__v">7 styles</span></li>
+            <li class="row row--kpi" data-row>
+              <span class="row__k">Orders this week</span>
+              <span class="row__v"><b data-scr>$8,420</b><i class="delta">+12%</i></span>
+              <span class="bars" aria-hidden="true"><i style="--v:.38"></i><i style="--v:.52"></i><i style="--v:.46"></i><i style="--v:.7"></i><i style="--v:.58"></i><i style="--v:.84"></i><i class="is-now" style="--v:.62"></i></span>
+            </li>
+            <li class="row" data-row><span class="row__k">Low stock</span><span class="row__v">Celina Muse · 2 left</span></li>
+            <li class="row row--beat" data-row data-beat="restock">
+              <span class="row__k">Jarvis drafted</span>
+              <span class="row__v">Restock · Celina Muse · 12 pairs<b class="badge badge--gold">Needs your OK</b></span>
+            </li>
+          </ul>
+        </div>
+        <footer class="panel__note mono-label">Recreated for illustration · sample data</footer>
+      </article>
+
+      <article class="panel panel--party" id="panel-party" data-panel="party" style="--i:1" aria-labelledby="panel-party-title">
+        <header class="panel__bar">
+          <div class="panel__id">
+            <h3 class="panel__title" id="panel-party-title">Party booking</h3>
+            <p class="panel__sub mono-label">Front desk · Bounce It Up</p>
+          </div>
+          <p class="panel__tabs mono-label"><span>Rooms</span><b aria-current="true">Schedule</b><span>Waivers</span></p>
+        </header>
+        <div class="panel__body">
+          <div class="sched">
+            <p class="sched__head mono-label" data-row><span data-scr>Saturday</span><span class="sched__hours" aria-hidden="true"><i style="--x:0">11</i><i style="--x:.286">1</i><i style="--x:.571">3</i><i style="--x:.857">5</i></span></p>
+            <ul class="sched__rooms mono-code">
+              <li data-row><span class="sched__room">Room 1</span><span class="sched__lane"><b class="blk" style="--s:0;--e:.286">Open play</b></span></li>
+              <li data-row><span class="sched__room">Room 2</span><span class="sched__lane"><b class="blk blk--active" style="--s:.429;--e:.714">Ava's 7th</b></span></li>
+              <li data-row><span class="sched__room">Room 3</span><span class="sched__lane"><b class="blk" style="--s:.714;--e:1">Mateo's 5th</b></span></li>
+            </ul>
+          </div>
+          <div class="card card--live" data-row>
+            <p class="card__tag mono-label"><i class="pip pip--gold" aria-hidden="true"></i>Saturday · Room 2 · 2:00 to 4:00</p>
+            <p class="card__title" data-scr>Ava's 7th · 18 kids</p>
+            <p class="card__text mono-code">Deposit received · pizza order sent to the kitchen</p>
+          </div>
+          <div class="waivers">
+            <p class="waivers__head mono-label" data-row><span>Waivers signed</span><b><span data-waivers>15</span> of 18</b></p>
+            <p class="meter" data-row aria-hidden="true"><i class="meter__fill" data-meter style="--p:.833"></i></p>
+            <ul class="rows rows--tight mono-code">
+              <li class="row" data-row><span class="row__k" data-scr>Mila R.</span><span class="row__v"><b class="badge badge--done">Signed</b></span></li>
+              <li class="row" data-row><span class="row__k">Theo K.</span><span class="row__v"><b class="badge badge--done">Signed</b></span></li>
+              <li class="row" data-row data-beat="waiver"><span class="row__k">Noah P.</span><span class="row__v swap"><b class="badge badge--pending swap__old">Pending</b><b class="badge badge--done swap__new">Signed</b></span></li>
+              <li class="row" data-row><span class="row__k">12 more signed</span><span class="row__v">3 pending</span></li>
+            </ul>
+          </div>
+        </div>
+        <footer class="panel__note mono-label">Recreated for illustration · sample data</footer>
+      </article>
+
+      <article class="panel panel--leads" id="panel-leads" data-panel="leads" style="--i:2" aria-labelledby="panel-leads-title">
+        <header class="panel__bar">
+          <div class="panel__id">
+            <h3 class="panel__title" id="panel-leads-title">Lead follow-up</h3>
+            <p class="panel__sub mono-label">Follow-up board</p>
+          </div>
+          <p class="panel__tabs mono-label"><b aria-current="true">Board</b><span>Texts</span><span>Timers</span></p>
+        </header>
+        <div class="panel__body">
+          <ol class="steps mono-label" data-row aria-label="Pipeline">
+            <li class="step is-done" data-step="new"><i aria-hidden="true"></i>New</li>
+            <li class="step is-done" data-step="reply"><i aria-hidden="true"></i>Instant text reply</li>
+            <li class="step is-done" data-step="contacted"><i aria-hidden="true"></i>Contacted</li>
+            <li class="step is-active" data-step="follow"><i aria-hidden="true"></i>Follow-up</li>
+          </ol>
+          <div class="lanes">
+            <div class="lane" data-lane="new" data-row>
+              <p class="lane__label mono-label"><span>New</span><b class="count" data-count="new">0</b></p>
+              <div class="lane__slot" data-slot="new"><p class="lane__empty mono-code">No new leads · the next form lands here</p></div>
+            </div>
+            <div class="lane" data-lane="reply" data-row>
+              <p class="lane__label mono-label"><span>Instant text reply</span><b class="count">Auto</b></p>
+              <div class="sms" data-sms>
+                <p class="sms__text" data-type="Got your party request. Pick a Saturday and we'll hold a room for you.">Got your party request. Pick a Saturday and we'll hold a room for you.</p>
+                <p class="sms__meta mono-label">Sent · 2:14 pm · automatic</p>
+              </div>
+            </div>
+            <div class="lane" data-lane="contacted" data-row>
+              <p class="lane__label mono-label"><span>Contacted</span><b class="count" data-count="contacted">2</b></p>
+              <div class="lane__slot has-lead" data-slot="contacted">
+                <div class="lead lead--live" data-lead>
+                  <p class="lead__tag mono-label">Website form · 2:14 pm</p>
+                  <p class="lead__title" data-scr>Party quote · 12 kids</p>
+                  <p class="lead__meta mono-code" data-lead-meta>Replied by text · 2:14 pm</p>
+                </div>
+              </div>
+              <div class="lead"><p class="lead__tag mono-label">Phone · 11:40 am</p><p class="lead__title" data-scr>Catering request · Friday</p><p class="lead__meta mono-code">Replied · quote sent</p></div>
+            </div>
+            <div class="lane" data-lane="follow" data-row>
+              <p class="lane__label mono-label"><span>Follow-up</span><b class="count">24 h</b></p>
+              <div class="lead lead--timer" data-beat="timer">
+                <p class="lead__tag mono-label">Timer · 24 h</p>
+                <p class="lead__title">Party quote · 12 kids</p>
+                <p class="lead__meta mono-code" data-timer>Due tomorrow 2:14 pm</p>
+              </div>
+              <div class="lead"><p class="lead__tag mono-label">Timer · tomorrow 10:00</p><p class="lead__title" data-scr>Walk-in quote</p><p class="lead__meta mono-code">Call back</p></div>
+            </div>
+          </div>
+        </div>
+        <footer class="panel__note mono-label">Recreated for illustration · sample data</footer>
+      </article>
+
+    </div>
+  </div>
+</section>
