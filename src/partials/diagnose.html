@@ -1,11 +1,11 @@
-<section id="diagnose" class="section diagnose" data-scene="page" aria-labelledby="diagnose-title">
-  <div class="stage diagnose__stage">
-    <div class="diagnose__head section-head" data-textmask>
-      <p class="mono-label eyebrow" id="diagnose-eyebrow" data-scramble>Diagnose</p>
-      <h2 class="display-2" id="diagnose-title" data-solidify>What do you run?</h2>
-      <p class="body body--mute">Pick what you run. We mark where it usually leaks, and what we build for it.</p>
+<section id="diagnose" class="section diagnose" data-scene="page" data-dip aria-labelledby="diagnose-title">
+  <div class="stage diagnose__stage" data-scene-in>
+    <div class="diagnose__head section-head">
+      <p class="mono-label eyebrow" id="diagnose-eyebrow" data-rise="0">Diagnose</p>
+      <h2 class="display-2" id="diagnose-title" data-rise="1">What do you run?</h2>
+      <p class="body body--mute" data-rise="2">Pick what you run. We mark where it usually leaks, and what we build for it.</p>
     </div>
-    <div class="chips" role="group" aria-label="Pick the kind of business you run" id="diagnose-chips">
+    <div class="chips" role="group" data-rise="3" aria-label="Pick the kind of business you run" id="diagnose-chips">
       <button type="button" class="chip" data-kind="bakery" aria-pressed="true">Bakery</button>
       <button type="button" class="chip" data-kind="barber" aria-pressed="false">Barber</button>
       <button type="button" class="chip" data-kind="cafe" aria-pressed="false">Cafe</button>
@@ -18,8 +18,8 @@
     </div>
     <p class="sr-only" id="dx-status" aria-live="polite"></p>
 
-    <div class="dx__live dx__body" id="dx-live" data-kind="bakery">
-      <ol class="dx__print" id="dx-print" data-textmask>
+    <div class="dx__live dx__body" id="dx-live" data-kind="bakery" data-rise="4">
+      <ol class="dx__print" id="dx-print">
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">search</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">first click</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
         <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">the site<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">menu, online ordering, catering requests, English and Arabic</span></li>
@@ -27,11 +27,11 @@
         <li class="tp is-leak is-fixed"><i class="tp__node" aria-hidden="true"></i><span class="tp__name strike-word">follow-up text<i class="strike-line" aria-hidden="true"></i></span><span class="sr-only tp__sr"> usually leaks. What we build: </span><span class="tp__fix">instant text reply</span></li>
         <li class="tp"><i class="tp__node" aria-hidden="true"></i><span class="tp__name">return visit</span><span class="sr-only tp__sr"></span><span class="tp__fix"></span></li>
       </ol>
-      <div class="dx__readout" data-textmask>
-        <p class="mono-label dx__tag" id="dx-tag" data-scramble>Matching work · W Warren Ave</p>
-        <p class="dx__see"><a class="link-arrow" id="dx-see" href="#work-family-bakery" data-slug="family-bakery"><span data-scramble>See: Family Bakery</span> <span aria-hidden="true">↗</span></a></p>
-        <p class="dx__msg"><span class="mono-label dx__msg-label">Your text</span><span class="mono-code" id="dx-msg" data-scramble>Hi, I run a bakery in Detroit. I want to talk about a system.</span></p>
-        <p class="dx__cta"><a class="btn" id="diagnose-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a></p>
+      <div class="dx__readout">
+        <p class="mono-label dx__tag" id="dx-tag">Matching work · W Warren Ave</p>
+        <p class="dx__see"><a class="link-arrow" id="dx-see" href="#work-family-bakery" data-slug="family-bakery"><span id="dx-see-text">See: Family Bakery</span> <span aria-hidden="true">↗</span></a></p>
+        <p class="dx__msg"><span class="mono-label dx__msg-label">Your text</span><span class="mono-code" id="dx-msg">Hi, I run a bakery in Detroit. I want to talk about a system.</span></p>
+        <p class="dx__cta"><a class="btn" id="diagnose-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a></p>
       </div>
     </div>
 

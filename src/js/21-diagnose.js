@@ -1,10 +1,11 @@
 /* ============================================================================
    21-diagnose.js — "What do you run?": nine mono chips, six touchpoints that
-   print (scramble, 280 ms apart), the slash strike on the ones that usually
-   leak with what we build in gold beneath, the matching client, and the CTA
-   rewritten with a prefilled sms body. Content = the static JSON below; the
-   no-JS list in src/partials/diagnose.html is generated from it
-   (scratchpad/gen-diagnose.mjs), so the two never drift.
+   arrive by fade + rise (120 ms apart), the strike drawn smoothly (600 ms) on
+   the ones that usually leak with what we build in gold beneath, the matching
+   client, and the CTA rewritten with a prefilled sms body. Content = the
+   static JSON below; the no-JS list in src/partials/diagnose.html is
+   generated from it (scratchpad/gen-diagnose.mjs), so the two never drift.
+   Bakery plays once when the section enters; a chip replays the print.
    ========================================================================== */
 (function () {
   'use strict';
@@ -12,7 +13,6 @@
   if (!ES || !sec) return;
   var html = document.documentElement;
   var reduced = html.dataset.motion === 'reduced';
-  var hasST = !!(window.gsap && window.ScrollTrigger);
 
   /* @dx-data */
   var DATA = {
@@ -42,11 +42,11 @@
   /* @/dx-data */
 
   var TP = DATA.touchpoints, KINDS = DATA.kinds, PHONE = DATA.phone;
-  var STEP = 280, text = ES.text;
+  var STEP = 120;
   var chips = Array.prototype.slice.call(sec.querySelectorAll('.chip'));
   var live = document.getElementById('dx-live');
   var print = document.getElementById('dx-print');
-  var seeLink = document.getElementById('dx-see'), seeText = seeLink && seeLink.querySelector('[data-scramble]');
+  var seeLink = document.getElementById('dx-see'), seeText = document.getElementById('dx-see-text');
   var tag = document.getElementById('dx-tag'), msg = document.getElementById('dx-msg'), cta = document.getElementById('diagnose-cta');
   var status = document.getElementById('dx-status');
   if (!live || !print || !cta) return;
@@ -70,6 +70,7 @@
       var li = document.createElement('li'); li.className = 'tp';
       var node = document.createElement('i'); node.className = 'tp__node'; node.setAttribute('aria-hidden', 'true');
       var name = document.createElement('span'); name.className = 'tp__name'; name.textContent = TP[i];
+      var line = document.createElement('i'); line.className = 'strike-line'; line.setAttribute('aria-hidden', 'true'); name.appendChild(line);
       var sr = document.createElement('span'); sr.className = 'sr-only tp__sr';
       var fix = document.createElement('span'); fix.className = 'tp__fix';
       li.appendChild(node); li.appendChild(name); li.appendChild(sr); li.appendChild(fix);
@@ -79,106 +80,63 @@
   })();
 
   /* ------------------------------------------------------------- state */
-  var cur = null, timers = [], played = false, playedAt = 0, printing = false, firstRead = true;
+  var cur = null, timers = [], played = false, printing = false;
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function clearTimers() { for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]); timers.length = 0; }
-  function cancelJobs() {
-    for (var i = 0; i < rows.length; i++) {
-      text.cancel(rows[i].name); text.cancel(rows[i].fix);
-      var line = rows[i].name.querySelector('.strike-line');
-      if (line && line.getAnimations) line.getAnimations().forEach(function (a) { a.cancel(); });
-    }
-    if (seeText) text.cancel(seeText); if (tag) text.cancel(tag); if (msg) text.cancel(msg); text.cancel(cta);
-  }
-  function strikeLine(row) {
-    var line = row.name.querySelector('.strike-line');
-    if (!line) { line = document.createElement('i'); line.className = 'strike-line'; line.setAttribute('aria-hidden', 'true'); row.name.appendChild(line); }
-    row.name.classList.add('strike-word');
-    return line;
-  }
+  function still(fn) { sec.classList.add('no-trans'); fn(); void sec.offsetWidth; sec.classList.remove('no-trans'); }
 
-  /* fill the rows + readout with a kind; hidden = rows wait for the print */
+  /* fill the rows + readout with a kind; hidden = the rows wait for the print */
   function fill(k, hidden) {
     var leaks = [];
     for (var i = 0; i < rows.length; i++) {
       var r = rows[i], fixText = leakOf(k, i);
-      r.name.textContent = TP[i]; r.name.dataset.text = TP[i];
+      r.name.firstChild.nodeValue = TP[i];
+      r.name.classList.toggle('strike-word', !!fixText);
       r.li.classList.toggle('is-leak', !!fixText);
-      r.li.classList.remove('is-fixed');
-      r.fix.textContent = fixText || ''; r.fix.dataset.text = fixText || '';
+      r.li.classList.toggle('is-fixed', !!fixText && !hidden);
+      r.fix.textContent = fixText || '';
       r.sr.textContent = fixText ? ' usually leaks. What we build: ' : '';
-      r.name.classList.remove('strike-word');
-      var old = r.name.querySelector('.strike-line'); if (old) old.remove();
-      if (fixText) { leaks.push(TP[i]); var line = strikeLine(r); line.style.transform = hidden ? 'scaleX(0)' : 'scaleX(1)'; if (!hidden) r.li.classList.add('is-fixed'); }
+      if (fixText) leaks.push(TP[i]);
       r.li.classList.toggle('is-wait', !!hidden);
       r.li.classList.toggle('is-fixwait', !!hidden);
     }
-    // the readout: links and hrefs switch at once; the visible texts wait for the print when hidden
     if (seeLink) { seeLink.href = '#work-' + k.slug; seeLink.dataset.slug = k.slug; }
-    var b = body(k);
-    cta.href = smsHref(b); cta.dataset.body = b;
-    if (!hidden) readout(k, false);
+    if (seeText) seeText.textContent = 'See: ' + k.client;
+    if (tag) tag.textContent = 'Matching work · ' + k.place;
+    if (msg) msg.textContent = body(k);
+    cta.href = smsHref(body(k));
     if (status) status.textContent = k.chip + '. Usually leaks at: ' + leaks.join(', ') + '.';
     chips.forEach(function (c) { c.setAttribute('aria-pressed', c.dataset.kind === k.id ? 'true' : 'false'); });
     live.dataset.kind = k.id;
+    sec.classList.toggle('is-read', !hidden);
   }
 
-  function readout(k, animate) {
-    var see = 'See: ' + k.client, t = 'Matching work · ' + k.place, b = body(k);
-    if (!animate) {
-      if (seeText) { seeText.textContent = see; seeText.dataset.text = see; }
-      if (tag) { tag.textContent = t; tag.dataset.text = t; }
-      if (msg) { msg.textContent = b; msg.dataset.text = b; }
-      return;
-    }
-    if (tag) text.scramble(tag, { text: t, duration: 260, stagger: 12 });
-    if (seeText) text.scramble(seeText, { text: see, duration: 300, stagger: 18, delay: 120 });
-    if (msg) text.scramble(msg, { text: b, duration: 300, stagger: 8, delay: 220 });
-  }
-
-  /* the print: six lines 280 ms apart, strike + fix on the leaks; the readout sweeps in
-     (slash edge) with its texts scrambling once the last row has locked. `gen` guards the
-     chain: the text engine fires onDone on cancel too, so a superseded print must not finish. */
-  var gen = 0;
+  /* the print: six lines 120 ms apart; a leak draws its strike (600 ms) then its fix fades in; the readout rises last */
   function play(k) {
-    clearTimers(); cancelJobs();
-    var g = ++gen;
-    if (reduced || html.dataset.motion === 'reduced') { fill(k, false); sec.classList.add('is-read'); return; }
-    fill(k, true);
+    clearTimers();
+    if (reduced || html.dataset.motion === 'reduced') { fill(k, false); return; }
+    still(function () { fill(k, true); });
     printing = true;
-    sec.classList.remove('is-read');
-    var pending = rows.length;
-    function done() {
-      if (g !== gen || --pending > 0) return;
-      printing = false;
-      sec.classList.add('is-read');
-      readout(k, true);
-      if (firstRead) { firstRead = false; text.digits(cta, { delay: 300 }); }
-    }
     rows.forEach(function (r, i) {
       later(function () {
         r.li.classList.remove('is-wait');
-        text.scramble(r.name, { duration: 300, stagger: 18, onDone: function () {
-          if (g !== gen) return;
-          if (!r.li.classList.contains('is-leak')) { done(); return; }
-          text.strike(r.name, { duration: 260 });
-          later(function () {
-            r.li.classList.remove('is-fixwait');
-            text.scramble(r.fix, { duration: 300, stagger: 10, onDone: function () { if (g !== gen) return; r.li.classList.add('is-fixed'); done(); } });
-          }, 200);
-        } });
+        if (r.li.classList.contains('is-leak')) {
+          later(function () { r.li.classList.add('is-fixed'); }, 420);
+          later(function () { r.li.classList.remove('is-fixwait'); }, 820);
+        }
       }, i * STEP);
     });
+    later(function () { printing = false; sec.classList.add('is-read'); }, rows.length * STEP + 1100);
   }
 
   /* ------------------------------------------------------------- chips */
-  function select(id, animate) {
+  function select(id) {
     var k = kindOf(id);
     cur = k;
-    if (animate && played) play(k); else { clearTimers(); cancelJobs(); gen++; printing = false; fill(k, false); if (played) sec.classList.add('is-read'); }
+    if (played) play(k); else { clearTimers(); printing = false; fill(k, true); }
   }
   chips.forEach(function (c, i) {
-    c.addEventListener('click', function () { if (cur && cur.id === c.dataset.kind && !printing) return; select(c.dataset.kind, true); });
+    c.addEventListener('click', function () { if (cur && cur.id === c.dataset.kind && !printing) return; select(c.dataset.kind); });
     c.addEventListener('keydown', function (e) {
       var n = chips.length, j = -1;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') j = (i + 1) % n;
@@ -189,10 +147,10 @@
     });
   });
 
-  /* "See: client" jumps to its Work frame; tiles without an id are found by slug */
+  /* "See: client" jumps to its Work shot or tile */
   if (seeLink) seeLink.addEventListener('click', function (e) {
-    var slug = seeLink.dataset.slug, id = 'work-' + slug;
-    var el = document.getElementById(id) || document.querySelector('#work [data-slug="' + slug + '"]');
+    var slug = seeLink.dataset.slug;
+    var el = document.getElementById('work-' + slug) || document.querySelector('#work [data-slug="' + slug + '"]');
     if (!el) return;
     e.preventDefault(); e.stopPropagation();
     ES.scroll.scrollTo(el);
@@ -202,22 +160,16 @@
   /* ------------------------------------------------------------- boot */
   var initial = (live.dataset.kind && kindOf(live.dataset.kind)) || KINDS[0];
   cur = initial;
-  if (reduced || !hasST) { played = true; fill(initial, false); sec.classList.add('is-read'); }
-  else fill(initial, true);
-
-  function enter() {
-    if (played) return;
-    played = true; playedAt = performance.now();
-    play(cur);
+  if (reduced || !('IntersectionObserver' in window)) { played = true; fill(initial, false); }
+  else {
+    still(function () { fill(initial, true); });
+    var io = new IntersectionObserver(function (en) {
+      if (!en[0].isIntersecting || played) return;
+      played = true; io.disconnect(); play(cur);
+    }, { threshold: 0.25 });
+    io.observe(print);
   }
-  if (hasST && !reduced) {
-    ES.scroll.onSection(sec, {
-      enter: enter,
-      progress: function (p) {
-        // fully out of view for 2 s+ after a play: re-arm, so the print runs again on the next entry
-        if (played && !printing && (p <= 0.001 || p >= 0.999) && performance.now() - playedAt > 2000) { played = false; fill(cur, true); sec.classList.remove('is-read'); }
-      }
-    });
-  }
-  ES.motion.on(function (r) { if (r) { reduced = true; clearTimers(); cancelJobs(); gen++; printing = false; played = true; fill(cur, false); sec.classList.add('is-read'); } });
+  /* keyboard focus into the readout while it waits: finish the print at once */
+  sec.addEventListener('focusin', function (e) { if (played && !sec.classList.contains('is-read') && e.target.closest('.dx__readout')) { clearTimers(); printing = false; fill(cur, false); } });
+  ES.motion.on(function (r) { if (r) { reduced = true; clearTimers(); printing = false; played = true; fill(cur, false); } });
 })();

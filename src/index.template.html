@@ -27,12 +27,11 @@
 <link rel="preload" href="fonts/archivo-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/jetbrains-mono-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="css/site.css">
-<script>(function(){var h=document.documentElement,s=null;try{s=localStorage.getItem('es-motion')}catch(e){}var r=s?s==='reduced':matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.motion=r?'reduced':'full';h.dataset.js='1';h.dataset.input=(matchMedia('(pointer: fine)').matches&&!matchMedia('(hover: none)').matches)?'fine':'coarse';})();</script>
+<script>(function(){var h=document.documentElement,s=null;try{s=localStorage.getItem('es-motion')}catch(e){}var r=s?s==='reduced':matchMedia('(prefers-reduced-motion: reduce)').matches;h.dataset.motion=r?'reduced':'full';h.dataset.js='1';h.dataset.input=(matchMedia('(pointer: fine)').matches&&!matchMedia('(hover: none)').matches)?'fine':'coarse';if(!r&&!location.hash){h.dataset.intro='1';h.dataset.lb='on';}})();</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"ElaSystems","url":"https://elasystems.com/","slogan":"We build digital systems that grow businesses.","description":"Websites, apps and business systems. Detroit, MI.","telephone":"+1-313-300-6898","email":"elasystemdesign@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Detroit","addressRegion":"MI","addressCountry":"US"},"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Websites"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Apps"}},{"@type":"Offer","itemOffered":{"@type":"Service","name":"Business systems"}}]}}</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<canvas id="rain" aria-hidden="true"></canvas>
 <div id="app">
 <header class="topbar" id="topbar">
   <a class="topbar__brand" href="#hero" aria-label="ElaSystems, back to the top">
@@ -41,7 +40,7 @@
       <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
       <path class="mark-s" fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
     </svg>
-    <span class="wordmark" id="wordmark"><span aria-hidden="true" data-scramble-part>EL</span><svg viewBox="0 0 70 100" aria-hidden="true" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b aria-hidden="true" data-scramble-part>SYSTEMS</b></span>
+    <span class="wordmark" id="wordmark"><span aria-hidden="true">EL</span><svg viewBox="0 0 70 100" aria-hidden="true" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b aria-hidden="true">SYSTEMS</b></span>
   </a>
   <nav class="topbar__nav mono-label" aria-label="Sections">
     <a href="#work">Work</a>
@@ -62,9 +61,13 @@
 </main>
 <!-- @partial footer -->
 <!-- @partial chrome -->
+<div class="film" id="film" aria-hidden="true">
+  <i class="film__vignette"></i>
+  <i class="film__grain" id="film-grain"></i>
+  <i class="film__bar film__bar--top"></i>
+  <i class="film__bar film__bar--bottom"></i>
 </div>
-<script src="js/vendor/gsap.min.js"></script>
-<script src="js/vendor/ScrollTrigger.min.js"></script>
+</div>
 <script src="js/vendor/lenis.min.js"></script>
 <script src="js/site.js"></script>
 </body>

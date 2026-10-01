@@ -1,32 +1,40 @@
-<section id="hero" class="section hero" data-scene="hero" data-front-range="0.6 1" data-front-range-touch="0.2 0.8" aria-label="Introduction">
-  <div class="stage hero__stage">
-    <p class="hero__intro mono-label" data-textmask data-scramble>Websites · Apps · Systems — for Detroit's owner-operated businesses.</p>
-    <div class="hero__mark" id="hero-mark" aria-hidden="true">
-      <svg viewBox="10 20 660 400" focusable="false">
-        <defs>
-          <linearGradient id="hero-g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#8A5A12"/><stop offset=".5" stop-color="#E3A02A"/><stop offset="1" stop-color="#F4CD72"/>
-          </linearGradient>
-        </defs>
-        <g fill="url(#hero-g)">
-          <path d="M62 65H365L332.3 125H26Z"/>
-          <path d="M62 198H292.5L259.8 258H26Z"/>
-          <path d="M62 322H225.1L192.4 382H26Z"/>
-        </g>
-        <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
-        <path fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
-      </svg>
+<section id="hero" class="section hero" data-scene="hero" data-dip aria-label="Introduction">
+  <div class="haze" data-haze="hero" aria-hidden="true"></div>
+  <div class="hero__stage">
+    <div class="hero__par" id="hero-par">
+      <div class="hero__mark" id="hero-mark" aria-hidden="true">
+        <svg viewBox="10 20 660 400" focusable="false">
+          <defs>
+            <linearGradient id="hero-g" x1="26" y1="0" x2="370" y2="0" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#8A5A12"/><stop offset=".5" stop-color="#E3A02A"/><stop offset="1" stop-color="#F4CD72"/>
+            </linearGradient>
+            <linearGradient id="hero-sw" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFF4D6" stop-opacity="0"/><stop offset=".5" stop-color="#FFF4D6" stop-opacity=".9"/><stop offset="1" stop-color="#FFF4D6" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="hero-swp" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".75"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+            </linearGradient>
+            <clipPath id="hero-ce"><path d="M62 65H365L332.3 125H26Z"/><path d="M62 198H292.5L259.8 258H26Z"/><path d="M62 322H225.1L192.4 382H26Z"/><path d="M402.5 20h4L188.5 420h-4Z"/></clipPath>
+            <clipPath id="hero-cs"><path d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/></clipPath>
+          </defs>
+          <g fill="url(#hero-g)">
+            <path d="M62 65H365L332.3 125H26Z"/>
+            <path d="M62 198H292.5L259.8 258H26Z"/>
+            <path d="M62 322H225.1L192.4 382H26Z"/>
+          </g>
+          <path fill="#F4CD72" d="M402.5 20h4L188.5 420h-4Z"/>
+          <path fill="#F2EFE8" d="M652 65H426.5A96.5 96.5 0 0 0 426.5 258H548A32 32 0 0 1 548 322H254.9L222.2 382H548A92 92 0 0 0 548 198H426.5A36.5 36.5 0 0 1 426.5 125H605Z"/>
+          <g clip-path="url(#hero-ce)"><rect class="sweep" x="0" y="-60" width="300" height="560" fill="url(#hero-sw)"/></g>
+          <g clip-path="url(#hero-cs)"><rect class="sweep" x="0" y="-60" width="300" height="560" fill="url(#hero-swp)"/></g>
+        </svg>
+      </div>
     </div>
-    <div class="hero__copy hero__copy--one" id="hero-copy" data-textmask>
-      <h1 class="display-1 hero__title" id="hero-title" data-solidify>We build the front of your business, and everything behind it.</h1>
-      <p class="hero__sub mono-code" id="hero-sub" data-scramble>Every touchpoint, from first click to final conversion.</p>
-      <a class="btn hero__cta" id="hero-cta" href="sms:+13133006898" data-sms data-digits>Text 313-300-6898</a>
+    <p class="hero__wordmark" id="hero-wm" data-beat><span class="sr-only">ElaSystems</span><span class="wordmark wordmark--lg" aria-hidden="true"><span>EL</span><svg viewBox="0 0 70 100" focusable="false"><path d="M0 100 29 0h12l29 100h-9.5L35 9.5 9.5 100Z" fill="currentColor"/></svg><b>SYSTEMS</b></span></p>
+    <div class="hero__copy" id="hero-copy">
+      <h1 class="hero__title" id="hero-title" data-beat>We build the front of your business, and everything behind it.</h1>
+      <p class="hero__sub mono-code" id="hero-sub" data-beat>Websites · Apps · Systems — for Detroit's owner-operated businesses.</p>
+      <p class="hero__act" data-beat><a class="btn hero__cta" id="hero-cta" href="sms:+13133006898" data-sms>Text 313-300-6898</a></p>
     </div>
-    <div class="hero__thesis" id="hero-thesis" data-textmask>
-      <h2 class="sr-only">The problem</h2>
-      <p class="display-2 hero__line" id="hero-line-1" data-solidify>Most businesses don't have a <span class="strike-word" id="hero-strike">traffic<i class="strike-line" aria-hidden="true"></i></span> problem.</p>
-      <p class="display-2 hero__line" id="hero-line-2" data-solidify>They have a <span class="hero__lock" id="hero-lock">system</span> problem.</p>
-    </div>
-    <p class="hero__cue mono-label" id="hero-cue" aria-hidden="true"><i></i>Scroll — the system behind the storefront</p>
+    <p class="hero__cue mono-label" id="hero-cue" data-beat aria-hidden="true"><i></i>Scroll</p>
   </div>
 </section>
