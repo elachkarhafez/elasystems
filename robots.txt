@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# fictional concept businesses used by the live builder
+Disallow: /sites/
 
 Sitemap: https://elasystems.com/sitemap.xml

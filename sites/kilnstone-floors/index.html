@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noai, noimageai">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kilnstone Floor Co. | Epoxy floor coatings concept</title>
+  <meta name="description" content="Kilnstone Floor Co. is a fictional epoxy and concrete coatings company: a concept website by ElaSystems where you drag to coat a garage floor, watch a floor build layer by layer and price a sample job. Want one for your business? DM @ela.systems.">
+  <meta name="theme-color" content="#0e0f11">
+  <meta property="og:title" content="Kilnstone Floor Co. · concept by ElaSystems">
+  <meta property="og:description" content="An epoxy flooring site concept with a garage floor you can coat yourself.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------------------------------------------------
+       KILNSTONE FLOOR CO. (fictional) · design tokens
+       Kiln-ember orange on black, showroom-gloss floors, concrete
+       gray. A hexagon K mark. Archivo stretched wide for headlines,
+       JetBrains Mono for numbers and prices.
+       ------------------------------------------------------------ */
+    :root {
+      --ink: #0e0f11;
+      --char: #18191c;
+      --char-2: #222428;
+      --acc: #e4572e;
+      --acc-d: #b8401c;
+      --paper: #f2f1ee;
+      --white: #ffffff;
+      --conc: #c9c7c2;
+      --muted: #6b6e74;
+      --line: rgba(14,15,17,.12);
+      --sans: "Archivo", system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+      --pad: clamp(16px, 4.2vw, 60px);
+      --r: 20px;
+      --ease: cubic-bezier(.65,.05,.25,1);
+      --ease-out: cubic-bezier(.16,1,.3,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 400 16.5px/1.6 var(--sans); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+    img, svg, canvas { display: block; max-width: 100%; }
+    img { height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { background: none; border: 0; padding: 0; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--acc); outline-offset: 3px; }
+    ::selection { background: var(--acc); color: #fff; }
+    .wrap { padding: 0 var(--pad); max-width: 1440px; margin: 0 auto; }
+    .kick { display: inline-flex; align-items: center; gap: 10px; font: 700 12px/1.2 var(--sans); font-stretch: 112%; letter-spacing: .2em; text-transform: uppercase; color: var(--acc); }
+    .kick::before { content: ""; width: 12px; height: 10px; background: var(--acc); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); }
+    h1, h2, h3 { margin: 0; font-family: var(--sans); font-weight: 900; font-stretch: 125%; text-transform: uppercase; letter-spacing: -.02em; line-height: .92; }
+    h2 { font-size: clamp(38px, 5.6vw, 92px); }
+    h1 em, h2 em { font-style: normal; color: var(--acc); }
+    .line { display: block; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
+    .line > span { display: inline-block; }
+    .lede { color: var(--muted); font-size: clamp(16px, 1.15vw, 18.5px); max-width: 48ch; margin: 22px 0 0; }
+    .mono { font-family: var(--mono); }
+
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 56px; padding: 0 26px; border-radius: 8px; border: 2px solid var(--ink); font: 800 14px/1 var(--sans); font-stretch: 115%; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; overflow: hidden; isolation: isolate; transition: color .4s var(--ease); }
+    .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--ink); transform: translateX(-101%); transition: transform .5s var(--ease); }
+    .btn.acc { background: var(--acc); border-color: var(--acc); color: #fff; }
+    .btn.acc::before { background: var(--ink); }
+    .btn.light { border-color: rgba(255,255,255,.4); color: #fff; }
+    .btn.light::before { background: #fff; }
+    .btn svg { width: 18px; height: 18px; flex: none; }
+    .btn.long { white-space: normal; height: auto; min-height: 56px; padding: 12px 22px; line-height: 1.25; text-align: center; }
+    .btn:active { scale: .97; }
+    @media (hover: hover) { .btn:hover { color: #fff; } .btn:hover::before { transform: none; } .btn.light:hover { color: var(--ink); } }
+
+    /* ---------- loader: the logo, then a pour ---------- */
+    .loader { position: fixed; inset: 0; z-index: 400; background: var(--ink); display: grid; place-items: center; }
+    .loader svg.mark { width: 120px; height: 120px; position: relative; z-index: 2; }
+    .loader .pour { position: absolute; left: 0; right: 0; top: 0; height: 100%; z-index: 1; }
+    .loader .pour path { fill: var(--acc); }
+    html:not(.js) .loader, html.rm .loader { display: none; }
+
+    /* ---------- header ---------- */
+    .ribbon { display: block; padding: 8px 16px; background: var(--ink); color: rgba(255,255,255,.82); font: 500 12.5px/1.3 var(--sans); letter-spacing: .02em; text-align: center; }
+    .ribbon b { font-weight: 800; color: #fff; } .ribbon u { text-decoration-color: var(--acc); text-underline-offset: 3px; }
+    @media (max-width: 560px) { .ribbon { font-size: 11px; padding: 6px 10px; } }
+    header { position: sticky; top: 0; z-index: 80; background: rgba(255,255,255,.92); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+    header .wrap { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    header .logo { display: inline-flex; align-items: center; gap: 12px; }
+    header .logo svg { width: 42px; height: 42px; flex: none; }
+    .wm { display: grid; gap: 3px; }
+    .wm b { font: 900 21px/1 var(--sans); font-stretch: 125%; letter-spacing: -.01em; text-transform: uppercase; }
+    .wm small { white-space: nowrap; font: 700 9.5px/1 var(--sans); font-stretch: 112%; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+    header nav { display: flex; gap: 28px; }
+    header nav a { position: relative; font: 700 13px/1 var(--sans); font-stretch: 110%; letter-spacing: .1em; text-transform: uppercase; color: #3b3e44; }
+    header nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; background: var(--acc); transform: scaleX(0); transform-origin: right; transition: transform .45s var(--ease); }
+    header nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+    header .acts { display: flex; gap: 10px; align-items: center; }
+    header .btn { height: 46px; padding: 0 18px; font-size: 12.5px; }
+    @media (max-width: 1100px) { header nav { display: none; } }
+    @media (max-width: 640px) { header .wrap { height: 64px; } header .logo svg { width: 36px; height: 36px; } .wm b { font-size: 17px; } .wm small { font-size: 8px; letter-spacing: .2em; } header .acts .btn { height: 40px; padding: 0 12px; font-size: 11px; letter-spacing: .04em; } }
+
+    /* ---------- hero ---------- */
+    .hero { position: relative; padding: clamp(40px, 6vw, 80px) 0 clamp(60px, 7vw, 100px); overflow: hidden; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(60% 50% at 80% 30%, rgba(228,87,46,.08), transparent 70%); pointer-events: none; }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: clamp(26px, 4vw, 64px); align-items: center; }
+    .hero h1 { font-size: clamp(40px, 3.9vw, 70px); margin-top: 20px; }
+    .proof { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 30px; max-width: 520px; }
+    .proof div { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; background: var(--white); box-shadow: 0 0 0 1px var(--line); font: 700 14px/1.2 var(--sans); }
+    .proof b { font: 800 22px/1 var(--mono); color: var(--acc); }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    @media (max-width: 600px) { .hero h1 { font-size: 9.4vw; } h2 { font-size: 8.8vw; } }
+    @media (max-width: 1000px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } .hero-txt { display: contents; } .hero-txt .kick { order: 1; } .hero h1 { order: 2; } .coat-card { order: 3; } .hero .lede { order: 4; } .proof { order: 5; } .hero .ctas { order: 6; } }
+
+    /* ---------- signature: coat the garage ---------- */
+    .coat-card { position: relative; border-radius: calc(var(--r) + 4px); background: var(--char); padding: 10px; box-shadow: 0 60px 100px -50px rgba(14,15,17,.6); color: #fff; }
+    .scene { position: relative; border-radius: var(--r); overflow: hidden; aspect-ratio: 3 / 2; background: #cfcdc9; cursor: ew-resize; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    .scene canvas { width: 100%; height: 100%; }
+    .scene .knob { position: absolute; left: 0; top: 0; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; background: var(--acc); display: grid; place-items: center; box-shadow: 0 0 0 6px rgba(228,87,46,.28), 0 12px 24px rgba(0,0,0,.4); pointer-events: none; }
+    .scene .knob svg { width: 30px; height: 30px; color: #fff; }
+    .callout { position: absolute; left: 50%; top: 16px; translate: -50% 0; display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 999px; background: #fff; color: var(--ink); font: 800 13px/1 var(--sans); font-stretch: 110%; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 14px 28px -10px rgba(0,0,0,.5); pointer-events: none; }
+    .callout svg { width: 20px; height: 20px; color: var(--acc); }
+    .done { position: absolute; left: 16px; bottom: 16px; display: flex; align-items: center; gap: 12px; padding: 12px 16px 12px 12px; border-radius: 14px; background: rgba(14,15,17,.86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .5s, transform .6s var(--ease-out); }
+    .done.on { opacity: 1; transform: none; pointer-events: auto; }
+    .done i { width: 34px; height: 34px; border-radius: 50%; background: var(--acc); display: grid; place-items: center; }
+    .done i svg { width: 18px; height: 18px; }
+    .done b { display: block; font: 900 16px/1 var(--sans); font-stretch: 120%; text-transform: uppercase; }
+    .done small { display: block; margin-top: 4px; font-size: 13px; color: rgba(255,255,255,.7); }
+    .done button { margin-left: 8px; font: 700 12px/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.75); border-bottom: 1px solid rgba(255,255,255,.4); padding-bottom: 2px; }
+    .ctrl { padding: 16px 8px 8px; display: grid; gap: 14px; }
+    .tabs { display: flex; gap: 6px; padding: 4px; border-radius: 12px; background: rgba(255,255,255,.07); width: fit-content; }
+    .tabs button { height: 38px; padding: 0 16px; border-radius: 9px; font: 800 12.5px/1 var(--sans); font-stretch: 112%; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.7); transition: background .3s, color .3s; }
+    .tabs button[aria-pressed="true"] { background: var(--acc); color: #fff; }
+    .swatches { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; }
+    .swatches::-webkit-scrollbar { display: none; }
+    .sw { flex: none; display: grid; justify-items: center; gap: 6px; width: 64px; font: 600 11px/1.1 var(--sans); color: rgba(255,255,255,.7); text-align: center; }
+    .sw i { width: 46px; height: 46px; border-radius: 50%; background-size: cover; box-shadow: 0 0 0 2px rgba(255,255,255,.12); transition: box-shadow .3s, transform .3s var(--ease-out); }
+    .sw[aria-pressed="true"] { color: #fff; }
+    .sw[aria-pressed="true"] i { box-shadow: 0 0 0 2px var(--char), 0 0 0 4px var(--acc); transform: scale(1.06); }
+    .ctrl .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-size: 13.5px; color: rgba(255,255,255,.65); }
+    .ctrl .meta b { color: #fff; }
+    .ctrl .meta a { color: #fff; font-weight: 800; border-bottom: 2px solid var(--acc); }
+    @media (max-width: 640px) { .done { left: 10px; bottom: 10px; padding: 8px 12px 8px 8px; gap: 10px; } .done i { width: 28px; height: 28px; } .done b { font-size: 13px; } .done small { font-size: 12px; } .done button { font-size: 11px; white-space: nowrap; } .scene { aspect-ratio: 4 / 3.4; } .scene .knob { width: 56px; height: 56px; margin: -28px 0 0 -28px; } }
+
+    /* ---------- strip ---------- */
+    .strip { background: var(--acc); color: #fff; overflow: hidden; padding: 16px 0; white-space: nowrap; }
+    .strip .track { display: inline-flex; align-items: center; will-change: transform; }
+    .strip span { font: 900 clamp(20px, 2.4vw, 34px)/1 var(--sans); font-stretch: 125%; text-transform: uppercase; padding: 0 .6em; }
+    .strip i { width: 13px; height: 11px; background: #fff; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); flex: none; }
+
+    /* ---------- before / after ---------- */
+    .ba { padding: clamp(90px, 11vw, 160px) 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 26px; flex-wrap: wrap; margin-bottom: clamp(34px, 4.5vw, 60px); }
+    .sec-head h2 { margin-top: 16px; }
+    .ba-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(14px, 1.8vw, 24px); }
+    .cmp { position: relative; aspect-ratio: 1100 / 638; border-radius: var(--r); overflow: hidden; touch-action: pan-y; cursor: ew-resize; user-select: none; -webkit-user-select: none; background: #ccc; }
+    .cmp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .cmp .bf { clip-path: inset(0 calc(100% - var(--p, 50%)) 0 0); }
+    .cmp .bar { position: absolute; top: 0; bottom: 0; left: var(--p, 50%); width: 3px; margin-left: -1.5px; background: #fff; pointer-events: none; }
+    .cmp .bar i { position: absolute; top: 50%; left: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: var(--acc); display: grid; place-items: center; box-shadow: 0 8px 18px rgba(0,0,0,.35); }
+    .cmp .bar svg { width: 24px; height: 24px; color: #fff; }
+    .cmp .lb { position: absolute; top: 14px; padding: 7px 12px; border-radius: 6px; font: 800 11px/1 var(--sans); font-stretch: 115%; letter-spacing: .14em; text-transform: uppercase; pointer-events: none; }
+    .cmp .lb.l { left: 14px; background: rgba(14,15,17,.8); color: #fff; }
+    .cmp .lb.r { right: 14px; background: var(--acc); color: #fff; }
+    .cmp input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; pointer-events: none; }
+    .cap { margin-top: 12px; font: 700 14px/1.3 var(--sans); }
+    .cap small { display: block; font-weight: 400; color: var(--muted); }
+    @media (max-width: 860px) { .ba-grid { grid-template-columns: 1fr; } }
+
+    /* ---------- services ---------- */
+    .svc { padding: clamp(90px, 11vw, 160px) 0; background: var(--ink); color: #fff; }
+    .svc .lede { color: rgba(255,255,255,.65); }
+    .svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .svc-card { position: relative; padding: clamp(24px, 3vw, 40px); border-radius: var(--r); background: var(--char); box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); overflow: hidden; }
+    .svc-card .tag { font: 600 12px/1 var(--mono); color: var(--acc); }
+    .svc-card h3 { margin-top: 14px; font-size: clamp(28px, 2.8vw, 44px); }
+    .svc-card p { margin: 14px 0 0; color: rgba(255,255,255,.65); max-width: 46ch; }
+    .svc-card ul { list-style: none; margin: 22px 0 0; padding: 0; display: grid; gap: 0; }
+    .svc-card li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 14px 0; border-top: 1px solid rgba(255,255,255,.08); font: 700 16px/1.2 var(--sans); }
+    .svc-card li::after { content: ""; width: 11px; height: 9px; background: var(--acc); clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%); flex: none; }
+    .types { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .type { padding: 22px 18px; border-radius: 16px; background: var(--char); box-shadow: inset 0 0 0 1px rgba(255,255,255,.07); }
+    .type i { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 10px; background-size: cover; background-position: center; }
+    .type b { display: block; margin-top: 14px; font: 800 15px/1.2 var(--sans); font-stretch: 110%; text-transform: uppercase; }
+    .type small { display: block; margin-top: 6px; color: rgba(255,255,255,.6); font-size: 13.5px; line-height: 1.45; }
+    @media (max-width: 1100px) { .types { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (max-width: 860px) { .svc-grid { grid-template-columns: 1fr; } .types { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+    /* ---------- scroll story: the layers ---------- */
+    .layers { position: relative; background: var(--paper); }
+    .l-pin { position: relative; height: 100svh; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(20px, 4vw, 70px); align-items: center; padding: 100px var(--pad) 40px; overflow: hidden; max-width: 1440px; margin: 0 auto; }
+    .l-copy .num { margin-top: 18px; font: 600 14px/1 var(--mono); color: var(--muted); }
+    .l-copy .num b { color: var(--acc); }
+    .l-steps { position: relative; height: clamp(230px, 24vw, 300px); margin-top: 16px; }
+    .l-step { position: absolute; inset: 0; }
+    .l-step h3 { font-size: clamp(36px, 4.2vw, 68px); }
+    .l-step p { margin: 16px 0 0; color: var(--muted); max-width: 42ch; font-size: 17px; }
+    .l-bar { display: flex; gap: 6px; margin-top: 14px; }
+    .l-bar i { position: relative; width: 34px; height: 4px; border-radius: 4px; background: var(--line); overflow: hidden; }
+    .l-bar i b { position: absolute; inset: 0; background: var(--acc); transform: scaleX(0); transform-origin: left; }
+    .l-art { position: relative; width: 100%; max-width: 680px; justify-self: center; }
+    .l-art svg { width: 100%; height: auto; overflow: hidden; }
+    .l-art .lbl { font: 800 13px/1 var(--sans); font-stretch: 112%; letter-spacing: .1em; text-transform: uppercase; fill: var(--ink); }
+    .layers:not(.pinned) .l-pin { height: auto; display: block; }
+    .layers:not(.pinned) .l-steps { height: auto; }
+    .layers:not(.pinned) .l-step { position: relative; margin-bottom: 26px; }
+    .layers:not(.pinned) .l-bar, .layers:not(.pinned) .num { display: none; }
+    @media (max-width: 900px) {
+      .l-pin { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; padding: 80px var(--pad) 20px; gap: 6px; }
+      .l-art { order: -1; max-width: min(100%, 52svh); }
+      .l-copy .kick, .l-copy .num { display: none; }
+      .l-steps { height: clamp(170px, 25svh, 220px); margin-top: 0; }
+      .l-step h3 { font-size: clamp(30px, 8.6vw, 44px); }
+      .l-step p { margin-top: 10px; font-size: 15.5px; }
+    }
+
+    /* ---------- estimator ---------- */
+    .est { padding: clamp(90px, 11vw, 160px) 0; }
+    .est-box { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; border-radius: calc(var(--r) + 6px); overflow: hidden; background: var(--white); box-shadow: 0 0 0 1px var(--line), 0 50px 90px -60px rgba(14,15,17,.5); }
+    .est-in { padding: clamp(24px, 3.4vw, 50px); display: grid; gap: 22px; align-content: start; }
+    .fl { display: grid; gap: 10px; }
+    .fl > span { font: 800 11.5px/1 var(--sans); font-stretch: 112%; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { height: 44px; padding: 0 16px; border-radius: 8px; box-shadow: inset 0 0 0 1.5px var(--line); font: 700 14px/1 var(--sans); transition: background .3s, color .3s, box-shadow .3s; }
+    .chip[aria-pressed="true"] { background: var(--ink); color: #fff; box-shadow: none; }
+    @media (hover: hover) { .chip:hover { box-shadow: inset 0 0 0 1.5px var(--ink); } }
+    .field { height: 54px; width: 100%; border: 0; border-radius: 10px; padding: 0 16px; background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--line); font: 600 16px/1 var(--sans); color: var(--ink); }
+    .field:focus { outline: none; box-shadow: inset 0 0 0 2px var(--ink); }
+    textarea.field { height: 110px; padding: 14px 16px; line-height: 1.5; resize: vertical; }
+    .sq { display: flex; align-items: center; gap: 14px; }
+    .sq input[type=range] { flex: 1; accent-color: var(--acc); height: 40px; }
+    .sq output { font: 600 18px/1 var(--mono); min-width: 110px; text-align: right; }
+    .est-out { position: relative; padding: clamp(24px, 3.4vw, 50px); background: var(--ink); color: #fff; display: grid; align-content: space-between; gap: 30px; overflow: hidden; }
+    .est-out::before { content: ""; position: absolute; right: -60px; top: -60px; width: 260px; height: 260px; border: 26px solid rgba(228,87,46,.18); transform: rotate(45deg); }
+    .est-out small { font: 800 11.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+    .est-out .big { display: block; margin-top: 14px; font: 600 clamp(40px, 5vw, 76px)/1 var(--mono); letter-spacing: -.04em; }
+    .est-out .big span { color: var(--acc); }
+    .est-out p { margin: 14px 0 0; color: rgba(255,255,255,.62); font-size: 14.5px; max-width: 40ch; }
+    @media (max-width: 900px) { .est-box { grid-template-columns: 1fr; } }
+
+    /* ---------- gallery ---------- */
+    .gal { padding: 0 0 clamp(90px, 11vw, 160px); }
+    .g-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(160px, 15vw, 230px); gap: 12px; }
+    .g { position: relative; margin: 0; overflow: hidden; border-radius: 14px; background: #ccc; }
+    .g img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-out); }
+    .g figcaption { position: absolute; left: 12px; bottom: 12px; padding: 7px 11px; border-radius: 6px; background: rgba(14,15,17,.8); color: #fff; font: 800 11px/1 var(--sans); font-stretch: 112%; letter-spacing: .12em; text-transform: uppercase; }
+    @media (hover: hover) { .g:hover img { transform: scale(1.06); } }
+    .g.tall { grid-row: span 2; }
+    .g.wide { grid-column: span 2; }
+    @media (max-width: 860px) { .g-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 150px; } }
+
+    /* ---------- faq ---------- */
+    .areas { padding: clamp(90px, 11vw, 160px) 0; }
+    .faq { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: clamp(26px, 5vw, 80px); }
+    .faq details { border-top: 1.5px solid var(--ink); }
+    .faq details:last-child { border-bottom: 1.5px solid var(--ink); }
+    .faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; font: 800 18px/1.3 var(--sans); }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary i { flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--ink); position: relative; transition: background .3s, transform .4s var(--ease); }
+    .faq summary i::before, .faq summary i::after { content: ""; position: absolute; left: 9px; right: 9px; top: 14px; height: 2px; background: #fff; }
+    .faq summary i::after { transform: rotate(90deg); transition: transform .4s var(--ease); }
+    .faq details[open] summary i { background: var(--acc); }
+    .faq details[open] summary i::after { transform: none; }
+    .faq details p { margin: 0 0 22px; color: var(--muted); max-width: 64ch; }
+    @media (max-width: 900px) { .faq { grid-template-columns: 1fr; } }
+
+    /* ---------- quote ---------- */
+    .quote { position: relative; padding: clamp(90px, 11vw, 160px) 0; background: var(--ink); color: #fff; overflow: hidden; }
+    .q-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(30px, 5vw, 90px); align-items: start; }
+    .quote .lede { color: rgba(255,255,255,.65); }
+    .quote .pitch { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .quote .note { margin: 18px 0 0; font-size: 13.5px; color: rgba(255,255,255,.5); max-width: 46ch; }
+    form.qf .prev { margin: 0; padding: 14px 16px; border-radius: 10px; background: var(--ink); box-shadow: inset 0 0 0 1.5px rgba(228,87,46,.45); white-space: pre-wrap; font: 500 13.5px/1.55 var(--mono); color: rgba(255,255,255,.85); }
+    form.qf .prev small { display: block; margin-bottom: 8px; font: 800 10.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--acc); }
+    form.qf { display: grid; gap: 14px; padding: clamp(22px, 3vw, 38px); border-radius: calc(var(--r) + 4px); background: var(--char); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+    form.qf .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    form.qf label { display: grid; gap: 8px; font: 800 11px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+    form.qf .field { background: var(--ink); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.12); text-transform: none; letter-spacing: 0; }
+    form.qf .field:focus { box-shadow: inset 0 0 0 2px var(--acc); }
+    form.qf select.field { -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>"); background-repeat: no-repeat; background-position: right 14px center; background-size: 18px; }
+    form.qf .send { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+    form.qf .send .btn { flex: 1; }
+    form.qf .err { margin: 0; min-height: 1.2em; font-size: 14px; color: #ff8a84; }
+    @media (max-width: 900px) { .q-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { form.qf .two { grid-template-columns: 1fr; } form.qf .send { flex-direction: column; } form.qf .send .btn { flex: none; } }
+
+    footer { background: #08090a; color: rgba(255,255,255,.6); font-size: 14px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 30px; padding-top: 30px; padding-bottom: 30px; }
+    footer .lg { display: inline-flex; align-items: center; gap: 12px; color: #fff; font: 900 15px/1 var(--sans); font-stretch: 120%; text-transform: uppercase; }
+    footer .lg svg { width: 32px; height: 32px; }
+    footer .fict { flex-basis: 100%; order: 3; font-size: 13px; color: rgba(255,255,255,.5); }
+    footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    footer a:hover { color: #fff; }
+
+    .mbar { display: none; }
+    @media (max-width: 760px) {
+      .mbar { position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 90; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 8px; border-radius: 16px; background: rgba(14,15,17,.92); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 18px 36px -12px rgba(0,0,0,.6); transform: translateY(150%); transition: transform .6s var(--ease-out); }
+      .mbar.on { transform: none; }
+      .mbar .btn { height: 50px; font-size: 12px; border: 0; padding: 0 12px; }
+      footer .wrap { padding-bottom: 100px; }
+    }
+  </style>
+  <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
+</head>
+<body>
+  <div class="loader" aria-hidden="true" data-loader>
+    <svg class="pour" viewBox="0 0 100 100" preserveAspectRatio="none"><path data-pour d="M0 0 H100 V0 C80 0 70 0 50 0 C30 0 20 0 0 0 Z"/></svg>
+    <svg class="mark" viewBox="0 0 120 120" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="miter"><path data-lm d="M30 6H90L117 60L90 114H30L3 60Z"/><path data-lm d="M37 20H83L103 60L83 100H37L17 60Z" stroke="#e4572e"/><path data-lm d="M48 38V82M76 38L51 60L76 82" stroke-width="7" stroke="#e4572e" stroke-linecap="square"/></svg>
+  </div>
+
+  <a class="ribbon" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Concept site by <b>ElaSystems</b> · Kilnstone is a fictional business · <u>Get one for your business →</u></a>
+  <header>
+    <div class="wrap">
+      <a class="logo" href="#top" aria-label="Kilnstone Floor Co., back to top"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 8H90L116 60L90 112H30L4 60Z" fill="#e4572e"/><path d="M48 34V86M80 34L53 60L80 86" fill="none" stroke="#fff" stroke-width="11" stroke-linejoin="miter"/></svg><span class="wm"><b>Kilnstone</b><small>Floor Co. · concept</small></span></a>
+      <nav aria-label="Sections"><a href="#coat">Try a floor</a><a href="#work">Before &amp; after</a><a href="#services">Services</a><a href="#cost">Cost</a><a href="#faq">FAQ</a></nav>
+      <div class="acts"><a class="btn acc" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">DM @ela.systems</a></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO + SIGNATURE -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div class="hero-txt">
+          <span class="kick" data-in>Epoxy floors &amp; concrete coatings</span>
+          <h1><span class="line"><span>Slab to</span></span><span class="line"><span>showroom</span></span><span class="line"><span><em>gloss.</em></span></span></h1>
+          <p class="lede" data-in>Flake, metallic and solid epoxy floors for garages, shops and showrooms, drawn up for a fictional crew. Try the floor on the right: it really coats.</p>
+          <div class="proof" data-in>
+            <div><b>3</b>Floor systems to try live</div>
+            <div><b>1</b>Day for a typical garage (sample)</div>
+          </div>
+          <div class="ctas" data-in><a class="btn acc long" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Want a site like this? DM @ela.systems</a><a class="btn" href="#coat">Coat the floor</a></div>
+        </div>
+
+        <div class="coat-card" id="coat" data-studio>
+          <div class="scene" data-scene aria-label="A garage you can coat with epoxy. Drag left and right to coat the floor." role="img">
+            <canvas data-floor></canvas>
+            <div class="knob" data-knob aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></div>
+            <div class="callout" data-callout><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.4 15a1.5 1.5 0 0 1 2.4-1.8L9 16"/></svg><span data-callout-t>Drag across to coat the floor</span></div>
+            <div class="done" data-done><i><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></i><span><b>Showroom ready.</b><small data-done-t>Flake · Granite</small></span><button type="button" data-reset>Strip it</button></div>
+          </div>
+          <div class="ctrl">
+            <div class="tabs" role="group" aria-label="Floor system" data-tabs>
+              <button type="button" data-sys="flake" aria-pressed="true">Flake</button><button type="button" data-sys="metallic" aria-pressed="false">Metallic</button><button type="button" data-sys="solid" aria-pressed="false">Solid</button>
+            </div>
+            <div class="swatches" role="group" aria-label="Color" data-sw></div>
+            <div class="meta"><span>Showing <b data-cur>Flake · Granite</b></span><a data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Want this on your site? DM @ela.systems</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="strip" aria-hidden="true"><div class="track" data-marquee></div></div>
+
+    <!-- BEFORE / AFTER -->
+    <section class="ba" id="work">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kick">The difference</span><h2><span class="line"><span>From dull &amp; worn</span></span><span class="line"><span>to <em>polished.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Illustrated samples, drawn in code for this concept. Drag the handle to compare; a real installer’s before and after shots go here.</p>
+        </div>
+        <div class="ba-grid">
+          <div><div class="cmp" data-cmp style="--p:50%"><img data-paint="garage-after" width="1100" height="638" alt="Illustrated sample: a two-car garage with a gray flake epoxy floor"><img class="bf" data-paint="garage-before" width="1100" height="638" alt="Illustrated sample: the same garage before, oil-stained cracked concrete"><span class="lb l">Before</span><span class="lb r">After</span><span class="bar"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after, garage sample"></div><p class="cap">Two-car garage · sample<small>Oil-stained slab to a full flake system</small></p></div>
+          <div><div class="cmp" data-cmp style="--p:50%"><img data-paint="show-after" width="1100" height="638" alt="Illustrated sample: a showroom with a copper metallic epoxy floor"><img class="bf" data-paint="show-before" width="1100" height="638" alt="Illustrated sample: the same showroom before, worn and peeling gray paint"><span class="lb l">Before</span><span class="lb r">After</span><span class="bar"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after, showroom sample"></div><p class="cap">Retail showroom · sample<small>Peeling paint to a copper metallic floor</small></p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="svc" id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kick">Full-service</span><h2><span class="line"><span>Garages to</span></span><span class="line"><span><em>warehouses.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Seamless epoxy floors and decorative overlays built for hot tires, spills and forklifts. Sample service list for this concept.</p>
+        </div>
+        <div class="svc-grid" data-svc></div>
+        <div class="types" data-types></div>
+      </div>
+    </section>
+
+    <!-- SCROLL STORY -->
+    <section class="layers" data-layers>
+      <div class="l-pin">
+        <div class="l-copy">
+          <span class="kick">What’s under the shine</span>
+          <div class="num">Layer <b data-l-n>1</b> / 6</div>
+          <div class="l-steps" data-l-steps></div>
+          <div class="l-bar" aria-hidden="true" data-l-bar></div>
+        </div>
+        <div class="l-art" role="img" aria-label="A concrete slab with each layer of an epoxy flake floor added one by one">
+          <svg viewBox="0 0 780 560" data-iso></svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESTIMATOR -->
+    <section class="est" id="cost">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="kick">Ballpark it</span><h2><span class="line"><span>What will my</span></span><span class="line"><span>floor <em>cost?</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Pick a space and a system for a quick range. Every rate here is a sample for this concept; a real crew plugs in their own.</p>
+        </div>
+        <div class="est-box">
+          <div class="est-in">
+            <div class="fl"><span>Space</span><div class="chips" role="group" aria-label="Space size" data-size>
+              <button class="chip" type="button" data-sq="250" aria-pressed="false">1-car garage</button><button class="chip" type="button" data-sq="450" aria-pressed="true">2-car garage</button><button class="chip" type="button" data-sq="650" aria-pressed="false">3-car garage</button><button class="chip" type="button" data-sq="1500" aria-pressed="false">Shop / commercial</button>
+            </div></div>
+            <div class="fl"><span>Square feet</span><div class="sq"><input type="range" min="100" max="5000" step="25" value="450" aria-label="Square feet" data-sqft><output class="mono" data-sqo>450 sq ft</output></div></div>
+            <div class="fl"><span>System</span><div class="chips" role="group" aria-label="System" data-esys>
+              <button class="chip" type="button" data-r="3.5,5.5" aria-pressed="false">Solid color</button><button class="chip" type="button" data-r="4.5,7" aria-pressed="true">Flake</button><button class="chip" type="button" data-r="7,11" aria-pressed="false">Metallic</button><button class="chip" type="button" data-r="3.5,11" aria-pressed="false">Not sure</button>
+            </div></div>
+          </div>
+          <div class="est-out">
+            <div><small>Sample range</small><span class="big" data-range>$2,025 <span>–</span> $3,150</span><p>Sample pricing only, from made-up per-square-foot rates. On a real site this ties into the quote form, so the crew gets the size and system with the lead.</p></div>
+            <a class="btn acc long" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Want a quote tool? DM @ela.systems</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gal">
+      <div class="wrap">
+        <div class="sec-head" style="margin-top:0">
+          <div><span class="kick">Sample gallery</span><h2><span class="line"><span>Floors, drawn</span></span><span class="line"><span><em>in code.</em></span></span></h2></div>
+          <a class="btn" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">More ElaSystems work</a>
+        </div>
+        <div class="g-grid">
+          <figure class="g wide"><img data-paint="gal-metal-teal" width="1000" height="750" alt="Illustrated sample: Teal metallic epoxy in a showroom"><figcaption>Metallic · Showroom</figcaption></figure>
+          <figure class="g tall"><img data-paint="gal-metal-copper" width="1000" height="750" alt="Illustrated sample: Copper metallic epoxy in a hallway"><figcaption>Metallic · Home</figcaption></figure>
+          <figure class="g"><img data-paint="gal-flake-kitchen" width="1000" height="750" alt="Illustrated sample: Flake epoxy in a commercial kitchen"><figcaption>Flake · Kitchen</figcaption></figure>
+          <figure class="g"><img data-paint="gal-solid-ware" width="1000" height="750" alt="Illustrated sample: Solid gray epoxy in a warehouse with safety lines"><figcaption>Solid · Warehouse</figcaption></figure>
+          <figure class="g"><img data-paint="gal-flake-garage" width="1000" height="750" alt="Illustrated sample: Flake epoxy garage floor"><figcaption>Flake · Garage</figcaption></figure>
+          <figure class="g wide"><img data-paint="gal-overlay" width="1000" height="750" alt="Illustrated sample: Wood-look concrete overlay in a living space"><figcaption>Overlay · Wood look</figcaption></figure>
+          <figure class="g"><img data-paint="gal-metal-silver" width="1000" height="750" alt="Illustrated sample: Silver metallic epoxy in an office"><figcaption>Metallic · Office</figcaption></figure>
+          <figure class="g"><img data-paint="gal-stain" width="1000" height="750" alt="Illustrated sample: Stained and sealed concrete patio room"><figcaption>Stain &amp; seal</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="areas" id="faq">
+      <div class="wrap">
+        <div class="faq">
+          <div><span class="kick">FAQ</span><h2 style="margin-top:16px;font-size:clamp(34px,4vw,62px)"><span class="line"><span>Good</span></span><span class="line"><span><em>questions.</em></span></span></h2></div>
+          <div data-faq></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE (concept) -->
+    <section class="quote" id="quote">
+      <div class="wrap q-grid">
+        <div>
+          <span class="kick">Concept by ElaSystems</span>
+          <h2 style="margin-top:16px"><span class="line"><span>Your crew’s work</span></span><span class="line"><span><em>deserves this shine.</em></span></span></h2>
+          <p class="lede">Kilnstone is fictional. ElaSystems builds sites like this one for real epoxy and concrete coating companies, with your floors, your colors and a quote form that lands in your texts.</p>
+          <div class="pitch"><a class="btn acc long" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Want a site like this? DM @ela.systems</a></div>
+          <p class="note">The form on the right is a working sample: fill it in and it writes the quote request a customer would send.</p>
+        </div>
+        <form class="qf" novalidate data-qf>
+          <div class="two"><label>Name<input class="field" name="name" autocomplete="name" required></label><label>Space<select class="field" name="space"><option>Garage</option><option>Basement</option><option>Patio or pool deck</option><option>Shop or warehouse</option><option>Showroom or retail</option></select></label></div>
+          <label>Service<select class="field" name="service" data-qsvc><option>Flake epoxy</option><option>Metallic epoxy</option><option>Solid color epoxy</option><option>Concrete overlay</option><option>Stain &amp; seal</option></select></label>
+          <label>Message<textarea class="field" name="msg" placeholder="Size of the space, the look you want, timing…" data-qmsg></textarea></label>
+          <p class="err" role="alert" data-qerr></p>
+          <pre class="prev" data-qprev hidden></pre>
+          <div class="send"><button class="btn acc" type="submit">Write my request</button><a class="btn light" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">DM @ela.systems</a></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span class="lg"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M30 8H90L116 60L90 112H30L4 60Z" fill="#e4572e"/><path d="M48 34V86M80 34L53 60L80 86" fill="none" stroke="#fff" stroke-width="11"/></svg>Kilnstone Floor Co.</span>
+      <nav aria-label="Footer"><a data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">ElaSystems on Instagram</a><a href="#top">Back to top</a></nav>
+      <span class="fict">Kilnstone Floor Co. is a fictional business. Concept site by ElaSystems; sample content only.</span>
+    </div>
+  </footer>
+  <nav class="mbar" aria-label="Quick links" data-mbar><a class="btn acc" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">DM @ela.systems</a><a class="btn light" href="#coat">Coat the floor</a></nav>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+  /* =============================================================
+     CONFIG: Kilnstone Floor Co. is fictional. Sample content only.
+     ============================================================= */
+  const CONFIG = {
+    name: 'Kilnstone Floor Co.',
+    studio: { url: 'https://www.instagram.com/ela.systems/' },
+    // flake blends, painted in code: base color + chip colors
+    flakes: [
+      { n: 'Granite',  base: '#6f7277', cols: ['#1c1d20', '#f1f0ec', '#8a8d91', '#b7b2a8', '#55585d'] },
+      { n: 'Ash',      base: '#9a9894', cols: ['#ffffff', '#d9d6d0', '#8f8c86', '#3b3c3f', '#bdb9b2'] },
+      { n: 'Slate',    base: '#3d4248', cols: ['#1a1c1f', '#6c737b', '#a4abb2', '#2e3a46', '#d5d8db'] },
+      { n: 'Sandbar',  base: '#a89478', cols: ['#5a4630', '#d8c7a8', '#f1e8d6', '#7d6a52', '#2f2a24'] },
+      { n: 'Ember',    base: '#4a3a33', cols: ['#e4572e', '#1b1a19', '#c9b8a6', '#8c4a2f', '#f3efe8'] },
+      { n: 'Harbor',   base: '#4f6170', cols: ['#1f2b36', '#9fb3c2', '#e8eef2', '#3d5a73', '#c2c7cc'] },
+      { n: 'Midnight', base: '#24262a', cols: ['#0b0c0e', '#4a4e55', '#8d9298', '#e9e9e6', '#33363b'] },
+      { n: 'Chalk',    base: '#d9d7d2', cols: ['#ffffff', '#b6b3ad', '#7e7b76', '#ece9e3', '#5d5b57'] }
+    ],
+    metallic: [ { n: 'Silver', c: ['#9aa3ad', '#e8ecef', '#5f6872'] }, { n: 'Copper', c: ['#a8552a', '#f0b27a', '#5e2a14'] }, { n: 'Teal', c: ['#1f6f6a', '#5fd3c1', '#0e3a3c'] }, { n: 'Gold', c: ['#a8782e', '#f3d08a', '#5a3d14'] } ],
+    solid: [ { n: 'Gray', c: '#8e9297' }, { n: 'Charcoal', c: '#3c3f44' }, { n: 'Tan', c: '#b9a588' } ],
+    residential: ['Garage floor coatings', 'Basement floors', 'Patio & pool deck coatings', 'Driveways & walkways', 'Laundry & mudrooms'],
+    commercial: ['Warehouse & shop floors', 'Retail & showroom floors', 'Restaurant & kitchen floors', 'Office & clinic floors', 'Industrial coatings'],
+    types: [
+      { t: 'Flake epoxy', d: 'Decorative chips in a tough, textured, easy-clean system.', tex: 'flake' },
+      { t: 'Metallic epoxy', d: 'Swirled, glossy, one-of-a-kind floors.', tex: 'metal' },
+      { t: 'Solid color', d: 'Clean, bright, seamless color for any space.', tex: 'solid' },
+      { t: 'Decorative overlay', d: 'Micro-cement, vertical overlays and wood-look finishes.', tex: 'wood' },
+      { t: 'Stain & seal', d: 'Rich color that protects the concrete you have.', tex: 'stain' }
+    ],
+    faq: [
+      ['How much does epoxy flooring cost?', 'It depends on the size of the space, the system (flake, metallic or solid) and the shape the concrete is in. The estimator above uses sample rates for this concept; a real crew sets its own and gives a firm quote after a look at the slab.'],
+      ['Do you do both homes and businesses?', 'In this concept, yes: garages, basements and patios, plus warehouses, showrooms and kitchens. The service list is a sample.'],
+      ['How long does an epoxy floor last?', 'With good prep and care, a quality epoxy floor commonly lasts 10 to 20 years. Prep is the part that decides it.'],
+      ['Why does prep matter so much?', 'Coatings fail when they can’t grip. Grinding opens up the concrete and removes old sealers and stains, so the base coat bonds into the slab instead of sitting on top.'],
+      ['How do I take care of it?', 'Sweep regularly and mop with a mild cleaner now and then. Skip harsh chemicals and abrasive pads and it keeps its gloss.'],
+      ['Is this a real company?', 'No. Kilnstone Floor Co. is a fictional business made to show what ElaSystems builds. Every price, photo and review slot here is a sample. Want one for your crew? DM @ela.systems on Instagram.']
+    ],
+    steps: [
+      { t: 'Walkthrough', d: 'A look at the space and the slab, then the right system and a clear price before any work starts.' },
+      { t: 'Grind the slab', d: 'Diamond grinding opens up the concrete and strips old sealer, so the coating bonds into it.' },
+      { t: 'Repair', d: 'Cracks and pits are filled and leveled before anything goes down.' },
+      { t: 'Base coat', d: 'A tinted base coat goes down in a color that matches the flake blend.' },
+      { t: 'Flake broadcast', d: 'Chips are thrown across the wet base to full coverage for color, texture and grip.' },
+      { t: 'Clear topcoat', d: 'A clear, hard topcoat locks it all in and brings the gloss. Hot tires and spills wipe right off.' }
+    ]
+  };
+  </script>
+  <script>
+  (() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const HAS_G = !!(window.gsap && window.ScrollTrigger);
+  const ANIM = HAS_G && !RM;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const usd = n => '$' + Math.round(n).toLocaleString('en-US');
+  if (HAS_G) gsap.registerPlugin(ScrollTrigger);
+
+  /* ---------- studio links ---------- */
+  $$('[data-studio-link]').forEach(a => a.href = CONFIG.studio.url);
+  $$('[data-year]').forEach(e => e.textContent = new Date().getFullYear());
+
+  /* =============================================================
+     TEXTURES, all painted in code (no photos): flake blends,
+     metallic swirls, solid color, concrete, wood-look overlay, stain.
+     ============================================================= */
+  const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+  const prng = s0 => { let s2 = s0 % 2147483647 || 1; return () => (s2 = s2 * 16807 % 2147483647) / 2147483647; };
+  const noise = (g, w, h, amt) => { const id = g.getImageData(0, 0, w, h), d = id.data; for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * amt; d[i] += n; d[i + 1] += n; d[i + 2] += n; } g.putImageData(id, 0, 0); };
+  // one seamless flake tile: irregular chips, wrapped at the edges
+  const tiles = {};
+  const flakeTile = (k, n = 200) => {
+    const key = k + ':' + n; if (tiles[key]) return tiles[key];
+    const b = CONFIG.flakes[k], c = mk(n, n), g = c.getContext('2d'), r2 = prng(97 + k * 31);
+    g.fillStyle = b.base; g.fillRect(0, 0, n, n);
+    const count = Math.round(n * n / 15);
+    for (let i = 0; i < count; i++) {
+      const x = r2() * n, y = r2() * n, sz = 2.2 + r2() * 5.2, a = r2() * Math.PI, col = b.cols[Math.floor(r2() * b.cols.length)];
+      g.fillStyle = col;
+      for (const ox of [-n, 0, n]) for (const oy of [-n, 0, n]) {
+        const px = x + ox, py = y + oy; if (px < -8 || px > n + 8 || py < -8 || py > n + 8) continue;
+        g.save(); g.translate(px, py); g.rotate(a); g.beginPath(); g.moveTo(-sz / 2, -sz * .3); g.lineTo(sz * .2, -sz * .46); g.lineTo(sz / 2, sz * .08); g.lineTo(sz * .05, sz * .42); g.lineTo(-sz * .42, sz * .26); g.closePath(); g.fill(); g.restore();
+      }
+    }
+    return (tiles[key] = c);
+  };
+  const paintFlake = (g, w, h, k, scale = 1) => { const t = flakeTile(k); g.save(); g.scale(scale, scale); g.fillStyle = g.createPattern(t, 'repeat'); g.fillRect(0, 0, w / scale, h / scale); g.restore(); };
+  const blurStroke = (g, pts, w, col, blur) => { g.save(); g.translate(-10000, 0); g.shadowOffsetX = 10000; g.shadowBlur = blur; g.shadowColor = col; g.strokeStyle = col; g.lineWidth = w; g.lineCap = 'round'; g.beginPath(); g.moveTo(pts[0], pts[1]); g.bezierCurveTo(pts[2], pts[3], pts[4], pts[5], pts[6], pts[7]); g.stroke(); g.restore(); };
+  const paintMetal = (g, w, h, k) => {
+    const m = CONFIG.metallic[k], r2 = prng(11 + k * 7), sx = w / 2048, sy = h / 820;
+    g.fillStyle = m.c[0]; g.fillRect(0, 0, w, h);
+    for (let i = 0; i < 46; i++) { const x = r2() * w, y = r2() * h; blurStroke(g, [x, y, x + (r2() - .5) * 900 * sx, y + (r2() - .5) * 500 * sy, x + (r2() - .5) * 900 * sx, y + (r2() - .5) * 500 * sy, x + (r2() - .5) * 1200 * sx, y + (r2() - .5) * 400 * sy], (30 + r2() * 110) * sx, i % 3 === 0 ? m.c[2] : m.c[1], 40 * sx); }
+    g.globalAlpha = .55; for (let i = 0; i < 40; i++) { const x = r2() * w, y = r2() * h; blurStroke(g, [x, y, x + (r2() - .5) * 600 * sx, y + (r2() - .5) * 300 * sy, x + (r2() - .5) * 600 * sx, y + (r2() - .5) * 300 * sy, x + (r2() - .5) * 900 * sx, y + (r2() - .5) * 300 * sy], (2 + r2() * 5) * sx, '#ffffff', 3); }
+    g.globalAlpha = 1;
+  };
+  const paintSolid = (g, w, h, col) => { g.fillStyle = col; g.fillRect(0, 0, w, h); noise(g, w, h, 6); };
+  const paintConcrete = (g, w, h, o = {}) => {
+    const r2 = prng(o.seed || 3);
+    g.fillStyle = o.base || '#a9a69f'; g.fillRect(0, 0, w, h); noise(g, w, h, 26);
+    const sc = w / 2048;
+    for (let i = 0; i < (o.stains ?? 26); i++) { const x = r2() * w, y = r2() * h, r = (40 + r2() * 160) * sc; const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, `rgba(60,55,50,${.12 + r2() * .2})`); gr.addColorStop(1, 'rgba(60,55,50,0)'); g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); }
+    if (o.oil) for (let i = 0; i < o.oil; i++) { const x = w * (.3 + r2() * .4), y = h * (.25 + r2() * .6), r = (60 + r2() * 90) * sc; const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, 'rgba(25,22,20,.55)'); gr.addColorStop(.6, 'rgba(25,22,20,.25)'); gr.addColorStop(1, 'rgba(25,22,20,0)'); g.fillStyle = gr; g.beginPath(); g.ellipse(x, y, r * 1.4, r, 0, 0, 7); g.fill(); }
+    g.strokeStyle = 'rgba(40,38,35,.35)'; g.lineWidth = 2 * Math.max(1, sc * 1.4);
+    for (let k = 0; k < (o.cracks ?? 4); k++) { g.beginPath(); let x = r2() * w, y = r2() * h; g.moveTo(x, y); for (let i = 0; i < 14; i++) { x += (r2() - .5) * 120 * sc; y += (r2() - .3) * 60 * sc; g.lineTo(x, y); } g.stroke(); }
+    g.strokeStyle = 'rgba(50,48,44,.25)'; g.lineWidth = 3 * Math.max(1, sc * 1.4); g.beginPath(); g.moveTo(w / 2, 0); g.lineTo(w / 2, h); g.moveTo(0, h * .5); g.lineTo(w, h * .5); g.stroke();
+  };
+  const paintPeel = (g, w, h) => {   // worn gray floor paint with bare concrete showing through
+    paintSolid(g, w, h, '#8d9196'); const r2 = prng(41), cc = mk(w, h), cg = cc.getContext('2d'); paintConcrete(cg, w, h, { stains: 10, cracks: 2, seed: 9 });
+    g.save(); g.beginPath();
+    for (let i = 0; i < 34; i++) { const x = r2() * w, y = r2() * h, r = (14 + r2() * 70) * w / 1024; g.moveTo(x + r, y); for (let a = 0; a <= 6.3; a += .5) { const rr = r * (.6 + r2() * .6); g.lineTo(x + Math.cos(a) * rr * 1.5, y + Math.sin(a) * rr); } g.closePath(); }
+    g.clip(); g.drawImage(cc, 0, 0); g.restore();
+    g.strokeStyle = 'rgba(30,30,30,.22)'; for (let i = 0; i < 40; i++) { const x = r2() * w, y = r2() * h; g.lineWidth = 1 + r2() * 3; g.beginPath(); g.moveTo(x, y); g.quadraticCurveTo(x + (r2() - .5) * 120, y + (r2() - .5) * 30, x + (r2() - .5) * 220, y + (r2() - .5) * 50); g.stroke(); }
+  };
+  const paintWood = (g, w, h) => {
+    const r2 = prng(23), n = 16, pw = w / n, tones = ['#9a6b43', '#b07d4f', '#8a5d39', '#a7744a', '#c08b5c', '#7e5534'];
+    for (let i = 0; i < n; i++) { let y = -r2() * h * .6; while (y < h) { const len = h * (.35 + r2() * .4); g.fillStyle = tones[Math.floor(r2() * tones.length)]; g.fillRect(i * pw, y, pw, len); g.strokeStyle = 'rgba(60,35,18,.25)'; g.lineWidth = 1; for (let k = 0; k < 6; k++) { const x = i * pw + r2() * pw; g.beginPath(); g.moveTo(x, y); g.bezierCurveTo(x + (r2() - .5) * 8, y + len * .3, x + (r2() - .5) * 8, y + len * .6, x, y + len); g.stroke(); } g.fillStyle = 'rgba(40,24,12,.55)'; g.fillRect(i * pw, y, pw, 2); y += len; } g.fillStyle = 'rgba(40,24,12,.45)'; g.fillRect(i * pw, 0, 1.5, h); }
+    noise(g, w, h, 10);
+  };
+  const paintStain = (g, w, h) => {
+    const r2 = prng(57); g.fillStyle = '#8a5236'; g.fillRect(0, 0, w, h);
+    const cols = ['rgba(120,62,34,.5)', 'rgba(165,98,60,.45)', 'rgba(70,40,26,.4)', 'rgba(190,130,84,.35)'];
+    for (let i = 0; i < 90; i++) { const x = r2() * w, y = r2() * h, r = (20 + r2() * 120) * w / 1024; const gr = g.createRadialGradient(x, y, 0, x, y, r); gr.addColorStop(0, cols[i % 4]); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(x - r, y - r, r * 2, r * 2); }
+    noise(g, w, h, 14); g.strokeStyle = 'rgba(40,22,14,.5)'; g.lineWidth = 2; g.beginPath(); for (let k = 1; k < 4; k++) { g.moveTo(w * k / 4, 0); g.lineTo(w * k / 4, h); } g.moveTo(0, h * .5); g.lineTo(w, h * .5); g.stroke();
+  };
+  const tex = (kind, w, h, k = 0) => {
+    const c = mk(w, h), g = c.getContext('2d');
+    if (kind === 'flake') paintFlake(g, w, h, k, w / 1024); else if (kind === 'metal') paintMetal(g, w, h, k); else if (kind === 'solid') paintSolid(g, w, h, CONFIG.solid[k].c);
+    else if (kind === 'wood') paintWood(g, w, h); else if (kind === 'stain') paintStain(g, w, h); else if (kind === 'peel') paintPeel(g, w, h);
+    else paintConcrete(g, w, h, kind === 'dirty' ? { oil: 4, stains: 40, cracks: 6, seed: 5 } : {});
+    return c;
+  };
+  // the brand mark: an ember hexagon with a K
+  const drawMark = (g, x, y, s) => {
+    g.save(); g.translate(x, y); g.scale(s / 120, s / 120);
+    g.fillStyle = '#e4572e'; g.beginPath(); g.moveTo(30, 8); g.lineTo(90, 8); g.lineTo(116, 60); g.lineTo(90, 112); g.lineTo(30, 112); g.lineTo(4, 60); g.closePath(); g.fill();
+    g.strokeStyle = '#fff'; g.lineWidth = 11; g.lineJoin = 'miter'; g.beginPath(); g.moveTo(48, 34); g.lineTo(48, 86); g.moveTo(80, 34); g.lineTo(53, 60); g.lineTo(80, 86); g.stroke();
+    g.restore();
+  };
+
+  /* ---------- static content ---------- */
+  $('[data-marquee]').innerHTML = [0, 1].map(() => ['Garages', 'Patios & pool decks', 'Warehouses', 'Showrooms', 'Kitchens', 'Metallic', 'Flake', 'Overlays', 'Stain & seal'].map(t => `<span>${esc(t)}</span><i></i>`).join('')).join('');
+  $('[data-svc]').innerHTML = [['01', 'Residential', 'Garages, basements, patios and pool decks: floors built for style, grip and easy cleaning. Sample list.', CONFIG.residential], ['02', 'Commercial', 'Seamless, chemical-resistant floors for heavy traffic, forklifts and health inspections. Sample list.', CONFIG.commercial]].map(([n, t, d, l]) => `<div class="svc-card"><span class="tag">${n} / ${esc(t)}</span><h3>${esc(t)} coatings</h3><p>${esc(d)}</p><ul>${l.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`).join('');
+  $('[data-types]').innerHTML = CONFIG.types.map(x => `<div class="type"><i data-tex="${x.tex}"></i><b>${esc(x.t)}</b><small>${esc(x.d)}</small></div>`).join('');
+  $('[data-faq]').innerHTML = CONFIG.faq.map(([q, a], i) => `<details${i === 0 ? ' open' : ''}><summary>${esc(q)}<i aria-hidden="true"></i></summary><p>${esc(a)}</p></details>`).join('');
+
+  /* =============================================================
+     ROOMS: a small one-point-perspective room painter for the
+     before/after sliders and the sample gallery. Same mode-7 floor
+     trick as the garage: per scanline, depth = 1/(y - horizon).
+     ============================================================= */
+  const room = (w, h, o) => {
+    const c = mk(w, h), g = c.getContext('2d');
+    const cx = w / 2, vy = h * (o.vy || .3), yb = h * (o.yb || .5), wt = h * .05, hwb = w * (o.hw || .3), L = cx - hwb, R = cx + hwb;
+    const hwAt = y => hwb * (y - vy) / (yb - vy), edge = (x, yy) => { const bx = x < cx ? L : R, t = (x - cx) / (bx - cx); return vy + (yy - vy) * t; };
+    const P = (pts, f) => { g.beginPath(); pts.forEach(([x, y], i) => i ? g.lineTo(x, y) : g.moveTo(x, y)); g.closePath(); g.fillStyle = f; g.fill(); };
+    const wl = o.walls || ['#c9c8c4', '#dddcd8', '#d2d1cd', '#e6e5e1'];
+    P([[L, wt], [R, wt], [w, edge(w, wt)], [0, edge(0, wt)]], wl[0]);
+    P([[L, wt], [L, yb], [0, edge(0, yb)], [0, edge(0, wt)]], wl[1]);
+    P([[R, wt], [R, yb], [w, edge(w, yb)], [w, edge(w, wt)]], wl[2]);
+    P([[L, wt], [R, wt], [R, yb], [L, yb]], wl[3]);
+    // pendant / strip light
+    P([[cx - hwb * .3, h * .02 + wt * .3], [cx + hwb * .3, h * .02 + wt * .3], [cx + hwb * .24, h * .042 + wt * .3], [cx - hwb * .24, h * .042 + wt * .3]], 'rgba(255,255,250,.95)');
+    // openings on the back wall (garage door or windows), each one also reflects in a glossy floor
+    const lights = [];
+    (o.open || []).forEach(([a, b, top]) => {
+      const x0 = L + (R - L) * a, x1 = L + (R - L) * b, oT = wt + (yb - wt) * top, bot = o.door ? yb : yb - (yb - wt) * .14;
+      const sky = g.createLinearGradient(0, oT, 0, bot); sky.addColorStop(0, '#9ccbf4'); sky.addColorStop(.6, '#d9ecfb'); sky.addColorStop(1, '#eef6fd'); P([[x0, oT], [x1, oT], [x1, bot], [x0, bot]], sky);
+      if (o.door) { const hz = oT + (bot - oT) * .55; P([[x0, hz], [x1, hz], [x1, bot], [x0, bot]], '#79a35a'); P([[x0, hz], [x0 + (x1 - x0) * .3, hz - (bot - oT) * .12], [x0 + (x1 - x0) * .7, hz - (bot - oT) * .16], [x1, hz - (bot - oT) * .04], [x1, hz]], '#86a874'); P([[cx - (x1 - x0) * .2, hz], [cx + (x1 - x0) * .2, hz], [cx + (x1 - x0) * .36, bot], [cx - (x1 - x0) * .36, bot]], '#cfccc5'); }
+      g.fillStyle = '#2a2c30'; const f = Math.max(2, w / 300); g.fillRect(x0 - f, oT - f * 2, x1 - x0 + f * 2, f * 2); g.fillRect(x0 - f, oT, f, bot - oT); g.fillRect(x1, oT, f, bot - oT); if (!o.door) { g.fillRect(x0, bot, x1 - x0, f); g.fillRect((x0 + x1) / 2 - f / 2, oT, f, bot - oT); }
+      lights.push([x0, x1]);
+    });
+    if (o.decor) o.decor(g, { L, R, wt, yb, cx, w, h, P });
+    // floor, row by row
+    const T = o.floor, TW2 = T.width, TH2 = T.height, dmin = (yb - vy) / (h - vy);
+    for (let y = Math.floor(yb); y < h; y++) { const hw = hwAt(y + .5), d = (yb - vy) / (y + .5 - vy), sy = clamp((1 - (d - dmin) / (1 - dmin)) * (TH2 - 1), 0, TH2 - 1); g.drawImage(T, 0, sy, TW2, 1, cx - hw, y, 2 * hw, 1); }
+    if (o.lines) { g.strokeStyle = '#f2c230'; g.lineWidth = Math.max(3, w / 160); [-.55, .55].forEach(t => { g.beginPath(); g.moveTo(cx + hwb * t, yb); g.lineTo(cx + hwAt(h) * t, h); g.stroke(); }); }
+    g.strokeStyle = 'rgba(0,0,0,.18)'; g.lineWidth = Math.max(2, w / 400); g.beginPath(); g.moveTo(0, edge(0, yb)); g.lineTo(L, yb); g.lineTo(R, yb); g.lineTo(w, edge(w, yb)); g.stroke();
+    if (o.gloss) {
+      g.save(); g.beginPath(); g.moveTo(L, yb); g.lineTo(R, yb); g.lineTo(w * 3, h); g.lineTo(-w * 2, h); g.closePath(); g.clip();
+      lights.forEach(([x0, x1]) => { const rg = g.createLinearGradient(0, yb, 0, h); rg.addColorStop(0, 'rgba(235,245,255,.55)'); rg.addColorStop(.5, 'rgba(235,245,255,.15)'); rg.addColorStop(1, 'rgba(235,245,255,0)'); g.fillStyle = rg; g.beginPath(); g.moveTo(x0, yb); g.lineTo(x1, yb); g.lineTo(cx + (x1 - cx) * 2.6, h); g.lineTo(cx + (x0 - cx) * 2.6, h); g.closePath(); g.fill(); });
+      const lg = g.createRadialGradient(cx, yb + (h - yb) * .45, 0, cx, yb + (h - yb) * .45, hwb * .6); lg.addColorStop(0, 'rgba(255,255,255,.3)'); lg.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = lg; g.fillRect(0, yb, w, h - yb);
+      g.restore();
+    }
+    return c;
+  };
+  const shelf = (g, { L, R, wt, yb }, side = 1, col = '#e4572e') => { const x = side > 0 ? R - (R - L) * .16 : L + (R - L) * .04, tw = (R - L) * .12, ty = yb - (yb - wt) * .42; g.fillStyle = col; g.fillRect(x, ty, tw, yb - ty); g.fillStyle = 'rgba(0,0,0,.18)'; for (let i = 1; i < 4; i++) g.fillRect(x, ty + (yb - ty) * i / 4, tw, Math.max(1.5, tw / 60)); g.fillStyle = '#1b1c1f'; g.fillRect(x, ty - tw * .05, tw, tw * .05); };
+  const plinth = (g, { L, R, wt, yb }) => { [.12, .74].forEach(a => { const x = L + (R - L) * a, tw = (R - L) * .14, th = (yb - wt) * .22; g.fillStyle = '#f5f4f1'; g.fillRect(x, yb - th, tw, th); g.fillStyle = 'rgba(0,0,0,.08)'; g.fillRect(x + tw * .82, yb - th, tw * .18, th); g.fillStyle = '#2b2d31'; g.beginPath(); g.ellipse(x + tw / 2, yb - th - tw * .14, tw * .32, tw * .14, 0, 0, 7); g.fill(); }); };
+  const garageDecor = (g, d) => { shelf(g, d); const s2 = (d.R - d.L) * .12; drawMark(g, d.L + (d.R - d.L) * .035, d.wt + (d.yb - d.wt) * .24, s2); };
+  const kitchen = (g, { L, R, wt, yb }) => { const ch = (yb - wt) * .34; g.fillStyle = '#b9bec3'; g.fillRect(L, yb - ch, R - L, ch); g.fillStyle = '#8d9398'; g.fillRect(L, yb - ch, R - L, ch * .08); g.fillStyle = 'rgba(0,0,0,.12)'; for (let i = 1; i < 6; i++) g.fillRect(L + (R - L) * i / 6, yb - ch * .9, 2, ch * .9); g.fillStyle = '#c4c9cd'; g.beginPath(); g.moveTo(L + (R - L) * .32, wt + (yb - wt) * .12); g.lineTo(L + (R - L) * .68, wt + (yb - wt) * .12); g.lineTo(L + (R - L) * .74, wt + (yb - wt) * .34); g.lineTo(L + (R - L) * .26, wt + (yb - wt) * .34); g.closePath(); g.fill(); };
+  const PAINT = {
+    'garage-before': (w, h) => room(w, h, { floor: tex('dirty', 1024, 410), door: true, open: [[.19, .81, .2]], decor: garageDecor }),
+    'garage-after':  (w, h) => room(w, h, { floor: tex('flake', 1024, 410, 0), door: true, open: [[.19, .81, .2]], gloss: true, decor: garageDecor }),
+    'show-before':   (w, h) => room(w, h, { floor: tex('peel', 1024, 410), open: [[.06, .3, .16], [.38, .62, .16], [.7, .94, .16]], walls: ['#d6d4cf', '#e8e6e1', '#dcdad5', '#f1efea'] }),
+    'show-after':    (w, h) => room(w, h, { floor: tex('metal', 1024, 410, 1), open: [[.06, .3, .16], [.38, .62, .16], [.7, .94, .16]], walls: ['#d6d4cf', '#e8e6e1', '#dcdad5', '#f1efea'], gloss: true }),
+    'gal-metal-teal':   (w, h) => room(w, h, { floor: tex('metal', 1024, 410, 2), open: [[.1, .45, .18], [.55, .9, .18]], walls: ['#20262b', '#2c3338', '#262c31', '#353d43'], gloss: true }),
+    'gal-metal-copper': (w, h) => room(w, h, { floor: tex('metal', 1024, 410, 1), open: [[.3, .7, .12]], walls: ['#e7e1d8', '#efe9e0', '#e4ded5', '#f4efe7'], gloss: true, hw: .22, yb: .42, vy: .26 }),
+    'gal-flake-kitchen':(w, h) => room(w, h, { floor: tex('flake', 1024, 410, 3), walls: ['#cfd3d6', '#e9ecee', '#dfe3e6', '#f3f5f6'], gloss: true, decor: kitchen }),
+    'gal-solid-ware':   (w, h) => room(w, h, { floor: tex('solid', 1024, 410, 0), lines: true, door: true, open: [[.3, .7, .25]], walls: ['#9aa0a6', '#b5bac0', '#adb2b8', '#c3c8cd'], gloss: true }),
+    'gal-flake-garage': (w, h) => room(w, h, { floor: tex('flake', 1024, 410, 4), door: true, open: [[.19, .81, .2]], gloss: true, walls: ['#2a2b2e', '#3a3c40', '#333539', '#45474c'] }),
+    'gal-overlay':      (w, h) => room(w, h, { floor: tex('wood', 1024, 410), open: [[.2, .8, .14]], walls: ['#ece6dc', '#f3eee6', '#ebe5db', '#f7f3ec'], decor: plinth }),
+    'gal-metal-silver': (w, h) => room(w, h, { floor: tex('metal', 1024, 410, 0), open: [[.08, .42, .2], [.58, .92, .2]], walls: ['#e3e6e9', '#eef0f2', '#e6e9ec', '#f6f7f8'], gloss: true, decor: plinth }),
+    'gal-stain':        (w, h) => room(w, h, { floor: tex('stain', 1024, 410), open: [[.12, .88, .18]], walls: ['#e8dccb', '#f0e6d8', '#e6dac9', '#f5ede1'], gloss: true })
+  };
+  const paintImg = img => { if (img.dataset.done) return; img.dataset.done = 1; const fig = img.closest('.g'), tall = fig && fig.classList.contains('tall'), wide = fig && fig.classList.contains('wide'); const w = tall ? 760 : wide ? 1200 : 900, h = tall ? 1000 : wide ? 720 : 680; const fn = PAINT[img.dataset.paint]; if (!fn) return; img.src = fn(img.closest('.cmp') ? 1100 : w, img.closest('.cmp') ? 638 : h).toDataURL('image/jpeg', .86); };
+  const texIO = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; texIO.unobserve(e.target); const el = e.target; if (el.dataset.paint) paintImg(el); else if (el.dataset.tex) { const k = el.dataset.tex; el.style.backgroundImage = `url(${tex(k, 480, 270, k === 'flake' ? 0 : k === 'metal' ? 2 : 1).toDataURL('image/jpeg', .86)})`; } }), { rootMargin: '700px 0px' });
+  $$('[data-paint], [data-tex]').forEach(el => texIO.observe(el));
+
+  /* =============================================================
+     SIGNATURE: coat the garage. A canvas garage in one-point
+     perspective; the floor is drawn row by row (mode-7 style) from
+     a flat texture, so the painted flake blends sit in perspective.
+     Drag sideways and the coating rolls across the bare concrete.
+     ============================================================= */
+  const cv = $('[data-floor]'), ctx = cv.getContext('2d'), scene = $('[data-scene]'), knob = $('[data-knob]');
+  const TW = 2048, TH = 820;
+  const conc = mk(TW, TH), coat = mk(TW, TH);
+  let seed = 3; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+  paintConcrete(conc.getContext('2d'), TW, TH);
+  const buildCoat = async (sys, idx) => {
+    const g = coat.getContext('2d'); g.globalCompositeOperation = 'source-over'; g.globalAlpha = 1;
+    if (sys === 'flake') paintFlake(g, TW, TH, idx, 1.6);
+    else if (sys === 'metallic') paintMetal(g, TW, TH, idx);
+    else paintSolid(g, TW, TH, CONFIG.solid[idx].c);
+  };
+  let W = 0, H = 0, DPR = 1, r = 0, sheen = -1, dirty = true;
+  const G = {};
+  const size = () => { DPR = Math.min(2, devicePixelRatio || 1); const b = cv.getBoundingClientRect(); W = Math.round(b.width * DPR); H = Math.round(b.height * DPR); cv.width = W; cv.height = H;
+    G.cx = W / 2; G.vy = H * .30; G.yb = H * (W / H > 1.4 ? .47 : .49); G.wt = H * .05; G.hwb = W * (W / H > 1.4 ? .29 : .33); G.dmin = (G.yb - G.vy) / (H - G.vy); dirty = true; };
+  const hwAt = y => G.hwb * (y - G.vy) / (G.yb - G.vy);
+  const poly = (pts, fill) => { ctx.beginPath(); pts.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); };
+  const sideX = (y) => [G.cx - hwAt(y), G.cx + hwAt(y)];
+  const topEdge = x => { const bx = x < G.cx ? G.cx - G.hwb : G.cx + G.hwb, t = (x - G.cx) / (bx - G.cx); return G.vy + (G.wt - G.vy) * t; };
+  const floorEdgeY = x => { const bx = x < G.cx ? G.cx - G.hwb : G.cx + G.hwb, t = (x - G.cx) / (bx - G.cx); return G.vy + (G.yb - G.vy) * t; };
+  const draw = () => {
+    if (!W) return;
+    const { cx, yb, wt, hwb } = G, L = cx - hwb, R = cx + hwb;
+    ctx.clearRect(0, 0, W, H);
+    // ceiling + walls
+    poly([[L, wt], [R, wt], [W, topEdge(W)], [0, topEdge(0)]], '#c9c8c4');
+    poly([[L, wt], [L, yb], [0, floorEdgeY(0)], [0, topEdge(0)]], '#dddcd8');
+    poly([[R, wt], [R, yb], [W, floorEdgeY(W)], [W, topEdge(W)]], '#d2d1cd');
+    const bw = ctx.createLinearGradient(0, wt, 0, yb); bw.addColorStop(0, '#e9e8e5'); bw.addColorStop(1, '#dedcd8'); poly([[L, wt], [R, wt], [R, yb], [L, yb]], bw);
+    // ceiling light
+    poly([[cx - hwb * .32, wt * .2 + G.vy * .0 + (G.wt - G.vy) * .0 + H * .02], [cx + hwb * .32, H * .02 + wt * .2], [cx + hwb * .26, H * .045 + wt * .2], [cx - hwb * .26, H * .045 + wt * .2]], 'rgba(255,255,250,.95)');
+    // open garage door at the back
+    const oL = cx - hwb * .62, oR = cx + hwb * .62, oT = wt + (yb - wt) * .2;
+    const sky = ctx.createLinearGradient(0, oT, 0, yb); sky.addColorStop(0, '#9ccbf4'); sky.addColorStop(.6, '#d9ecfb'); sky.addColorStop(1, '#eef6fd'); poly([[oL, oT], [oR, oT], [oR, yb], [oL, yb]], sky);
+    const hz = oT + (yb - oT) * .55;
+    poly([[oL, hz], [oL + (oR - oL) * .2, hz - (yb - oT) * .14], [oL + (oR - oL) * .45, hz - (yb - oT) * .1], [oL + (oR - oL) * .7, hz - (yb - oT) * .16], [oR, hz - (yb - oT) * .05], [oR, hz]], '#86a874');
+    poly([[oL, hz], [oR, hz], [oR, yb], [oL, yb]], '#79a35a');
+    poly([[cx - (oR - oL) * .22, hz], [cx + (oR - oL) * .22, hz], [cx + (oR - oL) * .38, yb], [cx - (oR - oL) * .38, yb]], '#cfccc5');
+    ctx.fillStyle = '#2a2c30'; ctx.fillRect(oL - 4 * DPR, oT - 10 * DPR, oR - oL + 8 * DPR, 10 * DPR); ctx.fillRect(oL - 4 * DPR, oT, 4 * DPR, yb - oT); ctx.fillRect(oR, oT, 4 * DPR, yb - oT);
+    // decal + shelf
+    { const dw = Math.min(hwb * .2, (oL - L) * .8); drawMark(ctx, L + (oL - L - dw) / 2, wt + (yb - wt) * .24, dw); }
+    ctx.fillStyle = '#e4572e'; const tb = { x: R - (R - oR) * .78, w: (R - oR) * .56, y: yb - (yb - wt) * .42 }; ctx.fillRect(tb.x, tb.y, tb.w, yb - tb.y); ctx.fillStyle = 'rgba(0,0,0,.18)'; for (let i = 1; i < 4; i++) ctx.fillRect(tb.x, tb.y + (yb - tb.y) * i / 4, tb.w, 1.5 * DPR); ctx.fillStyle = '#1b1c1f'; ctx.fillRect(tb.x, tb.y - 4 * DPR, tb.w, 4 * DPR);
+    // floor, row by row
+    const step = Math.max(1, Math.round(DPR));
+    for (let y = Math.floor(yb); y < H; y += step) {
+      const hw = hwAt(y + step / 2), xl = cx - hw, d = (yb - G.vy) / (y + step / 2 - G.vy);
+      const sy = clamp((1 - (d - G.dmin) / (1 - G.dmin)) * (TH - 1), 0, TH - 1);
+      const cut = Math.round(r * TW);
+      if (cut < TW) ctx.drawImage(conc, cut, sy, TW - cut, 1, xl + 2 * hw * (cut / TW), y, 2 * hw * (1 - cut / TW), step);
+      if (cut > 0) ctx.drawImage(coat, 0, sy, cut, 1, xl, y, 2 * hw * (cut / TW), step);
+    }
+    // baseboards
+    ctx.strokeStyle = 'rgba(0,0,0,.18)'; ctx.lineWidth = 3 * DPR; ctx.beginPath(); ctx.moveTo(0, floorEdgeY(0)); ctx.lineTo(L, yb); ctx.lineTo(R, yb); ctx.lineTo(W, floorEdgeY(W)); ctx.stroke();
+    // gloss + wet edge on the coated part
+    if (r > 0) {
+      const hwH = hwAt(H), xb = L + 2 * hwb * r, xf = cx - hwH + 2 * hwH * r;
+      ctx.save(); ctx.beginPath(); ctx.moveTo(L, yb); ctx.lineTo(xb, yb); ctx.lineTo(xf, H); ctx.lineTo(cx - hwH, H); ctx.closePath(); ctx.clip();
+      // reflection of the open door
+      const rg = ctx.createLinearGradient(0, yb, 0, H); rg.addColorStop(0, 'rgba(235,245,255,.55)'); rg.addColorStop(.5, 'rgba(235,245,255,.16)'); rg.addColorStop(1, 'rgba(235,245,255,0)');
+      ctx.fillStyle = rg; ctx.beginPath(); ctx.moveTo(oL, yb); ctx.lineTo(oR, yb); ctx.lineTo(cx + (oR - cx) * 2.6, H); ctx.lineTo(cx - (cx - oL) * 2.6, H); ctx.closePath(); ctx.fill();
+      // ceiling light reflection
+      const lg = ctx.createRadialGradient(cx, yb + (H - yb) * .45, 0, cx, yb + (H - yb) * .45, hwb * .5); lg.addColorStop(0, 'rgba(255,255,255,.28)'); lg.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = lg; ctx.fillRect(0, yb, W, H - yb);
+      if (sheen > -1) { const sx = -W * .4 + sheen * W * 1.8, sg = ctx.createLinearGradient(sx, yb, sx + W * .25, H); sg.addColorStop(0, 'rgba(255,255,255,0)'); sg.addColorStop(.5, 'rgba(255,255,255,.45)'); sg.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = sg; ctx.fillRect(0, yb, W, H - yb); }
+      ctx.restore();
+      if (r < 1) { ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 2.5 * DPR; ctx.shadowColor = 'rgba(255,255,255,.9)'; ctx.shadowBlur = 14 * DPR; ctx.beginPath(); ctx.moveTo(xb, yb); ctx.lineTo(xf, H); ctx.stroke(); ctx.restore(); }
+    }
+    // the knob sits on the wet edge, halfway down the floor
+    const ym = yb + (H - yb) * .58, hwm = hwAt(ym), xm = cx - hwm + 2 * hwm * r;
+    knob.style.transform = `translate(${xm / DPR}px, ${ym / DPR}px)`;
+    knob.style.opacity = r >= 1 ? 0 : 1;
+  };
+  // visible coating range: the parts of the floor the camera can see
+  const rFromX = px => { const ym = G.yb + (H - G.yb) * .58, hwm = hwAt(ym); return clamp((px * DPR - (G.cx - hwm)) / (2 * hwm), 0, 1); };
+  const rMin = () => rFromX(0), rMax = () => rFromX(cv.clientWidth);
+  let sys = 'flake', idx = 0, built = false;
+  const swRow = $('[data-sw]'), cur = $('[data-cur]'), doneT = $('[data-done-t]'), doneBox = $('[data-done]');
+  const label = () => sys === 'flake' ? `Flake · ${CONFIG.flakes[idx].n}` : sys === 'metallic' ? `Metallic · ${CONFIG.metallic[idx].n}` : `Solid · ${CONFIG.solid[idx].n}`;
+  const swCache = {}, swUrl = i => swCache[i] || (swCache[i] = flakeTile(i).toDataURL('image/png'));
+  const renderSw = () => {
+    const list = sys === 'flake' ? CONFIG.flakes.map((f, i) => [f.n, `background-image:url(${swUrl(i)});background-size:120px`]) : sys === 'metallic' ? CONFIG.metallic.map(m => [m.n, `background:radial-gradient(circle at 30% 30%, ${m.c[1]}, ${m.c[0]} 55%, ${m.c[2]})`]) : CONFIG.solid.map(s => [s.n, `background:${s.c}`]);
+    swRow.innerHTML = list.map(([n, st], i) => `<button class="sw" type="button" data-i="${i}" aria-pressed="${i === idx}"><i style="${st}"></i>${esc(n)}</button>`).join('');
+  };
+  const apply = async () => { await buildCoat(sys, idx); built = true; cur.textContent = label(); doneT.textContent = label(); dirty = true; if (r >= 1 && ANIM) gsap.fromTo(S, { s: 0 }, { s: 1, duration: 1.1, ease: 'power2.inOut', onUpdate: () => { sheen = S.s; dirty = true; }, onComplete: () => { sheen = -1; dirty = true; } }); };
+  const S = { s: 0 };
+  $('[data-tabs]').addEventListener('click', e => { const b = e.target.closest('[data-sys]'); if (!b) return; sys = b.dataset.sys; idx = 0; $$('[data-sys]').forEach(x => x.setAttribute('aria-pressed', x === b)); renderSw(); apply(); firstTouch(); });
+  swRow.addEventListener('click', e => { const b = e.target.closest('[data-i]'); if (!b) return; idx = +b.dataset.i; $$('[data-i]', swRow).forEach(x => x.setAttribute('aria-pressed', x === b)); apply(); firstTouch(); });
+  renderSw();
+
+  // dragging: one axis, the page still scrolls vertically on phones
+  const R = { v: 0 }; let target = 0, sx0 = 0, sy0 = 0, axis = null, down = false, finished = false;
+  const setR = v => { r = v; dirty = true; if (!finished && r >= .995) finish(); };
+  const goR = (v, d = .35) => { if (ANIM) gsap.to(R, { v, duration: d, ease: 'power3.out', overwrite: true, onUpdate: () => setR(R.v) }); else { R.v = v; setR(v); } };
+  const finish = () => { finished = true; doneBox.classList.add('on'); if (ANIM) gsap.fromTo(S, { s: 0 }, { s: 1, duration: 1.3, ease: 'power2.inOut', onUpdate: () => { sheen = S.s; dirty = true; }, onComplete: () => { sheen = -1; dirty = true; } }); };
+  const toR = px => { const a = rMin(), b = rMax(), t = clamp(px / cv.clientWidth, 0, 1); let v = a + (b - a) * t; if (v > b - .04) v = 1; return v; };
+  scene.addEventListener('pointerdown', e => { down = true; axis = null; sx0 = e.clientX; sy0 = e.clientY; });
+  addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx0, dy = e.clientY - sy0; if (!axis) { if (Math.hypot(dx, dy) < 6) return; axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; if (axis === 'x') { firstTouch(); try { scene.setPointerCapture(e.pointerId); } catch {} } } if (axis !== 'x') return; const b = cv.getBoundingClientRect(); const v = toR(e.clientX - b.left); if (v > R.v || v < R.v) goR(Math.max(v, finished ? v : v), .25); });
+  addEventListener('pointerup', () => { down = false; });
+  scene.addEventListener('click', e => { if (axis === 'x') return; const b = cv.getBoundingClientRect(); firstTouch(); goR(toR(e.clientX - b.left), .7); });
+  $('[data-reset]').addEventListener('click', e => { e.stopPropagation(); finished = false; doneBox.classList.remove('on'); goR(rMin() + .02, .9); });
+  // keyboard: arrow keys move the coat
+  scene.tabIndex = 0; scene.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); firstTouch(); const a = rMin(), b = rMax(); goR(clamp(R.v + (e.key === 'ArrowRight' ? .08 : -.08) * (b - a), a, 1)); } });
+
+  const callout = $('[data-callout]'); let touched = false, demo = null;
+  if (!FINE) $('[data-callout-t]').textContent = 'Swipe across to coat the floor';
+  function firstTouch() { if (touched) return; touched = true; if (demo) demo.kill(); if (ANIM) gsap.to(callout, { opacity: 0, y: -8, duration: .4, onComplete: () => callout.remove() }); else callout.remove(); }
+
+  let loopOn = true;
+  const tick = () => { if (dirty && built && loopOn) { dirty = false; draw(); } };
+  addEventListener('resize', () => { size(); });
+  size(); apply().then(() => { R.v = rMin() + .02; r = R.v; dirty = true; tick(); });
+  if (!HAS_G) { const raf = () => { tick(); requestAnimationFrame(raf); }; raf(); }
+  else { gsap.ticker.add(tick); new IntersectionObserver(es => es.forEach(en => { loopOn = en.isIntersecting; if (loopOn) dirty = true; })).observe(scene); }
+
+  /* ---------- before / after ---------- */
+  $$('[data-cmp]').forEach(c => {
+    const inp = $('input', c); let dn = false, ax = null, x0 = 0, y0 = 0;
+    const set = p => { c.style.setProperty('--p', p + '%'); inp.value = p; };
+    const at = e => { const b = c.getBoundingClientRect(); set(clamp((e.clientX - b.left) / b.width * 100, 0, 100)); };
+    c.addEventListener('pointerdown', e => { dn = true; ax = null; x0 = e.clientX; y0 = e.clientY; });
+    c.addEventListener('pointermove', e => { if (!dn) return; const dx = e.clientX - x0, dy = e.clientY - y0; if (!ax) { if (Math.hypot(dx, dy) < 6) return; ax = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'; if (ax === 'x') try { c.setPointerCapture(e.pointerId); } catch {} } if (ax === 'x') at(e); });
+    c.addEventListener('pointerup', e => { if (!ax) at(e); dn = false; });
+    inp.style.pointerEvents = 'none';
+    c.tabIndex = 0; c.addEventListener('keydown', e => { if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); set(clamp(+inp.value + (e.key === 'ArrowRight' ? 5 : -5), 0, 100)); } });
+  });
+
+  /* ---------- estimator ---------- */
+  const sqft = $('[data-sqft]'), sqo = $('[data-sqo]'), rangeOut = $('[data-range]');
+  let rate = [4.5, 7];
+  const est = () => { const s = +sqft.value; sqo.textContent = s.toLocaleString('en-US') + ' sq ft'; rangeOut.innerHTML = `${usd(s * rate[0])} <span>–</span> ${usd(s * rate[1])}`; };
+  $('[data-size]').addEventListener('click', e => { const b = e.target.closest('[data-sq]'); if (!b) return; $$('[data-sq]').forEach(x => x.setAttribute('aria-pressed', x === b)); sqft.value = b.dataset.sq; est(); });
+  sqft.addEventListener('input', () => { $$('[data-sq]').forEach(x => x.setAttribute('aria-pressed', x.dataset.sq === sqft.value)); est(); });
+  $('[data-esys]').addEventListener('click', e => { const b = e.target.closest('[data-r]'); if (!b) return; $$('[data-r]').forEach(x => x.setAttribute('aria-pressed', x === b)); rate = b.dataset.r.split(',').map(Number); est(); });
+  est();
+
+  /* ---------- quote form (sample: writes the request, sends nothing) ---------- */
+  const qf = $('[data-qf]'), qerr = $('[data-qerr]'), qprev = $('[data-qprev]');
+  qf.addEventListener('submit', e => {
+    e.preventDefault(); const f = new FormData(qf);
+    if (!(f.get('name') || '').trim()) { qerr.textContent = 'Add a name so the crew knows who to call back.'; qf.name.focus(); return; }
+    qerr.textContent = '';
+    const msg = `Hi Kilnstone, I’d like a floor quote.\nName: ${f.get('name')}\nSpace: ${f.get('space')}\nService: ${f.get('service')}` + (f.get('msg') ? `\n${f.get('msg')}` : '');
+    qprev.innerHTML = `<small>Sample · the request a real crew would get</small>${esc(msg)}`; qprev.hidden = false;
+  });
+
+  /* =============================================================
+     SCROLL STORY: what's under the shine, one layer at a time.
+     ============================================================= */
+  const iso = $('[data-iso]');
+  (() => {
+    const cx = 320, cy = 250, a = 230, b = 115, T = 96;
+    const top = (y) => `M${cx} ${y - b} L${cx + a} ${y} L${cx} ${y + b} L${cx - a} ${y} Z`;
+    const sides = (y, t, cl, cr) => `<path d="M${cx - a} ${y} L${cx} ${y + b} L${cx} ${y + b + t} L${cx - a} ${y + t} Z" fill="${cl}"/><path d="M${cx + a} ${y} L${cx} ${y + b} L${cx} ${y + b + t} L${cx + a} ${y + t} Z" fill="${cr}"/>`;
+    let specks = ''; for (let i = 0; i < 160; i++) { const u = rnd() * 2 - 1, v = rnd() * 2 - 1; if (Math.abs(u) + Math.abs(v) > 1) continue; specks += `<circle cx="${(cx + u * a).toFixed(1)}" cy="${(cy + v * b).toFixed(1)}" r="${(.8 + rnd() * 1.6).toFixed(1)}" fill="${rnd() > .5 ? '#8e8b84' : '#d3d0c9'}"/>`; }
+    let grind = ''; for (let i = 0; i < 9; i++) { const ux = (rnd() - .5) * 1.2, uy = (rnd() - .5) * 1.2, rr = 30 + rnd() * 40; grind += `<ellipse cx="${(cx + ux * a * .6).toFixed(1)}" cy="${(cy + uy * b * .6).toFixed(1)}" rx="${rr}" ry="${rr / 2}" fill="none" stroke="#e6e3dc" stroke-width="1.2" opacity=".7"/>`; }
+    const flakeCols = ['#1d1e20', '#f2f2ef', '#8b8d90', '#b9b3a8', '#5d6066'];
+    let flakes = ''; for (let i = 0; i < 520; i++) { const u = rnd() * 2 - 1, v = rnd() * 2 - 1; if (Math.abs(u) + Math.abs(v) > .98) continue; const x = cx + u * a, y = cy - 14 + v * b, s = 2 + rnd() * 3.4, rot = rnd() * 180; flakes += `<rect x="${(x - s / 2).toFixed(1)}" y="${(y - s / 4).toFixed(1)}" width="${s.toFixed(1)}" height="${(s / 2).toFixed(1)}" fill="${flakeCols[i % 5]}" transform="rotate(${rot.toFixed(0)} ${x.toFixed(1)} ${y.toFixed(1)})" data-fk/>`; }
+    const lbl = (y, ty, t, k) => `<g data-lb="${k}"><path d="M${cx + a - 16} ${y} L${cx + a + 26} ${ty} H${cx + a + 44}" fill="none" stroke="#e4572e" stroke-width="2"/><circle cx="${cx + a - 16}" cy="${y}" r="4" fill="#e4572e"/><text class="lbl" x="${cx + a + 52}" y="${ty + 5}">${t}</text></g>`;
+    iso.innerHTML = `
+      <defs><clipPath id="topclip"><path d="${top(cy)}"/></clipPath><clipPath id="topclip2"><path d="${top(cy - 18)}"/></clipPath><linearGradient id="gloss" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".0"/><stop offset=".45" stop-color="#fff" stop-opacity=".55"/><stop offset=".55" stop-color="#fff" stop-opacity=".1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+      <ellipse cx="${cx}" cy="${cy + b + T + 30}" rx="${a * 1.05}" ry="34" fill="rgba(14,15,17,.12)"/>
+      <g data-slab>${sides(cy, T, '#a19e97', '#8f8c86')}<path d="${top(cy)}" fill="#bdbab3"/><g clip-path="url(#topclip)">${specks}</g></g>
+      <g data-grind clip-path="url(#topclip)"><path d="${top(cy)}" fill="#c8c5be"/>${grind}</g>
+      <g data-crack><path d="M${cx - 120} ${cy - 30} l30 12 l14 -10 l26 16 l20 -6 l34 22 l18 -4 l30 18" fill="none" stroke="#5b5852" stroke-width="3" stroke-linejoin="round" data-crk/><path d="M${cx - 120} ${cy - 30} l30 12 l14 -10 l26 16 l20 -6 l34 22 l18 -4 l30 18" fill="none" stroke="#d7d4cd" stroke-width="6" stroke-linejoin="round" stroke-linecap="round" data-fill/></g>
+      <g data-base>${sides(cy - 10, 10, '#4b4e53', '#3f4246')}<path d="${top(cy - 10)}" fill="#5a5e64"/></g>
+      <g data-flakes>${flakes}</g>
+      <g data-topc>${sides(cy - 18, 8, 'rgba(220,235,245,.45)', 'rgba(200,220,235,.4)')}<path d="${top(cy - 18)}" fill="rgba(235,245,255,.28)" stroke="rgba(255,255,255,.8)" stroke-width="1.5"/><g clip-path="url(#topclip2)"><path d="${top(cy - 18)}" fill="url(#gloss)" data-gl/></g></g>
+      ${lbl(cy + T * .55, cy + 110, 'Concrete slab', 0)}${lbl(cy + 4, cy + 50, 'Ground profile', 1)}${lbl(cy - 5, cy - 10, 'Base coat', 3)}${lbl(cy - 14, cy - 70, 'Flakes', 4)}${lbl(cy - 22, cy - 130, 'Clear topcoat', 5)}
+      <g data-done-iso opacity="0"><path d="M${cx - 95} ${cy - 175} h190 v40 h-190z" fill="#e4572e"/><text x="${cx}" y="${cy - 149}" text-anchor="middle" style="font:900 15px Archivo,sans-serif;letter-spacing:.12em" fill="#fff">BUILT TO LAST</text></g>`;
+  })();
+  $('[data-l-steps]').innerHTML = CONFIG.steps.map(s => `<div class="l-step"><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></div>`).join('');
+  $('[data-l-bar]').innerHTML = CONFIG.steps.map(() => '<i><b></b></i>').join('');
+
+  /* ---------- header, smooth scroll, phone bar ---------- */
+  const mbar = $('[data-mbar]');
+  const hs = () => { const st = $('[data-studio]').getBoundingClientRect(), lr = $('[data-layers]').getBoundingClientRect(); const over = (st.top < innerHeight && st.bottom > innerHeight - 90) || (lr.top < innerHeight * .5 && lr.bottom > innerHeight * .5); mbar.classList.toggle('on', !over && scrollY > innerHeight * .6 && scrollY + innerHeight < document.documentElement.scrollHeight - 220); };
+  hs(); addEventListener('scroll', hs, { passive: true });
+  let lenis = null;
+  if (ANIM && window.Lenis) { lenis = new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  const header = $('header');
+  const go = t => { const off = -header.offsetHeight - 10; if (lenis) lenis.scrollTo(t, { duration: 1.4, offset: t === 0 ? 0 : off }); else if (t === 0) scrollTo({ top: 0 }); else scrollTo({ top: t.getBoundingClientRect().top + scrollY + off, behavior: RM ? 'auto' : 'smooth' }); };
+  document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute('href'); if (id === '#') return; const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault(); go(t); });
+
+  const layers = $('[data-layers]');
+  if (!ANIM) { const l = $('[data-loader]'); if (l) l.remove(); callout.remove(); return; }
+
+  /* =============================================================
+     LOADER: the hexagon K draws, then ember epoxy pours down and
+     drains away to reveal the page.
+     ============================================================= */
+  gsap.set('.hero h1 .line > span', { yPercent: 110 }); gsap.set('[data-in]', { opacity: 0, y: 22 }); gsap.set('[data-studio]', { opacity: 0, y: 50 });
+  const loader = $('[data-loader]'), pourP = $('[data-pour]');
+  $$('[data-lm]').forEach(p => { const L = p.getTotalLength(); gsap.set(p, { strokeDasharray: L, strokeDashoffset: L }); });
+  const P = { y: 0, w: 0 };
+  const pourD = () => { const y = P.y, w = P.w; pourP.setAttribute('d', `M0 0 H100 V${y - w} C80 ${y + w} 70 ${y - w} 50 ${y} C30 ${y + w} 20 ${y - w} 0 ${y} Z`); };
+  const ltl = gsap.timeline({ onComplete: () => loader.remove() });
+  ltl.to('[data-lm]', { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut', stagger: .12 })
+    .to(P, { y: 115, w: 6, duration: .75, ease: 'power2.in', onUpdate: pourD }, .95)
+    .set('.loader .mark', { opacity: 0 }, 1.5)
+    .to(loader, { clipPath: 'inset(0 0 100% 0)', duration: .8, ease: 'expo.inOut' }, 1.55)
+    .to('.hero h1 .line > span', { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: .08 }, 1.75)
+    .to('[data-in]', { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: .07 }, 1.9)
+    .to('[data-studio]', { opacity: 1, y: 0, duration: 1.3, ease: 'expo.out' }, 1.85)
+    .from('[data-callout]', { opacity: 0, y: -12, duration: .6, ease: 'back.out(2)' }, 2.6);
+  loader.addEventListener('click', () => ltl.progress(1));
+
+  // idle demo: roll the coat partway once the scene is in view
+  const runDemo = () => { if (touched) return; const a = rMin(), b = rMax(); demo = gsap.timeline(); demo.to(R, { v: a + (b - a) * .55, duration: 2.2, ease: 'power2.inOut', onUpdate: () => setR(R.v) }); };
+  ScrollTrigger.create({ trigger: scene, start: 'top 75%', once: true, onEnter: () => gsap.delayedCall(2.8, runDemo) });
+  gsap.to(callout, { y: 5, duration: 1, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: 3.2 });
+
+  // marquee
+  (() => { const tr = $('[data-marquee]'); let x = 0, v = 0, w = 0; const m = () => { w = tr.scrollWidth / 2; }; m(); addEventListener('resize', m); document.fonts && document.fonts.ready.then(m); ScrollTrigger.create({ onUpdate: s => { v = clamp(s.getVelocity() / 300, -10, 10); } }); gsap.ticker.add(() => { v *= .92; x -= .8 + Math.abs(v); if (w && x <= -w) x += w; tr.style.transform = `translate3d(${x}px,0,0)`; }); })();
+
+  // reveals
+  $$('main .line > span').forEach(el => { if (el.closest('.hero')) return; gsap.from(el, { yPercent: 110, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el.parentElement, start: 'top 90%' } }); });
+  // before/after: sweep once when it comes into view
+  $$('[data-cmp]').forEach((c, i) => { const o = { p: 92 }; gsap.to(o, { p: 50, duration: 1.6, ease: 'power3.inOut', delay: i * .2, scrollTrigger: { trigger: c, start: 'top 75%' }, onStart: () => c.style.setProperty('--p', '92%'), onUpdate: () => c.style.setProperty('--p', o.p + '%') }); });
+  gsap.from('.svc-card', { opacity: 0, y: 50, duration: 1.2, ease: 'expo.out', stagger: .1, scrollTrigger: { trigger: '[data-svc]', start: 'top 85%' } });
+  gsap.from('.type', { opacity: 0, y: 40, duration: 1, ease: 'expo.out', stagger: .06, scrollTrigger: { trigger: '[data-types]', start: 'top 88%' } });
+  gsap.from('.est-box', { opacity: 0, y: 50, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: '.est-box', start: 'top 85%' } });
+  $$('.g').forEach((g, i) => gsap.from(g, { clipPath: 'inset(100% 0 0 0)', duration: 1.3, ease: 'expo.inOut', delay: (i % 4) * .06, scrollTrigger: { trigger: g, start: 'top 94%' } }));
+  gsap.from('form.qf', { opacity: 0, y: 50, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: 'form.qf', start: 'top 88%' } });
+  if (FINE) $$('.btn').forEach(b => { const mx = gsap.quickTo(b, 'x', { duration: .6, ease: 'power3' }), my = gsap.quickTo(b, 'y', { duration: .6, ease: 'power3' }); b.addEventListener('pointermove', e => { const r2 = b.getBoundingClientRect(); mx((e.clientX - r2.left - r2.width / 2) * .2); my((e.clientY - r2.top - r2.height / 2) * .3); }); b.addEventListener('pointerleave', () => { mx(0); my(0); }); });
+
+  /* the layer story */
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 0px)', () => {
+    layers.classList.add('pinned');
+    const steps = $$('.l-step'), bars = $$('[data-l-bar] b'), N = steps.length, nEl = $('[data-l-n]');
+    gsap.set(steps.slice(1), { autoAlpha: 0, y: 30 });
+    const crk = $('[data-crk]', iso), fil = $('[data-fill]', iso), Lc = fil.getTotalLength();
+    gsap.set(fil, { strokeDasharray: Lc, strokeDashoffset: Lc });
+    gsap.set('[data-grind]', { opacity: 0 });
+    gsap.set('[data-base]', { y: -160, opacity: 0 });
+    gsap.set($$('[data-fk]', iso), { y: -220, opacity: 0 });
+    gsap.set('[data-topc]', { y: -160, opacity: 0 });
+    gsap.set('[data-lb]', { opacity: 0, x: 20 });
+    gsap.set('[data-slab]', { y: 40, opacity: 0 }); gsap.set('[data-crack]', { opacity: 0 });
+    let cur = 0;
+    const tl = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: layers, start: 'top top', end: () => '+=' + innerHeight * 5, pin: '.l-pin', scrub: .7, anticipatePin: 1, invalidateOnRefresh: true,
+      onUpdate: s => { const k = clamp(Math.floor(s.progress * N - .0001), 0, N - 1); bars.forEach((d, i) => gsap.set(d, { scaleX: i < k ? 1 : i === k ? (s.progress * N - k) : 0 })); if (k !== cur) { cur = k; nEl.textContent = k + 1; } } } });
+    tl.to('[data-slab]', { y: 0, opacity: 1, duration: .5, ease: 'power3.out' }, .05).to('[data-crack]', { opacity: 1, duration: .2 }, .4).to('[data-lb="0"]', { opacity: 1, x: 0, duration: .25 }, .5)
+      .to('[data-grind]', { opacity: 1, duration: .5 }, 1.1).to('[data-lb="1"]', { opacity: 1, x: 0, duration: .25 }, 1.4)
+      .to(fil, { strokeDashoffset: 0, duration: .6 }, 2.1).to(crk, { opacity: 0, duration: .3 }, 2.5)
+      .to('[data-base]', { y: 0, opacity: 1, duration: .5, ease: 'power3.out' }, 3.05).to('[data-lb="3"]', { opacity: 1, x: 0, duration: .25 }, 3.5)
+      .to($$('[data-fk]', iso), { y: 0, opacity: 1, duration: .45, ease: 'power2.in', stagger: { amount: .4, from: 'random' } }, 4.05).to('[data-lb="4"]', { opacity: 1, x: 0, duration: .25 }, 4.6)
+      .to('[data-topc]', { y: 0, opacity: 1, duration: .45, ease: 'power3.out' }, 5.05).to('[data-lb="5"]', { opacity: 1, x: 0, duration: .25 }, 5.4)
+      .fromTo('[data-gl]', { x: -260 }, { x: 260, duration: .4 }, 5.45)
+      .to('[data-done-iso]', { opacity: 1, duration: .2 }, 5.75);
+    steps.forEach((s, k) => { if (!k) return; tl.to(steps[k - 1], { autoAlpha: 0, y: -24, duration: .08 }, k - .08).to(s, { autoAlpha: 1, y: 0, duration: .1 }, k); });
+    tl.to({}, { duration: .3 }, N);
+    return () => layers.classList.remove('pinned');
+  });
+  addEventListener('load', () => ScrollTrigger.refresh());
+  document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+  })();
+  </script>
+<a class="studio" href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener" aria-label="Site by ElaSystems (opens in a new tab)"><i aria-hidden="true"></i><span>Site by <b>ElaSystems</b></span></a>
+<style>
+  .studio{position:fixed;right:16px;bottom:16px;z-index:50;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);color:#fff;font:500 12px/1 var(--sans);text-decoration:none;border:1px solid rgba(255,255,255,.14)}
+  .studio i{width:10px;height:10px;border-radius:3px;background:conic-gradient(from 210deg,#ff5a1f,#ffb03b,#ff5a1f)}
+  .eb-foot{position:static!important;display:flex!important;width:max-content;max-width:calc(100% - 32px);margin:18px auto 22px!important;transform:none!important;opacity:1!important}
+  .eb-hide{opacity:0!important;pointer-events:none!important;transform:translateY(8px)!important}
+  .eb-anim{transition:opacity .4s,transform .4s!important}
+</style>
+<script>
+(function () {
+  const place = () => {
+    const b = document.querySelector('.studio'), f = document.querySelector('footer');
+    if (!b || !f) return false;
+    if (matchMedia('(max-width: 760px)').matches) { f.appendChild(b); b.classList.add('eb-foot'); return true; }
+    b.classList.add('eb-anim');
+    const sync = () => b.classList.toggle('eb-hide', scrollY < innerHeight * .6 || scrollY + innerHeight > document.documentElement.scrollHeight - 140);
+    sync(); addEventListener('scroll', sync, { passive: true });
+    return true;
+  };
+  if (!place()) addEventListener('load', place);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noai, noimageai">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quillmere Studio | Wedding photo + film concept</title>
+  <meta name="description" content="Quillmere Studio is a fictional wedding photo + film studio: a concept website by ElaSystems with a working camera viewfinder, a horizontal portfolio and an inquiry note builder. Want one for your business? DM @ela.systems.">
+  <meta name="theme-color" content="#f4efe7">
+  <meta property="og:title" content="Quillmere Studio · concept by ElaSystems">
+  <meta property="og:description" content="A wedding photo + film studio site concept with a camera you can actually shoot.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------------------------------------------------
+       QUILLMERE STUDIO (fictional) · design tokens
+       Editorial and quiet: ivory paper, ink black and one champagne
+       accent. Bodoni Moda for fashion-magazine headlines, Manrope to read.
+       ------------------------------------------------------------ */
+    :root {
+      --bg: #f4efe7;
+      --bg-2: #ebe3d6;
+      --ink: #15120f;
+      --muted: #6b6359;
+      --line: rgba(21,18,15,.14);
+      --champ: #a5814c;
+      --dark: #100e0c;
+      --serif: "Bodoni Moda", "Didot", Georgia, serif;
+      --sans: "Manrope", system-ui, sans-serif;
+      --pad: clamp(18px, 4vw, 60px);
+      --ease: cubic-bezier(.65,.05,.25,1);
+      --ease-out: cubic-bezier(.16,1,.3,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.65 var(--sans); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+    img, svg { display: block; max-width: 100%; }
+    img { height: auto; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+    input, textarea { font: inherit; color: inherit; }
+    :focus-visible { outline: 1.5px solid var(--champ); outline-offset: 3px; }
+    ::selection { background: var(--ink); color: var(--bg); }
+    [hidden] { display: none !important; }
+    .wrap { padding: 0 var(--pad); }
+    .eyebrow { font: 500 11.5px/1.3 var(--sans); letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
+    .eyebrow b { color: var(--champ); font-weight: 600; }
+    h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 400; letter-spacing: -.02em; line-height: .98; }
+    h2 { font-size: clamp(44px, 6.4vw, 108px); }
+    em { font-style: italic; }
+    h1 em, h2 em { color: var(--champ); }
+    .line { display: block; overflow: hidden; padding-bottom: .08em; }
+    .line > span { display: inline-block; will-change: transform; }
+    .lede { color: var(--muted); font-size: clamp(15.5px, 1.15vw, 17.5px); max-width: 46ch; margin: 22px 0 0; }
+
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; height: 54px; padding: 0 30px; border: 1px solid var(--ink); border-radius: 999px; font: 500 12px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase; overflow: hidden; isolation: isolate; white-space: nowrap; transition: color .5s var(--ease); }
+    .btn::before { content: ""; position: absolute; inset: 0; background: var(--ink); border-radius: inherit; transform: translateY(101%); transition: transform .6s var(--ease); z-index: -1; }
+    .btn.solid { background: var(--ink); color: var(--bg); }
+    .btn.solid::before { background: var(--champ); }
+    .btn svg { width: 14px; height: 14px; transition: transform .45s var(--ease); }
+    @media (hover: hover) { .btn:hover { color: var(--bg); } .btn:hover::before { transform: none; } .btn:hover svg { transform: translateX(3px); } }
+    .btn.sm { height: 44px; padding: 0 22px; font-size: 11px; }
+
+    /* logo: a black disc with a Q monogram and a lens */
+    .mark { display: inline-flex; align-items: center; gap: 12px; }
+    .mark svg { width: 40px; height: 40px; }
+    .mark b { font: 500 13px/1 var(--sans); letter-spacing: .38em; }
+
+    /* intro */
+    .intro { position: fixed; inset: 0; z-index: 100; background: var(--dark); color: var(--bg); display: grid; place-items: center; }
+    .intro .lens { width: min(180px, 42vw); }
+    .intro .word { position: absolute; bottom: 12vh; left: 0; right: 0; text-align: center; font: 400 clamp(28px, 4vw, 44px)/1 var(--serif); letter-spacing: .3em; }
+    html:not(.js) .intro, html.rm .intro { display: none; }
+
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background .5s var(--ease), border-color .5s; border-bottom: 1px solid transparent; }
+    header.scrolled { background: rgba(244,239,231,.86); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-color: var(--line); }
+    header .wrap { height: 78px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 18px; }
+    header nav { display: flex; gap: 30px; }
+    header nav a { font: 500 11.5px/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; color: var(--muted); transition: color .3s; }
+    header nav a:hover { color: var(--ink); }
+    header .right { display: flex; justify-content: flex-end; }
+    @media (max-width: 900px) { header nav { display: none; } header .wrap { grid-template-columns: 1fr auto; height: 66px; } }
+
+    /* ---------- hero + viewfinder (signature) ---------- */
+    .hero { position: relative; min-height: 100svh; padding: 150px 0 70px; display: grid; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(30px, 5vw, 90px); align-items: center; }
+    .hero h1 { font-size: clamp(50px, 5.7vw, 104px); }
+    .hero h1 .i { font-style: italic; color: var(--champ); }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+    .hero .meta { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line); max-width: 560px; }
+    .hero .meta span { font-size: 13.5px; color: var(--muted); }
+    .hero .meta b { display: block; color: var(--ink); font: 400 21px/1.1 var(--serif); margin-bottom: 4px; }
+
+    .cam { position: relative; justify-self: end; width: 100%; max-width: min(460px, calc((100svh - 300px) * .8)); }
+    .vf { position: relative; aspect-ratio: 4 / 5; background: var(--dark); border-radius: 4px; overflow: hidden; box-shadow: 0 50px 100px -40px rgba(21,18,15,.55); user-select: none; -webkit-user-select: none; }
+    .vf .shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .vf .ui { position: absolute; inset: 0; pointer-events: none; color: #fff; z-index: 4; }
+    .vf .corner { position: absolute; width: 26px; height: 26px; border: 1.5px solid rgba(255,255,255,.85); }
+    .vf .c1 { left: 16px; top: 16px; border-right: 0; border-bottom: 0; } .vf .c2 { right: 16px; top: 16px; border-left: 0; border-bottom: 0; }
+    .vf .c3 { left: 16px; bottom: 16px; border-right: 0; border-top: 0; } .vf .c4 { right: 16px; bottom: 16px; border-left: 0; border-top: 0; }
+    .vf .focus { position: absolute; left: 50%; top: 42%; width: 64px; height: 64px; margin: -32px; border: 1.5px solid rgba(255,255,255,.7); border-radius: 2px; transition: border-color .2s; }
+    .vf .focus.lock { border-color: #7dff9b; }
+    .vf .top { position: absolute; left: 0; right: 0; top: 0; padding: 18px 52px; display: flex; justify-content: space-between; align-items: center; font: 600 11px/1 var(--sans); letter-spacing: .2em; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+    .vf .rec { display: inline-flex; align-items: center; gap: 8px; opacity: 0; transition: opacity .3s; }
+    .vf .rec i { width: 9px; height: 9px; border-radius: 50%; background: #ff3b30; animation: blink 1s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: .15; } }
+    .vf.film .rec { opacity: 1; }
+    .vf .bar { position: absolute; left: 0; right: 0; height: 12%; background: #000; z-index: 3; transform: scaleY(0); transition: transform .7s var(--ease); }
+    .vf .bar.t { top: 0; transform-origin: top; } .vf .bar.b { bottom: 0; transform-origin: bottom; }
+    .vf.film .bar { transform: scaleY(1); }
+    .vf.film .top { top: 12%; }
+    .vf .iris { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; }
+    .vf .flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 6; pointer-events: none; }
+    .cam-bar { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 16px; }
+    .modes { display: inline-flex; padding: 4px; border: 1px solid var(--line); border-radius: 999px; position: relative; }
+    .modes button { position: relative; z-index: 1; height: 36px; padding: 0 18px; font: 600 11px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--muted); transition: color .4s; }
+    .modes button[aria-pressed="true"] { color: var(--bg); }
+    .modes .pill { position: absolute; top: 4px; bottom: 4px; left: 4px; border-radius: 999px; background: var(--ink); transition: transform .5s var(--ease), width .5s var(--ease); }
+    .shutter { position: relative; width: 66px; height: 66px; border-radius: 50%; border: 1.5px solid var(--ink); display: grid; place-items: center; transition: transform .2s; }
+    .shutter i { width: 50px; height: 50px; border-radius: 50%; background: var(--ink); transition: transform .2s var(--ease), background .3s; }
+    .shutter:active i { transform: scale(.86); }
+    .shutter.rec i { background: #e0322a; border-radius: 10px; width: 30px; height: 30px; }
+    .count { font: 400 22px/1 var(--serif); font-variant-numeric: tabular-nums; min-width: 4.4em; text-align: right; }
+    .count small { font: 500 10.5px/1 var(--sans); letter-spacing: .22em; color: var(--muted); display: block; margin-top: 6px; text-transform: uppercase; }
+    .callout { position: absolute; z-index: 8; right: 74px; bottom: 14px; display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; background: var(--champ); color: #fff; border-radius: 999px; font: 600 11.5px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 12px 30px rgba(165,129,76,.35); transition: opacity .5s var(--ease), transform .5s var(--ease); pointer-events: none; }
+    .callout::after { content: ""; position: absolute; right: -6px; top: 50%; margin-top: -6px; border: 6px solid transparent; border-right: 0; border-left-color: var(--champ); }
+    .cam.touched .callout { opacity: 0; transform: translateX(-8px); }
+    .strip { display: flex; gap: 8px; margin-top: 16px; min-height: 64px; align-items: center; }
+    .strip .th { width: 48px; height: 60px; flex: none; border-radius: 2px; overflow: hidden; box-shadow: 0 6px 14px rgba(21,18,15,.18); background: #ddd; }
+    .strip .th img { width: 100%; height: 100%; object-fit: cover; }
+    .strip .empty { font-size: 13px; color: var(--muted); }
+    .strip-note { margin-top: 10px; font: italic 400 17px/1.3 var(--serif); color: var(--champ); opacity: 0; transform: translateY(6px); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+    .strip-note.on { opacity: 1; transform: none; }
+    @media (max-width: 900px) {
+      .hero { padding: 124px 0 60px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .cam { justify-self: stretch; max-width: none; }
+      .hero h1 { font-size: clamp(46px, 13.4vw, 76px); }
+      .callout { right: -4px; bottom: 80px; font-size: 10.5px; padding: 10px 13px; }
+      .callout::after { right: 28px; top: auto; bottom: -6px; margin-top: 0; border: 6px solid transparent; border-bottom: 0; border-top-color: var(--champ); }
+    }
+
+    /* statement */
+    .statement { padding: clamp(110px, 15vw, 220px) 0; background: var(--dark); color: var(--bg); }
+    .statement .eyebrow { color: rgba(244,239,231,.55); margin-bottom: 34px; }
+    .statement p.big { margin: 0; font: 400 clamp(30px, 4vw, 66px)/1.12 var(--serif); letter-spacing: -.015em; max-width: 22ch; }
+    .statement .w { opacity: .14; }
+    .statement .w.hl { font-style: italic; color: #d6b98a; }
+
+    /* gallery rail */
+    .gallery { position: relative; background: var(--dark); color: var(--bg); overflow: hidden; }
+    .g-pin { height: 100svh; display: flex; align-items: center; }
+    .g-rail { display: flex; align-items: center; gap: clamp(16px, 2vw, 30px); padding: 0 var(--pad); will-change: transform; }
+    .g-intro { flex: none; width: clamp(280px, 28vw, 420px); padding-right: 20px; }
+    .g-intro .eyebrow { color: rgba(244,239,231,.55); }
+    .g-intro p { color: rgba(244,239,231,.6); margin-top: 20px; max-width: 34ch; }
+    .g-item { flex: none; position: relative; overflow: hidden; border-radius: 2px; background: #1d1a17; }
+    .g-item img { position: absolute; inset: -8% -10%; width: 120%; height: 116%; max-width: none; object-fit: cover; }
+    .g-item.t { width: clamp(240px, 24vw, 380px); aspect-ratio: 2 / 3; }
+    .g-item.m { width: clamp(260px, 28vw, 440px); aspect-ratio: 4 / 5; }
+    .g-item.s { width: clamp(180px, 16vw, 260px); aspect-ratio: 3 / 4; align-self: flex-end; margin-bottom: 6vh; }
+    .g-item.w { width: clamp(340px, 38vw, 600px); aspect-ratio: 3 / 2; align-self: flex-start; margin-top: 6vh; }
+    .g-progress { position: absolute; left: var(--pad); right: var(--pad); bottom: 34px; height: 1px; background: rgba(244,239,231,.18); }
+    .g-progress i { position: absolute; inset: 0; background: #d6b98a; transform: scaleX(0); transform-origin: left; }
+    @media (max-width: 900px) {
+      .gallery { padding: 90px 0; }
+      .g-pin { height: auto; display: block; }
+      .g-rail { display: grid; grid-auto-flow: column; grid-auto-columns: 74%; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--pad); scrollbar-width: none; padding-bottom: 6px; }
+      .g-rail::-webkit-scrollbar { display: none; }
+      .g-intro { grid-column: 1 / -1; display: none; }
+      .g-item { width: auto !important; aspect-ratio: 4 / 5 !important; margin: 0 !important; align-self: auto !important; scroll-snap-align: start; }
+      .g-item img { inset: 0; width: 100%; height: 100%; }
+      .g-progress { display: none; }
+      .g-mhead { padding: 0 var(--pad) 34px; }
+    }
+    @media (min-width: 901px) { .g-mhead { display: none; } }
+
+    /* services */
+    .services { padding: clamp(110px, 14vw, 200px) 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; margin-bottom: clamp(44px, 6vw, 80px); }
+    .sec-head .eyebrow { display: block; margin-bottom: 22px; }
+    .svc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 34px); }
+    .svc { border-top: 1px solid var(--ink); padding-top: 26px; }
+    .svc .n { font: italic 400 18px/1 var(--serif); color: var(--champ); }
+    .svc h3 { font-size: clamp(32px, 3vw, 46px); margin-top: 18px; }
+    .svc p { color: var(--muted); margin: 14px 0 0; font-size: 15px; }
+    .svc ul { list-style: none; margin: 22px 0 0; padding: 0; }
+    .svc li { padding: 13px 0; border-top: 1px solid var(--line); font-size: 15px; display: flex; gap: 12px; }
+    .svc li::before { content: ""; width: 6px; height: 6px; margin-top: 9px; border-radius: 50%; background: var(--champ); flex: none; }
+    .svc-photo { margin-top: clamp(50px, 6vw, 80px); display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 14px; }
+    .svc-photo figure { margin: 0; overflow: hidden; border-radius: 2px; }
+    .svc-photo img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 5; }
+    .svc-photo figure:first-child img { aspect-ratio: auto; height: 100%; }
+    @media (max-width: 900px) { .svc-grid { grid-template-columns: 1fr; } .svc-photo { grid-template-columns: 1fr 1fr; } .svc-photo figure:first-child { grid-column: 1 / -1; } .svc-photo figure:first-child img { aspect-ratio: 3 / 2; } }
+
+    /* approach */
+    .approach { padding: 0 0 clamp(110px, 14vw, 200px); }
+    .ap-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.4vw, 34px); }
+    .ap figure { margin: 0 0 24px; overflow: hidden; border-radius: 2px; aspect-ratio: 3 / 4; }
+    .ap figure img { width: 100%; height: 100%; object-fit: cover; }
+    .ap .eyebrow { display: block; }
+    .ap h3 { font-size: clamp(28px, 2.6vw, 40px); margin-top: 12px; }
+    .ap p { color: var(--muted); margin: 12px 0 0; font-size: 15px; }
+    @media (max-width: 900px) { .ap-grid { grid-template-columns: 1fr; gap: 50px; } }
+
+    /* values */
+    .values { padding: clamp(100px, 13vw, 180px) 0; background: var(--bg-2); }
+    .vrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 30px; align-items: baseline; padding: clamp(24px, 3vw, 40px) 0; border-top: 1px solid var(--line); }
+    .vrow:last-child { border-bottom: 1px solid var(--line); }
+    .vrow h3 { font-size: clamp(48px, 7vw, 120px); font-style: italic; }
+    .vrow p { color: var(--muted); max-width: 44ch; margin: 0; }
+    @media (max-width: 900px) { .vrow { grid-template-columns: 1fr; gap: 10px; } }
+
+    /* inquiry */
+    .inquire { padding: clamp(110px, 14vw, 200px) 0; }
+    .iq-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(30px, 5vw, 90px); align-items: start; }
+    .field { margin-top: 30px; }
+    .field:first-child { margin-top: 0; }
+    .field > .eyebrow { display: block; margin-bottom: 12px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .inp { width: 100%; height: 52px; background: none; border: 0; border-bottom: 1px solid rgba(21,18,15,.3); outline: none; font-size: 17px; border-radius: 0; transition: border-color .3s; }
+    .inp:focus { border-color: var(--champ); }
+    .inp::placeholder { color: #a39a8f; }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt span { display: inline-block; padding: 11px 18px; border: 1px solid rgba(21,18,15,.25); border-radius: 999px; font-size: 14px; cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
+    .opt:hover span { border-color: var(--ink); }
+    .opt input:checked + span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .opt input:focus-visible + span { outline: 1.5px solid var(--champ); outline-offset: 2px; }
+    .letter { position: sticky; top: 100px; background: #fffdf9; border: 1px solid var(--line); border-radius: 4px; padding: clamp(24px, 3vw, 40px); box-shadow: 0 40px 80px -50px rgba(21,18,15,.35); }
+    .letter .to { font-size: 12.5px; color: var(--muted); letter-spacing: .04em; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+    .letter .subj { font: italic 400 22px/1.25 var(--serif); margin: 18px 0 0; }
+    .letter .body { white-space: pre-wrap; font-size: 15px; line-height: 1.7; margin-top: 16px; color: #2f2a25; overflow-wrap: anywhere; }
+    .letter .acts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 26px; }
+    .letter .acts .btn { padding: 0 12px; }
+    .letter .acts .wide { grid-column: 1 / -1; }
+    .letter .note { margin: 12px 0 0; font-size: 13px; color: var(--muted); min-height: 1em; }
+    @media (max-width: 900px) { .iq-grid, .two { grid-template-columns: 1fr; } .letter { position: relative; top: 0; } }
+
+    /* closing */
+    .closing { position: relative; color: var(--bg); text-align: center; overflow: hidden; }
+    .closing .bg { position: absolute; inset: 0; }
+    .closing .bg img { width: 100%; height: 120%; object-fit: cover; filter: brightness(.42); }
+    .closing .inner { position: relative; padding: clamp(140px, 18vw, 260px) var(--pad); }
+    .closing h2 { font-size: clamp(42px, 6.2vw, 104px); max-width: 16ch; margin: 0 auto; }
+    .closing h2 em { color: #e3c999; }
+    .closing p { color: rgba(244,239,231,.75); max-width: 40ch; margin: 24px auto 34px; }
+    .closing .btn { border-color: var(--bg); color: var(--bg); }
+    .closing .btn::before { background: var(--bg); }
+    @media (hover: hover) { .closing .btn:hover { color: var(--ink); } }
+    footer { background: var(--dark); color: rgba(244,239,231,.6); }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px 24px; padding-top: 28px; padding-bottom: 32px; font-size: 13.5px; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+    footer a:hover { color: var(--bg); }
+
+    .cursor { position: fixed; left: 0; top: 0; z-index: 90; width: 8px; height: 8px; margin: -4px; border-radius: 50%; background: #fff; mix-blend-mode: difference; pointer-events: none; opacity: 0; transition: width .4s var(--ease), height .4s var(--ease), margin .4s var(--ease); }
+    .cursor.big { width: 54px; height: 54px; margin: -27px; }
+    @media not all and (hover: hover) and (pointer: fine) { .cursor { display: none; } }
+    .ribbon { display: block; padding: 7px 16px; background: #15120f; color: #f4efe7; font: 500 12px/1.3 var(--sans); text-align: center; }
+    .ribbon b { font-weight: 700; color: #d9b67c; } .ribbon u { text-decoration-color: #a5814c; text-underline-offset: 3px; }
+    @media (max-width: 560px) { .ribbon { font-size: 11px; padding: 6px 10px; } }
+  </style>
+  <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
+</head>
+<body>
+  <template id="lens-tpl">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <circle cx="50" cy="50" r="48" fill="#0d0c0b"/>
+      <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(244,239,231,.25)" stroke-width="1"/>
+      <text x="50" y="44" text-anchor="middle" font-family="Bodoni Moda, Didot, serif" font-size="30" font-style="italic" fill="#f4efe7">Q</text>
+      <circle cx="50" cy="66" r="12" fill="#1c1a18" stroke="#3a3632" stroke-width="2"/>
+      <circle cx="50" cy="66" r="6" fill="#2b2f3a"/><circle cx="47" cy="63" r="2" fill="#9fb3d4" opacity=".8"/>
+    </svg>
+  </template>
+
+  <div class="intro" aria-hidden="true">
+    <svg class="lens" viewBox="0 0 200 200" data-intro-iris>
+      <circle cx="100" cy="100" r="96" fill="none" stroke="rgba(244,239,231,.35)" stroke-width="1"/>
+      <g data-blades></g>
+    </svg>
+    <div class="word">QUILLMERE</div>
+  </div>
+
+  <header>
+  <a class="ribbon" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Concept site by <b>ElaSystems</b> · Quillmere is a fictional business · <u>Get one for your business →</u></a>
+    <div class="wrap">
+      <a class="mark" href="#top" aria-label="Quillmere Studio, back to top"><span data-lens></span><b>QUILLMERE</b></a>
+      <nav aria-label="Sections"><a href="#work">Work</a><a href="#services">Services</a><a href="#approach">Approach</a><a href="#inquire">Inquire</a></nav>
+      <div class="right"><a class="btn sm solid" href="#inquire">Get a quote</a></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow" data-in><b>Quillmere</b> · Wedding photography &amp; film</p>
+          <h1 style="margin-top:24px">
+            <span class="line"><span>Your day,</span></span>
+            <span class="line"><span class="i">in photo</span></span>
+            <span class="line"><span class="i">and film.</span></span>
+          </h1>
+          <p class="lede" data-in>A photographer and a filmmaker who plan together and shoot together, so the photos and the film tell the same story. Try the camera: it works.</p>
+          <div class="ctas" data-in>
+            <a class="btn solid" href="#inquire">Get a quote <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4"/></svg></a>
+            <a class="btn" href="#work">View the work</a>
+          </div>
+          <div class="meta" data-in><span><b>Photo + film</b>One crew, one plan</span><span><b>48 hours</b>Sneak peek, sample</span><span><b>Every tradition</b>Multi-day welcome</span></div>
+        </div>
+
+        <div class="cam" data-cam data-in>
+          <div class="vf" data-vf>
+            <img class="shot" data-a data-scene="city-dance" width="720" height="960" alt="Illustrated sample frame: a couple dancing on a city street at dusk">
+            <img class="shot" data-b data-scene="water-close" width="720" height="960" alt="" style="opacity:0">
+            <div class="bar t"></div><div class="bar b"></div>
+            <svg class="iris" data-iris viewBox="0 0 100 125" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><mask id="irisMask"><rect width="100" height="125" fill="#fff"/><polygon data-hole fill="#000"/></mask></defs><rect width="100" height="125" fill="#050505" mask="url(#irisMask)"/></svg>
+            <div class="flash" data-flash></div>
+            <div class="ui" aria-hidden="true">
+              <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
+              <span class="focus" data-focus></span>
+              <div class="top"><span data-mode-l>PHOTO</span><span class="rec"><i></i><span data-tc>00:00:00:00</span></span><span data-frame>01 / 15</span></div>
+            </div>
+          </div>
+          <div class="cam-bar">
+            <div class="modes" role="group" aria-label="Camera mode"><span class="pill" aria-hidden="true"></span><button type="button" aria-pressed="true" data-mode="photo">Photo</button><button type="button" aria-pressed="false" data-mode="film">Film</button></div>
+            <div style="position:relative;display:flex;align-items:center;gap:16px">
+              <span class="callout" data-callout>Tap to take the shot</span>
+              <button class="shutter" type="button" data-shutter aria-label="Take the shot"><i></i></button>
+            </div>
+          </div>
+          <div class="strip" data-strip aria-live="polite"><span class="empty" data-empty>Your gallery starts here.</span></div>
+          <p class="strip-note" data-strip-note>Every frame lands in your gallery, edited and ready to share.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATEMENT -->
+    <section class="statement">
+      <div class="wrap">
+        <p class="eyebrow">Our philosophy</p>
+        <p class="big" data-words>A wedding moves fast. <span class="hl-g">We plan every quiet detail ahead,</span> so on the day we can simply watch, wait and catch it as it happens.</p>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" id="work">
+      <div class="g-mhead"><p class="eyebrow" style="color:rgba(244,239,231,.55)">Portfolio</p><h2 style="margin-top:18px">A glimpse of <em>the stories.</em></h2></div>
+      <div class="g-pin">
+        <div class="g-rail" data-rail>
+          <div class="g-intro">
+            <p class="eyebrow">Portfolio</p>
+            <h2 style="margin-top:22px">A glimpse of <em>the stories.</em></h2>
+            <p>Sample frames, painted in code for this concept. A real studio’s best work goes here.</p>
+          </div>
+        </div>
+      </div>
+      <div class="g-progress" aria-hidden="true"><i data-gbar></i></div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="eyebrow">Complete wedding coverage</span><h2><span class="line"><span>Photo and film,</span></span><span class="line"><span><em>one studio.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Stills and motion from one crew with one plan, so nothing is shot twice and nothing is missed.</p>
+        </div>
+        <div class="svc-grid" data-svcs></div>
+        <div class="svc-photo">
+          <figure><img data-scene="city-towers" width="720" height="960" alt="Illustrated sample: a couple under city towers at night"></figure>
+          <figure><img data-scene="rings" width="720" height="960" alt="Illustrated sample: two gold rings over petals"></figure>
+          <figure><img data-scene="bangles" width="720" height="960" alt="Illustrated sample: stacked gold and red bangles"></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPROACH -->
+    <section class="approach" id="approach">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="eyebrow">Our approach</span><h2><span class="line"><span>Calm, prepared,</span></span><span class="line"><span><em>in the background.</em></span></span></h2></div>
+        </div>
+        <div class="ap-grid" data-ap></div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="values">
+      <div class="wrap" data-values></div>
+    </section>
+
+    <!-- INQUIRE -->
+    <section class="inquire" id="inquire">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="eyebrow">Get a quote</span><h2><span class="line"><span>Tell us about</span></span><span class="line"><span><em>your day.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Pick what you need and the note writes itself. On a real studio’s site, it lands straight in their inbox.</p>
+        </div>
+        <div class="iq-grid">
+          <form data-form onsubmit="return false">
+            <div class="field"><div class="two">
+              <label><span class="eyebrow" style="display:block;margin-bottom:6px">Your names</span><input class="inp" name="names" placeholder="e.g. Aisha &amp; Omar"></label>
+              <label><span class="eyebrow" style="display:block;margin-bottom:6px">Wedding date</span><input class="inp" name="date" placeholder="Month / year, or exact date"></label>
+            </div></div>
+            <div class="field"><span class="eyebrow">Coverage</span><div class="opts" data-cov></div></div>
+            <div class="field"><span class="eyebrow">Which events?</span><div class="opts" data-events></div></div>
+            <div class="field"><span class="eyebrow">Add-ons</span><div class="opts" data-adds></div></div>
+            <div class="field"><div class="two">
+              <label><span class="eyebrow" style="display:block;margin-bottom:6px">Venue or city</span><input class="inp" name="where" placeholder="Where is it?"></label>
+              <label><span class="eyebrow" style="display:block;margin-bottom:6px">Guest count</span><input class="inp" name="guests" placeholder="Roughly"></label>
+            </div></div>
+          </form>
+          <aside class="letter" aria-live="polite">
+            <div class="to"><span>To: Quillmere Studio</span><span>sample</span></div>
+            <p class="subj" data-subj></p>
+            <div class="body" data-body></div>
+            <div class="acts">
+              <a class="btn solid wide" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">Want this on your site? DM @ela.systems <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4"/></svg></a>
+              <button class="btn sm" type="button" data-copy>Copy</button>
+            </div>
+            <p class="note" data-note></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="closing">
+      <div class="bg"><img data-cbg data-scene="bw-portrait" width="720" height="960" alt=""></div>
+      <div class="inner">
+        <p class="eyebrow" style="color:rgba(244,239,231,.6)">Concept by ElaSystems</p>
+        <h2 style="margin-top:22px">Your studio deserves a site that <em>feels like your work.</em></h2>
+        <p>Quillmere is fictional. ElaSystems builds sites like this one for real photographers and filmmakers.</p>
+        <a class="btn" data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">DM @ela.systems</a>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap">
+      <span>Quillmere Studio is a fictional business. Concept site by ElaSystems; sample content only.</span>
+      <nav aria-label="Footer"><a data-studio-link href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener">ElaSystems on Instagram</a><a href="#top">Back to top</a></nav>
+    </div>
+  </footer>
+  <div class="cursor" data-cursor aria-hidden="true"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+  /* =============================================================
+     CONFIG: Quillmere Studio is fictional. Sample content only.
+     ============================================================= */
+  const CONFIG = {
+    name: 'Quillmere Studio',
+    studio: { url: 'https://www.instagram.com/ela.systems/' },
+    // painted sample frames, in the order the viewfinder and the rail use them
+    photos: [
+      { scene: 'city-dance', w: 720, h: 960, alt: 'A couple dancing on a city street at dusk', size: 't' },
+      { scene: 'water-close', w: 720, h: 960, alt: 'A couple close together by the water at golden hour', size: 'm' },
+      { scene: 'city-towers', w: 720, h: 960, alt: 'A couple under lit city towers at night', size: 's' },
+      { scene: 'stairs-red', w: 720, h: 960, alt: 'A bride in red with her groom on a marble staircase', size: 't' },
+      { scene: 'door-light', w: 720, h: 960, alt: 'A bride in pink in a bright doorway', size: 'm' },
+      { scene: 'mehndi', w: 720, h: 960, alt: 'An embrace under marigold garlands', size: 's' },
+      { scene: 'night-lift', w: 960, h: 640, alt: 'Friends lifting the groom under string lights', size: 'w' },
+      { scene: 'autumn', w: 720, h: 960, alt: 'A couple in autumn colour', size: 't' },
+      { scene: 'sunset-water', w: 720, h: 960, alt: 'A couple at sunset over the water', size: 'm' },
+      { scene: 'bw-portrait', w: 720, h: 960, alt: 'A black and white portrait, close together', size: 's' },
+      { scene: 'arch-frame', w: 720, h: 960, alt: 'A couple framed through a carved arch', size: 't' },
+      { scene: 'garden-red', w: 720, h: 960, alt: 'A bride in red with her groom in a garden', size: 'm' },
+      { scene: 'swing', w: 720, h: 960, alt: 'A couple by a floral garden swing', size: 's' },
+      { scene: 'rings', w: 720, h: 960, alt: 'Two gold rings over petals', size: 't' },
+      { scene: 'bangles', w: 720, h: 960, alt: 'Stacked gold and red bangles', size: 's' }
+    ],
+    services: [
+      { name: 'Photography', d: 'Portraits, candids and every detail in between, all in one consistent look. Sample package.', items: ['Full-day coverage', 'Couple and family portraits', 'Edited online gallery to share', 'Sneak peek within 48 hours'] },
+      { name: 'Film', d: 'A filmmaker beside the photographer all day, catching sound, motion and the speeches word for word. Sample package.', items: ['Feature film of the day', 'Three-minute highlight', 'Vertical teaser for social'] },
+      { name: 'Add-ons', d: 'Scale coverage to the size of the celebration. Sample list.', items: ['Second shooter', 'Drone where permitted', 'Live stream for family abroad', 'Multi-day events', 'Engagement session'] }
+    ],
+    approach: [
+      { k: 'Before', t: 'One shared plan', d: 'A call, a timeline and a shot list, so both cameras know where to be before anyone arrives.', scene: 'door-light' },
+      { k: 'On the day', t: 'Out of the way', d: 'Quiet, quick and unseen until the moment counts. Directions only when they help.', scene: 'night-lift' },
+      { k: 'After', t: 'One story, two ways', d: 'Photos and film edited side by side so the colour, pace and feeling match.', scene: 'sunset-water' }
+    ],
+    values: [
+      { t: 'Patience', d: 'The best frames happen between the planned ones. We wait for them.' },
+      { t: 'Craft', d: 'Light, timing and sound, handled carefully so nothing feels forced.' },
+      { t: 'Calm', d: 'A steady crew on a busy day, so you never have to think about us.' }
+    ],
+    coverage: ['Photo + film', 'Photography only', 'Film only'],
+    events: ['Engagement', 'Mehndi / sangeet', 'Ceremony / nikah', 'Reception', 'Multi-day wedding'],
+    adds: ['Second shooter', 'Drone', 'Live streaming', 'Teaser for social']
+  };
+  </script>
+  <script>
+  (() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const HAS_G = !!(window.gsap && window.ScrollTrigger);
+  const ANIM = HAS_G && !RM;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  if (HAS_G) gsap.registerPlugin(ScrollTrigger);
+  if (!HAS_G) { const i = $('.intro'); if (i) i.remove(); }
+
+  $$('[data-lens]').forEach(e => e.innerHTML = $('#lens-tpl').innerHTML);
+  $$('[data-studio-link]').forEach(a => a.href = CONFIG.studio.url);
+  $$('[data-year]').forEach(e => e.textContent = new Date().getFullYear());
+
+  /* =============================================================
+     SCENES: every "photograph" on this concept site is painted in
+     code at load time (gradients, bokeh, light and silhouettes),
+     so no real couple or real wedding appears anywhere.
+     ============================================================= */
+  const PAINT = (() => {
+    const cache = {};
+    let seed = 1; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+    const hexA = (h, a) => { const n = parseInt(h.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+    const noise = (() => { const c = document.createElement('canvas'); c.width = c.height = 128; const x = c.getContext('2d'), d = x.createImageData(128, 128); for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 26; } x.putImageData(d, 0, 0); return c; })();
+    const vgrad = (x, y0, y1, stops) => { const g = x.createLinearGradient(0, y0, 0, y1); stops.forEach((c, i) => g.addColorStop(i / (stops.length - 1), c)); return g; };
+    const glow = (x, cx, cy, r, c, a) => { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, hexA(c, a)); g.addColorStop(.4, hexA(c, a * .45)); g.addColorStop(1, hexA(c, 0)); x.fillStyle = g; x.fillRect(cx - r, cy - r, r * 2, r * 2); };
+    const bokeh = (x, W, H, n, cols, r0, r1, y0, y1, a, ring) => { for (let i = 0; i < n; i++) { const cx = rnd() * W, cy = (y0 + rnd() * (y1 - y0)) * H, r = (r0 + rnd() * (r1 - r0)) * W, c = cols[(rnd() * cols.length) | 0], aa = a * (.5 + rnd() * .5); const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, hexA(c, aa * (ring ? .55 : 1))); g.addColorStop(ring ? .82 : .6, hexA(c, aa * (ring ? .8 : .55))); g.addColorStop(1, hexA(c, 0)); x.fillStyle = g; x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); } };
+    // couple silhouette standing on `base`, height h. o: col, bride, lean, gap, veil, dip
+    const couple = (x, cx, base, h, o = {}) => {
+      const s = h; x.save(); x.translate(cx, base); x.rotate(o.lean || 0); x.fillStyle = o.col;
+      const gx = -s * .1;
+      x.beginPath(); x.arc(gx, -s * .9, s * .058, 0, 7); x.fill();
+      x.beginPath(); x.moveTo(gx - s * .1, -s * .79); x.quadraticCurveTo(gx, -s * .85, gx + s * .1, -s * .79); x.lineTo(gx + s * .085, -s * .46); x.lineTo(gx + s * .07, 0); x.lineTo(gx + s * .012, 0); x.lineTo(gx, -s * .4); x.lineTo(gx - s * .012, 0); x.lineTo(gx - s * .07, 0); x.lineTo(gx - s * .085, -s * .46); x.closePath(); x.fill();
+      const bx = s * (.08 + (o.gap || 0)); x.save(); if (o.dip) { x.translate(bx, -s * .02); x.rotate(o.dip); x.translate(-bx, s * .02); }
+      x.fillStyle = o.bride || o.col;
+      x.beginPath(); x.arc(bx - s * .012, -s * .862, s * .05, 0, 7); x.fill(); x.beginPath(); x.arc(bx + s * .03, -s * .885, s * .028, 0, 7); x.fill();
+      x.beginPath(); x.moveTo(bx - s * .055, -s * .78); x.quadraticCurveTo(bx, -s * .8, bx + s * .055, -s * .78); x.lineTo(bx + s * .04, -s * .56); x.quadraticCurveTo(bx + s * .12, -s * .3, bx + s * .25, 0); x.lineTo(bx - s * .16, 0); x.quadraticCurveTo(bx - s * .085, -s * .3, bx - s * .04, -s * .56); x.closePath(); x.fill();
+      if (o.veil) { x.fillStyle = o.veil; x.beginPath(); x.moveTo(bx + s * .035, -s * .905); x.quadraticCurveTo(bx + s * .24, -s * .6, bx + s * .36, -s * .01); x.lineTo(bx + s * .22, 0); x.quadraticCurveTo(bx + s * .13, -s * .5, bx + s * .02, -s * .83); x.closePath(); x.fill(); }
+      x.restore();
+      x.strokeStyle = o.col; x.lineCap = 'round'; x.lineWidth = s * .032; x.beginPath(); x.moveTo(gx + s * .075, -s * .74); x.quadraticCurveTo(bx - s * .03, -s * .64, bx + s * .02, -s * .6); x.stroke();
+      x.restore();
+    };
+    const person = (x, cx, base, h, col, arms) => { x.fillStyle = col; x.strokeStyle = col; x.lineCap = 'round'; x.beginPath(); x.arc(cx, base - h * .9, h * .06, 0, 7); x.fill(); x.beginPath(); x.moveTo(cx - h * .1, base - h * .79); x.lineTo(cx + h * .1, base - h * .79); x.lineTo(cx + h * .08, base); x.lineTo(cx - h * .08, base); x.closePath(); x.fill(); if (arms) { x.lineWidth = h * .035; x.beginPath(); x.moveTo(cx - h * .08, base - h * .76); x.lineTo(cx - h * .16, base - h * 1.08); x.moveTo(cx + h * .08, base - h * .76); x.lineTo(cx + h * .17, base - h * 1.05); x.stroke(); } };
+    const skyline = (x, W, base, cols, win) => { let px = -10; while (px < W) { const bw = W * (.06 + rnd() * .1), bh = W * (.25 + rnd() * .9); x.fillStyle = cols[(rnd() * cols.length) | 0]; x.fillRect(px, base - bh, bw, bh + 4); if (win) { x.fillStyle = win; for (let wy = base - bh + 10; wy < base - 8; wy += 14) for (let wx = px + 6; wx < px + bw - 6; wx += 11) if (rnd() < .42) x.fillRect(wx, wy, 4, 6); } px += bw + W * .006; } };
+    const finish = (x, W, H, o = {}) => {
+      if (o.leak) { const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, hexA(o.leak, .32)); g.addColorStop(.45, hexA(o.leak, 0)); x.fillStyle = g; x.fillRect(0, 0, W, H); }
+      const v = x.createRadialGradient(W / 2, H * .48, Math.min(W, H) * .3, W / 2, H / 2, Math.max(W, H) * .78); v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, `rgba(0,0,0,${o.vig ?? .5})`); x.fillStyle = v; x.fillRect(0, 0, W, H);
+      x.globalCompositeOperation = 'overlay'; x.fillStyle = x.createPattern(noise, 'repeat'); x.fillRect(0, 0, W, H); x.globalCompositeOperation = 'source-over';
+    };
+    const S = {
+      'city-dance'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#0b1430', '#23305e', '#c77b5a']); x.fillRect(0, 0, W, H); skyline(x, W, H * .78, ['#0a1024', '#111a36', '#0d1430'], 'rgba(255,214,150,.75)'); bokeh(x, W, H, 26, ['#ffd08a', '#ff9e6b', '#fff1cf'], .02, .07, .55, .95, .55); x.fillStyle = vgrad(x, H * .78, H, ['#1a1a2a', '#07070c']); x.fillRect(0, H * .78, W, H * .22); glow(x, W * .52, H * .62, W * .5, '#ffb978', .35); couple(x, W * .5, H * .93, H * .5, { col: '#050508', lean: -.08, dip: -.18 }); finish(x, W, H, { leak: '#ff8a5c' }); },
+      'water-close'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#8fa3c7', '#e9b7b0', '#f6d6b8']); x.fillRect(0, 0, W, H); glow(x, W * .7, H * .55, W * .6, '#fff2d6', .7); x.fillStyle = vgrad(x, H * .6, H, ['#c9a7b4', '#6e6a8c']); x.fillRect(0, H * .6, W, H * .4); for (let i = 0; i < 40; i++) { x.fillStyle = `rgba(255,240,220,${.1 + rnd() * .25})`; x.fillRect(W * (.5 + rnd() * .4), H * (.6 + rnd() * .38), W * (.04 + rnd() * .12), 2); } couple(x, W * .46, H * .97, H * .62, { col: '#1d1720', gap: -.03, veil: 'rgba(255,255,255,.35)' }); finish(x, W, H, { vig: .35, leak: '#ffd2b0' }); },
+      'city-towers'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#050816', '#0e1a3c', '#283a6e']); x.fillRect(0, 0, W, H); for (let i = 0; i < 70; i++) { x.fillStyle = `rgba(255,255,255,${rnd() * .7})`; x.fillRect(rnd() * W, rnd() * H * .4, 1.5, 1.5); } skyline(x, W, H * .86, ['#070b1c', '#0b1228', '#0f1730'], 'rgba(255,220,160,.9)'); bokeh(x, W, H, 18, ['#ffcf8a', '#9fc4ff'], .02, .05, .7, .95, .5); x.fillStyle = '#04050b'; x.fillRect(0, H * .86, W, H * .14); couple(x, W * .45, H * .96, H * .3, { col: '#000', veil: 'rgba(230,236,255,.35)' }); finish(x, W, H); },
+      'stairs-red'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#efe4d6', '#d9c7b2', '#b49d86']); x.fillRect(0, 0, W, H); for (let i = 0; i < 14; i++) { const y = H * (.42 + i * .045); x.fillStyle = `rgba(90,70,55,${.12 + i * .01})`; x.fillRect(0, y, W, 2); x.fillStyle = 'rgba(255,255,255,.25)'; x.fillRect(0, y + 3, W, 3); } x.fillStyle = 'rgba(120,95,75,.35)'; x.fillRect(W * .06, 0, W * .05, H); x.fillRect(W * .89, 0, W * .05, H); glow(x, W * .5, H * .2, W * .6, '#fff8ec', .8); couple(x, W * .5, H * .86, H * .56, { col: '#241a16', bride: '#8e1c22', veil: 'rgba(196,40,46,.45)' }); finish(x, W, H, { vig: .4 }); },
+      'door-light'(x, W, H) { x.fillStyle = '#2a1d22'; x.fillRect(0, 0, W, H); const dx = W * .24, dw = W * .52; x.fillStyle = vgrad(x, H * .1, H, ['#fff6ee', '#f7d9d6', '#e9b9bd']); x.fillRect(dx, H * .1, dw, H * .9); glow(x, W * .5, H * .4, W * .7, '#ffe8e0', .5); x.fillStyle = '#3b2a30'; x.fillRect(dx - W * .04, H * .08, W * .04, H); x.fillRect(dx + dw, H * .08, W * .04, H); x.fillRect(dx - W * .04, H * .06, dw + W * .08, H * .04); for (let i = 0; i < 24; i++) { x.fillStyle = ['#f7c6d0', '#ffffff', '#e89aae'][i % 3]; x.beginPath(); x.arc(dx + dw * (i / 23), H * .1 + Math.sin(i / 23 * Math.PI) * H * .06, W * .03, 0, 7); x.fill(); } x.save(); x.beginPath(); x.rect(dx, H * .1, dw, H); x.clip(); couple(x, W * .56, H * .98, H * .55, { col: 'rgba(0,0,0,0)', bride: '#c25a78', veil: 'rgba(255,190,205,.5)', gap: -.06 }); x.restore(); finish(x, W, H, { vig: .55 }); },
+      'mehndi'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#5a1630', '#b8434f', '#e9a04a']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 60, ['#ffcf4a', '#ff9a3c', '#ffe6a3', '#ff6b8a'], .015, .05, 0, 1, .7); for (let g = 0; g < 7; g++) { const gx = W * (g / 6); for (let k = 0; k < 18; k++) { x.fillStyle = k % 2 ? '#ffb02e' : '#ff7a1a'; x.beginPath(); x.arc(gx + Math.sin(k * .7) * 6, k * H * .03, W * .016, 0, 7); x.fill(); } } couple(x, W * .5, H * .97, H * .6, { col: '#2a0d15', bride: '#6e1a3a', gap: -.04, veil: 'rgba(255,214,120,.45)' }); finish(x, W, H, { leak: '#ffcf6a', vig: .45 }); },
+      'night-lift'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#07060c', '#1a1424', '#3b2433']); x.fillRect(0, 0, W, H); for (let s = 0; s < 4; s++) { const y0 = H * (.08 + s * .07); x.strokeStyle = 'rgba(40,30,30,.9)'; x.lineWidth = 1.5; x.beginPath(); for (let i = 0; i <= 40; i++) { const px = W * i / 40, py = y0 + Math.sin(i / 40 * Math.PI) * H * .12; i ? x.lineTo(px, py) : x.moveTo(px, py); } x.stroke(); for (let i = 1; i < 40; i += 2) { const px = W * i / 40, py = y0 + Math.sin(i / 40 * Math.PI) * H * .12 + 6; glow(x, px, py, W * .035, '#ffd38a', .8); x.fillStyle = '#fff3d0'; x.beginPath(); x.arc(px, py, 3, 0, 7); x.fill(); } } bokeh(x, W, H, 30, ['#ffc46b', '#ff7b9c', '#8fb4ff'], .01, .04, .35, .7, .5); for (let i = 0; i < 14; i++) person(x, W * (.04 + i * .07 + rnd() * .03), H * 1.02, H * (.42 + rnd() * .1), '#05040a', rnd() < .5); x.save(); x.translate(W * .5, H * .5); x.rotate(-.25); person(x, 0, H * .12, H * .36, '#05040a', true); x.restore(); for (let i = -2; i <= 2; i++) person(x, W * (.5 + i * .05), H * 1.02, H * .48, '#030208', true); finish(x, W, H, { leak: '#ff8f6b' }); },
+      'autumn'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#3b2410', '#8a4a1c', '#d9893a']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 70, ['#e2672a', '#f2a33a', '#b8371f', '#f7cf6a'], .02, .09, 0, .85, .75); glow(x, W * .7, H * .3, W * .6, '#ffe3a0', .45); x.fillStyle = vgrad(x, H * .8, H, ['#4a2a12', '#1e1208']); x.fillRect(0, H * .8, W, H * .2); for (let i = 0; i < 50; i++) { x.fillStyle = ['#e2672a', '#b8371f', '#f2a33a'][i % 3]; x.beginPath(); x.ellipse(rnd() * W, H * (.82 + rnd() * .16), 6, 3, rnd() * 3, 0, 7); x.fill(); } couple(x, W * .5, H * .9, H * .58, { col: '#1a0f08', veil: 'rgba(255,236,210,.35)' }); finish(x, W, H, { leak: '#ffb35c' }); },
+      'sunset-water'(x, W, H) { x.fillStyle = vgrad(x, 0, H * .62, ['#2b2350', '#9c4a77', '#f08a5d', '#ffd08a']); x.fillRect(0, 0, W, H * .62); glow(x, W * .5, H * .6, W * .4, '#fff0c0', 1); x.fillStyle = '#fff4d0'; x.beginPath(); x.arc(W * .5, H * .6, W * .07, 0, 7); x.fill(); x.fillStyle = vgrad(x, H * .62, H, ['#7d4060', '#2a1d3a']); x.fillRect(0, H * .62, W, H * .38); for (let i = 0; i < 46; i++) { const y = H * (.63 + rnd() * .35), w = W * (.03 + rnd() * .18) * (1 - (y / H - .6)); x.fillStyle = `rgba(255,214,150,${.2 + rnd() * .5})`; x.fillRect(W * .5 - w / 2 + (rnd() - .5) * 40, y, w, 2); } x.fillStyle = '#1a1020'; x.fillRect(0, H * .86, W, H * .14); couple(x, W * .3, H * .88, H * .34, { col: '#120a14', veil: 'rgba(255,220,200,.4)' }); finish(x, W, H, { vig: .45 }); },
+      'bw-portrait'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#d9d9d6', '#9a9a97', '#3c3c3a']); x.fillRect(0, 0, W, H); glow(x, W * .3, H * .25, W * .7, '#ffffff', .7); bokeh(x, W, H, 20, ['#ffffff', '#d0d0d0'], .03, .08, .05, .5, .35); couple(x, W * .5, H * .98, H * .66, { col: '#141414', gap: -.03, veil: 'rgba(255,255,255,.4)' }); finish(x, W, H, { vig: .55 }); },
+      'arch-frame'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#f7efe2', '#ecd9bf', '#d8b98f']); x.fillRect(0, 0, W, H); glow(x, W * .5, H * .45, W * .7, '#fffaf0', .9); couple(x, W * .5, H * .86, H * .45, { col: '#3a2a1c', veil: 'rgba(255,255,255,.55)' }); x.fillStyle = '#2b1d14'; x.beginPath(); x.rect(0, 0, W, H); x.moveTo(W * .2, H); x.lineTo(W * .2, H * .38); x.quadraticCurveTo(W * .2, H * .12, W * .5, H * .1); x.quadraticCurveTo(W * .8, H * .12, W * .8, H * .38); x.lineTo(W * .8, H); x.closePath(); x.fill('evenodd'); x.strokeStyle = 'rgba(200,160,110,.5)'; x.lineWidth = 3; for (let i = 0; i < 9; i++) { x.beginPath(); x.arc(W * .1, H * (.1 + i * .1), W * .05, 0, 7); x.stroke(); x.beginPath(); x.arc(W * .9, H * (.1 + i * .1), W * .05, 0, 7); x.stroke(); } finish(x, W, H, { vig: .4 }); },
+      'garden-red'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#1f3b22', '#4f7a3c', '#a7c47a']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 60, ['#cfe39a', '#7fae5a', '#fff6c8', '#f2b6c6'], .02, .08, 0, .8, .65); glow(x, W * .6, H * .2, W * .5, '#fffbe0', .5); x.fillStyle = vgrad(x, H * .82, H, ['#2c4a22', '#13230f']); x.fillRect(0, H * .82, W, H * .18); couple(x, W * .5, H * .93, H * .6, { col: '#14200f', bride: '#9e1f2a', gap: .02, veil: 'rgba(214,60,70,.4)' }); finish(x, W, H, { leak: '#fff1b0' }); },
+      'swing'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#f4e9e4', '#e7d0cc', '#bfd2b0']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 40, ['#ffffff', '#f6c9d3', '#cfe0b8'], .02, .06, 0, .5, .7); for (let i = 0; i < 38; i++) { const a = Math.PI * (i / 37), r = W * .42; x.fillStyle = ['#f7c6d0', '#ffffff', '#e89aae', '#bcd59a'][i % 4]; x.beginPath(); x.arc(W * .5 + Math.cos(a) * r * -1, H * .45 - Math.sin(a) * r * .9, W * .045, 0, 7); x.fill(); } x.strokeStyle = '#8a7a6a'; x.lineWidth = 3; x.beginPath(); x.moveTo(W * .35, H * .08); x.lineTo(W * .35, H * .68); x.moveTo(W * .65, H * .08); x.lineTo(W * .65, H * .68); x.stroke(); x.fillStyle = '#7a6656'; x.fillRect(W * .32, H * .68, W * .36, H * .025); couple(x, W * .5, H * .95, H * .42, { col: '#3c3a34', veil: 'rgba(255,255,255,.6)' }); finish(x, W, H, { vig: .35 }); },
+      'rings'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#1d1714', '#3a2c24', '#120e0c']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 30, ['#ffd99a', '#f6c3a8', '#fff2d8'], .03, .1, 0, 1, .5, true); for (let i = 0; i < 26; i++) { const a = rnd() * 6.28, r = W * (.08 + rnd() * .18); x.fillStyle = ['#f3d6d0', '#ffffff', '#e8b8b5'][i % 3]; x.beginPath(); x.arc(W * .5 + Math.cos(a) * r, H * .66 + Math.sin(a) * r * .7, W * (.05 + rnd() * .04), 0, 7); x.fill(); x.fillStyle = 'rgba(160,90,90,.25)'; x.beginPath(); x.arc(W * .5 + Math.cos(a) * r + 3, H * .66 + Math.sin(a) * r * .7 + 3, W * .02, 0, 7); x.fill(); } const ring = (cx, cy, r, t) => { const g = x.createLinearGradient(cx - r, cy - r, cx + r, cy + r); g.addColorStop(0, '#fff2c2'); g.addColorStop(.4, '#d9a441'); g.addColorStop(.7, '#8a5a17'); g.addColorStop(1, '#f7d98a'); x.strokeStyle = g; x.lineWidth = t; x.beginPath(); x.ellipse(cx, cy, r, r * .78, -.3, 0, 7); x.stroke(); }; ring(W * .44, H * .38, W * .14, W * .035); ring(W * .58, H * .42, W * .12, W * .028); glow(x, W * .5, H * .3, W * .08, '#ffffff', .9); finish(x, W, H, { vig: .55 }); },
+      'bangles'(x, W, H) { x.fillStyle = vgrad(x, 0, H, ['#3a0f14', '#7a1d24', '#2a0a0e']); x.fillRect(0, 0, W, H); bokeh(x, W, H, 40, ['#ffcf6a', '#ff9a5c', '#fff0c0'], .02, .06, 0, 1, .55); for (let i = 0; i < 9; i++) { const cy = H * (.3 + i * .055), g = x.createLinearGradient(0, cy - 30, 0, cy + 30); const gold = i % 3 !== 1; g.addColorStop(0, gold ? '#fff0b8' : '#ff5a6a'); g.addColorStop(.5, gold ? '#c8901f' : '#a0142a'); g.addColorStop(1, gold ? '#6e4a0e' : '#4a0610'); x.strokeStyle = g; x.lineWidth = W * .028; x.beginPath(); x.ellipse(W * .5, cy, W * .3, H * .045, 0, 0, 7); x.stroke(); for (let k = 0; k < 6; k++) glow(x, W * (.25 + rnd() * .5), cy + (rnd() - .5) * 10, W * .02, '#ffffff', .9); } finish(x, W, H, { vig: .6, leak: '#ffcf6a' }); }
+    };
+    return (k, w = 720, h = 960) => {
+      const key = `${k}|${w}|${h}`; if (cache[key]) return cache[key];
+      const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+      seed = [...k].reduce((a, ch) => a + ch.charCodeAt(0) * 7, 11);
+      try { S[k](x, w, h); } catch (e) { x.fillStyle = '#2a2622'; x.fillRect(0, 0, w, h); }
+      return (cache[key] = c.toDataURL('image/jpeg', .84));
+    };
+  })();
+
+  /* ---------------- content from CONFIG ---------------- */
+  const P = CONFIG.photos; P.forEach(p => p.src = PAINT(p.scene, p.w, p.h));
+  $$('img[data-scene]').forEach(i => i.src = PAINT(i.dataset.scene, +i.getAttribute('width'), +i.getAttribute('height')));
+  $('[data-rail]').insertAdjacentHTML('beforeend', P.map(p => `<figure class="g-item ${p.size}" style="margin:0"><img src="${esc(p.src)}" width="${p.w}" height="${p.h}" alt="${esc(p.alt)}" loading="lazy"></figure>`).join(''));
+  $('[data-svcs]').innerHTML = CONFIG.services.map((s, k) => `<article class="svc"><span class="n">0${k + 1}</span><h3>${esc(s.name)}</h3><p>${esc(s.d)}</p><ul>${s.items.map(i => `<li>${esc(i)}</li>`).join('')}</ul></article>`).join('');
+  $('[data-ap]').innerHTML = CONFIG.approach.map(a => `<div class="ap"><figure><img src="${PAINT(a.scene, 960, 640)}" width="960" height="640" alt=""></figure><span class="eyebrow"><b>${esc(a.k)}</b></span><h3>${esc(a.t)}</h3><p>${esc(a.d)}</p></div>`).join('');
+  $('[data-values]').innerHTML = `<p class="eyebrow" style="margin-bottom:34px">What we value</p>` + CONFIG.values.map(v => `<div class="vrow"><h3>${esc(v.t)}.</h3><p>${esc(v.d)}</p></div>`).join('');
+
+  /* ---------------- header + smooth scroll ---------------- */
+  const header = $('header');
+  const hs = () => header.classList.toggle('scrolled', scrollY > 30); hs(); addEventListener('scroll', hs, { passive: true });
+  let lenis = null;
+  if (ANIM && window.Lenis) { lenis = new Lenis({ duration: 1.3, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  const go = t => { const off = -(header.offsetHeight); if (lenis) lenis.scrollTo(t, { duration: 1.6, offset: t === 0 ? 0 : off }); else if (t === 0) scrollTo({ top: 0 }); else scrollTo({ top: t.getBoundingClientRect().top + scrollY + off, behavior: RM ? 'auto' : 'smooth' }); };
+  document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute('href'); if (id === '#') return; const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault(); go(t); });
+
+  /* =============================================================
+     SIGNATURE: the viewfinder. Photo mode takes a shot with a real
+     aperture iris; Film mode letterboxes and rolls with timecode.
+     ============================================================= */
+  const Cam = (() => {
+    const cam = $('[data-cam]'), vf = $('[data-vf]'), A = $('[data-a]'), B = $('[data-b]'), hole = $('[data-hole]'), flash = $('[data-flash]');
+    const strip = $('[data-strip]'), frameEl = $('[data-frame]'), tc = $('[data-tc]'), shutter = $('[data-shutter]'), focus = $('[data-focus]');
+    let idx = 0, shots = 0, mode = 'photo', busy = false, touched = false, front = A, back = B, filmT0 = 0, filmTimer = null, nudge = null;
+    // hexagonal aperture hole in a 100x125 box
+    const setIris = (r, rot = 0) => { const pts = []; for (let i = 0; i < 6; i++) { const a = rot + i * Math.PI / 3; pts.push((50 + Math.cos(a) * r).toFixed(2) + ',' + (62.5 + Math.sin(a) * r).toFixed(2)); } hole.setAttribute('points', pts.join(' ')); };
+    setIris(140);
+    const frame = () => { frameEl.textContent = String(idx + 1).padStart(2, '0') + ' / ' + String(P.length).padStart(2, '0'); };
+    frame();
+    const show = (n, how) => {
+      idx = (n + P.length) % P.length; back.src = P[idx].src; back.alt = P[idx].alt;
+      const nb = back; back = front; front = nb;
+      if (how === 'cut' || !ANIM) { front.style.opacity = 1; back.style.opacity = 0; }
+      else { gsap.to(front, { opacity: 1, duration: 1.1, ease: 'power2.inOut' }); gsap.to(back, { opacity: 0, duration: 1.1, ease: 'power2.inOut' }); gsap.fromTo(front, { scale: 1.04 }, { scale: 1.14, duration: 4.4, ease: 'none' }); }
+      frame();
+    };
+    const touch = () => { if (touched) return; touched = true; cam.classList.add('touched'); if (nudge) { nudge.kill(); gsap.set(shutter, { clearProps: 'transform' }); } };
+    const addThumb = (p) => {
+      const e = $('[data-empty]'); if (e) e.remove();
+      const t = document.createElement('div'); t.className = 'th'; t.innerHTML = `<img src="${esc(p.src)}" alt="">`;
+      strip.prepend(t); while (strip.children.length > 7) strip.lastElementChild.remove();
+      if (ANIM) { const vr = vf.getBoundingClientRect(), tr = t.getBoundingClientRect(); gsap.from(t, { x: vr.left + vr.width / 2 - tr.left - tr.width / 2, y: vr.top + vr.height / 2 - tr.top - tr.height / 2, scale: 4, rotation: -8, duration: .9, ease: 'expo.out' }); }
+      if (shots >= 5) $('[data-strip-note]').classList.add('on');
+    };
+    const shoot = () => {
+      touch();
+      if (mode === 'film') { setMode('photo'); return; }
+      if (busy) return; busy = true;
+      const p = P[idx]; shots++;
+      if (!ANIM) { addThumb(p); show(idx + 1, 'cut'); busy = false; return; }
+      focus.classList.add('lock');
+      const o = { r: 140, rot: 0 };
+      gsap.timeline({ onComplete: () => { busy = false; focus.classList.remove('lock'); } })
+        .fromTo(focus, { scale: 1.35 }, { scale: 1, duration: .22, ease: 'power3.out' })
+        .to(o, { r: 0, rot: .9, duration: .16, ease: 'power3.in', onUpdate: () => setIris(o.r, o.rot) }, .2)
+        .add(() => { addThumb(p); show(idx + 1, 'cut'); }, .36)
+        .fromTo(flash, { opacity: .7 }, { opacity: 0, duration: .5, ease: 'power2.out' }, .37)
+        .to(o, { r: 140, rot: 0, duration: .45, ease: 'expo.out', onUpdate: () => setIris(o.r, o.rot) }, .4);
+    };
+    const tick = () => { if (mode !== 'film') return; const t = (performance.now() - filmT0) / 1000; const f = Math.floor((t % 1) * 24); const s = Math.floor(t); tc.textContent = `00:${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}:${String(f).padStart(2, '0')}`; requestAnimationFrame(tick); };
+    const pill = $('.modes .pill'), mbtn = $$('[data-mode]');
+    const placePill = () => { const b = mbtn.find(x => x.dataset.mode === mode); pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft - 4}px)`; };
+    const setMode = m => {
+      touch(); mode = m; vf.classList.toggle('film', m === 'film'); shutter.classList.toggle('rec', m === 'film');
+      shutter.setAttribute('aria-label', m === 'film' ? 'Stop recording' : 'Take the shot');
+      $('[data-mode-l]').textContent = m === 'film' ? 'FILM' : 'PHOTO';
+      mbtn.forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m)); placePill();
+      clearInterval(filmTimer);
+      if (m === 'film') { filmT0 = performance.now(); tick(); if (!RM) filmTimer = setInterval(() => { if (!document.hidden) show(idx + 1, 'fade'); }, 3200); }
+    };
+    mbtn.forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+    shutter.addEventListener('click', shoot);
+    vf.addEventListener('click', () => { if (mode === 'photo') shoot(); });
+    addEventListener('resize', placePill); document.fonts && document.fonts.ready.then(placePill); placePill();
+    if (ANIM) {
+      const io = new IntersectionObserver(([e]) => { if (!e.isIntersecting || touched || nudge) return; nudge = gsap.timeline({ repeat: -1, repeatDelay: 2.2, delay: 3.4 }).to(shutter, { scale: 1.14, duration: .25, ease: 'power2.out' }).to(shutter, { scale: 1, duration: .6, ease: 'elastic.out(1,.4)' }); }, { threshold: .5 });
+      io.observe(cam);
+    }
+    return { shoot, setMode, state: () => ({ idx, shots, mode }) };
+  })();
+  window.__cam = Cam;
+  // warm the cache so a shot never cuts to a blank frame
+  addEventListener('load', () => P.forEach(p => { const i = new Image(); i.src = p.src; }));
+
+  /* =============================================================
+     INQUIRY: writes the note, sends by email or text
+     ============================================================= */
+  (() => {
+    const f = $('[data-form]'), note = $('[data-note]');
+    const opt = (n, t, v, c) => `<label class="opt"><input type="${t}" name="${n}" value="${esc(v)}"${c ? ' checked' : ''}><span>${esc(v)}</span></label>`;
+    $('[data-cov]').innerHTML = CONFIG.coverage.map((v, k) => opt('cov', 'radio', v, !k)).join('');
+    $('[data-events]').innerHTML = CONFIG.events.map(v => opt('ev', 'checkbox', v)).join('');
+    $('[data-adds]').innerHTML = CONFIG.adds.map(v => opt('add', 'checkbox', v)).join('');
+    const g = n => $$(`input[name="${n}"]:checked`, f).map(i => i.value);
+    const subject = () => `Wedding inquiry${f.date.value.trim() ? ' · ' + f.date.value.trim() : ''}`;
+    const body = () => {
+      const names = f.names.value.trim();
+      return [`Hi Quillmere,`, '', `We’d love to talk about coverage for our wedding.`, '',
+        `Names: ${names || '(your names)'}`, `Date: ${f.date.value.trim() || '(date)'}`, `Coverage: ${g('cov')[0]}`,
+        `Events: ${g('ev').join(', ') || 'Not sure yet'}`, ...(g('add').length ? [`Add-ons: ${g('add').join(', ')}`] : []),
+        `Venue / city: ${f.where.value.trim() || '(where)'}`, `Guests: ${f.guests.value.trim() || '(approx.)'}`, '', `Thank you!`].join('\n');
+    };
+    const render = () => {
+      $('[data-subj]').textContent = subject(); $('[data-body]').textContent = body();
+    };
+    f.addEventListener('input', render); f.addEventListener('change', render); render();
+    $('[data-copy]').addEventListener('click', async () => { let ok = false; try { await navigator.clipboard.writeText(subject() + '\n\n' + body()); ok = true; } catch (_) {} note.textContent = ok ? 'Copied. On a real site, this would go straight to the studio.' : body(); });
+  })();
+
+  /* =============================================================
+     MOTION
+     ============================================================= */
+  const big = $('[data-words]');
+  (function split(node, hl) { [...node.childNodes].forEach(n => { if (n.nodeType === 3) { const fr = document.createDocumentFragment(); n.textContent.split(/(\s+)/).forEach(t => { if (!t) return; if (/^\s+$/.test(t)) fr.appendChild(document.createTextNode(t)); else { const s = document.createElement('span'); s.className = 'w' + (hl ? ' hl' : ''); s.textContent = t; fr.appendChild(s); } }); n.replaceWith(fr); } else if (n.nodeType === 1) split(n, hl || n.classList.contains('hl-g')); }); })(big, false);
+
+  if (!ANIM) { const i = $('.intro'); if (i) i.remove(); $$('.w', big).forEach(w => w.style.opacity = 1); return; }
+
+  // intro: an aperture of six blades opens
+  (() => {
+    const g = $('[data-blades]'); let s = '';
+    for (let i = 0; i < 6; i++) s += `<path d="M100 100 L196 100 A96 96 0 0 0 148 16.9 Z" fill="#2b2723" stroke="rgba(244,239,231,.5)" stroke-width="1" transform="rotate(${i * 60} 100 100)" data-blade/>`;
+    g.innerHTML = s;
+  })();
+  gsap.set('.hero h1 .line > span', { yPercent: 110 });
+  gsap.set('[data-in]', { opacity: 0, y: 20 });
+  const tl = gsap.timeline();
+  tl.from('.intro .word', { opacity: 0, letterSpacing: '.6em', duration: 1.1, ease: 'expo.out' }, .1)
+    .to('[data-blade]', { rotation: '+=40', svgOrigin: '100 100', scale: .2, opacity: 0, transformOrigin: '100px 100px', duration: 1, ease: 'expo.inOut', stagger: .03 }, .5)
+    .to('.intro', { clipPath: 'circle(0% at 50% 50%)', duration: 1, ease: 'expo.inOut', onComplete: () => { const el = $('.intro'); if (el) el.remove(); } }, 1.25)
+    .to('.hero h1 .line > span', { yPercent: 0, duration: 1.3, ease: 'expo.out', stagger: .1 }, 1.7)
+    .to('[data-in]', { opacity: 1, y: 0, duration: 1.1, ease: 'expo.out', stagger: .08 }, 1.85)
+    .from('.vf', { clipPath: 'inset(50% 50% 50% 50%)', duration: 1.4, ease: 'expo.inOut' }, 1.7);
+  gsap.set('.intro', { clipPath: 'circle(75% at 50% 50%)' });
+  $('.intro').addEventListener('click', () => tl.progress(1));
+
+  $$('main .line > span').forEach(el => { if (el.closest('.hero')) return; gsap.from(el, { yPercent: 110, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: el.parentElement, start: 'top 92%' } }); });
+  gsap.to($$('.w', big), { opacity: 1, stagger: .05, ease: 'none', scrollTrigger: { trigger: big, start: 'top 80%', end: 'bottom 45%', scrub: true } });
+  const rise = (sel, trig, st = .1) => gsap.from(sel, { opacity: 0, y: 40, duration: 1.2, ease: 'expo.out', stagger: st, scrollTrigger: { trigger: trig, start: 'top 85%' } });
+  rise('.svc', '.svc-grid'); rise('.ap', '.ap-grid', .14); rise('.vrow', '[data-values]', .1); rise('.letter', '.iq-grid');
+  $$('.svc-photo figure, .ap figure').forEach(f => { gsap.from(f, { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.4, ease: 'expo.inOut', scrollTrigger: { trigger: f, start: 'top 88%' } }); gsap.from($('img', f), { scale: 1.3, duration: 2, ease: 'expo.out', scrollTrigger: { trigger: f, start: 'top 88%' } }); });
+  gsap.fromTo('[data-cbg]', { yPercent: -10 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.closing', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 901px)', () => {
+    const rail = $('[data-rail]'), items = $$('.g-item', rail);
+    const dist = () => Math.max(0, rail.scrollWidth - innerWidth);
+    const tw = gsap.to(rail, { x: () => -dist(), ease: 'none', scrollTrigger: { trigger: '.gallery', start: 'top top', end: () => '+=' + dist(), pin: '.g-pin', scrub: .8, invalidateOnRefresh: true, anticipatePin: 1, onUpdate: s => gsap.set('[data-gbar]', { scaleX: s.progress }) } });
+    items.forEach(it => {
+      gsap.fromTo($('img', it), { xPercent: -6 }, { xPercent: 6, ease: 'none', scrollTrigger: { trigger: it, containerAnimation: tw, start: 'left right', end: 'right left', scrub: true } });
+      gsap.from(it, { clipPath: 'inset(0% 0% 0% 100%)', duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: it, containerAnimation: tw, start: 'left 92%' } });
+    });
+    return () => gsap.set(rail, { clearProps: 'transform' });
+  });
+
+  if (FINE) {
+    const c = $('[data-cursor]'); const qx = gsap.quickTo(c, 'x', { duration: .2, ease: 'power3' }), qy = gsap.quickTo(c, 'y', { duration: .2, ease: 'power3' });
+    addEventListener('pointermove', e => { qx(e.clientX); qy(e.clientY); c.style.opacity = 1; }, { passive: true });
+    document.addEventListener('pointerover', e => c.classList.toggle('big', !!e.target.closest('a, button, .opt, [data-vf]')));
+  }
+  addEventListener('load', () => ScrollTrigger.refresh());
+  document.fonts && document.fonts.ready.then(() => ScrollTrigger.refresh());
+  })();
+  </script>
+<a class="studio" href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener" aria-label="Site by ElaSystems (opens in a new tab)"><i aria-hidden="true"></i><span>Site by <b>ElaSystems</b></span></a>
+<style>
+  .studio{position:fixed;right:16px;bottom:16px;z-index:50;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);color:#fff;font:500 12px/1 Inter,sans-serif;text-decoration:none;border:1px solid rgba(255,255,255,.14)}
+  .studio i{width:10px;height:10px;border-radius:3px;background:conic-gradient(from 210deg,#ff5a1f,#ffb03b,#ff5a1f)}
+  .eb-foot{position:static!important;display:flex!important;width:max-content;max-width:calc(100% - 32px);margin:18px auto 22px!important;transform:none!important;opacity:1!important}
+  .eb-hide{opacity:0!important;pointer-events:none!important;transform:translateY(8px)!important}
+  .eb-anim{transition:opacity .4s,transform .4s!important}
+</style>
+<script>
+(function () {
+  const place = () => {
+    const b = document.querySelector('.studio'), f = document.querySelector('footer');
+    if (!b || !f) return false;
+    if (matchMedia('(max-width: 760px)').matches) { f.appendChild(b); b.classList.add('eb-foot'); return true; }
+    b.classList.add('eb-anim');
+    const sync = () => b.classList.toggle('eb-hide', scrollY < innerHeight * .6 || scrollY + innerHeight > document.documentElement.scrollHeight - 140);
+    sync(); addEventListener('scroll', sync, { passive: true });
+    return true;
+  };
+  if (!place()) addEventListener('load', place);
+})();
+</script>
+</body>
+</html>

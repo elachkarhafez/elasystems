@@ -1,0 +1,2176 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+  <meta name="robots" content="noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vantage Detail Co. · Mobile Detailing &amp; Ceramic Coating</title>
+<meta name="description" content="Vantage Detail Co. brings the wash bay to your driveway. Mobile detailing and ceramic coating. Drag to wash the car.">
+<meta name="theme-color" content="#07080a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#07080a; --bg2:#0b0d11; --graphite:#12151a; --g2:#191d24; --g3:#232833;
+  --line:rgba(255,255,255,.08); --line2:rgba(255,255,255,.14);
+  --text:#eef2f6; --muted:#8f99a8; --dim:#5d6676;
+  --cyan:#2de2ff; --cyan2:#7beeff; --hot:#ff3b5c; --asphalt:#0f1b27;
+  --fd:'Unbounded',system-ui,sans-serif; --fb:'Inter',system-ui,sans-serif; --fm:'JetBrains Mono',ui-monospace,monospace;
+  --pad:clamp(16px,4.4vw,72px); --max:1320px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg);color:var(--text);-webkit-text-size-adjust:100%;scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--bg);font:400 16px/1.6 var(--fb);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body.is-loading{overflow:hidden}
+img,svg,canvas{display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:6px}
+::selection{background:var(--cyan);color:#001318}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip{position:fixed;left:12px;top:-60px;z-index:10001;background:var(--cyan);color:#001318;padding:10px 16px;border-radius:999px;font-weight:600}
+.skip:focus{top:12px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.mono{font-family:var(--fm);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.grain{position:fixed;inset:-50%;width:200%;height:200%;pointer-events:none;z-index:9990;opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+
+/* ---------- Buttons ---------- */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:.6em;min-height:50px;padding:0 24px;border-radius:999px;
+  font:600 14px/1 var(--fb);letter-spacing:.01em;border:1px solid var(--line2);background:rgba(255,255,255,.035);color:var(--text);
+  overflow:hidden;isolation:isolate;transition:transform .35s var(--ease),background .3s,border-color .3s,box-shadow .3s;white-space:nowrap}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);transition:transform .7s var(--ease);z-index:-1;mix-blend-mode:overlay}
+.btn:hover::after{transform:translateX(120%)}
+.btn:hover{border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
+.btn:active{transform:translateY(1px) scale(.98)}
+.btn-cyan{background:var(--cyan);color:#00161c;border-color:transparent;box-shadow:0 0 0 1px rgba(45,226,255,.35),0 12px 40px -12px rgba(45,226,255,.7)}
+.btn-cyan:hover{background:#5ae9ff;box-shadow:0 0 0 1px rgba(45,226,255,.6),0 16px 50px -10px rgba(45,226,255,.85)}
+.btn-ghost{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.btn-sm{min-height:40px;padding:0 16px;font-size:13px}
+.btn svg{width:16px;height:16px;flex:none}
+.btn .arr{transition:transform .35s var(--ease)}
+.btn:hover .arr{transform:translateX(3px)}
+
+/* ---------- Loader ---------- */
+.loader{position:fixed;inset:0;z-index:10000;display:grid;place-items:center;background:radial-gradient(60% 60% at 50% 45%,#0d1219 0%,#07080a 70%)}
+.loader-inner{display:grid;justify-items:center;gap:18px}
+.tach{width:min(260px,62vw);height:auto;overflow:visible}
+.tach .tick{stroke:rgba(255,255,255,.35);stroke-width:1.5}
+.tach .tick.major{stroke:rgba(255,255,255,.85);stroke-width:2.4}
+.tach .tick.red{stroke:var(--hot)}
+.tach text{font:500 13px var(--fm);fill:rgba(255,255,255,.7);text-anchor:middle;dominant-baseline:middle}
+.tach .needle{filter:drop-shadow(0 0 6px rgba(255,59,92,.9))}
+.loader-rpm{font:500 13px var(--fm);letter-spacing:.2em;color:var(--muted)}
+.loader-rpm b{color:var(--text);font-weight:500;display:inline-block;min-width:4.6ch;text-align:right}
+.loader-mark{font:700 14px var(--fd);letter-spacing:.42em;color:var(--text);padding-left:.42em}
+.flash{position:fixed;inset:0;background:#fff;z-index:10002;opacity:0;pointer-events:none}
+
+/* ---------- Cursor ---------- */
+.cur,.cur-dot,#streak,.beams{pointer-events:none;position:fixed;left:0;top:0;z-index:9995}
+.cur,.cur-dot{display:none}
+html.has-cursor .cur,html.has-cursor .cur-dot{display:block}
+html:not(.cur-live) .cur,html:not(.cur-live) .cur-dot{opacity:0}
+html.has-cursor,html.has-cursor a,html.has-cursor button,html.has-cursor canvas,html.has-cursor label{cursor:none}
+html.has-cursor input,html.has-cursor textarea,html.has-cursor select{cursor:auto}
+.cur-dot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:#fff;box-shadow:0 0 12px 2px rgba(45,226,255,.8)}
+.cur{width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;border:1px solid rgba(255,255,255,.45);display:grid;place-items:center;
+  transition:width .35s var(--ease),height .35s var(--ease),margin .35s var(--ease),background .3s,border-color .3s,opacity .3s}
+.cur span{font:500 9px var(--fm);letter-spacing:.18em;color:#fff;opacity:0;transition:opacity .25s}
+.cur.is-link{width:64px;height:64px;margin:-32px 0 0 -32px;background:rgba(45,226,255,.1);border-color:rgba(45,226,255,.7)}
+.cur.is-tool{background:rgba(255,255,255,.06);border:1.5px dashed rgba(255,255,255,.7)}
+.cur.is-tool span{opacity:1}
+.cur.is-hidden,.cur-dot.is-hidden{opacity:0}
+#streak{width:100vw;height:100vh;z-index:9994}
+.beams{width:1100px;height:760px;margin:-380px 0 0 -550px;z-index:3;opacity:0;transition:opacity .6s;mix-blend-mode:screen;will-change:transform;
+  background:
+   radial-gradient(170px 120px at calc(50% - 78px) 50%,rgba(220,246,255,.10),transparent 70%),
+   radial-gradient(170px 120px at calc(50% + 78px) 50%,rgba(220,246,255,.10),transparent 70%),
+   radial-gradient(520px 340px at 50% 52%,rgba(45,226,255,.07),transparent 70%)}
+html.beams-on .beams{opacity:1}
+
+/* ---------- Nav ---------- */
+.nav{position:fixed;inset:0 0 auto 0;z-index:900;display:flex;align-items:center;justify-content:space-between;gap:16px;height:76px;padding:0 var(--pad);
+  transition:background .4s,backdrop-filter .4s,height .4s,border-color .4s;border-bottom:1px solid transparent}
+.nav.is-scrolled{background:rgba(7,8,10,.62);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);height:64px;border-color:var(--line)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand svg{width:34px;height:24px}
+.brand-name{display:flex;flex-direction:column;line-height:1;font:700 15px var(--fd);letter-spacing:.24em}
+.brand-name small{font:500 9px var(--fm);letter-spacing:.36em;color:var(--muted);margin-top:5px}
+.nav ul{display:flex;gap:4px;list-style:none;margin:0;padding:4px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.02)}
+.nav li a{display:block;padding:9px 16px;border-radius:999px;font:500 13px var(--fb);color:var(--muted);transition:color .25s,background .25s}
+.nav li a:hover{color:var(--text);background:rgba(255,255,255,.06)}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:100svh;padding-top:104px;overflow:hidden;
+  background:radial-gradient(80% 60% at 50% 70%,#0e1621 0%,transparent 70%),radial-gradient(50% 40% at 85% 10%,rgba(45,226,255,.06),transparent 70%),var(--bg)}
+.hero-top{display:grid;grid-template-columns:1.5fr 1fr;align-items:end;gap:40px;position:relative;z-index:2}
+.eyebrow{display:flex;align-items:center;gap:10px;margin:0 0 18px;color:var(--muted)}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan);animation:blink 2.4s infinite}
+@keyframes blink{50%{opacity:.35}}
+.hero-title{position:relative;margin:0;font:800 clamp(40px,6.6vw,108px)/.9 var(--fd);letter-spacing:-.025em;text-transform:uppercase;height:1.84em}
+.ht{position:absolute;inset:0;display:block}
+.ht .ln{display:block;overflow:hidden;padding-bottom:.04em}
+.ht .ln>span{display:block}
+.ht em{font-style:normal;color:var(--cyan);text-shadow:0 0 30px rgba(45,226,255,.6)}
+.ht-b .ln>span{transform:translateY(110%)}
+.ht-b .ln:first-child>span{background:linear-gradient(100deg,#fff 0%,#bff6ff 40%,#fff 60%,#9aa8b8 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-side{padding-bottom:10px}
+.hero-sub{margin:0 0 22px;color:#b7c0cc;font-size:17px;max-width:42ch;min-height:3.2em}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+.stage{position:relative;height:clamp(340px,calc(100svh - 336px),640px);margin-top:6px;z-index:1}
+#washCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;outline:none}
+#washCanvas:focus-visible{box-shadow:inset 0 0 0 2px var(--cyan)}
+.stage-hint{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;border-radius:999px;
+  background:rgba(7,8,10,.55);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none;
+  font:500 12px var(--fm);letter-spacing:.14em;text-transform:uppercase;transition:opacity .5s,transform .5s var(--ease);opacity:0}
+.stage-hint.show{opacity:1}
+.stage-hint.gone{opacity:0;transform:translate(-50%,-30%)}
+.hint-ico{width:34px;height:34px;border-radius:50%;background:var(--cyan);display:grid;place-items:center;color:#00161c;animation:swipe 1.8s var(--ease) infinite}
+.hint-ico svg{width:18px;height:18px}
+@keyframes swipe{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}
+.stage-badge{position:absolute;left:50%;top:14%;transform:translate(-50%,10px) scale(.96);opacity:0;padding:8px 14px;border-radius:999px;border:1px solid rgba(45,226,255,.5);
+  background:rgba(45,226,255,.1);color:var(--cyan2);font:500 11px var(--fm);letter-spacing:.26em;pointer-events:none;transition:all .6s var(--ease);white-space:nowrap}
+.stage-badge.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.stage-ui{position:absolute;left:0;right:0;bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;z-index:2;pointer-events:none}
+.stage-ui>*{pointer-events:auto}
+.meter{width:min(340px,100%)}
+.meter-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;color:var(--muted)}
+.meter-num{font:600 26px var(--fd);color:var(--text);letter-spacing:-.02em}
+.meter-num small{font-size:14px;color:var(--muted);margin-left:2px}
+.meter-bar{position:relative;height:12px;border-radius:3px;overflow:hidden;
+  -webkit-mask:repeating-linear-gradient(90deg,#000 0 10px,transparent 10px 13px);mask:repeating-linear-gradient(90deg,#000 0 10px,transparent 10px 13px)}
+.meter-bar::before{content:"";position:absolute;inset:0;background:rgba(255,255,255,.1)}
+.meter-bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(var(--p,0));background:linear-gradient(90deg,#127c8f,var(--cyan) 70%,#e9fdff);transition:transform .25s linear}
+.meter.full .meter-bar i{animation:meterflash .9s 2}
+@keyframes meterflash{50%{filter:brightness(1.8)}}
+.swatches{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(7,8,10,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.swatches .mono{color:var(--muted);font-size:10px;margin:0 4px 0 6px}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid transparent;box-shadow:inset 0 -6px 10px rgba(0,0,0,.45),inset 0 4px 6px rgba(255,255,255,.35);transition:transform .3s var(--ease),border-color .3s}
+.sw[aria-checked="true"]{border-color:#fff;transform:scale(1.12)}
+.sw:hover{transform:scale(1.12)}
+.stage-actions{display:flex;gap:10px}
+
+/* ---------- Marquee ---------- */
+.marquee{position:relative;overflow:hidden;border-block:1px solid var(--line);padding:22px 0;background:linear-gradient(180deg,#0a0c10,#07080a)}
+.mq-track{display:flex;width:max-content;will-change:transform}
+.mq-item{display:flex;align-items:center;gap:36px;padding-right:36px;font:700 clamp(28px,4.4vw,64px)/1 var(--fd);text-transform:uppercase;letter-spacing:-.01em;white-space:nowrap}
+.mq-item .o{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.4)}
+.mq-item .s{width:12px;height:12px;border-radius:50%;background:var(--cyan);box-shadow:0 0 16px var(--cyan)}
+.mq-item .s.h{background:var(--hot);box-shadow:0 0 16px var(--hot)}
+
+/* ---------- Section commons ---------- */
+section{position:relative}
+.sec{padding:clamp(88px,12vw,168px) 0}
+.kicker{display:flex;align-items:center;gap:12px;color:var(--cyan);margin:0 0 22px}
+.kicker::before{content:"";width:28px;height:1px;background:currentColor}
+.h2{margin:0;font:700 clamp(34px,5.2vw,78px)/.98 var(--fd);letter-spacing:-.025em;text-transform:uppercase}
+.h2 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em;margin-bottom:-.06em}
+.h2 .w>span{display:inline-block}
+.h2 .c{color:var(--cyan)}
+.h2 .hot{color:var(--hot)}
+.lede{color:#b3bcc8;font-size:clamp(16px,1.35vw,19px);max-width:46ch;margin:24px 0 0}
+
+/* ---------- Why mobile ---------- */
+.why{background:radial-gradient(60% 50% at 80% 40%,rgba(45,226,255,.06),transparent 70%),var(--bg);overflow:hidden}
+.why-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.feats{display:grid;gap:2px;margin-top:44px;border-radius:20px;overflow:hidden;border:1px solid var(--line)}
+.feat{display:grid;grid-template-columns:48px 1fr;gap:18px;padding:22px 24px;background:rgba(255,255,255,.02);transition:background .3s}
+.feat:hover{background:rgba(255,255,255,.045)}
+.feat svg{width:44px;height:44px;stroke:var(--cyan);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{margin:0 0 4px;font:600 16px var(--fb)}
+.feat p{margin:0;color:var(--muted);font-size:15px}
+.radar-wrap{position:relative;width:100%;max-width:560px;margin:0 auto;aspect-ratio:1}
+.radar{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.radar .ring{fill:none;stroke:rgba(255,255,255,.09)}
+.radar .ring.o{stroke:rgba(45,226,255,.35)}
+.radar .ax{stroke:rgba(255,255,255,.06)}
+.radar .lbl{font:500 10.5px var(--fm);letter-spacing:.12em;fill:#c9d2dd;text-transform:uppercase}
+.radar .rlbl{font:500 9px var(--fm);letter-spacing:.14em;fill:var(--dim)}
+.radar .pt{fill:var(--cyan)}
+.radar .ping{fill:none;stroke:var(--cyan);transform-box:fill-box;transform-origin:center;animation:ping 6s linear infinite;opacity:0}
+@keyframes ping{0%{opacity:1;transform:scale(.4)}22%{opacity:0;transform:scale(3.4)}100%{opacity:0;transform:scale(3.4)}}
+.radar-beam{position:absolute;inset:5%;border-radius:50%;background:conic-gradient(from -70deg,transparent 0deg,rgba(45,226,255,.02) 10deg,rgba(45,226,255,.26) 70deg,transparent 70.4deg);animation:sweep 6s linear infinite}
+@keyframes sweep{to{transform:rotate(360deg)}}
+.radar-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;justify-items:center;gap:8px;text-align:center}
+.radar-center .you{width:16px;height:16px;border-radius:50%;background:var(--hot);box-shadow:0 0 0 6px rgba(255,59,92,.18),0 0 24px var(--hot);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 14px rgba(255,59,92,0),0 0 24px var(--hot)}}
+.radar-center span{font:500 10px var(--fm);letter-spacing:.2em;color:#fff;background:rgba(7,8,10,.7);padding:4px 8px;border-radius:6px}
+.area-meta{display:flex;flex-wrap:wrap;gap:10px 22px;justify-content:center;margin-top:18px;color:var(--muted)}
+.area-meta b{color:var(--text);font-weight:500}
+
+/* ---------- Ceramic ---------- */
+.ceramic{background:linear-gradient(180deg,var(--bg),#090c11 30%,#090c11 70%,var(--bg));overflow:hidden}
+.cer-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(36px,5vw,80px);align-items:center;margin-top:56px}
+.panel{position:relative;aspect-ratio:5/4;border-radius:26px;overflow:hidden;border:1px solid rgba(255,255,255,.1);
+  box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 0 1px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.12);background:#05070a}
+#cerCanvas{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y}
+.panel-lbl{position:absolute;display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.62);pointer-events:none;font-size:10.5px}
+.panel-lbl.tl{left:18px;top:16px}.panel-lbl.tr{right:18px;top:16px}.panel-lbl.bl{left:18px;bottom:16px}
+.panel-lbl .led{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);transition:background .3s,box-shadow .3s}
+.panel.off .panel-lbl .led{background:var(--hot);box-shadow:0 0 10px var(--hot)}
+.toggle{display:flex;align-items:center;gap:14px;margin-top:32px;padding:10px 10px 10px 18px;border:1px solid var(--line2);border-radius:999px;width:max-content;max-width:100%;background:rgba(255,255,255,.03)}
+.toggle .mono{color:var(--muted)}
+.switch{position:relative;width:64px;height:34px;border-radius:999px;background:var(--g3);border:1px solid var(--line2);transition:background .35s}
+.switch::after{content:"";position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.5);transition:transform .45s var(--ease)}
+.switch[aria-checked="true"]{background:var(--cyan)}
+.switch[aria-checked="true"]::after{transform:translateX(30px)}
+.toggle b{font:600 13px var(--fb);min-width:9ch}
+.readouts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.ro{padding:16px 18px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.ro .mono{color:var(--muted);font-size:10.5px}
+.ro b{display:block;font:600 30px/1.1 var(--fd);margin-top:6px;letter-spacing:-.02em}
+.ro b small{font-size:15px;color:var(--muted)}
+.cer-points{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.cer-points li{display:grid;grid-template-columns:32px 1fr;gap:12px;color:#b3bcc8;font-size:15px}
+.cer-points li span{font:500 11px var(--fm);color:var(--cyan);padding-top:4px}
+
+/* ---------- Process ---------- */
+.process{background:#0a0d12;overflow:hidden;border-block:1px solid var(--line)}
+.process::before{content:"";position:absolute;inset:0;opacity:.6;pointer-events:none;
+  background:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.15),transparent),radial-gradient(60% 80% at 10% 100%,rgba(45,226,255,.06),transparent 70%),radial-gradient(40% 60% at 100% 0%,rgba(255,59,92,.04),transparent 70%)}
+.proc-pin{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:110px 0 70px}
+.proc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;padding:0 var(--pad);margin-bottom:46px}
+.proc-prog{width:min(360px,40vw)}
+.proc-prog .mono{display:flex;justify-content:space-between;color:var(--muted);margin-bottom:10px}
+.proc-bar{position:relative;height:2px;background:rgba(255,255,255,.1)}
+.proc-bar i{position:absolute;inset:0;transform-origin:left;transform:scaleX(0);background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.proc-track{display:flex;gap:22px;padding:0 var(--pad);width:max-content;will-change:transform}
+.step{position:relative;width:clamp(330px,34vw,500px);min-height:min(56vh,480px);padding:34px 34px 30px;border-radius:24px;border:1px solid var(--line);
+  background:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.01));display:flex;flex-direction:column;overflow:hidden;transition:border-color .5s,background .5s}
+.step::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.25) 0 26px,transparent 26px 48px);opacity:.5}
+.step.is-active{border-color:rgba(45,226,255,.4);background:linear-gradient(160deg,rgba(45,226,255,.08),rgba(255,255,255,.01))}
+.step-num{font:800 clamp(80px,9vw,150px)/.8 var(--fd);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.22);transition:color .6s,-webkit-text-stroke-color .6s,text-shadow .6s}
+.step.is-active .step-num{color:var(--cyan);-webkit-text-stroke-color:var(--cyan);text-shadow:0 0 40px rgba(45,226,255,.35)}
+.step-ico{position:absolute;right:30px;top:32px;width:clamp(76px,7vw,104px);height:auto}
+.step-ico *{fill:none;stroke:#e9f6ff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.step-ico .acc{stroke:var(--cyan)}
+.draw{stroke-dasharray:1;stroke-dashoffset:0}
+.js-draw .draw{stroke-dashoffset:1}
+.step h3{margin:auto 0 10px;font:700 clamp(22px,2vw,30px)/1.05 var(--fd);text-transform:uppercase;letter-spacing:-.01em}
+.step p{margin:0;color:#aab3c0;font-size:15.5px;max-width:38ch}
+.step .tools{margin-top:18px;color:var(--dim);font-size:10.5px}
+.step.intro{background:none;border:0;justify-content:flex-end;width:clamp(300px,26vw,400px)}
+.step.intro::after{display:none}
+.step.intro p{font-size:17px}
+
+/* ---------- Packages ---------- */
+.packages{overflow:hidden;background:radial-gradient(50% 40% at 50% 55%,rgba(45,226,255,.08),transparent 70%),var(--bg)}
+.pk-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap}
+.sizes{position:relative;display:inline-grid;grid-template-columns:repeat(3,1fr);padding:5px;border-radius:999px;border:1px solid var(--line2);background:rgba(255,255,255,.03)}
+.sizes button{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;font:600 13px var(--fb);color:var(--muted);transition:color .35s;white-space:nowrap}
+.sizes button svg{width:30px;height:16px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linejoin:round}
+.sizes button[aria-pressed="true"]{color:#00161c}
+.sizes .pill{position:absolute;top:5px;bottom:5px;left:5px;border-radius:999px;background:var(--cyan);box-shadow:0 8px 30px -8px rgba(45,226,255,.8);transition:transform .5s var(--ease),width .5s var(--ease)}
+.pk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:54px;perspective:1400px}
+.pkg{--rx:0deg;--ry:0deg;--mx:50%;--my:30%;position:relative;padding:30px 28px 28px;border-radius:26px;border:1px solid rgba(255,255,255,.11);
+  background:linear-gradient(165deg,rgba(255,255,255,.075),rgba(255,255,255,.015) 45%,rgba(255,255,255,.03));
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transform:rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .6s var(--ease),border-color .4s,box-shadow .4s;
+  display:flex;flex-direction:column;overflow:hidden;isolation:isolate;box-shadow:0 30px 80px -40px rgba(0,0,0,.9)}
+.pkg.tilting{transition:transform .12s linear,border-color .4s,box-shadow .4s}
+.pkg::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(420px 300px at var(--mx) var(--my),rgba(255,255,255,.11),transparent 60%);opacity:0;transition:opacity .4s}
+.pkg::after{content:"";position:absolute;top:-50%;bottom:-50%;width:40%;left:-60%;z-index:2;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.16) 45%,rgba(255,255,255,.04) 55%,transparent);transform:rotate(12deg)}
+.pkg:hover{border-color:rgba(255,255,255,.24)}
+.pkg:hover::before{opacity:1}
+.pkg:hover::after{animation:sheen 1s var(--ease)}
+@keyframes sheen{to{left:130%}}
+.pkg.feat-card{border-color:rgba(45,226,255,.45);box-shadow:0 30px 90px -40px rgba(45,226,255,.45),inset 0 0 0 1px rgba(45,226,255,.12)}
+.pkg-blob{position:absolute;width:240px;height:240px;border-radius:50%;filter:blur(60px);opacity:.35;z-index:-2;right:-80px;top:-80px}
+.pkg-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+.pick{font:500 10px var(--fm);letter-spacing:.16em;color:#00161c;background:var(--cyan);padding:5px 9px;border-radius:999px}
+.pkg h3{margin:26px 0 8px;font:700 24px/1.1 var(--fd);text-transform:uppercase;letter-spacing:-.01em;transform:translateZ(30px)}
+.pkg .blurb{margin:0;color:#aeb7c4;font-size:15px;min-height:3.2em}
+.price{display:flex;align-items:flex-start;gap:4px;margin:26px 0 4px;transform:translateZ(40px)}
+.price .cur{font:600 22px var(--fd);margin-top:8px;color:var(--muted)}
+.price .num{font:700 64px/1 var(--fd);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.price .from{align-self:flex-end;margin:0 0 8px 8px;color:var(--muted)}
+.pkg .dur{color:var(--dim);margin:0 0 22px}
+.pkg ul{list-style:none;padding:20px 0 0;margin:0 0 28px;border-top:1px solid var(--line);display:grid;gap:11px}
+.pkg li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:14.5px;color:#d3dae3}
+.pkg li svg{width:18px;height:18px;margin-top:2px;stroke:var(--cyan);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pkg .btn{margin-top:auto;width:100%}
+.pk-note{margin-top:28px;color:var(--dim);text-align:center}
+
+/* ---------- FAQ ---------- */
+.faq-grid{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(40px,6vw,96px);align-items:start}
+.faq-side{position:sticky;top:120px}
+.qa{border-bottom:1px solid var(--line)}
+.qa:first-child{border-top:1px solid var(--line)}
+.qa button{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:26px 4px;text-align:left;font:600 clamp(16px,1.4vw,19px)/1.35 var(--fb);transition:color .3s}
+.qa button:hover{color:var(--cyan2)}
+.qa .pm{position:relative;width:34px;height:34px;flex:none;border-radius:50%;border:1px solid var(--line2);transition:transform .5s var(--ease),background .3s,border-color .3s}
+.qa .pm::before,.qa .pm::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;margin:-.75px 0 0 -6px;background:currentColor;transition:transform .5s var(--ease)}
+.qa .pm::after{transform:rotate(90deg)}
+.qa button[aria-expanded="true"] .pm{transform:rotate(180deg);background:var(--cyan);border-color:var(--cyan);color:#00161c}
+.qa button[aria-expanded="true"] .pm::after{transform:rotate(0)}
+.qa-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .55s var(--ease)}
+.qa-body>div{overflow:hidden}
+.qa-body p{margin:0;padding:0 60px 26px 4px;color:#aab3c0}
+.qa.open .qa-body{grid-template-rows:1fr}
+
+/* ---------- Booking ---------- */
+.book{overflow:hidden;background:radial-gradient(70% 60% at 20% 30%,rgba(45,226,255,.07),transparent 70%),radial-gradient(50% 50% at 90% 80%,rgba(255,59,92,.06),transparent 70%),#08090c;border-top:1px solid var(--line)}
+.book-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(32px,5vw,72px);align-items:start;margin-top:52px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.field{display:grid;gap:8px}
+.field.full{grid-column:1/-1}
+.field label{color:var(--muted);font-size:11px}
+.field input,.field select,.field textarea{width:100%;min-height:52px;padding:14px 16px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.035);
+  color:var(--text);font:500 15px var(--fb);transition:border-color .3s,background .3s;-webkit-appearance:none;appearance:none}
+.field select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1l5 5 5-5' fill='none' stroke='%232de2ff' stroke-width='1.6'/></svg>");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
+.field select option{background:#0d1015;color:var(--text)}
+.field textarea{min-height:96px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--cyan);background:rgba(45,226,255,.05)}
+.ticket{position:relative;border-radius:22px;padding:28px 26px;background:linear-gradient(170deg,#11161d,#0b0e13);border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 100px -40px rgba(0,0,0,.95)}
+.ticket::before,.ticket::after{content:"";position:absolute;top:118px;width:22px;height:22px;border-radius:50%;background:#08090c;border:1px solid rgba(255,255,255,.1)}
+.ticket::before{left:-12px}.ticket::after{right:-12px}
+.tk-head{display:flex;justify-content:space-between;align-items:center;color:var(--muted)}
+.tk-head b{color:var(--cyan);font-weight:500}
+.tk-title{font:700 22px/1.15 var(--fd);text-transform:uppercase;margin:18px 0 0;min-height:2.3em}
+.tk-cut{border:0;border-top:1px dashed rgba(255,255,255,.18);margin:22px -26px}
+.tk-rows{display:grid;gap:10px;margin:0}
+.tk-rows div{display:flex;justify-content:space-between;gap:16px;font-size:14px}
+.tk-rows dt{color:var(--muted);font:500 11px var(--fm);letter-spacing:.1em;text-transform:uppercase;padding-top:2px}
+.tk-rows dd{margin:0;text-align:right;color:var(--text)}
+.tk-est{display:flex;justify-content:space-between;align-items:flex-end;margin-top:6px}
+.tk-est b{font:700 40px/1 var(--fd);letter-spacing:-.03em}
+.tk-msg{margin:18px 0 0;padding:14px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid var(--line);font:400 12.5px/1.6 var(--fm);color:#b7c2cf;white-space:pre-wrap;word-break:break-word}
+.tk-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.tk-actions .btn{flex:1 1 auto}
+.toast{position:fixed;left:50%;bottom:28px;z-index:9997;transform:translate(-50%,24px);opacity:0;display:flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;
+  background:#e9fdff;color:#00161c;font:600 14px var(--fb);box-shadow:0 20px 60px -10px rgba(45,226,255,.6);transition:all .5s var(--ease);pointer-events:none;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast svg{width:18px;height:18px;flex:none}
+
+/* ---------- Footer ---------- */
+.foot{position:relative;padding:90px 0 40px;overflow:hidden;border-top:1px solid var(--line);background:#060709}
+.foot-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.foot-cols h4{margin:0 0 12px;color:var(--muted);font:500 11px var(--fm);letter-spacing:.14em;text-transform:uppercase}
+.foot-cols p,.foot-cols a{margin:0;color:#d5dce5;font-size:15px;line-height:1.7}
+.foot-cols a:hover{color:var(--cyan)}
+.wordmark{position:relative;margin:70px 0 24px;font:800 clamp(60px,15.6vw,236px)/.8 var(--fd);letter-spacing:-.045em;text-align:center;white-space:nowrap;
+  background:linear-gradient(180deg,#f3f6f9 0%,#9aa6b4 45%,#2a313b 52%,#56606d 70%,#cfd7df 100%);-webkit-background-clip:text;background-clip:text;color:transparent;user-select:none}
+.wordmark span{position:absolute;inset:0;background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.95) 50%,transparent 60%);background-size:250% 100%;background-position:150% 0;
+  -webkit-background-clip:text;background-clip:text;color:transparent;animation:wm 6s var(--ease) infinite}
+@keyframes wm{0%,40%{background-position:150% 0}80%,100%{background-position:-50% 0}}
+.foot-bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--dim);font-size:13px}
+.foot-bottom button{color:var(--muted);text-decoration:underline;text-underline-offset:3px}
+
+/* ---------- Studio badge ---------- */
+.studio{position:fixed;left:16px;bottom:16px;z-index:9996;display:inline-flex;align-items:center;gap:8px;padding:8px 13px 8px 10px;border-radius:999px;
+  background:rgba(10,12,16,.72);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  font:500 11.5px/1 var(--fb);color:#c6ced8;letter-spacing:.01em;box-shadow:0 10px 30px -10px rgba(0,0,0,.8)}
+.studio i{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 8px var(--cyan)}
+.studio b{color:#fff;font-weight:600}
+a.studio:hover{border-color:rgba(45,226,255,.5);color:#fff}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){
+  .nav ul{display:none}
+  .pk-grid{grid-template-columns:1fr;max-width:560px;margin-inline:auto}
+  .pkg .blurb{min-height:0}
+}
+@media (max-width:899px){
+  .hero{padding-top:88px;min-height:auto}
+  .hero-top{grid-template-columns:1fr;gap:16px}
+  .hero-title{font-size:clamp(34px,10.6vw,72px)}
+  .hero-sub{font-size:15.5px;margin-bottom:18px;min-height:0}
+  /* canvas gets its own box and the controls stack underneath instead of sitting on the car */
+  .stage{height:auto;margin-top:14px}
+  #washCanvas{position:relative;inset:auto;display:block;height:clamp(240px,66vw,420px)}
+  .stage-hint{top:calc(clamp(240px,66vw,420px) * .5)}
+  .stage-badge{top:10px}
+  .stage-ui{position:static;flex-wrap:wrap;padding:6px var(--pad) 26px;gap:14px}
+  .meter{width:100%}
+  .why-grid,.cer-grid,.faq-grid,.book-grid{grid-template-columns:1fr}
+  .faq-side{position:static}
+  .proc-pin{min-height:0;padding:90px 0 80px}
+  .proc-head{flex-direction:column;align-items:flex-start}
+  .proc-prog{display:none}
+  .proc-track{flex-direction:column;width:auto}
+  .step,.step.intro{width:100%;min-height:0}
+  .step{padding:26px 22px 24px}
+  .step h3{margin-top:22px}
+  .step-ico{width:72px;right:20px;top:22px}
+  .step.intro{display:none}
+  .foot-cols{grid-template-columns:1fr 1fr}
+  .radar-wrap{max-width:420px}
+}
+@media (max-width:560px){
+  .hero-ctas .btn{flex:1}
+  .swatches .mono{display:none}
+  .stage-actions{margin-left:auto}
+  .sizes{display:grid;width:100%}
+  .sizes button{padding:0 8px;font-size:12px;gap:6px}
+  .sizes button svg{display:none}
+  .form{grid-template-columns:1fr}
+  .readouts{grid-template-columns:1fr 1fr}
+  .ro b{font-size:24px}
+  .toggle{width:100%;justify-content:space-between}
+  .qa-body p{padding-right:8px}
+  .studio{left:10px;bottom:10px;padding:6px 10px 6px 8px;font-size:10.5px}
+  .toast{bottom:56px}
+  .foot{padding-bottom:70px}
+  .tk-actions .btn{flex:1 1 100%}
+  .ticket{padding:24px 18px}
+  .tk-cut{margin:22px -18px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+  .radar-beam{display:none}
+}
+</style>
+</head>
+<body class="is-loading">
+<a class="skip" href="#main">Skip to content</a>
+<div class="grain" aria-hidden="true"></div>
+
+<!-- Loader -->
+<div class="loader" id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <svg class="tach" id="tach" viewBox="0 0 240 240" aria-hidden="true">
+      <defs>
+        <linearGradient id="tg" x1="0" x2="1"><stop offset="0" stop-color="#127c8f"/><stop offset="1" stop-color="#2de2ff"/></linearGradient>
+      </defs>
+      <circle cx="120" cy="120" r="112" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+      <path id="tachArc" d="" fill="none" stroke="url(#tg)" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+      <path id="tachRed" d="" fill="none" stroke="#ff3b5c" stroke-width="4" stroke-linecap="round" opacity=".9"/>
+      <g id="tachTicks"></g>
+      <g class="needle" id="needle" transform="rotate(-135 120 120)">
+        <path d="M118.4 120 L120 34 L121.6 120 Z" fill="#ff3b5c"/>
+      </g>
+      <circle cx="120" cy="120" r="9" fill="#14181f" stroke="rgba(255,255,255,.35)"/>
+      <circle cx="120" cy="120" r="3" fill="#ff3b5c"/>
+      <text x="120" y="172" style="font-size:9px;letter-spacing:.2em;fill:rgba(255,255,255,.45)">×1000 RPM</text>
+    </svg>
+    <div class="loader-rpm"><b id="rpm">0</b> RPM</div>
+    <div class="loader-mark">VANTAGE</div>
+  </div>
+</div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<!-- Cursor -->
+<canvas id="streak" aria-hidden="true"></canvas>
+<div class="beams" aria-hidden="true"></div>
+<div class="cur" aria-hidden="true"><span></span></div>
+<div class="cur-dot" aria-hidden="true"></div>
+
+<script>addEventListener('pointermove', e => { if (e.pointerType === 'mouse') document.documentElement.classList.add('cur-live'); }, { passive: true });</script>
+<header class="nav" id="nav">
+  <a class="brand" href="#top" aria-label="Vantage Detail Co. home">
+    <svg viewBox="0 0 40 28" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#bdf6ff"/><stop offset="1" stop-color="#2de2ff"/></linearGradient></defs><path d="M1 2h9.5L20 19.5 29.5 2H39L23.5 26h-7z" fill="url(#lg)"/><path d="M6 6.5h33" stroke="#07080a" stroke-width="1.6"/></svg>
+    <span class="brand-name" data-cfg="shortNameUpper">VANTAGE<small>DETAIL CO.</small></span>
+  </a>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#top">Wash</a></li>
+      <li><a href="#mobile">We come to you</a></li>
+      <li><a href="#coating">Coating</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
+  <a class="btn btn-cyan btn-sm" href="#book">Book a slot <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+</header>
+
+<main id="main">
+  <!-- HERO / WASH -->
+  <section class="hero" id="top" aria-labelledby="heroTitle">
+    <div class="hero-top wrap">
+      <div>
+        <p class="eyebrow mono"><span class="dot"></span><span id="heroEyebrow">Mobile detailing · Ceramic coating</span></p>
+        <h1 class="hero-title" id="heroTitle">
+          <span class="sr-only" id="heroSr">Go on. Wash it.</span>
+          <span class="ht ht-a" aria-hidden="true"><span class="ln"><span>Go on.</span></span><span class="ln"><span>Wash it<em>.</em></span></span></span>
+          <span class="ht ht-b" aria-hidden="true"><span class="ln"><span>Okay,</span></span><span class="ln"><span>show-off<em>.</em></span></span></span>
+        </h1>
+      </div>
+      <div class="hero-side">
+        <p class="hero-sub" id="heroSub" aria-live="polite">Drag across the car. We do this for real, on your driveway, with better soap and fewer fingerprints.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-cyan" href="#book">Book the real thing <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          <a class="btn btn-ghost" href="#packages">See packages</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage" id="wash">
+      <canvas id="washCanvas" tabindex="0" role="img" aria-label="A glossy sports car covered in mud. Drag across it with your mouse or finger to wash it clean. Press Enter to wash it instantly." aria-describedby="washHelp"></canvas>
+      <p class="sr-only" id="washHelp">Interactive wash. Keyboard: press Enter or Space while focused to wash the car.</p>
+      <div class="stage-hint" id="hint" aria-hidden="true"><span class="hint-ico"><svg viewBox="0 0 20 20"><path d="M3 10h14M6 6l-4 4 4 4M14 6l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Drag to wash</div>
+      <div class="stage-badge" id="badge" aria-hidden="true">SHOWROOM READY</div>
+      <div class="stage-ui wrap">
+        <div class="meter" id="meter" role="progressbar" aria-label="How clean the car is" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="meter-top"><span class="mono">Clean-o-meter</span><span class="meter-num"><span id="pct">0</span><small>%</small></span></div>
+          <div class="meter-bar"><i id="meterFill"></i></div>
+        </div>
+        <div class="swatches" role="radiogroup" aria-label="Paint colour">
+          <span class="mono">Paint</span>
+        </div>
+        <div class="stage-actions">
+          <button class="btn btn-ghost btn-sm" id="washReset" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.7-4M2.5 2.5v3h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Reset</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="mq-track" id="mq"></div></div>
+
+  <!-- WHY MOBILE -->
+  <section class="why sec hl" id="mobile" aria-labelledby="whyTitle">
+    <div class="wrap why-grid">
+      <div>
+        <p class="kicker mono">01 — Mobile</p>
+        <h2 class="h2" id="whyTitle" data-split>We come <span class="c">to you.</span></h2>
+        <p class="lede" data-reveal>Driveway, office lot, the curb outside your gym. Tell us where the car is. The van turns up with its own water, its own power and a frankly unreasonable amount of microfibre.</p>
+        <div class="feats" data-reveal>
+          <div class="feat">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="16"/><path d="M22 12v10l7 4"/></svg>
+            <div><h3>Your spot, your schedule</h3><p>Pick a window and carry on with your day. We text when we're rolling up.</p></div>
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><path d="M4 28V14h22v14M26 18h7l5 6v4h-12"/><circle cx="12" cy="30" r="3.5"/><circle cx="31" cy="30" r="3.5"/><path d="M10 18c0 2 1.5 3 3 3s3-1 3-3-3-5-3-5-3 3-3 5z"/></svg>
+            <div><h3>Self-contained van</h3><p>Water tank, generator, the good soap. Keep your hose coiled.</p></div>
+          </div>
+          <div class="feat">
+            <svg viewBox="0 0 44 44" aria-hidden="true"><rect x="7" y="9" width="30" height="28" rx="4"/><path d="M7 17h30M15 5v7M29 5v7"/><path d="M15 25h4M25 25h4M15 31h4"/></svg>
+            <div><h3>Hours</h3><p id="hoursText">Mon–Sat · 7am–7pm</p></div>
+          </div>
+        </div>
+      </div>
+      <div data-reveal>
+        <div class="radar-wrap" role="img" id="radarWrap" aria-label="Service area map">
+          <div class="radar-beam" aria-hidden="true"></div>
+          <svg class="radar" id="radar" viewBox="0 0 400 400" aria-hidden="true"></svg>
+          <div class="radar-center" aria-hidden="true"><div class="you"></div><span>YOU</span></div>
+        </div>
+        <p class="area-meta mono" id="areaMeta"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERAMIC -->
+  <section class="ceramic sec hl" id="coating" aria-labelledby="cerTitle">
+    <div class="wrap">
+      <p class="kicker mono">02 — Ceramic coating</p>
+      <h2 class="h2" id="cerTitle" data-split>Water hates it. <span class="c">That's the point.</span></h2>
+      <div class="cer-grid">
+        <div class="panel" id="panel" data-reveal>
+          <canvas id="cerCanvas" role="img" aria-label="A glossy black paint panel in the rain. With coating on, water beads into round droplets and rolls off. Move your cursor over it to blow the droplets around."></canvas>
+          <span class="panel-lbl tl mono"><span class="led"></span><span id="panelState">Coated panel</span></span>
+          <span class="panel-lbl tr mono">Live sim</span>
+          <span class="panel-lbl bl mono" id="panelHint">Hover = air blower</span>
+        </div>
+        <div data-reveal>
+          <p class="lede" style="margin-top:0">A ceramic coating is a liquid layer that bonds to your clear coat and cures into a hard, slick shell. Water can't get a grip on it, so it pulls into tight beads and rolls away, taking loose dirt with it.</p>
+          <div class="toggle">
+            <span class="mono">Coating</span>
+            <button class="switch" id="coatSwitch" role="switch" aria-checked="true" aria-label="Ceramic coating on the demo panel"></button>
+            <b id="coatLabel">On</b>
+          </div>
+          <div class="readouts">
+            <div class="ro"><span class="mono">Beads on panel</span><b id="roBeads">0</b></div>
+            <div class="ro"><span class="mono">Surface wet</span><b><span id="roWet">0</span><small>%</small></b></div>
+          </div>
+          <ul class="cer-points">
+            <li><span>01</span>Slick paint stays cleaner between washes.</li>
+            <li><span>02</span>Deeper, wetter-looking gloss. The good kind of wet.</li>
+            <li><span>03</span>Washing takes half the elbow grease. Bugs and grime let go.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process hl" id="process" aria-labelledby="procTitle">
+    <div class="proc-pin" id="procPin">
+      <div class="proc-head">
+        <div>
+          <p class="kicker mono">03 — Process</p>
+          <h2 class="h2" id="procTitle" data-split>Six steps. <span class="c">No shortcuts.</span></h2>
+        </div>
+        <div class="proc-prog" aria-hidden="true">
+          <div class="mono"><span>Pre-rinse</span><span id="procCount">01 / 06</span><span>Protect</span></div>
+          <div class="proc-bar"><i id="procBar"></i></div>
+        </div>
+      </div>
+      <div class="proc-track" id="procTrack">
+        <div class="step intro"><p class="lede">Every car gets the same order of operations. Skip one and you're just moving dirt around with style.</p><p class="mono" style="color:var(--dim);margin-top:18px">Scroll →</p></div>
+        <article class="step">
+          <div class="step-num">01</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><path class="draw" pathLength="1" d="M6 44l18-12 4 6-18 12z"/><path class="draw" pathLength="1" d="M26 33l16-10"/><path class="draw acc" pathLength="1" d="M45 20l7-5M47 24l9-2M46 28l8 3"/><path class="draw acc" pathLength="1" d="M54 42c0 2.2-1.6 3.6-3.5 3.6S47 44.2 47 42s3.5-6 3.5-6 3.5 3.8 3.5 6z"/></svg>
+          <h3>Pre-rinse</h3>
+          <p>Loose grit comes off first. Scrubbing grit into paint is how swirl marks are born.</p>
+          <p class="tools mono">Pressure washer · wide fan tip</p>
+        </article>
+        <article class="step">
+          <div class="step-num">02</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><circle class="draw" pathLength="1" cx="24" cy="38" r="12"/><circle class="draw acc" pathLength="1" cx="42" cy="28" r="9"/><circle class="draw" pathLength="1" cx="44" cy="46" r="7"/><circle class="draw acc" pathLength="1" cx="28" cy="18" r="5"/><circle class="draw" pathLength="1" cx="14" cy="22" r="3"/><path class="draw" pathLength="1" d="M18 34a6 6 0 0 1 6-6"/></svg>
+          <h3>Foam bath</h3>
+          <p>Thick snow foam sits and softens the grime, so it slides off instead of scratching on the way out.</p>
+          <p class="tools mono">pH-neutral foam · foam cannon</p>
+        </article>
+        <article class="step">
+          <div class="step-num">03</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><path class="draw" pathLength="1" d="M14 26h36l-5 30H19z"/><path class="draw" pathLength="1" d="M17 26c0-12 30-12 30 0"/><path class="draw acc" pathLength="1" d="M17 34c5 2.5 9 2.5 15 0s10-2.5 15 0"/><path class="draw" pathLength="1" d="M26 44h12"/></svg>
+          <h3>Hand wash</h3>
+          <p>Two buckets, grit guards, clean mitts. Top down, straight lines, never circles.</p>
+          <p class="tools mono">Two-bucket method · plush mitts</p>
+        </article>
+        <article class="step">
+          <div class="step-num">04</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><path class="draw" pathLength="1" d="M12 32h28a7 7 0 0 1 0 14H12a7 7 0 0 1 0-14z"/><path class="draw acc" pathLength="1" d="M46 12v10M41 17h10"/><path class="draw acc" pathLength="1" d="M54 30v6M51 33h6"/><path class="draw" pathLength="1" d="M28 14v6M25 17h6"/><path class="draw" pathLength="1" d="M16 39h20"/></svg>
+          <h3>Decon</h3>
+          <p>Iron remover and clay pull out what a wash can't. That sandpaper feel on the paint? Gone.</p>
+          <p class="tools mono">Iron fallout remover · clay</p>
+        </article>
+        <article class="step">
+          <div class="step-num">05</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><circle class="draw" pathLength="1" cx="32" cy="42" r="16"/><circle class="draw acc" pathLength="1" cx="32" cy="42" r="6"/><path class="draw" pathLength="1" d="M32 26V10M22 10h20"/><path class="draw acc" pathLength="1" d="M20 42a12 12 0 0 1 12-12"/></svg>
+          <h3>Polish</h3>
+          <p>A machine polish lifts light swirls and haze. This is the step where the gloss comes back.</p>
+          <p class="tools mono">Dual-action polisher · finishing pads</p>
+        </article>
+        <article class="step">
+          <div class="step-num">06</div>
+          <svg class="step-ico" viewBox="0 0 64 64" aria-hidden="true"><path class="draw" pathLength="1" d="M32 6l21 7v16c0 14-9 23-21 28C20 52 11 43 11 29V13z"/><path class="draw acc" pathLength="1" d="M32 20c5 6 8 10 8 14a8 8 0 0 1-16 0c0-4 3-8 8-14z"/></svg>
+          <h3>Protect</h3>
+          <p>Sealant or ceramic coating locks the finish in. Water beads, dirt lets go, you smile at reflections.</p>
+          <p class="tools mono">Sealant · ceramic coating</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PACKAGES -->
+  <section class="packages sec" id="packages" aria-labelledby="pkTitle">
+    <div class="wrap">
+      <div class="pk-head">
+        <div>
+          <p class="kicker mono">04 — Packages</p>
+          <h2 class="h2" id="pkTitle" data-split>Pick your <span class="c">level of shiny.</span></h2>
+        </div>
+        <div class="sizes" id="sizes" role="group" aria-label="Vehicle size"><span class="pill" aria-hidden="true"></span></div>
+      </div>
+      <div class="pk-grid" id="pkGrid"></div>
+      <p class="pk-note mono">Sample prices for this concept. Real quotes depend on size and condition.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq sec hl" id="faq" aria-labelledby="faqTitle">
+    <div class="wrap faq-grid">
+      <div class="faq-side">
+        <p class="kicker mono">05 — FAQ</p>
+        <h2 class="h2" id="faqTitle" data-split>Fair <span class="c">questions.</span></h2>
+        <p class="lede" data-reveal>Still wondering? Text us. A human answers, usually between coats of wax.</p>
+      </div>
+      <div class="qas" id="qas"></div>
+    </div>
+  </section>
+
+  <!-- BOOK -->
+  <section class="book sec hl" id="book" aria-labelledby="bookTitle">
+    <div class="wrap">
+      <p class="kicker mono">06 — Book</p>
+      <h2 class="h2" id="bookTitle" data-split>Book <span class="c">a shine.</span></h2>
+      <p class="lede" data-reveal>Fill this in and we'll write the message for you. Copy it, or send it straight from your phone.</p>
+      <div class="book-grid">
+        <form class="form" id="bookForm" data-reveal novalidate>
+          <div class="field"><label class="mono" for="fPkg">Package</label><select id="fPkg"></select></div>
+          <div class="field"><label class="mono" for="fSize">Vehicle</label><select id="fSize"></select></div>
+          <div class="field"><label class="mono" for="fArea">Area</label><select id="fArea"></select></div>
+          <div class="field"><label class="mono" for="fDay">Preferred day</label><select id="fDay"><option>Any day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option></select></div>
+          <div class="field"><label class="mono" for="fTime">Time window</label><select id="fTime"><option>Morning</option><option>Midday</option><option>Afternoon</option></select></div>
+          <div class="field"><label class="mono" for="fName">Your name</label><input id="fName" autocomplete="given-name" placeholder="First name"></div>
+          <div class="field full"><label class="mono" for="fCar">The car</label><input id="fCar" placeholder="e.g. grey hatchback, lives outside, dog hair on everything"></div>
+          <div class="field full"><label class="mono" for="fNotes">Anything else</label><textarea id="fNotes" placeholder="Gate codes, parking notes, your nemesis: tree sap"></textarea></div>
+        </form>
+        <aside class="ticket" data-reveal aria-label="Your booking request">
+          <div class="tk-head mono"><span>Work order</span><b id="tkNo">#VD-0000</b></div>
+          <p class="tk-title" id="tkTitle">Full Detail</p>
+          <hr class="tk-cut">
+          <dl class="tk-rows">
+            <div><dt>Vehicle</dt><dd id="tkSize">—</dd></div>
+            <div><dt>Where</dt><dd id="tkArea">—</dd></div>
+            <div><dt>When</dt><dd id="tkWhen">—</dd></div>
+          </dl>
+          <div class="tk-est"><span class="mono" style="color:var(--muted)">Sample est. from</span><b id="tkPrice">$0</b></div>
+          <p class="tk-msg" id="tkMsg" aria-live="polite"></p>
+          <div class="tk-actions">
+            <button class="btn btn-cyan" id="copyBtn" type="button"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Copy request</button>
+            <a class="btn btn-ghost" id="smsBtn" href="#">Text it</a>
+            <a class="btn btn-ghost" id="telBtn" href="#">Call</a>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot hl" id="foot">
+  <div class="wrap">
+    <div class="foot-cols">
+      <div><h4>Call / text</h4><a id="ftPhone" href="#">—</a></div>
+      <div><h4>Instagram</h4><p id="ftIg">—</p></div>
+      <div><h4>Hours</h4><p id="ftHours">—</p></div>
+      <div><h4>Based in</h4><p id="ftBase">—</p></div>
+    </div>
+    <div class="wordmark" aria-hidden="true"><span>VANTAGE</span>VANTAGE</div>
+    <div class="foot-bottom">
+      <p style="margin:0" id="ftLegal">Vantage Detail Co. is a fictional business. Concept site; sample prices only.</p>
+      <button type="button" id="toTop">Back to top ↑</button>
+    </div>
+  </div>
+</footer>
+
+<div id="studioBadge"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"><svg viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="8" fill="#00161c"/><path d="M5 9.2l2.6 2.5L13 6.5" fill="none" stroke="#2de2ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span></span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* ==========================================================================
+   CONFIG — every business detail lives here. Prices are SAMPLE values only.
+   ========================================================================== */
+const CONFIG = {
+  name: 'Vantage Detail Co.',
+  shortName: 'Vantage',
+  phone: '+15550142290',          // fictional 555 number. Set '' to hide call/text buttons.
+  phoneDisplay: '(555) 014-2290',
+  instagram: 'vantage.detail.demo', // fictional handle (shown as text)
+  hours: 'Mon–Sat · 7am–7pm',
+  serviceArea: {
+    base: 'Harbor City',
+    radiusMiles: 25,
+    areas: ['Northgate', 'Lakeview', 'Old Mill', 'Westbrook', 'Cedar Hills', 'Port Row', 'Southbank']
+  },
+  currency: '$',
+  sizes: [
+    { id: 'coupe', label: 'Coupe / Sedan', short: 'Coupe/Sedan' },
+    { id: 'suv',   label: 'SUV',           short: 'SUV' },
+    { id: 'truck', label: 'Truck / Van',   short: 'Truck/Van' }
+  ],
+  defaultSize: 'coupe',
+  packages: [
+    { id: 'maint', name: 'Maintenance Wash', blurb: 'The every-few-weeks reset. Keeps a clean car clean.', duration: '~1.5 hrs · on-site',
+      prices: { coupe: 79, suv: 99, truck: 119 },
+      includes: ['Snow-foam pre-wash & hand wash', 'Wheels, tyres & arches', 'Streak-free glass', 'Quick interior vacuum', 'Spray sealant top-up'] },
+    { id: 'full', name: 'Full Detail', blurb: 'Inside, outside, door jambs, the lot. The one you book before selling. Or instead of.', duration: '~4 hrs · on-site', featured: true,
+      prices: { coupe: 249, suv: 299, truck: 349 },
+      includes: ['Everything in Maintenance', 'Iron & tar decontamination', 'Clay bar treatment', 'Interior shampoo & wipe-down', 'Trims dressed, jambs cleaned'] },
+    { id: 'ceramic', name: 'Ceramic Coating', blurb: 'Full decon, a machine polish, then a hard glossy shell on top.', duration: '1–2 days · cure time incl.',
+      prices: { coupe: 899, suv: 1049, truck: 1199 },
+      includes: ['Full decon wash & clay', 'One-step machine polish', 'Ceramic coating on paint', 'Wheel faces & glass coated', 'Aftercare walkthrough'] }
+  ],
+  faq: [
+    ['Do I need to be home?', "Nope. We need access to the car and somewhere to park beside it. If we're doing the inside, leave the keys somewhere sensible."],
+    ['Do you need my water or power?', "No. The van carries its own water and power. If there's an outlet handy, lovely, but we don't count on it."],
+    ['How long does it take?', 'A maintenance wash is a coffee-and-a-podcast job. A full detail takes most of a morning. Coatings take the day, because the coating needs time to cure.'],
+    ['What if it rains?', "We'll move you to the next good slot, no fuss. A covered spot like a carport or garage usually means we can carry on."],
+    ['How do I keep a coating looking good?', 'Gentle hand washes every couple of weeks, skip the automatic brushes, and let us top it up now and then. That is genuinely it.'],
+    ['Are the prices on this page real?', "They're sample prices for this concept site. A real quote depends on the vehicle's size and condition."]
+  ]
+};
+const STUDIO_URL = "https://www.instagram.com/ela.systems/";
+
+/* ==========================================================================
+   Utilities
+   ========================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
+const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+const easeOutExpo = t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const FINE = matchMedia('(pointer: fine)').matches && matchMedia('(hover: hover)').matches;
+const DPR = () => Math.min(window.devicePixelRatio || 1, 1.75);
+const HAS_GSAP = typeof window.gsap !== 'undefined';
+const HAS_ST = HAS_GSAP && typeof window.ScrollTrigger !== 'undefined';
+if (HAS_ST) gsap.registerPlugin(ScrollTrigger);
+const money = n => CONFIG.currency + Math.round(n).toLocaleString('en-US');
+
+let seed = 7;
+function rnd() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+function hash2(x, y, s) { let h = Math.imul(x, 374761393) ^ Math.imul(y, 668265263) ^ Math.imul(s, 1442695041); h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967295; }
+function vnoise(x, y, s) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const a = hash2(xi, yi, s), b = hash2(xi + 1, yi, s), c = hash2(xi, yi + 1, s), d = hash2(xi + 1, yi + 1, s);
+  return lerp(lerp(a, b, u), lerp(c, d, u), v);
+}
+function fbm(x, y, s, oct = 4) { let t = 0, a = .5, f = 1, n = 0; for (let i = 0; i < oct; i++) { t += a * vnoise(x * f, y * f, s + i * 17); n += a; a *= .5; f *= 2.03; } return t / n; }
+function hexRgb(h) { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; }
+function mix(c1, c2, t) { return `rgb(${Math.round(lerp(c1[0], c2[0], t))},${Math.round(lerp(c1[1], c2[1], t))},${Math.round(lerp(c1[2], c2[2], t))})`; }
+function inView(el, cb, margin = '100px') {
+  if (!('IntersectionObserver' in window)) { cb(true); return; }
+  new IntersectionObserver(es => es.forEach(e => cb(e.isIntersecting)), { rootMargin: margin }).observe(el);
+}
+
+/* ==========================================================================
+   Fill content from CONFIG
+   ========================================================================== */
+(function fillConfig() {
+  $('#hoursText').textContent = CONFIG.hours;
+  $('#ftHours').textContent = CONFIG.hours;
+  $('#ftBase').textContent = `${CONFIG.serviceArea.base} + ${CONFIG.serviceArea.radiusMiles} mi`;
+  $('#ftIg').textContent = '@' + CONFIG.instagram;
+  const ph = $('#ftPhone');
+  if (CONFIG.phone) { ph.textContent = CONFIG.phoneDisplay || CONFIG.phone; ph.href = 'tel:' + CONFIG.phone; }
+  else { ph.replaceWith(Object.assign(document.createElement('p'), { textContent: 'Booking via the form' })); }
+  $('#ftLegal').textContent = `${CONFIG.name} is a fictional business. Concept site; sample prices only.`;
+  // studio badge
+  const holder = $('#studioBadge');
+  const badge = document.createElement(STUDIO_URL ? 'a' : 'p');
+  badge.className = 'studio';
+  badge.style.margin = '0';
+  badge.innerHTML = '<i aria-hidden="true"></i><span>Site by <b>ElaSystems</b></span>';
+  if (STUDIO_URL) { badge.href = STUDIO_URL; badge.target = '_blank'; badge.rel = 'noopener'; }
+  holder.replaceWith(badge);
+  // marquee
+  const words = ['Pre-rinse', 'Foam', 'Hand wash', 'Decon', 'Polish', 'Protect'];
+  const item = () => { const d = document.createElement('div'); d.className = 'mq-item'; d.innerHTML = words.map((w, i) => `<span class="${i % 2 ? 'o' : ''}">${w}</span><span class="s ${i === 5 ? 'h' : ''}"></span>`).join(''); return d; };
+  const mq = $('#mq'); mq.append(item(), item(), item());
+})();
+
+/* ==========================================================================
+   Smooth scroll (Lenis + ScrollTrigger)
+   ========================================================================== */
+let lenis = null;
+if (!REDUCED && window.Lenis) {
+  lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+  if (HAS_ST) lenis.on('scroll', ScrollTrigger.update);
+  if (HAS_GSAP) { gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  else { const raf = t => { lenis.raf(t); requestAnimationFrame(raf); }; requestAnimationFrame(raf); }
+}
+function scrollToEl(el) {
+  if (!el) return;
+  if (lenis) lenis.scrollTo(el, { offset: el.id === 'top' ? -200 : -10, duration: 1.4 });
+  else el.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth' });
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (!a) return;
+  const id = a.getAttribute('href');
+  if (id.length < 2) { e.preventDefault(); return; }
+  const t = document.querySelector(id);
+  if (t) { e.preventDefault(); scrollToEl(t); }
+});
+$('#toTop').addEventListener('click', () => scrollToEl($('#top')));
+const nav = $('#nav');
+const onScrollNav = () => nav.classList.toggle('is-scrolled', (window.scrollY || 0) > 30);
+window.addEventListener('scroll', onScrollNav, { passive: true }); onScrollNav();
+
+/* ==========================================================================
+   Custom cursor, light streak & headlights
+   ========================================================================== */
+const Cursor = (() => {
+  const ring = $('.cur'), dot = $('.cur-dot'), label = $('.cur span'), beams = $('.beams');
+  const cv = $('#streak'), cx = cv.getContext('2d');
+  const enabled = FINE && !REDUCED;
+  let x = -100, y = -100, rx = -100, ry = -100, pts = [], running = false, tool = null;
+  if (!enabled) return { setTool() {} };
+  document.documentElement.classList.add('has-cursor');
+  function size() { const d = Math.min(DPR(), 1.5); cv.width = innerWidth * d; cv.height = innerHeight * d; cx.setTransform(d, 0, 0, d, 0, 0); }
+  size(); addEventListener('resize', size);
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    x = e.clientX; y = e.clientY;
+    pts.push({ x, y, t: performance.now() });
+    dot.style.transform = `translate3d(${x}px,${y}px,0)`;
+    beams.style.transform = `translate3d(${x}px,${y}px,0)`;
+    const t = e.target;
+    const link = t.closest && t.closest('a,button,select,.sw,label');
+    ring.classList.toggle('is-link', !!link && !tool);
+    document.documentElement.classList.toggle('beams-on', !!(t.closest && t.closest('.hl')) && !link);
+    if (!running) { running = true; requestAnimationFrame(loop); }
+  }, { passive: true });
+  document.addEventListener('mouseleave', () => { ring.classList.add('is-hidden'); dot.classList.add('is-hidden'); });
+  document.addEventListener('mouseenter', () => { ring.classList.remove('is-hidden'); dot.classList.remove('is-hidden'); });
+  function loop() {
+    const now = performance.now();
+    rx += (x - rx) * .2; ry += (y - ry) * .2;
+    ring.style.transform = `translate3d(${rx}px,${ry}px,0)`;
+    while (pts.length && now - pts[0].t > 150) pts.shift();
+    cx.clearRect(0, 0, innerWidth, innerHeight);
+    if (pts.length > 2) {
+      cx.lineCap = 'round'; cx.lineJoin = 'round';
+      const n = pts.length;
+      for (let pass = 0; pass < 2; pass++) {
+        for (let i = 1; i < n; i++) {
+          const k = i / n, a = pts[i - 1], b = pts[i];
+          cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(b.x, b.y);
+          if (pass === 0) { cx.strokeStyle = `rgba(45,226,255,${.18 * k})`; cx.lineWidth = 10 * k + 2; }
+          else { cx.strokeStyle = `rgba(235,252,255,${.85 * k * k})`; cx.lineWidth = 2.6 * k + .4; }
+          cx.stroke();
+        }
+      }
+    }
+    if (pts.length || Math.abs(x - rx) > .3 || Math.abs(y - ry) > .3) requestAnimationFrame(loop);
+    else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+  }
+  return {
+    setTool(name, px) {
+      tool = name;
+      ring.classList.toggle('is-tool', !!name);
+      ring.classList.remove('is-link');
+      label.textContent = name || '';
+      if (name && px) { ring.style.width = ring.style.height = px + 'px'; ring.style.margin = `${-px / 2}px 0 0 ${-px / 2}px`; }
+      else { ring.style.width = ring.style.height = ring.style.margin = ''; }
+    }
+  };
+})();
+
+/* ==========================================================================
+   Loader — tachometer rev to redline + camera flash
+   ========================================================================== */
+const Loader = (() => {
+  const el = $('#loader'), flash = $('#flash'), needle = $('#needle'), rpm = $('#rpm');
+  const C = 120, R = 100, A0 = -135, A1 = 135;
+  const pol = (deg, r) => { const a = (deg - 90) * Math.PI / 180; return [C + r * Math.cos(a), C + r * Math.sin(a)]; };
+  const arc = (d0, d1, r) => { const [x0, y0] = pol(d0, r), [x1, y1] = pol(d1, r); return `M${x0} ${y0} A${r} ${r} 0 ${d1 - d0 > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
+  $('#tachArc').setAttribute('d', arc(A0, A1, R + 8));
+  const redStart = A0 + (6.5 / 8) * 270;
+  $('#tachRed').setAttribute('d', arc(redStart, A1, R - 4));
+  let g = '';
+  for (let i = 0; i <= 40; i++) {
+    const v = i / 5, deg = A0 + (v / 8) * 270, major = i % 5 === 0;
+    const [x0, y0] = pol(deg, R - (major ? 14 : 8)), [x1, y1] = pol(deg, R);
+    g += `<line class="tick ${major ? 'major' : ''} ${v >= 6.5 ? 'red' : ''}" x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}"/>`;
+    if (major) { const [tx, ty] = pol(deg, R - 28); g += `<text x="${tx}" y="${ty}" ${v >= 7 ? 'style="fill:#ff3b5c"' : ''}>${v}</text>`; }
+  }
+  $('#tachTicks').innerHTML = g;
+  const arcEl = $('#tachArc');
+  const set = v => { // v: 0..8
+    const deg = A0 + (v / 8) * 270;
+    needle.setAttribute('transform', `rotate(${deg} 120 120)`);
+    rpm.textContent = String(Math.round(v * 1000 / 50) * 50);
+    arcEl.style.strokeDashoffset = 1 - v / 8;
+  };
+  function done() {
+    document.body.classList.remove('is-loading');
+    if (lenis) lenis.start();
+    window.dispatchEvent(new Event('intro'));
+  }
+  function run() {
+    if (REDUCED || !HAS_GSAP) { el.remove(); flash.remove(); document.body.classList.remove('is-loading'); setTimeout(() => window.dispatchEvent(new Event('intro')), 0); return; }
+    if (lenis) lenis.stop();
+    const o = { v: 0 };
+    const tl = gsap.timeline({ onComplete: () => { el.remove(); flash.remove(); } });
+    tl.to(o, { v: 7.4, duration: .62, ease: 'power2.in', onUpdate: () => set(o.v) })
+      .to(o, { v: 4.6, duration: .16, ease: 'power2.out', onUpdate: () => set(o.v) })
+      .to(o, { v: 8, duration: .5, ease: 'power3.in', onUpdate: () => set(o.v) })
+      .to(o, { v: 7.8, duration: .05, yoyo: true, repeat: 3, onUpdate: () => set(o.v) })
+      .to(flash, { opacity: .95, duration: .06, ease: 'none' })
+      .add(() => { el.style.opacity = 0; done(); })
+      .to(flash, { opacity: 0, duration: .55, ease: 'power2.out' });
+  }
+  return { run };
+})();
+
+/* ==========================================================================
+   Split headings + reveals
+   ========================================================================== */
+$$('[data-split]').forEach(h => {
+  const walk = node => {
+    [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.append(document.createTextNode(' ')); return; }
+          const w = document.createElement('span'); w.className = 'w';
+          const i = document.createElement('span'); i.textContent = part; w.append(i); frag.append(w);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1) walk(n);
+    });
+  };
+  walk(h);
+});
+function setupReveals() {
+  if (!HAS_ST || REDUCED) return;
+  $$('[data-split]').forEach(h => {
+    gsap.from($$('.w>span', h), { yPercent: 115, rotate: 4, duration: 1.1, ease: 'expo.out', stagger: .06, scrollTrigger: { trigger: h, start: 'top 88%' } });
+  });
+  $$('[data-reveal]').forEach(el => {
+    gsap.from(el, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%' } });
+  });
+  // marquee driven by time + scroll velocity
+  const mq = $('#mq'); let mx = 0, vel = 0;
+  if (lenis) lenis.on('scroll', e => { vel = e.velocity || 0; });
+  gsap.ticker.add((t, dt) => {
+    const w = mq.firstElementChild.offsetWidth || 1;
+    mx -= (0.05 + Math.abs(vel) * .02) * dt * (vel < 0 ? -1 : 1);
+    vel *= .92;
+    mx = ((mx % w) - w) % w;
+    mq.style.transform = `translate3d(${mx}px,0,0)`;
+  });
+}
+
+/* ==========================================================================
+   HERO — "Go on. Wash it." car wash canvas
+   ========================================================================== */
+const Wash = (() => {
+  const canvas = $('#washCanvas'), ctx = canvas.getContext('2d');
+  const hint = $('#hint'), badge = $('#badge'), pctEl = $('#pct'), meter = $('#meter'), fill = $('#meterFill');
+  const resetBtn = $('#washReset');
+  const PAD = 24;                // car-space padding around the 1000x360 car drawing
+  const CW = 1000 + PAD * 2, CH = 360 + PAD * 2;
+  const PAINTS = [
+    { id: 'midnight', name: 'Midnight blue', c: '#173a66' },
+    { id: 'graphite', name: 'Graphite', c: '#3b414b' },
+    { id: 'signal', name: 'Signal red', c: '#b3162f' },
+    { id: 'glacier', name: 'Glacier white', c: '#c9d0d8' }
+  ];
+  const S = {
+    w: 0, h: 0, dpr: 1, s: 1, carX: 0, carY: 0, groundY: 0, offX: 0,
+    car: document.createElement('canvas'), prevCar: document.createElement('canvas'), paintFade: 1,
+    dirt: document.createElement('canvas'), glint: document.createElement('canvas'), bg: document.createElement('canvas'), shadow: document.createElement('canvas'),
+    brush: document.createElement('canvas'), sample: document.createElement('canvas'),
+    paint: PAINTS[0], pct: 0, shownPct: 0, base: 1, done: false, drawing: false, last: null, touched: false,
+    bubbles: [], suds: [], pops: [], sparkles: [],
+    drive: REDUCED ? 1 : 0, driving: false, driveStart: 0, sweep: -1, glintT: -1, dirtAlpha: 1, lastSample: 0, visible: true, needs: true,
+    idleGlint: 0, introDone: REDUCED, hover: false
+  };
+  const dctx = S.dirt.getContext('2d'), gctx = S.glint.getContext('2d');
+  const sctx = S.sample.getContext('2d', { willReadFrequently: true });
+
+  /* ---------- Car geometry (car-space, facing right, ground y=338) ---------- */
+  const WHEELS = [[216, 270], [806, 270]];
+  function bodyPath(c) {
+    c.beginPath();
+    c.moveTo(72, 300);
+    c.bezierCurveTo(50, 299, 38, 284, 37, 262);
+    c.bezierCurveTo(36, 232, 42, 204, 56, 186);
+    c.lineTo(62, 170);
+    c.bezierCurveTo(68, 162, 82, 159, 98, 160);
+    c.bezierCurveTo(170, 152, 250, 130, 330, 100);
+    c.bezierCurveTo(392, 78, 452, 70, 520, 70);
+    c.bezierCurveTo(578, 70, 614, 80, 652, 104);
+    c.bezierCurveTo(690, 128, 722, 150, 762, 166);
+    c.bezierCurveTo(842, 178, 922, 190, 962, 204);
+    c.bezierCurveTo(986, 212, 995, 228, 993, 246);
+    c.bezierCurveTo(991, 268, 984, 286, 968, 297);
+    c.lineTo(900, 300);
+    c.arc(806, 270, 78, 0.39, Math.PI - 0.39, true);
+    c.lineTo(290, 300);
+    c.arc(216, 270, 78, 0.39, Math.PI - 0.39, true);
+    c.closePath();
+  }
+  function topLine(c) {
+    c.beginPath();
+    c.moveTo(66, 166);
+    c.bezierCurveTo(74, 160, 84, 159, 98, 160);
+    c.bezierCurveTo(170, 152, 250, 130, 330, 100);
+    c.bezierCurveTo(392, 78, 452, 70, 520, 70);
+    c.bezierCurveTo(578, 70, 614, 80, 652, 104);
+    c.bezierCurveTo(690, 128, 722, 150, 762, 166);
+    c.bezierCurveTo(842, 178, 922, 190, 962, 204);
+    c.bezierCurveTo(980, 210, 988, 218, 991, 228);
+  }
+  function glassPath(c) {
+    c.beginPath();
+    c.moveTo(356, 150);
+    c.bezierCurveTo(410, 114, 468, 90, 528, 88);
+    c.bezierCurveTo(578, 87, 612, 96, 640, 112);
+    c.bezierCurveTo(664, 126, 688, 146, 708, 163);
+    c.bezierCurveTo(600, 160, 470, 155, 356, 150);
+    c.closePath();
+  }
+  function ellipseGlow(c, x, y, rx, ry, col, a, rot = 0) {
+    c.save(); c.translate(x, y); c.rotate(rot); c.scale(rx, ry);
+    const g = c.createRadialGradient(0, 0, 0, 0, 0, 1);
+    g.addColorStop(0, `rgba(${col},${a})`); g.addColorStop(1, `rgba(${col},0)`);
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, 1, 0, Math.PI * 2); c.fill(); c.restore();
+  }
+
+  function drawWheel(c, cx, cy, k) {
+    // wheel well
+    c.save(); c.beginPath(); c.rect(cx - 90, cy - 90, 180, 120); c.clip();
+    c.fillStyle = '#030405'; c.beginPath(); c.arc(cx, cy, 77, 0, Math.PI * 2); c.fill(); c.restore();
+    // tyre
+    let g = c.createRadialGradient(cx, cy, 48, cx, cy, 68);
+    g.addColorStop(0, '#1d2025'); g.addColorStop(.55, '#121418'); g.addColorStop(.9, '#0a0b0d'); g.addColorStop(1, '#16181c');
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 68, 0, Math.PI * 2); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.07)'; c.lineWidth = 1; c.beginPath(); c.arc(cx, cy, 61, -2.6, -0.5); c.stroke();
+    // barrel
+    c.fillStyle = '#0c0e11'; c.beginPath(); c.arc(cx, cy, 51, 0, Math.PI * 2); c.fill();
+    // brake disc
+    g = c.createRadialGradient(cx - 8, cy - 10, 4, cx, cy, 42);
+    g.addColorStop(0, '#8a9099'); g.addColorStop(.7, '#4b5057'); g.addColorStop(1, '#2a2d32');
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 42, 0, Math.PI * 2); c.fill();
+    c.strokeStyle = 'rgba(0,0,0,.35)'; c.lineWidth = .8;
+    for (let r = 24; r < 41; r += 4) { c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2); c.stroke(); }
+    c.fillStyle = 'rgba(10,10,12,.7)';
+    for (let i = 0; i < 18; i++) { const a = i / 18 * Math.PI * 2; c.beginPath(); c.arc(cx + Math.cos(a) * 34, cy + Math.sin(a) * 34, 1.3, 0, 7); c.fill(); }
+    // caliper
+    c.save(); c.translate(cx, cy); c.rotate(k ? -2.2 : -0.95);
+    g = c.createLinearGradient(0, -44, 0, -24);
+    g.addColorStop(0, '#ff6a83'); g.addColorStop(.5, '#ff3b5c'); g.addColorStop(1, '#8e1027');
+    c.fillStyle = g; c.beginPath(); c.arc(0, 0, 44, -Math.PI / 2 - .55, -Math.PI / 2 + .55); c.arc(0, 0, 25, -Math.PI / 2 + .5, -Math.PI / 2 - .5, true); c.closePath(); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.5)'; c.fillRect(-10, -40, 20, 1.6);
+    c.restore();
+    // spokes (5 split spokes)
+    for (let i = 0; i < 5; i++) {
+      const base = i / 5 * Math.PI * 2 - Math.PI / 2 + .2;
+      for (const off of [-.12, .12]) {
+        const a = base + off;
+        const ca = Math.cos(a), sa = Math.sin(a), px = -sa, py = ca;
+        const r0 = 12, r1 = 48, w0 = 4.6, w1 = 3.2, tw = off * 20;
+        c.beginPath();
+        c.moveTo(cx + ca * r0 + px * w0, cy + sa * r0 + py * w0);
+        c.lineTo(cx + ca * r1 + px * w1 + px * tw * .2, cy + sa * r1 + py * w1 + py * tw * .2);
+        c.lineTo(cx + ca * r1 - px * w1 + px * tw * .2, cy + sa * r1 - py * w1 + py * tw * .2);
+        c.lineTo(cx + ca * r0 - px * w0, cy + sa * r0 - py * w0);
+        c.closePath();
+        const lg = c.createLinearGradient(cx + px * 5, cy + py * 5, cx - px * 5, cy - py * 5);
+        const lit = .5 + .5 * Math.cos(a + 2.2);
+        lg.addColorStop(0, mix([240, 244, 248], [150, 156, 166], 1 - lit));
+        lg.addColorStop(1, mix([120, 126, 136], [40, 44, 50], 1 - lit));
+        c.fillStyle = lg; c.fill();
+        c.strokeStyle = 'rgba(0,0,0,.35)'; c.lineWidth = .6; c.stroke();
+      }
+    }
+    // rim lip
+    g = c.createLinearGradient(cx, cy - 52, cx, cy + 52);
+    g.addColorStop(0, '#f7f9fb'); g.addColorStop(.45, '#8b939e'); g.addColorStop(.55, '#3a4048'); g.addColorStop(1, '#b4bcc6');
+    c.strokeStyle = g; c.lineWidth = 4.5; c.beginPath(); c.arc(cx, cy, 50, 0, Math.PI * 2); c.stroke();
+    c.strokeStyle = 'rgba(0,0,0,.6)'; c.lineWidth = 1; c.beginPath(); c.arc(cx, cy, 47.4, 0, Math.PI * 2); c.stroke();
+    // centre cap + lugs
+    g = c.createRadialGradient(cx - 3, cy - 4, 1, cx, cy, 13);
+    g.addColorStop(0, '#eef2f6'); g.addColorStop(.6, '#7d848e'); g.addColorStop(1, '#2b2f35');
+    c.fillStyle = g; c.beginPath(); c.arc(cx, cy, 12.5, 0, Math.PI * 2); c.fill();
+    c.fillStyle = '#1a1d22';
+    for (let i = 0; i < 5; i++) { const a = i / 5 * Math.PI * 2 - Math.PI / 2 + .2 + Math.PI / 5; c.beginPath(); c.arc(cx + Math.cos(a) * 17.5, cy + Math.sin(a) * 17.5, 2.3, 0, 7); c.fill(); }
+    c.strokeStyle = '#2de2ff'; c.lineWidth = 1.4; c.beginPath(); c.arc(cx, cy, 6, 0, Math.PI * 2); c.stroke();
+    // tyre top highlight
+    c.strokeStyle = 'rgba(255,255,255,.08)'; c.lineWidth = 2; c.beginPath(); c.arc(cx, cy, 66.5, -2.4, -0.8); c.stroke();
+  }
+
+  function drawCar(c, hex, scale) {
+    const base = hexRgb(hex), W = [255, 255, 255], B = [0, 0, 0];
+    const L = t => mix(base, W, t), D = t => mix(base, B, t);
+    const lum = (base[0] * .3 + base[1] * .59 + base[2] * .11) / 255;
+    const bright = lum > .55;
+    // wheels behind body
+    WHEELS.forEach(([x, y], i) => drawWheel(c, x, y, i));
+    // body fill
+    bodyPath(c);
+    let g = c.createLinearGradient(0, 70, 0, 300);
+    g.addColorStop(0, L(.55)); g.addColorStop(.18, L(.3)); g.addColorStop(.42, L(bright ? .2 : .38));
+    g.addColorStop(.535, L(bright ? .55 : .7)); g.addColorStop(.552, D(bright ? .45 : .62));
+    g.addColorStop(.66, D(bright ? .25 : .38)); g.addColorStop(.84, mix(base, B, bright ? .05 : .1)); g.addColorStop(.94, D(.35)); g.addColorStop(1, D(.7));
+    c.fillStyle = g; c.fill();
+    c.save(); bodyPath(c); c.clip();
+    // horizontal fade at nose & tail (curvature)
+    g = c.createLinearGradient(30, 0, 1000, 0);
+    g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(.08, 'rgba(0,0,0,0)'); g.addColorStop(.92, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.45)');
+    c.fillStyle = g; c.fillRect(0, 0, 1000, 360);
+    // studio softbox reflections on lower body
+    for (const [x, w] of [[250, 70], [560, 110], [880, 50]]) {
+      g = c.createLinearGradient(x - w, 0, x + w, 0);
+      g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.5, `rgba(255,255,255,${bright ? .12 : .075})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+      c.fillStyle = g; c.fillRect(x - w, 198, w * 2, 100);
+    }
+    // sculpted lower blade
+    c.beginPath(); c.moveTo(300, 286); c.bezierCurveTo(420, 270, 600, 262, 726, 250); c.lineTo(728, 288); c.lineTo(300, 292); c.closePath();
+    g = c.createLinearGradient(0, 250, 0, 292); g.addColorStop(0, 'rgba(0,0,0,.45)'); g.addColorStop(1, 'rgba(255,255,255,.06)');
+    c.fillStyle = g; c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.18)'; c.lineWidth = 1; c.beginPath(); c.moveTo(300, 286); c.bezierCurveTo(420, 270, 600, 262, 726, 250); c.stroke();
+    // shoulder highlight streak + crease
+    ellipseGlow(c, 520, 192, 470, 5, '255,255,255', bright ? .5 : .7);
+    ellipseGlow(c, 600, 192, 160, 2.2, '255,255,255', .9);
+    c.strokeStyle = 'rgba(0,0,0,.35)'; c.lineWidth = 1.4;
+    c.beginPath(); c.moveTo(60, 200); c.bezierCurveTo(300, 198, 700, 200, 975, 218); c.stroke();
+    // roof & hood highlights
+    ellipseGlow(c, 500, 76, 170, 7, '255,255,255', .55);
+    ellipseGlow(c, 860, 188, 110, 5, '255,255,255', .5, .12);
+    ellipseGlow(c, 210, 140, 110, 6, '255,255,255', .35, -.3);
+    // metallic flake
+    seed = 99;
+    for (let i = 0; i < 900; i++) { c.fillStyle = `rgba(255,255,255,${rnd() * .09})`; c.fillRect(40 + rnd() * 950, 70 + rnd() * 230, .9, .9); }
+    // bottom ground bounce
+    g = c.createLinearGradient(0, 270, 0, 300); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.5)');
+    c.fillStyle = g; c.fillRect(0, 270, 1000, 40);
+    c.restore();
+    // rim light along top edge
+    topLine(c); c.strokeStyle = 'rgba(255,255,255,.55)'; c.lineWidth = 1.4; c.stroke();
+    // rocker skirt
+    c.beginPath(); c.moveTo(292, 290); c.lineTo(732, 290); c.lineTo(734, 301); c.lineTo(290, 301); c.closePath();
+    c.fillStyle = '#0b0c0f'; c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.16)'; c.lineWidth = 1; c.beginPath(); c.moveTo(292, 290); c.lineTo(732, 290); c.stroke();
+    // arch lips
+    c.strokeStyle = 'rgba(255,255,255,.14)'; c.lineWidth = 1.4;
+    WHEELS.forEach(([x, y]) => { c.beginPath(); c.arc(x, y, 79, Math.PI + .5, -0.5); c.stroke(); });
+    // glass
+    glassPath(c);
+    g = c.createLinearGradient(0, 88, 0, 165);
+    g.addColorStop(0, 'rgba(176,220,246,.95)'); g.addColorStop(.28, 'rgba(96,140,172,.92)'); g.addColorStop(.62, '#142231'); g.addColorStop(1, '#070b10');
+    c.fillStyle = g; c.fill();
+    c.save(); glassPath(c); c.clip();
+    c.fillStyle = 'rgba(0,0,0,.55)';
+    c.beginPath(); c.ellipse(590, 128, 16, 22, -.2, 0, 7); c.fill();
+    c.beginPath(); c.ellipse(470, 132, 15, 20, -.2, 0, 7); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.14)';
+    c.beginPath(); c.moveTo(420, 80); c.lineTo(470, 80); c.lineTo(400, 170); c.lineTo(350, 170); c.closePath(); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.07)';
+    c.beginPath(); c.moveTo(500, 80); c.lineTo(520, 80); c.lineTo(450, 170); c.lineTo(430, 170); c.closePath(); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.1)';
+    c.beginPath(); c.moveTo(640, 80); c.lineTo(700, 80); c.lineTo(640, 170); c.lineTo(580, 170); c.closePath(); c.fill();
+    // B-pillar
+    c.fillStyle = '#05070a'; c.beginPath(); c.moveTo(548, 80); c.lineTo(558, 80); c.lineTo(548, 170); c.lineTo(536, 170); c.closePath(); c.fill();
+    c.restore();
+    // chrome trim
+    glassPath(c);
+    g = c.createLinearGradient(0, 88, 0, 165); g.addColorStop(0, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(200,210,220,.7)');
+    c.strokeStyle = g; c.lineWidth = 2.4; c.stroke();
+    // door shut lines
+    c.strokeStyle = 'rgba(0,0,0,.6)'; c.lineWidth = 1.5;
+    c.beginPath(); c.moveTo(714, 168); c.bezierCurveTo(720, 210, 716, 262, 709, 291); c.stroke();
+    c.beginPath(); c.moveTo(428, 153); c.bezierCurveTo(446, 200, 452, 250, 446, 291); c.stroke();
+    c.strokeStyle = 'rgba(255,255,255,.12)'; c.lineWidth = .8;
+    c.beginPath(); c.moveTo(716, 168); c.bezierCurveTo(722, 210, 718, 262, 711, 291); c.stroke();
+    // handle
+    c.fillStyle = 'rgba(0,0,0,.5)'; c.beginPath(); c.roundRect ? c.roundRect(480, 210, 46, 7, 3.5) : c.rect(480, 210, 46, 7); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.35)'; c.fillRect(483, 210, 40, 1);
+    // mirror
+    c.beginPath(); c.moveTo(690, 166); c.bezierCurveTo(694, 150, 730, 144, 744, 154); c.bezierCurveTo(750, 162, 738, 170, 716, 171); c.closePath();
+    g = c.createLinearGradient(0, 146, 0, 172); g.addColorStop(0, L(.6)); g.addColorStop(.5, L(.15)); g.addColorStop(.55, D(.5)); g.addColorStop(1, D(.3));
+    c.fillStyle = g; c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.4)'; c.lineWidth = 1; c.beginPath(); c.moveTo(696, 156); c.bezierCurveTo(706, 148, 730, 146, 742, 152); c.stroke();
+    // rear diffuser, exhaust
+    c.fillStyle = '#08090b'; c.beginPath(); c.moveTo(48, 282); c.bezierCurveTo(60, 294, 90, 300, 142, 300); c.lineTo(140, 290); c.lineTo(52, 274); c.closePath(); c.fill();
+    c.strokeStyle = '#c9d0d8'; c.lineWidth = 2; c.beginPath(); c.ellipse(88, 292, 10, 4.5, 0, 0, 7); c.stroke();
+    c.fillStyle = '#000'; c.beginPath(); c.ellipse(88, 292, 8, 3, 0, 0, 7); c.fill();
+    // front intake + splitter
+    c.fillStyle = '#050607'; c.beginPath(); c.moveTo(924, 268); c.bezierCurveTo(950, 266, 972, 262, 988, 254); c.lineTo(982, 282); c.bezierCurveTo(962, 290, 940, 292, 920, 290); c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(255,255,255,.08)'; c.lineWidth = .8;
+    for (let x = 930; x < 984; x += 7) { c.beginPath(); c.moveTo(x, 270); c.lineTo(x - 2, 290); c.stroke(); }
+    c.strokeStyle = '#0a0b0d'; c.lineWidth = 4; c.beginPath(); c.moveTo(898, 301); c.lineTo(968, 298); c.stroke();
+    // lights
+    c.save();
+    c.shadowColor = 'rgba(45,226,255,.95)'; c.shadowBlur = 16 * scale;
+    c.beginPath(); c.moveTo(916, 198); c.bezierCurveTo(944, 202, 968, 208, 987, 220); c.lineTo(985, 227); c.bezierCurveTo(964, 217, 940, 210, 914, 205); c.closePath();
+    g = c.createLinearGradient(914, 0, 987, 0); g.addColorStop(0, '#2de2ff'); g.addColorStop(.6, '#c9f8ff'); g.addColorStop(1, '#ffffff');
+    c.fillStyle = g; c.fill();
+    c.beginPath(); c.moveTo(944, 238); c.lineTo(986, 240); c.lineTo(986, 243); c.lineTo(944, 241); c.closePath(); c.fillStyle = '#bff6ff'; c.fill();
+    c.shadowColor = 'rgba(255,59,92,1)'; c.shadowBlur = 16 * scale;
+    c.beginPath(); c.moveTo(56, 184); c.bezierCurveTo(68, 172, 90, 167, 116, 166); c.lineTo(116, 171); c.bezierCurveTo(90, 173, 72, 179, 59, 190); c.closePath();
+    c.fillStyle = '#ff3b5c'; c.fill();
+    c.restore();
+  }
+
+  /* ---------- Layout & layers ---------- */
+  function layout() {
+    const r = canvas.getBoundingClientRect();
+    if (!r.width) return;
+    const ow = S.w, os = S.s, oldDirt = S.dirt.width ? copyCanvas(S.dirt) : null;
+    S.w = r.width; S.h = r.height; S.dpr = DPR();
+    canvas.width = Math.round(S.w * S.dpr); canvas.height = Math.round(S.h * S.dpr);
+    const mobile = S.w < 700;
+    S.s = Math.min((S.w - (mobile ? 20 : 200)) / 1000, (S.h * (mobile ? .78 : .74)) / 268);
+    S.groundY = mobile ? S.h * .5 + 268 * S.s * .5 + 4 : S.h * .8;
+    S.carX = S.w / 2 - (500 + PAD) * S.s; S.carY = S.groundY - (338 + PAD) * S.s;
+    const cw = Math.ceil(CW * S.s * S.dpr), ch = Math.ceil(CH * S.s * S.dpr);
+    for (const c of [S.car, S.prevCar, S.dirt, S.glint]) { c.width = cw; c.height = ch; }
+    renderCar();
+    renderBg();
+    // brush sprite
+    S.brushR = Math.max(mobile ? 20 : 30, 46 * S.s) * S.dpr;
+    const bs = Math.ceil(S.brushR * 2); S.brush.width = S.brush.height = bs;
+    const b = S.brush.getContext('2d'), bg = b.createRadialGradient(bs / 2, bs / 2, 0, bs / 2, bs / 2, bs / 2);
+    bg.addColorStop(0, 'rgba(0,0,0,1)'); bg.addColorStop(.55, 'rgba(0,0,0,.9)'); bg.addColorStop(1, 'rgba(0,0,0,0)');
+    b.fillStyle = bg; b.fillRect(0, 0, bs, bs);
+    // dirt
+    if (oldDirt && ow) {
+      dctx.clearRect(0, 0, cw, ch);
+      dctx.drawImage(oldDirt, 0, 0, cw, ch);
+      maskDirt();
+    } else if (!S.done) generateDirt();
+    S.sample.width = 200; S.sample.height = Math.round(200 * CH / CW);
+    if (!S.baseSet) { S.base = countDirt() || 1; S.baseSet = true; }
+    S.needs = true;
+  }
+  function copyCanvas(src) { const c = document.createElement('canvas'); c.width = src.width; c.height = src.height; c.getContext('2d').drawImage(src, 0, 0); return c; }
+  function carCtx(c) { const x = c.getContext('2d'); x.setTransform(S.s * S.dpr, 0, 0, S.s * S.dpr, PAD * S.s * S.dpr, PAD * S.s * S.dpr); return x; }
+  function renderCar() {
+    const c = carCtx(S.car); c.save(); c.setTransform(1, 0, 0, 1, 0, 0); c.clearRect(0, 0, S.car.width, S.car.height); c.restore();
+    drawCar(c, S.paint.c, S.s * S.dpr);
+  }
+  function renderBg() {
+    const w = canvas.width, h = canvas.height, d = S.dpr;
+    S.bg.width = w; S.bg.height = h;
+    const c = S.bg.getContext('2d'), gy = S.groundY * d;
+    c.fillStyle = '#07080a'; c.fillRect(0, 0, w, h);
+    let g = c.createRadialGradient(w / 2, gy - 140 * S.s * d, 10, w / 2, gy - 140 * S.s * d, w * .55);
+    g.addColorStop(0, 'rgba(32,58,84,.55)'); g.addColorStop(.5, 'rgba(14,24,36,.35)'); g.addColorStop(1, 'rgba(7,8,10,0)');
+    c.fillStyle = g; c.fillRect(0, 0, w, gy);
+    // floor
+    g = c.createLinearGradient(0, gy, 0, h);
+    g.addColorStop(0, '#0d141c'); g.addColorStop(1, '#07080a');
+    c.fillStyle = g; c.fillRect(0, gy, w, h - gy);
+    // shadow sprite
+    const sw = Math.ceil(1100 * S.s * d), sh = Math.ceil(80 * S.s * d);
+    S.shadow.width = sw; S.shadow.height = sh;
+    const sc = S.shadow.getContext('2d');
+    sc.setTransform(S.s * d, 0, 0, S.s * d, 0, 0);
+    ellipseGlow(sc, 550, 40, 520, 26, '0,0,0', .9);
+    ellipseGlow(sc, 550, 40, 440, 12, '0,0,0', .9);
+    ellipseGlow(sc, 266, 40, 80, 9, '0,0,0', 1);
+    ellipseGlow(sc, 856, 40, 80, 9, '0,0,0', 1);
+  }
+
+  function generateDirt() {
+    const cw = S.dirt.width, ch = S.dirt.height;
+    const k = 3, lw = Math.ceil(cw / k), lh = Math.ceil(ch / k);
+    const low = document.createElement('canvas'); low.width = lw; low.height = lh;
+    const lc = low.getContext('2d'), img = lc.createImageData(lw, lh), d = img.data;
+    const sd = (Math.random() * 1000) | 0;
+    const toCar = S.s * S.dpr / k;
+    for (let y = 0; y < lh; y++) {
+      const cy = y / toCar - PAD;
+      const lowF = smooth(150, 330, cy);
+      for (let x = 0; x < lw; x++) {
+        const cx = x / toCar - PAD;
+        const n1 = fbm(cx * .011, cy * .016, sd, 4), n2 = fbm(cx * .06, cy * .06, sd + 5, 3), n3 = vnoise(cx * .2, cy * .2, sd + 9);
+        let wheel = 0; for (const [wx, wy] of WHEELS) { const dd = Math.hypot(cx - wx, cy - wy); wheel = Math.max(wheel, 1 - smooth(60, 140, dd)); }
+        const mud = smooth(.5, .72, n1 * .75 + lowF * .5 + wheel * .3 + (n2 - .5) * .35);
+        const dustA = .58 + (n2 - .5) * .35 + lowF * .2 + (n3 - .5) * .1;
+        const a = clamp(dustA * (1 - mud) + (.94 + n3 * .06) * mud, 0, 1);
+        const shade = .78 + n2 * .4;
+        const r = lerp(146, 74, mud) * shade, gg = lerp(130, 58, mud) * shade, b = lerp(106, 40, mud) * shade;
+        const i = (y * lw + x) * 4;
+        d[i] = r; d[i + 1] = gg; d[i + 2] = b; d[i + 3] = a * 255;
+      }
+    }
+    lc.putImageData(img, 0, 0);
+    dctx.setTransform(1, 0, 0, 1, 0, 0);
+    dctx.globalCompositeOperation = 'source-over';
+    dctx.clearRect(0, 0, cw, ch);
+    dctx.imageSmoothingEnabled = true;
+    dctx.drawImage(low, 0, 0, cw, ch);
+    // full-res details in car-space
+    const c = carCtx(S.dirt);
+    seed = sd + 1;
+    // kicked-up splatter behind wheels
+    for (const [wx, wy] of WHEELS) {
+      for (let i = 0; i < 260; i++) {
+        const a = -Math.PI + rnd() * Math.PI * .9, dist = 70 + Math.pow(rnd(), 1.6) * 150;
+        const x = wx - Math.abs(Math.cos(a)) * dist * (rnd() < .8 ? 1 : -.6), y = wy - 10 + Math.sin(a) * dist * .55;
+        c.fillStyle = `rgba(${60 + rnd() * 30 | 0},${45 + rnd() * 20 | 0},${30 + rnd() * 14 | 0},${.55 + rnd() * .4})`;
+        c.beginPath(); c.arc(x, y, .6 + Math.pow(rnd(), 3) * 4.2, 0, 7); c.fill();
+      }
+    }
+    // dried water streaks under the windows
+    for (let i = 0; i < 46; i++) {
+      const x = 200 + rnd() * 760, y0 = 150 + rnd() * 40, len = 18 + rnd() * 80;
+      const g = c.createLinearGradient(0, y0, 0, y0 + len);
+      g.addColorStop(0, 'rgba(190,175,150,.35)'); g.addColorStop(1, 'rgba(190,175,150,0)');
+      c.strokeStyle = g; c.lineWidth = .8 + rnd() * 1.8; c.beginPath(); c.moveTo(x, y0); c.lineTo(x + (rnd() - .5) * 4, y0 + len); c.stroke();
+    }
+    // finger-written "WASH ME" in the dust on the door
+    c.save(); c.globalCompositeOperation = 'destination-out'; c.strokeStyle = 'rgba(0,0,0,.72)'; c.lineWidth = 3.2; c.lineCap = 'round'; c.lineJoin = 'round';
+    c.translate(520, 236); c.rotate(-.06);
+    c.font = '600 30px "Inter", sans-serif'; c.textAlign = 'center';
+    const text = 'WASH ME'; let x = -c.measureText(text).width / 2;
+    for (const ch of text) { c.strokeText(ch, x + c.measureText(ch).width / 2, (rnd() - .5) * 4); x += c.measureText(ch).width + 2; }
+    c.restore();
+    maskDirt();
+  }
+  function maskDirt() {
+    dctx.setTransform(1, 0, 0, 1, 0, 0);
+    dctx.globalCompositeOperation = 'destination-in';
+    dctx.drawImage(S.car, 0, 0);
+    dctx.globalCompositeOperation = 'source-over';
+  }
+  function countDirt() {
+    sctx.clearRect(0, 0, S.sample.width, S.sample.height);
+    sctx.drawImage(S.dirt, 0, 0, S.sample.width, S.sample.height);
+    const d = sctx.getImageData(0, 0, S.sample.width, S.sample.height).data;
+    let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 40) n++;
+    return n;
+  }
+
+  /* ---------- Interaction ---------- */
+  function local(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+  function stampAt(x, y) {
+    const px = (x - (S.carX + S.offX)) * S.dpr, py = (y - S.carY) * S.dpr, r = S.brushR;
+    dctx.globalCompositeOperation = 'destination-out';
+    dctx.drawImage(S.brush, px - r, py - r);
+    dctx.globalCompositeOperation = 'source-over';
+    // foam only where there is car
+    const cx = (x - S.carX - S.offX) / S.s - PAD, cy = (y - S.carY) / S.s - PAD;
+    if (cx < 20 || cx > 1000 || cy < 60 || cy > 345) return;
+    const rr = S.brushR / S.dpr;
+    for (let i = 0; i < 2; i++) {
+      if (S.suds.length < 180) S.suds.push({ x: x + (Math.random() - .5) * rr * 1.4, y: y + (Math.random() - .5) * rr * 1.2, r: rr * (.25 + Math.random() * .4), life: 0, max: 1.1 + Math.random() * 1.2 });
+    }
+    for (let i = 0; i < 3; i++) {
+      if (S.bubbles.length < 340) S.bubbles.push({ x: x + (Math.random() - .5) * rr * 1.6, y: y + (Math.random() - .5) * rr * 1.4, r: (2 + Math.pow(Math.random(), 2) * 11) * Math.max(.6, S.s), life: 0, max: .8 + Math.random() * 2.2, vy: 4 + Math.random() * 12, ph: Math.random() * 6 });
+    }
+  }
+  function stroke(a, b) {
+    const dist = Math.hypot(b.x - a.x, b.y - a.y), step = Math.max(3, S.brushR / S.dpr * .28), n = Math.max(1, Math.ceil(dist / step));
+    for (let i = 1; i <= n; i++) stampAt(lerp(a.x, b.x, i / n), lerp(a.y, b.y, i / n));
+    S.needs = true;
+    const now = performance.now();
+    if (now - S.lastSample > 130) { S.lastSample = now; samplePct(); }
+  }
+  function samplePct() {
+    S.pct = clamp(1 - countDirt() / S.base, 0, 1);
+    if (S.pct >= .7 && !S.done) finish();
+  }
+  canvas.addEventListener('pointerdown', e => {
+    if (S.done || S.drive < 1) return;
+    S.drawing = true; S.last = local(e);
+    try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+    if (!S.touched) { S.touched = true; hint.classList.add('gone'); }
+    stroke(S.last, S.last);
+  });
+  canvas.addEventListener('pointermove', e => {
+    if (!S.drawing) return;
+    const p = local(e);
+    const evs = e.getCoalescedEvents ? e.getCoalescedEvents() : [];
+    if (evs.length > 1) { for (const ce of evs) { const q = local(ce); stroke(S.last, q); S.last = q; } }
+    else { stroke(S.last, p); S.last = p; }
+  });
+  const end = () => { if (S.drawing) { S.drawing = false; samplePct(); } };
+  canvas.addEventListener('pointerup', end); canvas.addEventListener('pointercancel', end); canvas.addEventListener('lostpointercapture', end);
+  canvas.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse' && !S.done) Cursor.setTool('SCRUB', Math.round(S.brushR / S.dpr * 2)); });
+  canvas.addEventListener('pointerleave', () => Cursor.setTool(null));
+  canvas.addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && !S.done) { e.preventDefault(); if (S.drive < 1) S.drive = 1; finish(); } });
+  resetBtn.addEventListener('click', reset);
+
+  /* ---------- Swatches ---------- */
+  const swWrap = $('.swatches');
+  PAINTS.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'sw'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', i === 0 ? 'true' : 'false'); b.setAttribute('aria-label', p.name);
+    const c = hexRgb(p.c);
+    b.style.background = `radial-gradient(circle at 35% 30%, ${mix(c, [255, 255, 255], .55)}, ${p.c} 55%, ${mix(c, [0, 0, 0], .6)})`;
+    b.addEventListener('click', () => {
+      if (S.paint === p) return;
+      $$('.sw', swWrap).forEach(x => x.setAttribute('aria-checked', 'false')); b.setAttribute('aria-checked', 'true');
+      S.prevCar.getContext('2d').clearRect(0, 0, S.prevCar.width, S.prevCar.height);
+      S.prevCar.getContext('2d').drawImage(S.car, 0, 0);
+      S.paint = p; renderCar(); S.paintFade = REDUCED ? 1 : 0; S.needs = true;
+      if (S.done && !REDUCED) S.glintT = 0;
+    });
+    swWrap.append(b);
+  });
+
+  /* ---------- States ---------- */
+  const headA = $('.ht-a'), headB = $('.ht-b'), sub = $('#heroSub'), sr = $('#heroSr');
+  const SUB_A = sub.textContent, SUB_B = "That's the feeling. Now picture it on your actual car, without you lifting a sponge.";
+  function swapHead(clean) {
+    sr.textContent = clean ? 'Okay, show-off.' : 'Go on. Wash it.';
+    sub.textContent = clean ? SUB_B : SUB_A;
+    const inn = $$('.ln>span', clean ? headB : headA), out = $$('.ln>span', clean ? headA : headB);
+    if (HAS_GSAP && !REDUCED) {
+      // y:0 clears the pixel offset GSAP parses from the CSS translateY(110%) start state
+      gsap.to(out, { y: 0, yPercent: -110, duration: .6, ease: 'expo.in', stagger: .06, overwrite: true });
+      gsap.fromTo(inn, { y: 0, yPercent: 110 }, { y: 0, yPercent: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .45, overwrite: true });
+      gsap.fromTo(sub, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .8, delay: .5 });
+    } else {
+      out.forEach(s => s.style.transform = 'translateY(-110%)'); inn.forEach(s => s.style.transform = 'translateY(0)');
+    }
+  }
+  function finish() {
+    if (S.done) return;
+    S.done = true; S.drawing = false; Cursor.setTool(null);
+    hint.classList.add('gone');
+    if (REDUCED) { dctx.clearRect(0, 0, S.dirt.width, S.dirt.height); S.pct = 1; onClean(); return; }
+    S.sweep = 0;
+  }
+  function onClean() {
+    S.pct = 1; S.needs = true;
+    meter.classList.add('full'); badge.classList.add('show');
+    resetBtn.querySelector('span').textContent = 'Dirty it up';
+    swapHead(true);
+    document.querySelector('.hero').classList.add('is-clean');
+    if (!REDUCED) { S.glintT = 0; spawnSparkles(); }
+  }
+  function reset() {
+    const wasDone = S.done;
+    S.done = false; S.sweep = -1; S.glintT = -1; S.sparkles.length = 0;
+    generateDirt(); S.base = countDirt() || 1; S.pct = 0;
+    S.dirtAlpha = REDUCED ? 1 : 0;
+    meter.classList.remove('full'); badge.classList.remove('show');
+    resetBtn.querySelector('span').textContent = 'Reset';
+    document.querySelector('.hero').classList.remove('is-clean');
+    if (wasDone) swapHead(false);
+    S.needs = true;
+  }
+  function spawnSparkles() {
+    const pts = [[500, 72], [960, 206], [186, 236], [842, 228], [985, 222], [330, 102], [640, 192], [250, 300]];
+    pts.forEach(([x, y], i) => S.sparkles.push({ x, y, t: -i * .12 - .25, size: 14 + Math.random() * 12 }));
+  }
+
+  /* ---------- Render loop ---------- */
+  let lastT = performance.now();
+  function frame(now) {
+    const dt = Math.min(.05, (now - lastT) / 1000); lastT = now;
+    if (S.visible) { update(dt, now); if (S.needs || active()) render(now); S.needs = false; }
+    requestAnimationFrame(frame);
+  }
+  function active() { return S.driving || S.sweep >= 0 || S.glintT >= 0 || S.bubbles.length || S.suds.length || S.pops.length || S.sparkles.length || S.dirtAlpha < 1 || S.paintFade < 1; }
+  function update(dt, now) {
+    if (S.driving) {
+      const t = clamp((now - S.driveStart) / 1700, 0, 1);
+      S.drive = easeOutExpo(t);
+      const prev = S.offX;
+      S.offX = -(1 - S.drive) * (S.w * .9 + 1000 * S.s);
+      S.speed = (S.offX - prev) / Math.max(dt, .001);
+      if (t >= 1) { S.driving = false; S.offX = 0; S.speed = 0; S.drive = 1; if (!S.touched) hint.classList.add('show'); }
+    }
+    if (S.sweep >= 0) {
+      S.sweep += dt / .95;
+      const p = easeInOutCubic(clamp(S.sweep, 0, 1));
+      const W = S.dirt.width, H = S.dirt.height, edge = 120 * S.s * S.dpr, sx = lerp(-edge, W + edge, p);
+      dctx.globalCompositeOperation = 'destination-out';
+      const g = dctx.createLinearGradient(sx - edge, 0, sx, 0); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      dctx.fillStyle = g; dctx.fillRect(0, 0, Math.max(0, sx), H);
+      dctx.globalCompositeOperation = 'source-over';
+      S.sweepX = S.carX + S.offX + sx / S.dpr;
+      // foam curtain
+      for (let i = 0; i < 5; i++) {
+        const cyy = S.carY + (PAD + 80 + Math.random() * 250) * S.s;
+        if (S.suds.length < 220) S.suds.push({ x: S.sweepX - Math.random() * 20 * S.s, y: cyy, r: (10 + Math.random() * 26) * S.s, life: 0, max: .7 + Math.random() * .8 });
+        if (S.bubbles.length < 380) S.bubbles.push({ x: S.sweepX - Math.random() * 30 * S.s, y: cyy, r: (3 + Math.random() * 10) * Math.max(.6, S.s), life: 0, max: .5 + Math.random() * 1.4, vy: 8 + Math.random() * 14, ph: Math.random() * 6 });
+      }
+      S.pct = Math.max(S.pct, lerp(.7, 1, p));
+      if (S.sweep >= 1) { S.sweep = -1; dctx.clearRect(0, 0, W, H); onClean(); }
+    }
+    if (S.glintT >= 0) { S.glintT += dt / 1.3; if (S.glintT >= 1) { S.glintT = -1; S.idleGlint = 0; } }
+    else if (S.done && !REDUCED) { S.idleGlint += dt; if (S.idleGlint > 7) S.glintT = 0; }
+    if (S.dirtAlpha < 1) S.dirtAlpha = Math.min(1, S.dirtAlpha + dt * 1.8);
+    if (S.paintFade < 1) S.paintFade = Math.min(1, S.paintFade + dt * 2.2);
+    for (let i = S.bubbles.length - 1; i >= 0; i--) {
+      const b = S.bubbles[i]; b.life += dt; b.y += b.vy * dt; b.x += Math.sin(b.life * 3 + b.ph) * 6 * dt;
+      if (b.life > b.max) {
+        S.bubbles.splice(i, 1);
+        if (S.pops.length < 80 && b.r > 3) S.pops.push({ x: b.x, y: b.y, r: b.r, t: 0 });
+      }
+    }
+    for (let i = S.suds.length - 1; i >= 0; i--) { const s = S.suds[i]; s.life += dt; s.y += 6 * dt; if (s.life > s.max) S.suds.splice(i, 1); }
+    for (let i = S.pops.length - 1; i >= 0; i--) { const p = S.pops[i]; p.t += dt / .28; if (p.t >= 1) S.pops.splice(i, 1); }
+    for (let i = S.sparkles.length - 1; i >= 0; i--) { const s = S.sparkles[i]; s.t += dt / .8; if (s.t >= 1) S.sparkles.splice(i, 1); }
+    // meter tween
+    const target = S.pct * 100;
+    S.shownPct += (target - S.shownPct) * Math.min(1, dt * 8);
+    if (Math.abs(target - S.shownPct) < .3) S.shownPct = target;
+    const shown = Math.round(S.shownPct);
+    if (pctEl._v !== shown) { pctEl._v = shown; pctEl.textContent = shown; fill.style.setProperty('--p', shown / 100); meter.setAttribute('aria-valuenow', shown); }
+  }
+  function render(now) {
+    const c = ctx, d = S.dpr;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.drawImage(S.bg, 0, 0);
+    c.setTransform(d, 0, 0, d, 0, 0);
+    const x = S.carX + S.offX, y = S.carY, cw = S.car.width / d, ch = S.car.height / d;
+    // speed lines
+    if (S.driving && Math.abs(S.speed) > 60) {
+      const a = clamp(Math.abs(S.speed) / 3000, 0, .5);
+      for (let i = 0; i < 9; i++) {
+        const ly = y + (PAD + 90 + i * 26) * S.s, lx = x - (60 + (i * 53) % 160) * S.s;
+        const g = c.createLinearGradient(lx - 500 * S.s, 0, lx, 0); g.addColorStop(0, 'rgba(45,226,255,0)'); g.addColorStop(1, `rgba(190,240,255,${a})`);
+        c.strokeStyle = g; c.lineWidth = 1.2; c.beginPath(); c.moveTo(lx - 500 * S.s, ly); c.lineTo(lx, ly); c.stroke();
+      }
+    }
+    // reflection
+    c.save();
+    c.translate(0, 2 * S.groundY); c.scale(1, -1);
+    c.globalAlpha = .2;
+    c.drawImage(S.car, x, y, cw, ch);
+    if (S.dirtAlpha > 0) { c.globalAlpha = .2 * S.dirtAlpha; c.drawImage(S.dirt, x, y, cw, ch); }
+    c.restore();
+    let g = c.createLinearGradient(0, S.groundY, 0, S.groundY + 130 * S.s);
+    g.addColorStop(0, 'rgba(10,16,22,.35)'); g.addColorStop(1, 'rgba(7,8,10,1)');
+    c.fillStyle = g; c.fillRect(0, S.groundY, S.w, S.h - S.groundY + 2);
+    // horizon glow line
+    g = c.createLinearGradient(0, 0, S.w, 0);
+    g.addColorStop(0, 'rgba(45,226,255,0)'); g.addColorStop(.5, 'rgba(45,226,255,.28)'); g.addColorStop(1, 'rgba(45,226,255,0)');
+    c.fillStyle = g; c.fillRect(0, S.groundY - .5, S.w, 1);
+    // shadow
+    c.drawImage(S.shadow, x + (PAD - 50) * S.s, S.groundY - 40 * S.s, S.shadow.width / d, S.shadow.height / d);
+    // car (with paint crossfade)
+    if (S.paintFade < 1) { c.drawImage(S.prevCar, x, y, cw, ch); c.globalAlpha = S.paintFade; c.drawImage(S.car, x, y, cw, ch); c.globalAlpha = 1; }
+    else c.drawImage(S.car, x, y, cw, ch);
+    // wheel motion blur while driving
+    if (S.driving) {
+      const a = clamp(Math.abs(S.speed) / 1400, 0, 1);
+      if (a > .02) WHEELS.forEach(([wx, wy]) => {
+        const px = x + (wx + PAD) * S.s, py = y + (wy + PAD) * S.s, r = 50 * S.s;
+        const gg = c.createRadialGradient(px, py, r * .2, px, py, r);
+        gg.addColorStop(0, `rgba(170,178,188,${a})`); gg.addColorStop(.75, `rgba(90,96,106,${a})`); gg.addColorStop(.93, `rgba(200,208,218,${a})`); gg.addColorStop(1, `rgba(40,44,50,${a})`);
+        c.fillStyle = gg; c.beginPath(); c.arc(px, py, r, 0, 7); c.fill();
+        c.fillStyle = `rgba(30,32,36,${a})`; c.beginPath(); c.arc(px, py, 12 * S.s, 0, 7); c.fill();
+      });
+    }
+    // dirt
+    if (S.dirtAlpha > 0 && !(S.done && S.sweep < 0)) { c.globalAlpha = S.dirtAlpha; c.drawImage(S.dirt, x, y, cw, ch); c.globalAlpha = 1; }
+    // squeegee sweep line
+    if (S.sweep >= 0 && S.sweepX) {
+      const top = y + (PAD + 50) * S.s, bot = S.groundY;
+      g = c.createLinearGradient(S.sweepX - 40, 0, S.sweepX + 6, 0);
+      g.addColorStop(0, 'rgba(45,226,255,0)'); g.addColorStop(.85, 'rgba(160,240,255,.35)'); g.addColorStop(1, 'rgba(255,255,255,.9)');
+      c.fillStyle = g; c.fillRect(S.sweepX - 40, top, 46, bot - top);
+    }
+    // glint across paint
+    if (S.glintT >= 0) {
+      const W = S.glint.width, H = S.glint.height, p = easeInOutCubic(S.glintT);
+      gctx.setTransform(1, 0, 0, 1, 0, 0); gctx.globalCompositeOperation = 'source-over'; gctx.clearRect(0, 0, W, H);
+      const gx = lerp(-W * .25, W * 1.25, p), bw = W * .12;
+      gctx.save(); gctx.translate(gx, H / 2); gctx.rotate(.38);
+      const lg = gctx.createLinearGradient(-bw, 0, bw, 0);
+      lg.addColorStop(0, 'rgba(255,255,255,0)'); lg.addColorStop(.45, 'rgba(210,248,255,.55)'); lg.addColorStop(.5, 'rgba(255,255,255,1)'); lg.addColorStop(.55, 'rgba(210,248,255,.55)'); lg.addColorStop(1, 'rgba(255,255,255,0)');
+      gctx.fillStyle = lg; gctx.fillRect(-bw, -H * 2, bw * 2, H * 4);
+      gctx.restore();
+      gctx.globalCompositeOperation = 'destination-in'; gctx.drawImage(S.car, 0, 0);
+      c.globalCompositeOperation = 'lighter'; c.globalAlpha = .55 * Math.sin(Math.PI * clamp(S.glintT * 1.1, 0, 1)) + .15;
+      c.drawImage(S.glint, x, y, cw, ch);
+      c.globalCompositeOperation = 'source-over'; c.globalAlpha = 1;
+    }
+    // foam
+    for (const s of S.suds) {
+      const k = s.life / s.max, a = (k < .15 ? k / .15 : 1 - (k - .15) / .85) * .5;
+      g = c.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r);
+      g.addColorStop(0, `rgba(250,253,255,${a})`); g.addColorStop(.6, `rgba(230,244,252,${a * .55})`); g.addColorStop(1, 'rgba(230,244,252,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(s.x, s.y, s.r, 0, 7); c.fill();
+    }
+    for (const b of S.bubbles) {
+      const k = b.life / b.max, a = Math.min(1, b.life * 6) * (k > .85 ? (1 - k) / .15 : 1), r = b.r * (.7 + Math.min(1, b.life * 4) * .3);
+      c.fillStyle = `rgba(255,255,255,${.07 * a})`; c.beginPath(); c.arc(b.x, b.y, r, 0, 7); c.fill();
+      c.lineWidth = Math.max(.6, r * .09);
+      c.strokeStyle = `rgba(255,255,255,${.6 * a})`; c.beginPath(); c.arc(b.x, b.y, r, 0, 7); c.stroke();
+      if (r > 4) {
+        c.strokeStyle = `rgba(45,226,255,${.45 * a})`; c.beginPath(); c.arc(b.x, b.y, r * .82, .3, 1.5); c.stroke();
+        c.strokeStyle = `rgba(255,120,190,${.35 * a})`; c.beginPath(); c.arc(b.x, b.y, r * .82, 3.4, 4.3); c.stroke();
+      }
+      c.fillStyle = `rgba(255,255,255,${.9 * a})`; c.beginPath(); c.arc(b.x - r * .38, b.y - r * .38, Math.max(.7, r * .2), 0, 7); c.fill();
+    }
+    for (const p of S.pops) {
+      c.strokeStyle = `rgba(255,255,255,${.6 * (1 - p.t)})`; c.lineWidth = 1;
+      c.beginPath(); c.arc(p.x, p.y, p.r * (1 + p.t * 1.2), 0, 7); c.stroke();
+      for (let i = 0; i < 4; i++) { const a = i * 1.57 + p.r, rr = p.r * (1 + p.t * 2.2); c.fillStyle = `rgba(255,255,255,${.7 * (1 - p.t)})`; c.fillRect(p.x + Math.cos(a) * rr, p.y + Math.sin(a) * rr, 1.4, 1.4); }
+    }
+    // sparkles
+    for (const s of S.sparkles) {
+      if (s.t < 0) continue;
+      const k = Math.sin(Math.PI * s.t), px = x + (s.x + PAD) * S.s, py = y + (s.y + PAD) * S.s, L = s.size * k * Math.max(.7, S.s);
+      c.save(); c.translate(px, py); c.rotate(s.t * .8); c.globalCompositeOperation = 'lighter';
+      g = c.createRadialGradient(0, 0, 0, 0, 0, L * .8); g.addColorStop(0, `rgba(200,250,255,${.6 * k})`); g.addColorStop(1, 'rgba(45,226,255,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(0, 0, L * .8, 0, 7); c.fill();
+      c.fillStyle = `rgba(255,255,255,${k})`;
+      for (let r = 0; r < 2; r++) { c.rotate(Math.PI / 2 * r); c.beginPath(); c.moveTo(-L, 0); c.lineTo(0, -L * .08); c.lineTo(L, 0); c.lineTo(0, L * .08); c.closePath(); c.fill(); }
+      c.restore();
+    }
+  }
+
+  /* ---------- Boot ---------- */
+  function init() {
+    layout();
+    if (REDUCED) {
+      S.done = true; dctx.clearRect(0, 0, S.dirt.width, S.dirt.height); S.pct = 1; S.shownPct = 100;
+      resetBtn.querySelector('span').textContent = 'Dirty it up';
+      swapHead(true); badge.classList.add('show'); meter.classList.add('full');
+    } else {
+      S.offX = -(S.w * .9 + 1000 * S.s);
+    }
+    let rw = innerWidth, rh = innerHeight, to;
+    addEventListener('resize', () => {
+      clearTimeout(to);
+      to = setTimeout(() => { if (innerWidth !== rw || Math.abs(innerHeight - rh) > 140) { rw = innerWidth; rh = innerHeight; layout(); } }, 150);
+    });
+    inView(canvas, v => { S.visible = v; S.needs = true; }, '0px');
+    requestAnimationFrame(frame);
+  }
+  function intro() {
+    if (REDUCED) return;
+    S.driving = true; S.driveStart = performance.now() + 150;
+  }
+  return { init, intro, state: S, finish, reset };
+})();
+
+/* ==========================================================================
+   Service area radar
+   ========================================================================== */
+(function radar() {
+  const sa = CONFIG.serviceArea, svg = $('#radar');
+  let h = '';
+  [62, 110, 150, 186].forEach((r, i) => h += `<circle class="ring ${i === 3 ? 'o' : ''}" cx="200" cy="200" r="${r}" ${i === 3 ? 'stroke-dasharray="2 6"' : ''}/>`);
+  h += `<path class="ax" d="M200 8V392M8 200H392"/>`;
+  h += `<text class="rlbl" x="206" y="${200 - 188}">${sa.radiusMiles} MI</text><text class="rlbl" x="206" y="${200 - 152}">${Math.round(sa.radiusMiles * .8)} MI</text>`;
+  const n = sa.areas.length;
+  sa.areas.forEach((name, i) => {
+    const deg = -60 + i * (360 / n) + (i % 2 ? 12 : -6);
+    const dist = [96, 140, 120, 166, 104, 150, 132][i % 7];
+    const a = deg * Math.PI / 180, x = 200 + Math.cos(a) * dist, y = 200 + Math.sin(a) * dist;
+    const tPass = (((deg + 90) % 360) + 360) % 360 / 360 * 6 - 6;
+    const right = Math.cos(a) > -.2;
+    h += `<circle class="ping" cx="${x}" cy="${y}" r="5" style="animation-delay:${tPass.toFixed(2)}s"/>`;
+    h += `<circle class="pt" cx="${x}" cy="${y}" r="3.2"/>`;
+    h += `<text class="lbl" x="${x + (right ? 9 : -9)}" y="${y + 3.5}" text-anchor="${right ? 'start' : 'end'}">${name}</text>`;
+  });
+  svg.innerHTML = h;
+  $('#radarWrap').setAttribute('aria-label', `Service area: within about ${sa.radiusMiles} miles of ${sa.base}, including ${sa.areas.join(', ')}.`);
+  $('#areaMeta').innerHTML = `<span>Base <b>${sa.base}</b></span><span>Radius <b>~${sa.radiusMiles} mi</b></span><span>Hours <b>${CONFIG.hours}</b></span>`;
+})();
+
+/* ==========================================================================
+   CERAMIC — hydrophobic droplet panel
+   ========================================================================== */
+const Ceramic = (() => {
+  const canvas = $('#cerCanvas'), ctx = canvas.getContext('2d'), panelEl = $('#panel');
+  const sw = $('#coatSwitch'), lbl = $('#coatLabel'), roB = $('#roBeads'), roW = $('#roWet'), stateLbl = $('#panelState');
+  const S = { w: 0, h: 0, d: 1, drops: [], fx: [], coated: true, ptr: { x: 0, y: 0, on: false, t: 0 }, visible: false, acc: 0, panel: null, smear: null, bead: null, puddles: [], lastRO: 0, mix: 0 };
+  function sprite(size, draw) { const c = document.createElement('canvas'); c.width = c.height = size; draw(c.getContext('2d'), size); return c; }
+  function buildSprites() {
+    const R = 40, size = 128;
+    S.bead = sprite(size, (c, n) => {
+      const cx = n / 2, cy = n / 2;
+      let g = c.createRadialGradient(cx + R * .22, cy + R * .38, 0, cx + R * .22, cy + R * .38, R * 1.25);
+      g.addColorStop(0, 'rgba(0,0,0,.55)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(cx + R * .22, cy + R * .38, R * 1.25, 0, 7); c.fill();
+      g = c.createRadialGradient(cx - R * .25, cy - R * .3, R * .1, cx, cy, R);
+      g.addColorStop(0, 'rgba(14,22,32,.25)'); g.addColorStop(.55, 'rgba(10,16,24,.55)'); g.addColorStop(.86, 'rgba(70,120,160,.45)'); g.addColorStop(1, 'rgba(200,236,255,.75)');
+      c.fillStyle = g; c.beginPath(); c.arc(cx, cy, R, 0, 7); c.fill();
+      c.lineCap = 'round';
+      c.strokeStyle = 'rgba(170,236,255,.75)'; c.lineWidth = R * .14; c.beginPath(); c.arc(cx, cy + R * .04, R * .7, .35 * Math.PI, .72 * Math.PI); c.stroke();
+      c.strokeStyle = 'rgba(255,255,255,.2)'; c.lineWidth = 1.2; c.beginPath(); c.arc(cx, cy, R - .8, 0, 7); c.stroke();
+      c.save(); c.translate(cx - R * .36, cy - R * .42); c.rotate(-.7);
+      g = c.createRadialGradient(0, 0, 0, 0, 0, R * .3); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.6, 'rgba(255,255,255,.9)'); g.addColorStop(1, 'rgba(255,255,255,0)');
+      c.scale(1, .55); c.fillStyle = g; c.beginPath(); c.arc(0, 0, R * .3, 0, 7); c.fill(); c.restore();
+      c.fillStyle = 'rgba(255,255,255,.7)'; c.beginPath(); c.arc(cx + R * .32, cy + R * .3, R * .06, 0, 7); c.fill();
+    });
+    S.puddles = [0, 1, 2].map(v => sprite(size, (c, n) => {
+      const cx = n / 2, cy = n / 2; seed = 300 + v * 31;
+      const pts = []; const N = 16;
+      for (let i = 0; i < N; i++) { const a = i / N * Math.PI * 2, r = R * (.78 + rnd() * .3); pts.push([cx + Math.cos(a) * r, cy + Math.sin(a) * r * .9]); }
+      c.beginPath();
+      for (let i = 0; i <= N; i++) { const p = pts[i % N], q = pts[(i + 1) % N], mx = (p[0] + q[0]) / 2, my = (p[1] + q[1]) / 2; i === 0 ? c.moveTo(mx, my) : c.quadraticCurveTo(p[0], p[1], mx, my); }
+      c.closePath();
+      c.fillStyle = 'rgba(150,185,210,.13)'; c.fill();
+      c.strokeStyle = 'rgba(205,232,255,.3)'; c.lineWidth = 1.6; c.stroke();
+      const g = c.createLinearGradient(cx - R, cy - R, cx + R, cy + R); g.addColorStop(0, 'rgba(255,255,255,.18)'); g.addColorStop(.4, 'rgba(255,255,255,0)');
+      c.fillStyle = g; c.fill();
+    }));
+  }
+  function buildPanel() {
+    const w = canvas.width, h = canvas.height;
+    const make = gloss => sprite(1, () => {}) && (() => {
+      const c = document.createElement('canvas'); c.width = w; c.height = h; const x = c.getContext('2d');
+      let g = x.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, '#0d1520'); g.addColorStop(.45, '#05070b'); g.addColorStop(1, '#0b1520');
+      x.fillStyle = g; x.fillRect(0, 0, w, h);
+      seed = 41;
+      for (let i = 0; i < w * h / 260; i++) { x.fillStyle = rnd() < .3 ? `rgba(45,226,255,${rnd() * .12})` : `rgba(255,255,255,${rnd() * .08})`; x.fillRect(rnd() * w, rnd() * h, 1, 1); }
+      // softbox reflection
+      x.save(); x.translate(w * .64, h * .2); x.rotate(-.18);
+      g = x.createLinearGradient(-w * .3, 0, w * .3, 0);
+      g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.2, `rgba(220,240,255,${.07 * gloss})`); g.addColorStop(.8, `rgba(220,240,255,${.07 * gloss})`); g.addColorStop(1, 'rgba(255,255,255,0)');
+      x.fillStyle = g; x.fillRect(-w * .3, -h * .06, w * .6, h * .12);
+      x.restore();
+      // curved horizon line
+      x.save(); x.strokeStyle = `rgba(230,246,255,${.38 * gloss})`; x.lineWidth = 1.5 * S.d; x.shadowColor = 'rgba(45,226,255,.7)'; x.shadowBlur = 12 * S.d;
+      x.beginPath(); x.moveTo(-10, h * .58); x.quadraticCurveTo(w * .5, h * .5, w + 10, h * .6); x.stroke(); x.restore();
+      g = x.createLinearGradient(0, h * .58, 0, h); g.addColorStop(0, `rgba(45,226,255,${.05 * gloss})`); g.addColorStop(1, 'rgba(0,0,0,0)');
+      x.fillStyle = g; x.fillRect(0, h * .5, w, h * .5);
+      // diagonal sheen
+      g = x.createLinearGradient(0, 0, w, h * .6);
+      g.addColorStop(.25, 'rgba(255,255,255,0)'); g.addColorStop(.35, `rgba(255,255,255,${.05 * gloss})`); g.addColorStop(.42, 'rgba(255,255,255,0)');
+      x.fillStyle = g; x.fillRect(0, 0, w, h);
+      if (gloss < 1) { x.fillStyle = 'rgba(160,170,180,.05)'; x.fillRect(0, 0, w, h); }
+      // vignette
+      g = x.createRadialGradient(w / 2, h / 2, Math.min(w, h) * .3, w / 2, h / 2, Math.max(w, h) * .75);
+      g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.6)');
+      x.fillStyle = g; x.fillRect(0, 0, w, h);
+      return c;
+    })();
+    S.panelOn = make(1); S.panelOff = make(.45);
+    S.smear = document.createElement('canvas'); S.smear.width = w; S.smear.height = h;
+  }
+  function layout() {
+    const r = canvas.getBoundingClientRect(); if (!r.width) return;
+    S.w = r.width; S.h = r.height; S.d = DPR();
+    canvas.width = Math.round(S.w * S.d); canvas.height = Math.round(S.h * S.d);
+    buildPanel();
+    if (!S.drops.length) { for (let i = 0; i < 70; i++) spawn(true); }
+  }
+  function spawn(initial) {
+    const r = 1.6 + Math.pow(Math.random(), 2.2) * 5.5;
+    S.drops.push({ x: Math.random() * S.w, y: (initial ? Math.random() * .95 : Math.random() * .85) * S.h, r, vx: 0, vy: 0, sp: S.coated ? 0 : 1, v: (Math.random() * 3) | 0, age: initial ? 3 : 0, id: Math.random() * 100 });
+    if (!initial && S.fx.length < 40) S.fx.push({ x: S.drops[S.drops.length - 1].x, y: S.drops[S.drops.length - 1].y, t: 0, r });
+  }
+  function step(dt, now) {
+    const coatT = S.coated ? 0 : 1;
+    S.mix += (coatT - S.mix) * Math.min(1, dt * 3);
+    S.acc += dt * (S.coated ? 10 : 8);
+    const cap = S.coated ? 220 : 280;
+    while (S.acc > 1) { S.acc -= 1; if (S.drops.length < cap) spawn(false); }
+    const P = S.ptr, blowR = Math.min(190, S.w * .35), ptrOn = P.on && now - P.t < 2500;
+    const g = 640;
+    for (const d of S.drops) {
+      d.sp += ((S.coated ? 0 : 1) - d.sp) * Math.min(1, dt * 2.5);
+      d.age += dt;
+      const sp = d.sp, er = d.r * (1 + sp * .8);
+      let ax = 0, ay = 0;
+      // gravity: beads above a size roll; puddles cling
+      const rollK = lerp(clamp((d.r - 3.4) / 4, 0, 1.6), clamp((d.r - 10) / 8, 0, .4), sp);
+      ay += g * rollK * (1 - sp * .85);
+      if (ptrOn) {
+        const dx = d.x - P.x, dy = d.y - P.y, dist = Math.hypot(dx, dy);
+        if (dist < blowR && dist > .1) {
+          const f = Math.pow(1 - dist / blowR, 1.5) * 5200 * lerp(1, .12, sp) / (.6 + d.r * .14);
+          ax += dx / dist * f; ay += dy / dist * f;
+        }
+      }
+      const moving = Math.abs(ax) + Math.abs(ay) > 30 || Math.hypot(d.vx, d.vy) > 6;
+      if (moving) {
+        d.vx += ax * dt; d.vy += ay * dt;
+        if (Math.hypot(d.vx, d.vy) > 20) d.vx += Math.sin(now * .004 + d.id) * 40 * dt * (1 - sp);
+        const fr = lerp(1.6, 7, sp);
+        d.vx *= Math.max(0, 1 - fr * dt); d.vy *= Math.max(0, 1 - fr * dt);
+        const ox = d.x, oy = d.y;
+        d.x += d.vx * dt; d.y += d.vy * dt;
+        if (sp > .5 && S.smear) {
+          const sc = S.smear.getContext('2d'), s = er * 2 * S.d;
+          sc.globalAlpha = .05 * sp; sc.drawImage(S.puddles[d.v], d.x * S.d - s / 2, d.y * S.d - s / 2, s, s); sc.globalAlpha = 1;
+        }
+      } else { d.vx *= .5; d.vy *= .5; }
+      if (sp > .6 && d.age > 14) d.r = Math.max(0, d.r - dt * .05);
+    }
+    // merge
+    const ds = S.drops;
+    for (let i = 0; i < ds.length; i++) {
+      const a = ds[i]; if (a.dead) continue;
+      const ar = a.r * (1 + a.sp * .8);
+      for (let j = i + 1; j < ds.length; j++) {
+        const b = ds[j]; if (b.dead) continue;
+        const br = b.r * (1 + b.sp * .8), dx = a.x - b.x, dy = a.y - b.y, lim = (ar + br) * .78;
+        if (dx * dx + dy * dy < lim * lim) {
+          const va = a.r ** 3, vb = b.r ** 3, vt = va + vb;
+          a.x = (a.x * va + b.x * vb) / vt; a.y = (a.y * va + b.y * vb) / vt;
+          a.vx = (a.vx * va + b.vx * vb) / vt; a.vy = (a.vy * va + b.vy * vb) / vt;
+          a.r = Math.min(Math.cbrt(vt), S.coated ? 13 : 22); b.dead = true;
+          if (S.fx.length < 40 && a.sp < .5) S.fx.push({ x: a.x, y: a.y, t: .4, r: a.r * .8 });
+        }
+      }
+    }
+    S.drops = ds.filter(d => !d.dead && d.r > .6 && d.y - d.r < S.h + 20 && d.x > -40 && d.x < S.w + 40 && d.y > -40);
+    for (let i = S.fx.length - 1; i >= 0; i--) { S.fx[i].t += dt / .4; if (S.fx[i].t >= 1) S.fx.splice(i, 1); }
+    // slowly evaporate smear on the coated panel
+    if (S.smear && (now | 0) % 6 === 0) { const sc = S.smear.getContext('2d'); sc.globalCompositeOperation = 'destination-out'; sc.fillStyle = `rgba(0,0,0,${S.coated ? .08 : .01})`; sc.fillRect(0, 0, S.smear.width, S.smear.height); sc.globalCompositeOperation = 'source-over'; }
+    if (now - S.lastRO > 250) {
+      S.lastRO = now;
+      let area = 0, beads = 0;
+      for (const d of S.drops) { const er = d.r * (1 + d.sp * .8); area += Math.PI * er * er; if (d.sp < .5) beads++; }
+      roB.textContent = beads;
+      roW.textContent = Math.min(99, Math.round(area / (S.w * S.h) * 100 * 2.2));
+    }
+  }
+  function draw(now) {
+    const c = ctx, d = S.d;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.globalAlpha = 1; c.drawImage(S.panelOn, 0, 0);
+    if (S.mix > .01) { c.globalAlpha = S.mix; c.drawImage(S.panelOff, 0, 0); c.globalAlpha = 1; }
+    c.drawImage(S.smear, 0, 0);
+    c.setTransform(d, 0, 0, d, 0, 0);
+    for (const f of S.fx) {
+      c.strokeStyle = `rgba(200,240,255,${.5 * (1 - f.t)})`; c.lineWidth = 1;
+      c.beginPath(); c.arc(f.x, f.y, f.r * (1 + f.t * 2.6), 0, 7); c.stroke();
+    }
+    for (const p of S.drops) {
+      const er = p.r * (1 + p.sp * .8), size = er * 3.2;
+      const spd = Math.hypot(p.vx, p.vy), st = Math.min(.45, spd / 900);
+      c.save(); c.translate(p.x, p.y);
+      if (st > .02) { c.rotate(Math.atan2(p.vy, p.vx) - Math.PI / 2); c.scale(1 - st * .3, 1 + st); c.rotate(-(Math.atan2(p.vy, p.vx) - Math.PI / 2)); }
+      if (p.sp < .98) { c.globalAlpha = 1 - p.sp; c.drawImage(S.bead, -size / 2, -size / 2, size, size); }
+      if (p.sp > .02) { c.globalAlpha = p.sp; const s2 = er * 2.6; c.drawImage(S.puddles[p.v], -s2 / 2, -s2 / 2, s2, s2); }
+      c.restore();
+    }
+    c.globalAlpha = 1;
+    // blower indicator
+    const P = S.ptr;
+    if (P.on && now - P.t < 2500) {
+      const R = Math.min(190, S.w * .35);
+      const g = c.createRadialGradient(P.x, P.y, 0, P.x, P.y, R);
+      g.addColorStop(0, 'rgba(45,226,255,.10)'); g.addColorStop(1, 'rgba(45,226,255,0)');
+      c.fillStyle = g; c.beginPath(); c.arc(P.x, P.y, R, 0, 7); c.fill();
+      c.strokeStyle = 'rgba(45,226,255,.35)'; c.lineWidth = 1; c.setLineDash([3, 6]);
+      c.lineDashOffset = -now * .03;
+      c.beginPath(); c.arc(P.x, P.y, R * .55, 0, 7); c.stroke(); c.setLineDash([]);
+      for (let i = 0; i < 8; i++) {
+        const a = i / 8 * Math.PI * 2 + now * .0006, k = ((now * .0012 + i * .37) % 1);
+        const r0 = 22 + k * R * .7;
+        c.strokeStyle = `rgba(200,245,255,${.35 * (1 - k)})`;
+        c.beginPath(); c.arc(P.x, P.y, r0, a, a + .25); c.stroke();
+      }
+    }
+  }
+  let last = performance.now();
+  function loop(now) {
+    const dt = Math.min(.033, (now - last) / 1000); last = now;
+    if (S.visible && S.w) { step(dt, now); draw(now); }
+    if (S.visible) requestAnimationFrame(loop); else S.running = false;
+  }
+  function setVisible(v) { S.visible = v; if (v && !S.running) { S.running = true; last = performance.now(); requestAnimationFrame(loop); } }
+  function setCoated(on) {
+    S.coated = on; sw.setAttribute('aria-checked', on); lbl.textContent = on ? 'On' : 'Off';
+    stateLbl.textContent = on ? 'Coated panel' : 'Bare clear coat';
+    panelEl.classList.toggle('off', !on);
+  }
+  function init() {
+    buildSprites(); layout();
+    sw.addEventListener('click', () => setCoated(!S.coated));
+    const pm = e => { const r = canvas.getBoundingClientRect(); S.ptr.x = e.clientX - r.left; S.ptr.y = e.clientY - r.top; S.ptr.on = true; S.ptr.t = performance.now(); };
+    canvas.addEventListener('pointermove', pm);
+    canvas.addEventListener('pointerdown', pm);
+    canvas.addEventListener('pointerleave', () => { S.ptr.on = false; Cursor.setTool(null); });
+    canvas.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') Cursor.setTool('BLOW', 64); });
+    canvas.addEventListener('pointerup', e => { if (e.pointerType !== 'mouse') S.ptr.on = false; });
+    let rw = innerWidth, to;
+    addEventListener('resize', () => { clearTimeout(to); to = setTimeout(() => { if (innerWidth !== rw) { rw = innerWidth; layout(); } }, 200); });
+    inView(canvas, setVisible, '50px');
+    if (REDUCED) { S.visible = true; S.w && draw(performance.now()); }
+  }
+  return { init, S };
+})();
+
+/* ==========================================================================
+   PROCESS — pinned horizontal scroll
+   ========================================================================== */
+function setupProcess() {
+  const track = $('#procTrack'), steps = $$('.step:not(.intro)', track), bar = $('#procBar'), count = $('#procCount');
+  if (!HAS_ST || REDUCED) { steps.forEach(s => s.classList.add('is-active')); return; }
+  document.documentElement.classList.add('js-draw');
+  const drawIn = (s, opts) => gsap.to($$('.draw', s), { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut', stagger: .12, ...opts });
+  const mm = gsap.matchMedia();
+  mm.add('(min-width: 900px)', () => {
+    const dist = () => track.scrollWidth - innerWidth;
+    const tw = gsap.to(track, { x: () => -dist(), ease: 'none', scrollTrigger: {
+      trigger: '#procPin', start: 'top top', end: () => '+=' + dist(), pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1,
+      onUpdate: self => {
+        bar.style.transform = `scaleX(${self.progress})`;
+        count.textContent = String(Math.min(6, 1 + Math.floor(self.progress * 6))).padStart(2, '0') + ' / 06';
+      }
+    } });
+    steps.forEach(s => {
+      const anim = drawIn(s, { paused: true });
+      ScrollTrigger.create({ trigger: s, containerAnimation: tw, start: 'left 78%', end: 'right 22%',
+        onEnter: () => { s.classList.add('is-active'); anim.play(); }, onEnterBack: () => s.classList.add('is-active'),
+        onLeave: () => s.classList.remove('is-active'), onLeaveBack: () => s.classList.remove('is-active') });
+    });
+    return () => { gsap.set(track, { x: 0 }); steps.forEach(s => s.classList.remove('is-active')); };
+  });
+  mm.add('(max-width: 899px)', () => {
+    steps.forEach(s => {
+      const anim = drawIn(s, { paused: true });
+      ScrollTrigger.create({ trigger: s, start: 'top 82%', end: 'bottom 30%', onEnter: () => { s.classList.add('is-active'); anim.play(); }, onEnterBack: () => s.classList.add('is-active'), onLeave: () => s.classList.remove('is-active'), onLeaveBack: () => s.classList.remove('is-active') });
+    });
+  });
+}
+
+/* ==========================================================================
+   PACKAGES — tilt cards + size toggle with tweened prices
+   ========================================================================== */
+const Packages = (() => {
+  let size = CONFIG.defaultSize;
+  const grid = $('#pkGrid'), sizesEl = $('#sizes'), pill = $('.pill', sizesEl);
+  const icons = {
+    coupe: '<svg viewBox="0 0 30 16" aria-hidden="true"><path d="M2 12h26v-2.5l-5-1.5-4-4H10L6 8l-4 1z"/><circle cx="8" cy="12.5" r="2"/><circle cx="22" cy="12.5" r="2"/></svg>',
+    suv: '<svg viewBox="0 0 30 16" aria-hidden="true"><path d="M2 12.5h26V9l-4-1-3-5H6L4 8 2 9z"/><circle cx="8" cy="12.5" r="2"/><circle cx="22" cy="12.5" r="2"/></svg>',
+    truck: '<svg viewBox="0 0 30 16" aria-hidden="true"><path d="M2 12.5h26V8H17V3H8L5 8H2z"/><circle cx="8" cy="12.5" r="2"/><circle cx="23" cy="12.5" r="2"/></svg>'
+  };
+  const blobs = ['#2d6bff', '#2de2ff', '#ff3b5c'];
+  const check = '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3 3 7-7.5"/></svg>';
+  function render() {
+    CONFIG.sizes.forEach(s => {
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.size = s.id; b.setAttribute('aria-pressed', s.id === size);
+      b.innerHTML = (icons[s.id] || '') + `<span>${s.label}</span>`;
+      b.addEventListener('click', () => setSize(s.id));
+      sizesEl.append(b);
+    });
+    CONFIG.packages.forEach((p, i) => {
+      const a = document.createElement('article');
+      a.className = 'pkg' + (p.featured ? ' feat-card' : ''); a.dataset.id = p.id; a.setAttribute('aria-labelledby', 'pk-' + p.id);
+      a.innerHTML = `<div class="pkg-blob" style="background:${blobs[i % 3]}"></div>
+        <div class="pkg-top mono"><span>${String(i + 1).padStart(2, '0')} / ${String(CONFIG.packages.length).padStart(2, '0')}</span>${p.featured ? '<span class="pick">Our pick</span>' : ''}</div>
+        <h3 id="pk-${p.id}">${p.name}</h3>
+        <p class="blurb">${p.blurb}</p>
+        <div class="price" aria-live="polite"><span class="cur">${CONFIG.currency}</span><span class="num" data-v="${p.prices[size]}">${p.prices[size]}</span><span class="from mono">sample</span></div>
+        <p class="dur mono">${p.duration}</p>
+        <ul>${p.includes.map(x => `<li>${check}<span>${x}</span></li>`).join('')}</ul>
+        <button type="button" class="btn ${p.featured ? 'btn-cyan' : 'btn-ghost'}" data-book="${p.id}">Book this <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>`;
+      grid.append(a);
+      tilt(a);
+    });
+    grid.addEventListener('click', e => {
+      const b = e.target.closest('[data-book]'); if (!b) return;
+      Booking.set({ pkg: b.dataset.book, size });
+      scrollToEl($('#book'));
+    });
+    requestAnimationFrame(movePill);
+    addEventListener('resize', movePill);
+  }
+  function movePill() {
+    const b = sizesEl.querySelector(`[data-size="${size}"]`); if (!b) return;
+    pill.style.width = b.offsetWidth + 'px'; pill.style.transform = `translateX(${b.offsetLeft - 5}px)`;
+  }
+  function setSize(id) {
+    size = id;
+    $$('button', sizesEl).forEach(b => b.setAttribute('aria-pressed', b.dataset.size === id));
+    movePill();
+    $$('.pkg', grid).forEach(card => {
+      const p = CONFIG.packages.find(x => x.id === card.dataset.id), el = $('.num', card), to = p.prices[id], from = +el.dataset.v;
+      el.dataset.v = to;
+      if (HAS_GSAP && !REDUCED) {
+        const o = { v: from };
+        gsap.to(o, { v: to, duration: .9, ease: 'power3.out', onUpdate: () => el.textContent = Math.round(o.v).toLocaleString('en-US') });
+        gsap.fromTo(el, { y: 0 }, { y: -6, duration: .18, yoyo: true, repeat: 1, ease: 'power2.out' });
+      } else el.textContent = to.toLocaleString('en-US');
+    });
+    Booking.set({ size: id });
+  }
+  function tilt(card) {
+    if (!FINE || REDUCED) return;
+    card.addEventListener('pointermove', e => {
+      const r = card.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      card.classList.add('tilting');
+      card.style.setProperty('--ry', ((x - .5) * 12).toFixed(2) + 'deg');
+      card.style.setProperty('--rx', ((.5 - y) * 10).toFixed(2) + 'deg');
+      card.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+      card.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    });
+    card.addEventListener('pointerleave', () => { card.classList.remove('tilting'); card.style.setProperty('--rx', '0deg'); card.style.setProperty('--ry', '0deg'); });
+  }
+  return { render, get size() { return size; } };
+})();
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+(function faq() {
+  const wrap = $('#qas');
+  CONFIG.faq.forEach(([q, a], i) => {
+    const d = document.createElement('div'); d.className = 'qa';
+    d.innerHTML = `<h3 style="margin:0"><button type="button" aria-expanded="false" aria-controls="qa-${i}" id="qab-${i}"><span>${q}</span><span class="pm" aria-hidden="true"></span></button></h3>
+      <div class="qa-body" id="qa-${i}" role="region" aria-labelledby="qab-${i}"><div><p>${a}</p></div></div>`;
+    const b = $('button', d);
+    b.addEventListener('click', () => {
+      const open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', !open); d.classList.toggle('open', !open);
+      setTimeout(() => HAS_ST && ScrollTrigger.refresh(), 600);
+    });
+    wrap.append(d);
+  });
+})();
+
+/* ==========================================================================
+   BOOKING — builds a request message
+   ========================================================================== */
+const Booking = (() => {
+  const f = { pkg: $('#fPkg'), size: $('#fSize'), area: $('#fArea'), day: $('#fDay'), time: $('#fTime'), name: $('#fName'), car: $('#fCar'), notes: $('#fNotes') };
+  const tk = { title: $('#tkTitle'), size: $('#tkSize'), area: $('#tkArea'), when: $('#tkWhen'), price: $('#tkPrice'), msg: $('#tkMsg'), no: $('#tkNo') };
+  const sms = $('#smsBtn'), tel = $('#telBtn');
+  let priceShown = 0;
+  CONFIG.packages.forEach(p => f.pkg.add(new Option(p.name, p.id, false, !!p.featured)));
+  CONFIG.sizes.forEach(s => f.size.add(new Option(s.label, s.id, false, s.id === CONFIG.defaultSize)));
+  CONFIG.serviceArea.areas.forEach(a => f.area.add(new Option(a, a)));
+  f.area.add(new Option('Somewhere else nearby', 'Somewhere else nearby'));
+  tk.no.textContent = '#VD-' + String(Math.floor(1000 + Math.random() * 8999));
+  if (!CONFIG.phone) { sms.remove(); tel.remove(); }
+  function message() {
+    const p = CONFIG.packages.find(x => x.id === f.pkg.value), s = CONFIG.sizes.find(x => x.id === f.size.value);
+    const name = f.name.value.trim(), car = f.car.value.trim(), notes = f.notes.value.trim();
+    let m = `Hi ${CONFIG.shortName}! I'd like to book a ${p.name} for my ${s.label.toLowerCase()}.`;
+    m += `\nArea: ${f.area.value}`;
+    m += `\nWhen: ${f.day.value}, ${f.time.value.toLowerCase()}`;
+    if (car) m += `\nThe car: ${car}`;
+    if (notes) m += `\nNotes: ${notes}`;
+    m += name ? `\n— ${name}` : '';
+    return { m, p, s };
+  }
+  function update() {
+    const { m, p, s } = message();
+    tk.title.textContent = p.name; tk.size.textContent = s.label; tk.area.textContent = f.area.value;
+    tk.when.textContent = `${f.day.value} · ${f.time.value}`;
+    tk.msg.textContent = m;
+    const to = p.prices[s.id];
+    if (HAS_GSAP && !REDUCED) { const o = { v: priceShown }; gsap.to(o, { v: to, duration: .7, ease: 'power3.out', onUpdate: () => tk.price.textContent = money(o.v) }); }
+    else tk.price.textContent = money(to);
+    priceShown = to;
+    if (CONFIG.phone) { sms.href = `sms:${CONFIG.phone}?&body=${encodeURIComponent(m)}`; tel.href = `tel:${CONFIG.phone}`; }
+  }
+  Object.values(f).forEach(el => el.addEventListener('input', update));
+  function set(o) { if (o.pkg) f.pkg.value = o.pkg; if (o.size) f.size.value = o.size; update(); }
+  const toastEl = $('#toast'); let tt;
+  function toast(t) { $('span', toastEl).textContent = t; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 2600); }
+  $('#copyBtn').addEventListener('click', async () => {
+    const { m } = message();
+    let ok = false;
+    try { await navigator.clipboard.writeText(m); ok = true; } catch (_) {
+      const ta = document.createElement('textarea'); ta.value = m; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.append(ta); ta.select();
+      try { ok = document.execCommand('copy'); } catch (__) {} ta.remove();
+    }
+    toast(ok ? 'Request copied. Paste it into a text or DM.' : 'Copy blocked by the browser. Select the message instead.');
+  });
+  update();
+  return { set, toast };
+})();
+
+/* ==========================================================================
+   Boot
+   ========================================================================== */
+Packages.render();
+Wash.init();
+Ceramic.init();
+setupProcess();
+setupReveals();
+addEventListener('intro', () => {
+  Wash.intro();
+  if (HAS_GSAP && !REDUCED) {
+    gsap.from('.ht-a .ln>span', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: .09, delay: .05 });
+    gsap.from(['.eyebrow', '.hero-sub', '.hero-ctas', '.stage-ui'], { y: 22, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, delay: .25 });
+    gsap.from('.nav', { y: -20, opacity: 0, duration: .9, ease: 'expo.out', delay: .1 });
+  }
+}, { once: true });
+Loader.run();
+if (HAS_ST) {
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => ScrollTrigger.refresh());
+  addEventListener('load', () => ScrollTrigger.refresh());
+}
+</script>
+<style>
+  /* Studio badge: never covers content. Phones: sits in the footer. Desktop: fades in after the first screen. */
+  .eb-foot{position:static!important;display:flex!important;width:max-content;max-width:calc(100% - 32px);margin:18px auto 22px!important;transform:none!important;opacity:1!important}
+  .eb-hide{opacity:0!important;pointer-events:none!important;transform:translateY(8px)!important}
+  .eb-anim{transition:opacity .4s,transform .4s!important}
+</style>
+<script>
+(function () {
+  const place = () => {
+    const b = document.querySelector('.studio'), f = document.querySelector('footer');
+    if (!b || !f) return false;
+    if (matchMedia('(max-width: 760px)').matches) { f.appendChild(b); b.classList.add('eb-foot'); return true; }
+    b.classList.add('eb-anim');
+    const sync = () => b.classList.toggle('eb-hide', scrollY < innerHeight * .6 || scrollY + innerHeight > document.documentElement.scrollHeight - 140);
+    sync(); addEventListener('scroll', sync, { passive: true });
+    return true;
+  };
+  if (!place()) addEventListener('load', place);
+})();
+</script>
+</body>
+</html>

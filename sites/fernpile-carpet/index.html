@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noai, noimageai">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fernpile Carpet Care | Concept site by ElaSystems</title>
+  <meta name="description" content="Fernpile Carpet Care is a fictional carpet cleaning business: a concept website by ElaSystems with a before/after carpet slider, an instant quote builder and more. Want one for your business? DM @ela.systems.">
+  <meta name="theme-color" content="#f5fafb">
+  <meta property="og:title" content="Fernpile Carpet Care · Concept by ElaSystems">
+  <meta property="og:description" content="A concept carpet cleaning website by ElaSystems. Get one for your business.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75..125,400..900;1,75..125,700..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ------------------------------------------------------------
+       FERNPILE CARPET CARE (fictional) · design tokens
+       Concept brand: an upright wordmark with two aqua wave lines.
+       Their highlights: aqua icons on white. So the site is bright,
+       fresh and clean: white, navy, one aqua accent.
+       ------------------------------------------------------------ */
+    :root {
+      --bg: #f5fafb;
+      --bg-2: #e9f4f6;
+      --white: #ffffff;
+      --ink: #0e1d36;
+      --muted: #56657a;
+      --line: rgba(14,29,54,.12);
+      --navy: #12306a;
+      --blue: #1d5fc4;
+      --aqua: #3fc4d4;
+      --aqua-2: #9be3ec;
+      --display: "Archivo", system-ui, sans-serif;
+      --sans: "Inter", system-ui, sans-serif;
+      --pad: clamp(16px, 4vw, 56px);
+      --ease: cubic-bezier(.65,.05,.25,1);
+      --ease-out: cubic-bezier(.16,1,.3,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    html.lenis, html.lenis body { height: auto; }
+    .lenis.lenis-smooth { scroll-behavior: auto !important; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans); overflow-x: clip; -webkit-font-smoothing: antialiased; }
+    img, svg, canvas { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+    input { font: inherit; color: inherit; }
+    :focus-visible { outline: 2.5px solid var(--aqua); outline-offset: 3px; }
+    ::selection { background: var(--aqua); color: var(--ink); }
+    [hidden] { display: none !important; }
+    .wrap { padding: 0 var(--pad); }
+    .label { font: 700 12px/1.3 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--blue); }
+    h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 900; font-stretch: 100%; line-height: .95; letter-spacing: -.03em; color: var(--navy); }
+    h2 { font-size: clamp(38px, 5.6vw, 92px); }
+    h1 em, h2 em { font-style: italic; color: var(--aqua); }
+    .line { display: block; overflow: hidden; padding-bottom: .06em; }
+    .line > span { display: inline-block; will-change: transform; }
+    .lede { color: var(--muted); font-size: clamp(15.5px, 1.15vw, 17.5px); max-width: 46ch; margin: 20px 0 0; }
+
+    .btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: 54px; padding: 0 26px; border-radius: 999px; border: 1.5px solid var(--navy); color: var(--navy); font: 700 15px/1 var(--sans); overflow: hidden; isolation: isolate; white-space: nowrap; transition: color .4s var(--ease), transform .2s; }
+    .btn::before { content: ""; position: absolute; inset: 0; background: var(--navy); border-radius: inherit; transform: translateY(101%); transition: transform .5s var(--ease); z-index: -1; }
+    .btn.solid { background: var(--blue); border-color: var(--blue); color: #fff; }
+    .btn.solid::before { background: var(--navy); }
+    .btn.aqua { background: var(--aqua); border-color: var(--aqua); color: var(--ink); }
+    .btn.aqua::before { background: var(--navy); }
+    .btn svg { width: 16px; height: 16px; flex: none; }
+    .btn:active { transform: scale(.97); }
+    @media (hover: hover) { .btn:hover { color: #fff; } .btn:hover::before { transform: none; } }
+    .btn.sm { height: 44px; padding: 0 18px; font-size: 14px; }
+
+    /* logo */
+    .logo { display: inline-block; }
+    .logo svg { height: 46px; width: auto; }
+
+    header { position: fixed; left: 0; right: 0; top: 0; z-index: 50; transition: background .4s var(--ease), box-shadow .4s; }
+    header.scrolled { background: rgba(255,255,255,.88); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+    header .wrap { height: 76px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+    header nav { display: flex; gap: 28px; }
+    header nav a { font: 600 14px/1 var(--sans); color: var(--muted); transition: color .3s; }
+    header nav a:hover { color: var(--navy); }
+    header .right { display: flex; gap: 10px; align-items: center; }
+    @media (max-width: 960px) { header nav { display: none; } header .wrap { height: 64px; } .logo svg { height: 38px; } header .right .btn:not(.solid) { display: none; } }
+
+    /* ---------- hero + carpet (signature) ---------- */
+    .hero { position: relative; padding: 144px 0 70px; overflow: hidden; }
+    .ribbon { display: block; padding: 8px 16px; background: #12306a; color: #fff; font: 500 12.5px/1.3 Inter, sans-serif; text-align: center; }
+    .ribbon b { font-weight: 700; } .ribbon u { text-decoration-color: #3fc4d4; text-underline-offset: 3px; }
+    @media (max-width: 560px) { .ribbon { font-size: 11.5px; } }
+    .hero::before { content: ""; position: absolute; right: -10%; top: -20%; width: 70vw; height: 70vw; border-radius: 50%; background: radial-gradient(circle, rgba(63,196,212,.22), transparent 62%); pointer-events: none; }
+    .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(26px, 4.5vw, 80px); align-items: center; }
+    .hero h1 { font-size: clamp(44px, 6vw, 100px); }
+    .hero h1 .swap { position: relative; display: block; }
+    .hero h1 .after { position: absolute; left: 0; top: 0; opacity: 0; }
+    .trust { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .trust span { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; background: var(--white); box-shadow: 0 0 0 1px var(--line); font: 600 13px/1 var(--sans); color: var(--navy); }
+    .trust svg { width: 16px; height: 16px; color: var(--aqua); }
+    .hero .ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+    /* ---------- before / after slider (signature) ---------- */
+    .rug { position: relative; }
+    .stage { position: relative; aspect-ratio: 5 / 4; border-radius: 22px; overflow: hidden; background: #cbbfae; box-shadow: 0 0 0 1px var(--line), 0 40px 90px -36px rgba(18,48,106,.45); touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize; --p: 100%; }
+    .stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .stage .dirty { clip-path: inset(0 calc(100% - var(--p)) 0 0); }
+    .stage .tag { position: absolute; z-index: 3; translate: -50% -50%; padding: 5px 10px; border-radius: 999px; background: rgba(255,255,255,.92); box-shadow: 0 6px 16px rgba(14,29,54,.18); font: 700 11.5px/1 var(--sans); color: var(--ink); white-space: nowrap; pointer-events: none; transition: opacity .35s, transform .35s var(--ease); }
+    .stage .tag.gone { opacity: 0; transform: scale(.7); }
+    .stage .side { position: absolute; top: 14px; z-index: 4; padding: 7px 12px; border-radius: 999px; font: 800 11.5px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; pointer-events: none; transition: opacity .3s; }
+    .stage .side.b { left: 14px; background: rgba(14,29,54,.75); color: #fff; }
+    .stage .side.a { right: 14px; background: var(--aqua); color: var(--ink); }
+    .stage .div { position: absolute; top: 0; bottom: 0; left: var(--p); z-index: 5; width: 4px; margin-left: -2px; background: #fff; box-shadow: 0 0 0 1px rgba(14,29,54,.08), 0 0 24px rgba(63,196,212,.7); pointer-events: none; }
+    .stage .knob { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px; border-radius: 50%; background: var(--white); box-shadow: 0 12px 30px rgba(14,29,54,.3), 0 0 0 5px rgba(63,196,212,.45); display: grid; place-items: center; color: var(--blue); transition: transform .25s var(--ease); }
+    .stage .knob svg { width: 30px; height: 30px; }
+    .stage.grab .knob { transform: scale(.9); }
+    .stage .shine { position: absolute; inset: 0; z-index: 4; pointer-events: none; background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,.55) 50%, transparent 65%); transform: translateX(-120%); }
+    .callout { position: absolute; z-index: 6; left: 50%; bottom: 16px; translate: -50% 0; display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; background: var(--navy); color: #fff; font: 700 14px/1 var(--sans); white-space: nowrap; box-shadow: 0 16px 34px rgba(18,48,106,.35); pointer-events: none; transition: opacity .5s var(--ease), transform .5s var(--ease); }
+    .callout svg { width: 20px; height: 20px; color: var(--aqua); }
+    .rug.touched .callout { opacity: 0; transform: translateY(8px); }
+    .fresh { position: absolute; z-index: 7; left: 50%; top: 50%; translate: -50% -50%; width: clamp(150px, 34%, 220px); aspect-ratio: 1; border-radius: 50%; background: var(--white); box-shadow: 0 30px 70px -20px rgba(18,48,106,.5), 0 0 0 6px rgba(63,196,212,.35); display: grid; place-items: center; text-align: center; opacity: 0; scale: .6; pointer-events: none; transition: opacity .6s var(--ease-out), scale .8s var(--ease-out); }
+    .fresh b { display: block; font: italic 900 clamp(30px, 4vw, 46px)/1 var(--display); color: var(--blue); letter-spacing: -.03em; }
+    .fresh small { display: block; margin-top: 6px; font: 700 10.5px/1.3 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+    .rug.done .fresh { opacity: 1; scale: 1; }
+    .rug.done .stage .side, .rug.done .stage .div { opacity: 0; }
+    .meter { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+    .meter .bar { flex: 1; height: 8px; border-radius: 99px; background: var(--white); box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; }
+    .meter .bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--aqua), var(--blue)); border-radius: inherit; }
+    .meter b { font: 800 22px/1 var(--display); color: var(--navy); min-width: 3.4em; text-align: right; font-variant-numeric: tabular-nums; }
+    .meter .st { font: 600 13px/1 var(--sans); color: var(--muted); white-space: nowrap; }
+    .meter button { font: 600 13px/1 var(--sans); color: var(--blue); border-bottom: 1.5px solid currentColor; padding-bottom: 2px; }
+
+    /* ---------- logo intro ---------- */
+    .intro { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: var(--white); }
+    .intro .wipe { position: absolute; inset: 0; background: var(--aqua); transform: scaleY(0); transform-origin: bottom; }
+    .intro .mark { position: relative; width: min(440px, 78vw); }
+    .intro .mark svg { width: 100%; height: auto; overflow: visible; }
+    .intro .gleam { position: absolute; inset: -10% -5%; background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.95) 50%, transparent 60%); mix-blend-mode: overlay; transform: translateX(-120%); pointer-events: none; }
+    .intro .bubbles i { position: absolute; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, rgba(155,227,236,.5) 60%, rgba(63,196,212,.15)); box-shadow: inset 0 0 0 1px rgba(63,196,212,.35); }
+    html:not(.js) .intro, html.rm .intro { display: none; }
+    @media (max-width: 960px) {
+      .hero { padding: 130px 0 60px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .stage { aspect-ratio: 1 / 1; }
+      .hero h1 { font-size: clamp(40px, 11.6vw, 70px); }
+    }
+
+    /* marquee */
+    .marquee { overflow: hidden; background: var(--navy); color: #fff; padding: 18px 0; white-space: nowrap; }
+    .marquee .track { display: inline-flex; align-items: center; will-change: transform; }
+    .marquee span { font: italic 900 clamp(24px, 3vw, 42px)/1 var(--display); padding: 0 .5em; }
+    .marquee span.o { color: transparent; -webkit-text-stroke: 1.2px rgba(255,255,255,.6); }
+    .marquee i { width: 10px; height: 10px; border-radius: 50%; background: var(--aqua); flex: none; }
+
+    /* services */
+    .services { padding: clamp(100px, 13vw, 180px) 0; }
+    .sec-head { display: flex; justify-content: space-between; align-items: end; gap: 30px; flex-wrap: wrap; margin-bottom: clamp(36px, 5vw, 64px); }
+    .sec-head .label { display: block; margin-bottom: 18px; }
+    .svc-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .svc { position: relative; padding: 26px 22px 24px; border-radius: 20px; background: var(--white); box-shadow: 0 0 0 1px var(--line); overflow: hidden; transition: transform .5s var(--ease), box-shadow .5s; }
+    .svc:hover { transform: translateY(-4px); box-shadow: 0 0 0 1px rgba(63,196,212,.6), 0 20px 40px -24px rgba(18,48,106,.35); }
+    .svc .ic { width: 52px; height: 52px; border-radius: 14px; background: var(--bg-2); display: grid; place-items: center; color: var(--blue); }
+    .svc .ic svg { width: 28px; height: 28px; }
+    .svc h3 { font-size: 22px; margin-top: 18px; letter-spacing: -.02em; }
+    .svc p { margin: 8px 0 0; color: var(--muted); font-size: 14.5px; }
+    .svc .who { margin-top: 14px; font: 600 11.5px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--aqua); filter: brightness(.8); }
+    @media (max-width: 1100px) { .svc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .svc-grid { grid-template-columns: 1fr; } }
+
+    /* process */
+    .process { padding: clamp(100px, 13vw, 180px) 0; background: var(--navy); color: #fff; position: relative; overflow: hidden; }
+    .process h2 { color: #fff; }
+    .process .label { color: var(--aqua); }
+    .process .lede { color: rgba(255,255,255,.7); }
+    .steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; counter-reset: s; }
+    .step { position: relative; padding: 24px 20px; border-radius: 18px; background: rgba(255,255,255,.06); box-shadow: inset 0 0 0 1px rgba(255,255,255,.1); counter-increment: s; }
+    .step::before { content: "0" counter(s); font: italic 900 38px/1 var(--display); color: var(--aqua); }
+    .step h3 { color: #fff; font-size: 21px; margin-top: 16px; letter-spacing: -.02em; }
+    .step p { color: rgba(255,255,255,.68); margin: 8px 0 0; font-size: 14.5px; }
+    .pipe { position: absolute; left: 0; right: 0; height: 4px; top: 50%; background: linear-gradient(90deg, transparent, var(--aqua), transparent); opacity: .25; }
+    @media (max-width: 1100px) { .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } .pipe { display: none; } }
+    @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+
+    /* trained techs */
+    .cert { padding: clamp(100px, 13vw, 170px) 0; }
+    .cert-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(30px, 6vw, 100px); align-items: center; }
+    .seal { width: min(360px, 80%); margin: 0 auto; }
+    .seal .spin { transform-origin: 50% 50%; }
+    .cert ul { list-style: none; margin: 28px 0 0; padding: 0; }
+    .cert li { display: flex; gap: 14px; padding: 16px 0; border-top: 1px solid var(--line); }
+    .cert li svg { width: 22px; height: 22px; color: var(--aqua); flex: none; margin-top: 2px; }
+    .cert li b { display: block; color: var(--navy); }
+    .cert li span { color: var(--muted); font-size: 15px; }
+    @media (max-width: 960px) { .cert-grid { grid-template-columns: 1fr; } }
+
+    /* quote */
+    .quote { padding: clamp(100px, 13vw, 180px) 0; background: var(--bg-2); }
+    .q-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: clamp(30px, 5vw, 90px); align-items: start; }
+    .field { margin-top: 28px; } .field:first-child { margin-top: 0; }
+    .field > .label { display: block; margin-bottom: 12px; color: var(--muted); }
+    .steppers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .stp { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 12px 12px 16px; border-radius: 14px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
+    .stp span { font: 600 14.5px/1.2 var(--sans); color: var(--navy); }
+    .stp .ctl { display: flex; align-items: center; gap: 6px; }
+    .stp button { width: 34px; height: 34px; border-radius: 50%; background: var(--bg-2); color: var(--navy); font: 700 18px/1 var(--sans); transition: background .2s; }
+    .stp button:hover { background: var(--aqua-2); }
+    .stp output { min-width: 1.6em; text-align: center; font: 800 18px/1 var(--display); color: var(--navy); font-variant-numeric: tabular-nums; }
+    .stp.on { box-shadow: 0 0 0 2px var(--aqua); }
+    .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+    .opt input { position: absolute; opacity: 0; pointer-events: none; }
+    .opt span { display: inline-block; padding: 11px 16px; border-radius: 999px; background: var(--white); box-shadow: 0 0 0 1px var(--line); font: 600 14px/1 var(--sans); color: var(--navy); cursor: pointer; transition: background .25s, color .25s, box-shadow .25s; }
+    .opt input:checked + span { background: var(--blue); color: #fff; box-shadow: none; }
+    .opt input:focus-visible + span { outline: 2.5px solid var(--aqua); outline-offset: 2px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .inp { width: 100%; height: 50px; background: none; border: 0; border-bottom: 1.5px solid rgba(14,29,54,.2); outline: none; font-size: 17px; border-radius: 0; transition: border-color .3s; }
+    .inp:focus { border-color: var(--aqua); }
+    .inp::placeholder { color: #9aa6b5; }
+    .preview { position: sticky; top: 100px; border-radius: 22px; background: var(--white); box-shadow: 0 0 0 1px var(--line), 0 30px 70px -40px rgba(18,48,106,.4); overflow: hidden; }
+    .preview .to { display: flex; justify-content: space-between; gap: 10px; padding: 16px 20px; border-bottom: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+    .preview .to b { color: var(--ink); font-weight: 600; }
+    .preview .body { padding: 22px 18px; min-height: 220px; display: flex; flex-direction: column; }
+    .preview .m { align-self: flex-end; max-width: 92%; background: #0a84ff; color: #fff; padding: 12px 15px; border-radius: 20px 20px 6px 20px; font-size: 15px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .preview .acts { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 0 18px 10px; }
+    .preview .acts2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 18px 12px; }
+    .preview .note { padding: 0 18px 18px; margin: 0; font-size: 13px; color: var(--muted); min-height: 1em; }
+    @media (max-width: 960px) { .q-grid, .two { grid-template-columns: 1fr; } .preview { position: relative; top: 0; } .steppers { grid-template-columns: 1fr; } }
+
+    /* faq */
+    .faq { padding: clamp(100px, 13vw, 170px) 0; }
+    .faq-list { max-width: 900px; }
+    details.q { border-top: 1px solid var(--line); }
+    details.q:last-child { border-bottom: 1px solid var(--line); }
+    details.q summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 24px 0; font: 800 clamp(19px, 1.7vw, 24px)/1.2 var(--display); color: var(--navy); letter-spacing: -.02em; }
+    details.q summary::-webkit-details-marker { display: none; }
+    details.q summary i { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--bg-2); display: grid; place-items: center; transition: transform .4s var(--ease), background .3s; }
+    details.q summary i svg { width: 14px; height: 14px; }
+    details.q[open] summary i { transform: rotate(45deg); background: var(--aqua-2); }
+    details.q p { margin: 0 0 24px; color: var(--muted); max-width: 64ch; }
+
+    /* closing */
+    .closing { position: relative; overflow: hidden; text-align: center; padding: clamp(110px, 14vw, 200px) 0 0; background: linear-gradient(to bottom, var(--bg), var(--bg-2)); }
+    .closing h2 { font-size: clamp(42px, 7.4vw, 124px); }
+    .closing p { color: var(--muted); max-width: 40ch; margin: 22px auto 30px; }
+    .closing .ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+    .closing .phone { display: inline-block; margin-top: 40px; font: italic 900 clamp(40px, 8vw, 130px)/1 var(--display); letter-spacing: -.04em; background: linear-gradient(90deg, var(--blue), var(--aqua)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .stripes { margin-top: clamp(60px, 8vw, 110px); height: clamp(80px, 12vw, 160px); background: repeating-linear-gradient(90deg, #d8cdbd 0 90px, #c6baa8 90px 180px); -webkit-mask-image: linear-gradient(to bottom, transparent, #000 60%); mask-image: linear-gradient(to bottom, transparent, #000 60%); }
+    footer { background: var(--navy); color: rgba(255,255,255,.7); }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px 24px; padding-top: 26px; padding-bottom: 30px; font-size: 13.5px; }
+    footer nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    footer a:hover { color: #fff; }
+  </style>
+  <script>document.documentElement.classList.add('js');if(matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('rm');</script>
+</head>
+<body>
+  <!-- Concept logo: FERNPILE wordmark between two wave lines -->
+  <template id="logo-tpl">
+    <svg viewBox="0 0 230 70" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a7fd8"/><stop offset="1" stop-color="#12306a"/></linearGradient></defs>
+      <path d="M12 50 C 40 44, 64 56, 92 50 S 146 44, 172 50 S 206 56, 218 50" fill="none" stroke="#3fc4d4" stroke-width="4" stroke-linecap="round"/>
+      <path d="M12 10 C 40 4, 64 16, 92 10 S 146 4, 172 10 S 206 16, 218 10" fill="none" stroke="#9be3ec" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="115" y="43" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="30" fill="url(#lg)" letter-spacing="1">FERNPILE</text>
+      <text x="115" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="8.5" fill="#56657a" letter-spacing="3">CARPET CARE</text>
+    </svg>
+  </template>
+
+  <div class="intro" aria-hidden="true" data-intro>
+    <div class="wipe" data-wipe></div>
+    <div class="bubbles" data-bubbles></div>
+    <div class="mark">
+      <svg viewBox="0 0 230 70">
+        <defs><linearGradient id="lgi" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a7fd8"/><stop offset="1" stop-color="#12306a"/></linearGradient></defs>
+        <path data-sw1 d="M12 50 C 40 44, 64 56, 92 50 S 146 44, 172 50 S 206 56, 218 50" fill="none" stroke="#3fc4d4" stroke-width="4" stroke-linecap="round"/>
+        <path data-sw2 d="M12 10 C 40 4, 64 16, 92 10 S 146 4, 172 10 S 206 16, 218 10" fill="none" stroke="#9be3ec" stroke-width="2.5" stroke-linecap="round"/>
+        <g data-word><text x="115" y="43" text-anchor="middle" font-family="Archivo, sans-serif" font-weight="900" font-size="30" fill="url(#lgi)" letter-spacing="1">FERNPILE</text></g>
+        <text data-sub x="115" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-weight="600" font-size="8.5" fill="#56657a" letter-spacing="3">CARPET CARE</text>
+      </svg>
+      <div class="gleam" data-gleam></div>
+    </div>
+  </div>
+
+  <header>
+    <a class="ribbon" data-studio-link href="#" target="_blank" rel="noopener">Concept site by <b>ElaSystems</b> · Fernpile is a fictional business · <u>Get one for your business →</u></a>
+    <div class="wrap">
+      <a class="logo" href="#top" aria-label="Fernpile Carpet Care, back to top" data-logo></a>
+      <nav aria-label="Sections"><a href="#services">Services</a><a href="#process">How we clean</a><a href="#trained">Trained techs</a><a href="#faq">FAQ</a></nav>
+      <div class="right"><a class="btn sm" data-studio-link href="#" target="_blank" rel="noopener">Get a site like this</a><a class="btn sm solid" href="#quote">Free quote</a></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="label" data-in>Carpet cleaning &amp; restoration</p>
+          <h1 style="margin-top:18px">
+            <span class="line"><span>Your carpet,</span></span>
+            <span class="line"><span class="swap"><span class="before"><em>like new</em> again.</span><span class="after" aria-hidden="true"><em>fresh</em> as day one.</span></span></span>
+          </h1>
+          <p class="lede" data-in>Carpet, upholstery, mattresses, rugs and hardwood, plus cleaning and restoration for homes and businesses across town. Slide the carpet to see the difference.</p>
+          <div class="trust" data-in>
+            <span><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1l2 4.2 4.6.6-3.4 3.2.9 4.6L8 11.4 3.9 13.6l.9-4.6L1.4 5.8 6 5.2z"/></svg>Certified techs</span>
+            <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 8l6-5 6 5M4 7v6h8V7"/></svg>Residential</span>
+            <span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="2" width="10" height="12"/><path d="M6 5h1M9 5h1M6 8h1M9 8h1M7 14v-3h2v3"/></svg>Commercial</span>
+          </div>
+          <div class="ctas" data-in>
+            <a class="btn solid" href="#quote">Get a free quote <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+            <a class="btn" data-studio-link href="#" target="_blank" rel="noopener">Get a site like this</a>
+          </div>
+        </div>
+
+        <div class="rug" data-rug data-in>
+          <div class="stage" data-stage role="slider" tabindex="0" aria-label="Before and after carpet cleaning. Slide to compare." aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <canvas data-clean></canvas>
+            <canvas class="dirty" data-dirty></canvas>
+            <div data-tags></div>
+            <span class="side b">Before</span><span class="side a">After</span>
+            <div class="shine" data-shine aria-hidden="true"></div>
+            <div class="div" aria-hidden="true"><span class="knob"><svg viewBox="0 0 30 30" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 9l-6 6 6 6M19 9l6 6-6 6"/></svg></span></div>
+            <span class="callout" data-callout><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l-4 4 4 4M14 6l4 4-4 4M2 10h16"/></svg><span data-call-t>Slide to clean</span></span>
+            <div class="fresh" aria-hidden="true"><div><b>Fresh.</b><small>Fernpile clean</small></div></div>
+          </div>
+          <div class="meter">
+            <span class="st" data-stains aria-live="polite">0 of 4 stains gone</span>
+            <div class="bar" aria-hidden="true"><i data-bar></i></div>
+            <b data-pct>0%</b>
+            <button type="button" data-reset hidden>Again</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true"><div class="track" data-marquee></div></div>
+
+    <!-- SERVICES -->
+    <section class="services" id="services">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="label">Services</span><h2><span class="line"><span>Every surface,</span></span><span class="line"><span><em>deep clean.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">From the living room carpet to the office lobby. Residential and commercial, all across town.</p>
+        </div>
+        <div class="svc-grid" data-svcs></div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="process" id="process">
+      <div class="pipe" aria-hidden="true"></div>
+      <div class="wrap" style="position:relative">
+        <div class="sec-head">
+          <div><span class="label">How we clean</span><h2><span class="line"><span>Done right,</span></span><span class="line"><span><em>step by step.</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Every job follows the same careful process, whether it’s one stained rug or a whole floor of carpet.</p>
+        </div>
+        <div class="steps" data-steps></div>
+      </div>
+    </section>
+
+    <!-- TRAINED TECHS -->
+    <section class="cert" id="trained">
+      <div class="wrap cert-grid">
+        <svg class="seal" viewBox="0 0 300 300" aria-hidden="true">
+          <defs><path id="circ" d="M150 150 m-112 0 a112 112 0 1 1 224 0 a112 112 0 1 1 -224 0"/></defs>
+          <circle cx="150" cy="150" r="142" fill="#fff" stroke="#3fc4d4" stroke-width="4"/>
+          <circle cx="150" cy="150" r="96" fill="#12306a"/>
+          <g class="spin" data-spin><text font-family="Inter, sans-serif" font-weight="700" font-size="17" letter-spacing="5.5" fill="#12306a"><textPath href="#circ">CERTIFIED TECHS · CLEANING &amp; RESTORATION · </textPath></text></g>
+          <text x="150" y="146" text-anchor="middle" font-family="Archivo, sans-serif" font-style="italic" font-weight="900" font-size="46" fill="#fff">PRO</text>
+          <text x="150" y="176" text-anchor="middle" font-family="Inter, sans-serif" font-weight="700" font-size="13" letter-spacing="3" fill="#9be3ec">CERTIFIED</text>
+        </svg>
+        <div>
+          <span class="label">Certified, not guessing</span>
+          <h2 style="margin-top:18px"><span class="line"><span>Trained,</span></span><span class="line"><span><em>certified.</em></span></span></h2>
+          <p class="lede">Every tech is trained on the industry’s cleaning and restoration standards, so your carpet gets the right method, not a guess.</p>
+          <ul>
+            <li><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11.5l4 4 8-9"/></svg><div><b>Industry-standard methods</b><span>Cleaning done to recognized standards, not shortcuts.</span></div></li>
+            <li><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11.5l4 4 8-9"/></svg><div><b>The right chemistry for each fiber</b><span>Wool, nylon, upholstery and hardwood all need different care.</span></div></li>
+            <li><svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11.5l4 4 8-9"/></svg><div><b>Restoration know-how</b><span>When it’s more than a stain, we know how to handle it.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE -->
+    <section class="quote" id="quote">
+      <div class="wrap">
+        <div class="sec-head">
+          <div><span class="label">Free quote</span><h2><span class="line"><span>What needs</span></span><span class="line"><span><em>cleaning?</em></span></span></h2></div>
+          <p class="lede" style="margin:0">Count it up and we’ll write the text for you. Send it and we’ll reply with a quote and a time.</p>
+        </div>
+        <div class="q-grid">
+          <form data-form onsubmit="return false">
+            <div class="field"><span class="label">Count it up</span><div class="steppers" data-steppers></div></div>
+            <div class="field"><span class="label">Anything extra?</span><div class="opts" data-extras></div></div>
+            <div class="field"><span class="label">Property</span><div class="opts" data-prop></div></div>
+            <div class="field"><div class="two">
+              <label><span class="label" style="display:block;color:var(--muted);margin-bottom:6px">Your name</span><input class="inp" name="who" placeholder="First name" autocomplete="given-name"></label>
+              <label><span class="label" style="display:block;color:var(--muted);margin-bottom:6px">Neighborhood / city</span><input class="inp" name="where" placeholder="e.g. Downtown"></label>
+            </div></div>
+          </form>
+          <aside class="preview" aria-live="polite">
+            <div class="to"><span>To: <b>Fernpile Carpet Care</b></span><span>Demo</span></div>
+            <div class="body"><div class="m" data-msg></div></div>
+            <div class="acts"><a class="btn solid" data-send href="#">Send it <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a><a class="btn" data-studio-link href="#" target="_blank" rel="noopener">DM us</a></div>
+            <div class="acts2"><button class="btn sm" type="button" data-copy>Copy text</button><a class="btn sm" data-studio-link href="#" target="_blank" rel="noopener">Get this site</a></div>
+            <p class="note" data-note></p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq" id="faq">
+      <div class="wrap">
+        <div class="sec-head"><div><span class="label">FAQ</span><h2><span class="line"><span>Good</span></span><span class="line"><span><em>questions.</em></span></span></h2></div></div>
+        <div class="faq-list" data-faq></div>
+      </div>
+    </section>
+
+    <!-- CLOSING -->
+    <section class="closing">
+      <div class="wrap">
+        <p class="label">Concept site by ElaSystems</p>
+        <h2 style="margin-top:18px"><span class="line"><span>Ready for</span></span><span class="line"><span><em>fresh lines?</em></span></span></h2>
+        <p>Fernpile is a fictional business. Like what you see? ElaSystems builds sites like this for real local businesses.</p>
+        <div class="ctas"><a class="btn solid" data-studio-link href="#" target="_blank" rel="noopener">Get a site like this</a><a class="btn" href="#quote">Try the quote builder</a></div>
+        <a class="phone" data-studio-link href="#" target="_blank" rel="noopener">@ela.systems</a>
+      </div>
+      <div class="stripes" aria-hidden="true"></div>
+      <footer><div class="wrap"><span>Fernpile Carpet Care is a fictional business. Concept site by ElaSystems; sample content only.</span><nav aria-label="Footer"><a data-studio-link href="#" target="_blank" rel="noopener">ElaSystems on Instagram</a><a href="#quote">Quote builder</a></nav></div></footer>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script>
+  /* =============================================================
+     CONFIG: Fernpile Carpet Care is a FICTIONAL business (ElaSystems concept).
+     ============================================================= */
+  const CONFIG = {
+    name: 'Fernpile Carpet Care',
+    studio: { url: 'https://www.instagram.com/ela.systems/', dm: 'https://ig.me/m/ela.systems' },
+    services: [
+      { t: 'Carpet cleaning', d: 'Deep cleaning that lifts ground-in dirt and leaves those fresh, even lines.', who: 'Homes & offices', i: 'carpet' },
+      { t: 'Upholstery', d: 'Couches, sectionals and dining chairs brought back to life.', who: 'Fabric furniture', i: 'sofa' },
+      { t: 'Mattresses', d: 'Stains, sweat and dust pulled out of the place you sleep.', who: 'Any size', i: 'bed' },
+      { t: 'Area rugs', d: 'Careful cleaning matched to the rug’s fiber and dyes.', who: 'Wool & synthetic', i: 'rug' },
+      { t: 'Hardwood floors', d: 'Residue and grime lifted off hardwood without damaging the finish.', who: 'Real wood', i: 'wood' },
+      { t: 'Restoration', d: 'Water damage and the messes that need more than a cleaning.', who: 'Call us first', i: 'drop' },
+      { t: 'Pet stains & odor', d: 'Accidents treated at the source, not just covered up.', who: 'Pet homes', i: 'paw' },
+      { t: 'Commercial', d: 'Offices, rentals and storefronts kept presentable on your schedule.', who: 'Businesses', i: 'office' }
+    ],
+    steps: [
+      { t: 'Inspect', d: 'We check the fiber, the traffic areas and every stain before anything touches it.' },
+      { t: 'Pre-treat', d: 'Spots and high-traffic lanes get the right treatment for what caused them.' },
+      { t: 'Deep clean', d: 'The cleaning wand goes over every inch, lifting dirt up and out.' },
+      { t: 'Groom', d: 'The pile gets set so it dries even. That’s where the fresh lines come from.' },
+      { t: 'Walkthrough', d: 'We go over it with you before we leave.' }
+    ],
+    counts: [ { k: 'Rooms of carpet', v: 2 }, { k: 'Staircases', v: 0 }, { k: 'Couches / sectionals', v: 0 }, { k: 'Chairs', v: 0 }, { k: 'Mattresses', v: 0 }, { k: 'Area rugs', v: 0 } ],
+    extras: ['Pet stains / odor', 'Hardwood floors', 'Water damage', 'Not sure, come take a look'],
+    property: ['Home', 'Apartment', 'Business'],
+    faq: [
+      { q: 'How long until I can walk on it?', a: 'It depends on the carpet, the airflow and the weather. We’ll tell you what to expect on the day and how to help it dry faster.' },
+      { q: 'Will the stains come out?', a: 'Most do. Some, like old dye or bleach marks, can be permanent. We test and tell you honestly before we start.' },
+      { q: 'Do you clean hardwood floors?', a: 'Yes. We lift the residue and grime that regular mopping leaves behind, without hurting the finish.' },
+      { q: 'Do you do businesses?', a: 'Yes, residential and commercial. Text us the space and we’ll work around your hours.' },
+      { q: 'Is Fernpile a real business?', a: 'No. Fernpile Carpet Care is a fictional concept site by ElaSystems. Want one like it for your business? DM @ela.systems on Instagram.' }
+    ]
+  };
+  </script>
+  <script>
+  (() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+  const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const FINE = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const HAS_G = !!(window.gsap && window.ScrollTrigger);
+  const ANIM = HAS_G && !RM;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  if (HAS_G) gsap.registerPlugin(ScrollTrigger);
+
+  $$('[data-logo]').forEach(e => e.innerHTML = $('#logo-tpl').innerHTML);
+  $$('[data-studio-link]').forEach(a => a.href = CONFIG.studio.url);
+  $$('[data-year]').forEach(e => e.textContent = new Date().getFullYear());
+
+  /* content */
+  const IC = {
+    carpet: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="6" width="20" height="16" rx="2"/><path d="M9 6v16M14 6v16M19 6v16"/></svg>',
+    sofa: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 13V9a3 3 0 013-3h10a3 3 0 013 3v4"/><path d="M3 14a2 2 0 014 0v3h14v-3a2 2 0 014 0v6H3z"/><path d="M6 20v2M22 20v2"/></svg>',
+    bed: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V8M3 15h22v6M25 15v-3a3 3 0 00-3-3H12v6"/><circle cx="8" cy="12" r="2"/></svg>',
+    rug: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="5" width="16" height="18" rx="1"/><rect x="10" y="9" width="8" height="10"/><path d="M8 3v2M12 3v2M16 3v2M20 3v2M8 23v2M12 23v2M16 23v2M20 23v2"/></svg>',
+    wood: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h20M4 14h20M4 21h20M10 7v7M18 14v7M14 3v4"/></svg>',
+    drop: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 4s7 8 7 13a7 7 0 01-14 0c0-5 7-13 7-13z"/><path d="M11 18a3 3 0 003 3"/></svg>',
+    paw: '<svg viewBox="0 0 28 28" fill="currentColor"><circle cx="8" cy="11" r="2.4"/><circle cx="12" cy="7" r="2.4"/><circle cx="17" cy="7" r="2.4"/><circle cx="21" cy="11" r="2.4"/><path d="M14.5 13c3 0 6 4 6 7 0 2-2 3-3.5 2.4-1.5-.6-3.5-.6-5 0C10.5 23 8.5 22 8.5 20c0-3 3-7 6-7z"/></svg>',
+    office: '<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="16" height="21"/><path d="M10 9h2M16 9h2M10 13h2M16 13h2M10 17h2M16 17h2M12 25v-4h4v4"/></svg>'
+  };
+  $('[data-svcs]').innerHTML = CONFIG.services.map(s => `<article class="svc"><div class="ic">${IC[s.i]}</div><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p><div class="who">${esc(s.who)}</div></article>`).join('');
+  $('[data-steps]').innerHTML = CONFIG.steps.map(s => `<div class="step"><h3>${esc(s.t)}</h3><p>${esc(s.d)}</p></div>`).join('');
+  const PLUS = '<svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7h12"/></svg>';
+  $('[data-faq]').innerHTML = CONFIG.faq.map(f => `<details class="q"><summary>${esc(f.q)}<i>${PLUS}</i></summary><p>${esc(f.a)}</p></details>`).join('');
+  $('[data-marquee]').innerHTML = [0, 1].map(() => ['Carpet', 'Upholstery', 'Mattresses', 'Area rugs', 'Hardwood', 'Restoration', 'Fresh lines'].map((w, k) => `<span${k % 2 ? ' class="o"' : ''}>${w}</span><i></i>`).join('')).join('');
+
+  /* header + smooth scroll */
+  const header = $('header');
+  const hs = () => header.classList.toggle('scrolled', scrollY > 30); hs(); addEventListener('scroll', hs, { passive: true });
+  let lenis = null;
+  if (ANIM && window.Lenis) { lenis = new Lenis({ duration: 1.15, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true }); lenis.on('scroll', ScrollTrigger.update); gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+  const go = t => { const off = -header.offsetHeight; if (lenis) lenis.scrollTo(t, { duration: 1.4, offset: t === 0 ? 0 : off }); else if (t === 0) scrollTo({ top: 0 }); else scrollTo({ top: t.getBoundingClientRect().top + scrollY + off, behavior: RM ? 'auto' : 'smooth' }); };
+  document.addEventListener('click', e => { const a = e.target.closest('a[href^="#"]'); if (!a) return; const id = a.getAttribute('href'); if (id === '#') return; const t = id === '#top' ? 0 : $(id); if (t === null) return; e.preventDefault(); go(t); });
+
+  /* =============================================================
+     SIGNATURE: before / after. One easy sideways swipe on any
+     device; it plays itself once so nobody has to figure it out.
+     ============================================================= */
+  const Rug = (() => {
+    const rug = $('[data-rug]'), st = $('[data-stage]');
+    const cc = $('[data-clean]'), dc = $('[data-dirty]'), cx = cc.getContext('2d'), dx = dc.getContext('2d');
+    const DPR = Math.min(devicePixelRatio || 1, 2);
+    let W = 0, H = 0, p = 100, done = false, touched = false, intro = null, nudge = null;
+    const STAINS = [
+      { k: 'Coffee', x: .26, y: .34, r: .11, c: [92, 58, 30] },
+      { k: 'Red wine', x: .7, y: .28, r: .1, c: [112, 26, 40] },
+      { k: 'Muddy boots', x: .4, y: .7, r: .13, c: [70, 54, 36], prints: true },
+      { k: 'Pet accident', x: .76, y: .68, r: .1, c: [150, 122, 50] }
+    ];
+    let seed = 7; const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+    const carpet = (x, tone, nap) => {
+      x.fillStyle = `rgb(${203 + tone},${191 + tone},${174 + tone})`; x.fillRect(0, 0, W, H);
+      seed = 11; const n = Math.round(W * H / 9);
+      for (let i = 0; i < n; i++) { const px = rnd() * W, py = rnd() * H, l = rnd(); x.fillStyle = `rgba(${l < .5 ? '60,48,34' : '255,250,240'},${.08 + rnd() * .12})`; x.fillRect(px, py, 1.4, 1.4 + (nap ? 1.6 : 0)); }
+    };
+    const blob = (x, cxp, cyp, r, col) => {
+      x.save(); x.translate(cxp, cyp);
+      for (let k = 0; k < 3; k++) { x.beginPath(); for (let i = 0; i <= 14; i++) { const t = i / 14 * Math.PI * 2, rr = r * (.7 + rnd() * .45) * (1 - k * .25); const px = Math.cos(t) * rr, py = Math.sin(t) * rr * .82; i ? x.lineTo(px, py) : x.moveTo(px, py); } x.closePath(); x.fillStyle = `rgba(${col},${k ? .5 : .65})`; x.filter = `blur(${2 + k * 2}px)`; x.fill(); }
+      x.restore(); x.filter = 'none';
+    };
+    const draw = () => {
+      // AFTER: clean carpet with alternating fresh lines
+      carpet(cx, 0, 1);
+      const stripe = Math.max(46, W / 8);
+      for (let i = 0; i * stripe < W; i++) { cx.fillStyle = i % 2 ? 'rgba(60,44,28,.07)' : 'rgba(255,255,255,.13)'; cx.fillRect(i * stripe, 0, stripe, H); }
+      const g = cx.createLinearGradient(0, 0, W, H); g.addColorStop(0, 'rgba(255,255,255,.12)'); g.addColorStop(1, 'rgba(255,255,255,0)'); cx.fillStyle = g; cx.fillRect(0, 0, W, H);
+      // BEFORE: same carpet, dull, grimy, stained
+      carpet(dx, 0, 0);
+      dx.fillStyle = 'rgba(120,104,84,.45)'; dx.fillRect(0, 0, W, H);
+      const lane = dx.createLinearGradient(0, H * .2, 0, H); lane.addColorStop(0, 'rgba(70,58,44,0)'); lane.addColorStop(1, 'rgba(70,58,44,.24)'); dx.fillStyle = lane; dx.fillRect(W * .25, 0, W * .45, H);
+      seed = 41; for (let i = 0; i < 260; i++) { dx.fillStyle = `rgba(60,48,34,${.05 + rnd() * .12})`; dx.beginPath(); dx.arc(rnd() * W, rnd() * H, 1 + rnd() * 3, 0, 7); dx.fill(); }
+      STAINS.forEach(s => {
+        const R = s.r * Math.min(W, H) * 1.25;
+        if (s.prints) { for (let i = 0; i < 4; i++) { const px = W * (s.x - .1 + i * .07), py = H * (s.y + (i % 2 ? .05 : -.04)); dx.save(); dx.translate(px, py); dx.rotate(-.3); dx.fillStyle = `rgba(${s.c},.55)`; dx.filter = 'blur(1.5px)'; dx.beginPath(); dx.ellipse(0, 0, R * .22, R * .38, 0, 0, 7); dx.fill(); dx.beginPath(); dx.ellipse(0, R * .5, R * .18, R * .16, 0, 0, 7); dx.fill(); dx.restore(); dx.filter = 'none'; } }
+        else blob(dx, W * s.x, H * s.y, R, s.c);
+      });
+    };
+    const size = () => {
+      const r = st.getBoundingClientRect(); W = r.width; H = r.height;
+      [cc, dc].forEach(c => { c.width = W * DPR; c.height = H * DPR; c.getContext('2d').setTransform(DPR, 0, 0, DPR, 0, 0); });
+      draw();
+    };
+    $('[data-tags]').innerHTML = STAINS.map((s, i) => `<span class="tag" data-tag="${i}" style="left:${s.x * 100}%;top:${(s.y - s.r - .05) * 100}%">${esc(s.k)}</span>`).join('');
+    const tags = $$('[data-tag]');
+    const set = v => {
+      p = clamp(v, 0, 100); st.style.setProperty('--p', p + '%');
+      const clean = Math.round(100 - p);
+      st.setAttribute('aria-valuenow', clean); st.setAttribute('aria-valuetext', clean + '% cleaned');
+      let gone = 0; STAINS.forEach((s, i) => { const g = s.x * 100 > p + 2; tags[i].classList.toggle('gone', g); if (g) gone++; });
+      $('[data-stains]').textContent = `${gone} of ${STAINS.length} stains gone`;
+      $('[data-pct]').textContent = clean + '%'; $('[data-bar]').style.width = clean + '%';
+      if (!done && p <= 4 && touched) finish();
+    };
+    const finish = () => {
+      done = true; set(0); rug.classList.add('done'); $('[data-reset]').hidden = false;
+      const b = $('.hero h1 .before'), a = $('.hero h1 .after');
+      if (ANIM) { gsap.fromTo('[data-shine]', { xPercent: -120 }, { xPercent: 120, duration: 1.1, ease: 'power2.inOut' }); gsap.to(b, { yPercent: -100, opacity: 0, duration: .6, ease: 'expo.in' }); gsap.fromTo(a, { yPercent: 100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .8, ease: 'expo.out', delay: .45 }); }
+      else { b.style.opacity = 0; a.style.opacity = 1; }
+      window.__rugDone = true;
+    };
+    $('[data-reset]').addEventListener('click', () => {
+      done = false; rug.classList.remove('done'); $('[data-reset]').hidden = true;
+      const b = $('.hero h1 .before'), a = $('.hero h1 .after'); if (ANIM) { gsap.set(b, { yPercent: 0, opacity: 1 }); gsap.set(a, { opacity: 0 }); } else { b.style.opacity = 1; a.style.opacity = 0; }
+      if (ANIM) gsap.to({ v: p }, { v: 100, duration: .8, ease: 'power3.inOut', onUpdate() { set(this.targets()[0].v); } }); else set(100);
+    });
+    const touch = () => { if (touched) return; touched = true; rug.classList.add('touched'); if (intro) intro.kill(); if (nudge) nudge.kill(); };
+    // pointer: axis-locked so vertical swipes still scroll the page on phones
+    const fromX = x => { const r = st.getBoundingClientRect(); set((x - r.left) / r.width * 100); };
+    let start = null, axis = null;
+    st.addEventListener('pointerdown', e => { if (done) return; start = [e.clientX, e.clientY]; axis = e.pointerType === 'mouse' ? 'x' : null; if (axis) { touch(); st.classList.add('grab'); fromX(e.clientX); } try { st.setPointerCapture(e.pointerId); } catch (_) {} });
+    st.addEventListener('pointermove', e => { if (!start || done) return; if (!axis) { const ax = Math.abs(e.clientX - start[0]), ay = Math.abs(e.clientY - start[1]); if (ax < 6 && ay < 6) return; axis = ax > ay ? 'x' : 'y'; if (axis === 'x') { touch(); st.classList.add('grab'); } } if (axis === 'x') fromX(e.clientX); });
+    const end = e => { if (start && !axis && e.type === 'pointerup' && !done) { touch(); fromX(e.clientX); } start = null; axis = null; st.classList.remove('grab'); if (!done && p <= 4) finish(); };
+    st.addEventListener('pointerup', end); st.addEventListener('pointercancel', end);
+    st.addEventListener('keydown', e => { const k = { ArrowLeft: -8, ArrowRight: 8, Home: -100, End: 100 }[e.key]; if (k == null || done) return; e.preventDefault(); touch(); set(p + k); });
+    if (!FINE) $('[data-call-t]').textContent = 'Swipe to clean';
+    // it plays itself once (dirty → halfway), then nudges until someone tries it
+    let played = false;
+    const play = () => {
+      if (played) return;
+      if (!ANIM) { played = true; set(50); return; }
+      // wait until the slider is actually on screen (it's below the fold on phones)
+      const r = st.getBoundingClientRect(), vis = Math.min(r.bottom, innerHeight) - Math.max(r.top, 0); if (vis < r.height * .75) { const io = new IntersectionObserver(([e]) => { if (e.intersectionRatio >= .75) { io.disconnect(); play(); } }, { threshold: .75 }); io.observe(st); return; }
+      played = true;
+      const o = { v: 100 };
+      intro = gsap.timeline({ onComplete: () => { intro = null; if (!touched) nudge = gsap.timeline({ repeat: -1, repeatDelay: 2.4, delay: 2 }).to(o, { v: 42, duration: .5, ease: 'power2.inOut', onUpdate: () => !touched && set(o.v) }).to(o, { v: 50, duration: .9, ease: 'elastic.out(1,.45)', onUpdate: () => !touched && set(o.v) }); } })
+        .to(o, { v: 8, duration: 1.4, ease: 'power3.inOut', onUpdate: () => set(o.v) })
+        .to(o, { v: 50, duration: 1, ease: 'power3.inOut', onUpdate: () => set(o.v) }, '+=.25');
+    };
+    let rT; addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => { if (Math.abs(st.getBoundingClientRect().width - W) > 2) size(); }, 200); });
+    size(); set(100);
+    return { set, play, state: () => ({ clean: Math.round(100 - p), done }) };
+  })();
+  window.__rug = Rug;
+
+  /* =============================================================
+     QUOTE: counters + extras, writes the text
+     ============================================================= */
+  (() => {
+    const f = $('[data-form]'), note = $('[data-note]');
+    const counts = CONFIG.counts.map(c => ({ ...c }));
+    $('[data-steppers]').innerHTML = counts.map((c, i) => `<div class="stp${c.v ? ' on' : ''}" data-i="${i}"><span>${esc(c.k)}</span><div class="ctl"><button type="button" data-d="-1" aria-label="Fewer ${esc(c.k)}">−</button><output>${c.v}</output><button type="button" data-d="1" aria-label="More ${esc(c.k)}">+</button></div></div>`).join('');
+    $('[data-extras]').innerHTML = CONFIG.extras.map(v => `<label class="opt"><input type="checkbox" name="ex" value="${esc(v)}"><span>${esc(v)}</span></label>`).join('');
+    $('[data-prop]').innerHTML = CONFIG.property.map((v, k) => `<label class="opt"><input type="radio" name="prop" value="${esc(v)}"${k ? '' : ' checked'}><span>${esc(v)}</span></label>`).join('');
+    const text = () => {
+      const items = counts.filter(c => c.v).map(c => `${c.v} × ${c.k.toLowerCase()}`);
+      const ex = $$('input[name="ex"]:checked', f).map(i => i.value);
+      const who = f.who.value.trim(), where = f.where.value.trim();
+      return ['Hi Fernpile! Can I get a quote?', '', `${(f.querySelector('input[name="prop"]:checked') || {}).value || 'Home'}${where ? ' in ' + where : ''}`, ...(items.length ? items.map(i => '• ' + i) : ['• (what needs cleaning)']), ...(ex.length ? ['Also: ' + ex.join(', ')] : []), '', `- ${who || '(your name)'}`].join('\n');
+    };
+    const render = () => { const m = text(); $('[data-msg]').textContent = m; $('[data-send]').href = CONFIG.studio.dm; };
+    $('[data-steppers]').addEventListener('click', e => { const b = e.target.closest('[data-d]'); if (!b) return; const row = b.closest('.stp'), c = counts[+row.dataset.i]; c.v = clamp(c.v + +b.dataset.d, 0, 20); $('output', row).textContent = c.v; row.classList.toggle('on', c.v > 0); if (ANIM) gsap.fromTo($('output', row), { scale: 1.4 }, { scale: 1, duration: .4, ease: 'back.out(3)' }); render(); });
+    f.addEventListener('input', render); f.addEventListener('change', render); render();
+    const copy = async () => { try { await navigator.clipboard.writeText(text()); return true; } catch (_) { return false; } };
+    $('[data-copy]').addEventListener('click', async () => { note.textContent = (await copy()) ? 'Copied. (This is a demo, so there’s no real number to text.)' : text(); });
+    $('[data-send]').target = '_blank'; $('[data-send]').rel = 'noopener'; $('[data-send]').addEventListener('click', () => { note.textContent = 'Demo site: this opens ElaSystems on Instagram. On your site, it texts your phone with the order already written.'; });
+  })();
+
+  /* =============================================================
+     MOTION
+     ============================================================= */
+  if (!ANIM) { const i = $('[data-intro]'); if (i) i.remove(); Rug.play(); return; }
+  // logo intro: waves draw, FERNPILE sweeps in, a gleam, bubbles, aqua wipe
+  gsap.set('.hero h1 .line > span', { yPercent: 110 }); gsap.set('[data-in]', { opacity: 0, y: 20 });
+  const introEl = $('[data-intro]');
+  ['[data-sw1]', '[data-sw2]'].forEach(sel => { const el = $(sel, introEl), L = el.getTotalLength(); el.style.strokeDasharray = L; el.style.strokeDashoffset = L; });
+  const bub = $('[data-bubbles]'); for (let i = 0; i < 16; i++) { const b = document.createElement('i'), s = 10 + Math.random() * 34; b.style.cssText = `width:${s}px;height:${s}px;left:${10 + Math.random() * 80}%;top:${60 + Math.random() * 30}%`; bub.appendChild(b); }
+  const itl = gsap.timeline({ onComplete: () => { introEl.remove(); Rug.play(); } });
+  itl.fromTo('[data-word]', { xPercent: -30, skewX: -20, opacity: 0 }, { xPercent: 0, skewX: 0, opacity: 1, duration: .8, ease: 'expo.out', transformOrigin: '50% 50%' }, .1)
+    .to('[data-sw1]', { strokeDashoffset: 0, duration: .8, ease: 'power2.inOut' }, .25)
+    .to('[data-sw2]', { strokeDashoffset: 0, duration: .7, ease: 'power2.inOut' }, .4)
+    .from('[data-sub]', { opacity: 0, letterSpacing: 9, duration: .7, ease: 'expo.out' }, .55)
+    .from('[data-bubbles] i', { y: 60, scale: 0, opacity: 0, duration: 1.1, ease: 'back.out(2)', stagger: .03 }, .3)
+    .to('[data-bubbles] i', { y: -260, opacity: 0, duration: 1.2, ease: 'power1.in', stagger: .02 }, 1.1)
+    .fromTo('[data-gleam]', { xPercent: -120 }, { xPercent: 120, duration: .7, ease: 'power2.inOut' }, 1.05)
+    .to('.intro .mark', { scale: 1.06, duration: .3, ease: 'power2.out' }, 1.5)
+    .to('.intro .mark', { scale: .85, opacity: 0, duration: .4, ease: 'expo.in' }, 1.8)
+    .to('[data-wipe]', { scaleY: 1, duration: .45, ease: 'expo.in' }, 1.85)
+    .set('[data-wipe]', { transformOrigin: 'top' }, 2.3)
+    .to(introEl, { backgroundColor: 'rgba(255,255,255,0)', duration: .01 }, 2.3)
+    .to('[data-wipe]', { scaleY: 0, duration: .6, ease: 'expo.inOut' }, 2.3)
+    .to('.hero h1 .line > span', { yPercent: 0, duration: 1.2, ease: 'expo.out', stagger: .1 }, 2.45)
+    .to('[data-in]', { opacity: 1, y: 0, duration: 1, ease: 'expo.out', stagger: .08 }, 2.6);
+  introEl.addEventListener('click', () => itl.progress(1));
+  $$('main .line > span').forEach(el => { if (el.closest('.hero')) return; gsap.from(el, { yPercent: 110, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el.parentElement, start: 'top 92%' } }); });
+  const rise = (sel, trig, st = .07) => gsap.from(sel, { opacity: 0, y: 40, duration: 1.1, ease: 'expo.out', stagger: st, scrollTrigger: { trigger: trig, start: 'top 86%' } });
+  rise('.svc', '.svc-grid', .06); rise('.step', '.steps', .1); rise('.cert li', '.cert ul', .1); rise('details.q', '.faq-list', .06); rise('.preview', '.q-grid');
+  gsap.to('[data-spin]', { rotation: 360, svgOrigin: '150 150', duration: 30, repeat: -1, ease: 'none' });
+  gsap.from('.seal', { scale: .7, rotation: -30, opacity: 0, duration: 1.4, ease: 'back.out(1.6)', scrollTrigger: { trigger: '.seal', start: 'top 80%' } });
+  gsap.fromTo('.pipe', { scaleX: 0 }, { scaleX: 1, ease: 'none', scrollTrigger: { trigger: '.process', start: 'top 70%', end: 'bottom 60%', scrub: true } });
+  gsap.from('.closing .phone', { yPercent: 40, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.closing .phone', start: 'top 92%' } });
+  (() => {
+    const tr = $('[data-marquee]'); let x = 0, v = 0, w = 0;
+    const m = () => { w = tr.scrollWidth / 2; }; m(); addEventListener('resize', m); document.fonts && document.fonts.ready.then(m);
+    ScrollTrigger.create({ onUpdate: s => { v = clamp(s.getVelocity() / 300, -12, 12); } });
+    gsap.ticker.add(() => { v *= .92; x -= .8 + Math.abs(v); if (w && x <= -w) x += w; tr.style.transform = `translate3d(${x}px,0,0)`; });
+  })();
+  addEventListener('load', () => ScrollTrigger.refresh());
+  })();
+  </script>
+<a class="studio" href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener" aria-label="Site by ElaSystems (opens in a new tab)"><i aria-hidden="true"></i><span>Site by <b>ElaSystems</b></span></a>
+<style>
+  .studio{position:fixed;right:16px;bottom:16px;z-index:50;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);color:#fff;font:500 12px/1 Inter,sans-serif;text-decoration:none;border:1px solid rgba(255,255,255,.14)}
+  .studio i{width:10px;height:10px;border-radius:3px;background:conic-gradient(from 210deg,#ff5a1f,#ffb03b,#ff5a1f)}
+  .eb-foot{position:static!important;display:flex!important;width:max-content;max-width:calc(100% - 32px);margin:18px auto 22px!important;transform:none!important;opacity:1!important}
+  .eb-hide{opacity:0!important;pointer-events:none!important;transform:translateY(8px)!important}
+  .eb-anim{transition:opacity .4s,transform .4s!important}
+</style>
+<script>
+(function () {
+  const place = () => {
+    const b = document.querySelector('.studio'), f = document.querySelector('footer');
+    if (!b || !f) return false;
+    if (matchMedia('(max-width: 760px)').matches) { f.appendChild(b); b.classList.add('eb-foot'); return true; }
+    b.classList.add('eb-anim');
+    const sync = () => b.classList.toggle('eb-hide', scrollY < innerHeight * .6 || scrollY + innerHeight > document.documentElement.scrollHeight - 140);
+    sync(); addEventListener('scroll', sync, { passive: true });
+    return true;
+  };
+  if (!place()) addEventListener('load', place);
+})();
+</script>
+</body>
+</html>
