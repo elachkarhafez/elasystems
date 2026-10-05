@@ -1,0 +1,5 @@
+# ai.txt — ElaSystems (elasystems.com)
+# No permission is granted to use any content, code or media on this site for AI training,
+# fine-tuning, retrieval or dataset collection.
+User-Agent: *
+Disallow: /
