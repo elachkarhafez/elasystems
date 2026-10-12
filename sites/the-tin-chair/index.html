@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Tin Chair — Barbershop | Classic cuts, concept site by ElaSystems</title>
+<meta name="description" content="The Tin Chair, a concept barbershop template by ElaSystems. Classic style and old-school grooming. Walk-ins welcome, cash only.">
+<meta property="og:title" content="The Tin Chair — Barbershop concept">
+<meta property="og:description" content="Classic style and old-school grooming. Walk-ins welcome. Cash only. A concept template by ElaSystems.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23015772'/%3E%3Cpath d='M4 26 L26 4 M12 30 L34 8 M-4 18 L18 -4' stroke='%23f4efe6' stroke-width='5'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --ink:#0b1114;          /* near black */
+    --ink-2:#121b20;
+    --teal:#015772;         /* brand teal */
+    --teal-lt:#0a7d9e;
+    --bone:#f4efe6;         /* enamel / towel white */
+    --brass:#c8903c;        /* clipper brass */
+    --red:#b4342c;          /* barber pole red */
+    --mut:#9bacb3;
+    --sans:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+    --disp:'Big Shoulders Display','Inter',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --pad:clamp(16px,4vw,56px);
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;max-width:100%;overflow-x:clip}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font:400 16px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+  img,svg,canvas{max-width:100%}
+  a{color:inherit}
+  h1,h2,h3{font-family:var(--disp);font-weight:800;line-height:.92;letter-spacing:-.01em;margin:0;text-transform:uppercase}
+  h2{font-size:clamp(34px,6.4vw,78px)}
+  .wrap{width:min(1200px,100%);margin:0 auto;padding-inline:var(--pad)}
+  section{padding-block:clamp(56px,9vw,120px);position:relative}
+  .eyebrow{font:500 12px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--brass)}
+  .lede{color:#cdd8dc;font-size:clamp(16px,1.6vw,19px);max-width:62ch}
+  .rule{height:1px;background:linear-gradient(90deg,rgba(244,239,230,.28),rgba(244,239,230,0))}
+
+  /* ---------- buttons ---------- */
+  .btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:13px 22px;border-radius:999px;
+    font:600 15px/1 var(--sans);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s,background .2s,color .2s,border-color .2s}
+  .btn-main{background:var(--bone);color:var(--ink)}
+  .btn-ghost{border-color:rgba(244,239,230,.3);color:var(--bone);background:transparent}
+  @media (hover:hover) and (pointer:fine){
+    .btn-main:hover{background:var(--brass);transform:translateY(-2px)}
+    .btn-ghost:hover{border-color:var(--bone);background:rgba(244,239,230,.08);transform:translateY(-2px)}
+  }
+  :focus-visible{outline:3px solid var(--brass);outline-offset:3px;border-radius:6px}
+
+  /* ---------- loader ---------- */
+  #load{position:fixed;inset:0;z-index:200;background:var(--ink);display:grid;place-items:center;transition:opacity .5s,visibility .5s}
+  #load.out{opacity:0;visibility:hidden}
+  #load .pole{width:46px;height:150px;border-radius:999px;overflow:hidden;border:2px solid rgba(244,239,230,.5);position:relative;background:var(--bone)}
+  #load .pole b{position:absolute;inset:-60% 0;background:repeating-linear-gradient(115deg,var(--red) 0 16px,var(--bone) 16px 32px,var(--teal) 32px 48px,var(--bone) 48px 64px);animation:spin 1.1s linear infinite}
+  @keyframes spin{to{transform:translateY(33.3%)}}
+  #load p{font:500 12px/1 var(--mono);letter-spacing:.26em;color:var(--mut);margin-top:22px;text-align:center;text-transform:uppercase}
+  #load .st{display:grid;justify-items:center}
+
+  /* ---------- nav ---------- */
+  header{position:sticky;top:0;z-index:60;background:rgba(11,17,20,.72);backdrop-filter:blur(12px);border-bottom:1px solid rgba(244,239,230,.1)}
+  .nav{display:flex;align-items:center;gap:18px;min-height:64px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:20px;text-transform:uppercase;letter-spacing:.02em;text-decoration:none;white-space:nowrap}
+  .brand .mini{width:12px;height:26px;border-radius:99px;background:repeating-linear-gradient(115deg,var(--red) 0 5px,var(--bone) 5px 10px,var(--teal) 10px 15px,var(--bone) 15px 20px);flex:none}
+  .nav nav{margin-left:auto;display:flex;gap:22px}
+  .nav nav a{font:500 14px/1 var(--sans);text-decoration:none;color:#c9d4d8}
+  .nav .btn{padding:10px 18px;min-height:42px;font-size:14px}
+  @media (max-width:860px){.nav nav{display:none}.nav .btn{margin-left:auto}}
+
+  /* ---------- hero ---------- */
+  .hero{min-height:clamp(620px,92svh,900px);display:flex;align-items:center;padding-block:clamp(40px,6vw,70px);
+    background:radial-gradient(120% 90% at 78% 0%,rgba(1,87,114,.55),transparent 60%),radial-gradient(90% 70% at 0% 100%,rgba(200,144,60,.16),transparent 60%)}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(24px,4vw,56px);align-items:center;width:100%}
+  @media (max-width:960px){.hero-grid{grid-template-columns:1fr;gap:28px}}
+  h1{font-size:clamp(54px,11.5vw,132px)}
+  h1 .l2{display:block;color:var(--brass)}
+  .hero .lede{margin:18px 0 26px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+  .stars{display:flex;align-items:center;gap:10px;margin-top:24px;font:500 13px/1.4 var(--sans);color:#c9d4d8;flex-wrap:wrap}
+  .stars b{color:var(--bone)}
+  .stars .s{color:var(--brass);letter-spacing:2px}
+
+  /* ---------- mirror (signature) ---------- */
+  .mirror-shell{position:relative}
+  .mirror{position:relative;aspect-ratio:4/5;max-height:72svh;border-radius:220px 220px 20px 20px;overflow:hidden;
+    border:10px solid #1a2429;box-shadow:0 0 0 2px var(--brass),0 40px 80px rgba(0,0,0,.6);background:#07252f}
+  .mirror .reflect{position:absolute;inset:0}
+  .mirror canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair;transition:opacity .9s ease}
+  .mirror.clear canvas{opacity:0;pointer-events:none}
+  .callout{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:9px;
+    background:var(--bone);color:var(--ink);padding:11px 17px;border-radius:999px;font:600 14px/1 var(--sans);
+    box-shadow:0 12px 30px rgba(0,0,0,.5);white-space:nowrap;transition:opacity .4s,transform .4s}
+  .callout.nudge{animation:wig 1.1s ease-in-out 2}
+  .callout.gone{opacity:0;transform:translate(-50%,14px);pointer-events:none}
+  @keyframes wig{0%,100%{transform:translateX(-50%) rotate(0)}25%{transform:translateX(-50%) rotate(-3.5deg) scale(1.04)}75%{transform:translateX(-50%) rotate(3.5deg) scale(1.04)}}
+  .payoff{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.9);z-index:2;text-align:center;opacity:0;transition:opacity .6s .15s,transform .6s .15s;pointer-events:none;width:86%}
+  .mirror.clear .payoff{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  .payoff strong{display:block;font-family:var(--disp);font-weight:800;text-transform:uppercase;font-size:clamp(26px,4.6vw,46px);line-height:.95}
+  .payoff span{display:block;margin-top:8px;font:500 12px/1.5 var(--mono);letter-spacing:.2em;color:#bfe0ea;text-transform:uppercase}
+  .mirror-note{margin-top:12px;font:500 12px/1.5 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);text-align:center}
+
+  /* ---------- marquee ---------- */
+  .mq{border-block:1px solid rgba(244,239,230,.14);background:var(--teal);overflow:hidden;padding:14px 0}
+  .mq-in{display:flex;gap:40px;width:max-content;animation:slide 26s linear infinite;font-family:var(--disp);font-weight:700;
+    text-transform:uppercase;font-size:clamp(20px,2.6vw,30px);letter-spacing:.03em;color:#eaf6fa}
+  .mq-in span{display:flex;align-items:center;gap:40px;white-space:nowrap}
+  .mq-in i{width:9px;height:9px;border-radius:99px;background:var(--brass);flex:none}
+  @keyframes slide{to{transform:translateX(-50%)}}
+
+  /* ---------- cards / services ---------- */
+  .head-row{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;margin-bottom:clamp(26px,4vw,44px)}
+  .grid{display:grid;gap:14px}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  @media (max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,rgba(244,239,230,.07),rgba(244,239,230,.03));border:1px solid rgba(244,239,230,.12);
+    border-radius:var(--r);padding:clamp(20px,2.4vw,28px);transition:border-color .25s,transform .25s}
+  @media (hover:hover) and (pointer:fine){.card:hover{border-color:rgba(200,144,60,.6);transform:translateY(-3px)}}
+  .card h3{font-size:clamp(22px,2.4vw,28px);margin-bottom:8px}
+  .card p{margin:0;color:#c3ced3;font-size:15px}
+  .card .ico{color:var(--brass);margin-bottom:14px;display:block}
+  .tag{display:inline-block;margin-top:14px;font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--teal-lt);border:1px solid rgba(10,125,158,.5);padding:7px 10px;border-radius:999px}
+
+  /* ---------- scroll story ---------- */
+  .story{background:var(--ink-2);border-block:1px solid rgba(244,239,230,.1)}
+  .story-track{height:420svh;position:relative}
+  .story-pin{position:sticky;top:0;height:100svh;display:flex;align-items:center;overflow:hidden}
+  .story-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(20px,4vw,50px);align-items:center;width:100%}
+  @media (max-width:900px){.story-inner{grid-template-columns:1fr;gap:18px}.story-track{height:400svh}}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+  .steps li{padding:12px 0 12px 20px;border-left:2px solid rgba(244,239,230,.16);opacity:.34;transition:opacity .35s,border-color .35s,transform .35s}
+  .steps li.on{opacity:1;border-color:var(--brass);transform:translateX(4px)}
+  .steps b{display:block;font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:clamp(20px,2.4vw,30px);line-height:1}
+  .steps small{color:#b7c3c8;font-size:14px}
+  @media (max-width:900px){.steps li{padding:8px 0 8px 16px}.steps small{display:none}}
+  .stage{position:relative;aspect-ratio:5/4;border-radius:var(--r);overflow:hidden;background:
+    radial-gradient(80% 70% at 50% 10%,rgba(1,87,114,.5),transparent 70%),#0d1619;border:1px solid rgba(244,239,230,.12);display:grid;place-items:center}
+  .stage svg{width:100%;height:100%}
+  .prog{position:absolute;left:0;bottom:0;height:3px;background:var(--brass);width:0}
+  .stage-label{position:absolute;left:14px;top:14px;font:500 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:#bfe0ea}
+
+  /* ---------- barbers ---------- */
+  .chair{display:flex;gap:16px;align-items:center}
+  .chair .av{width:62px;height:62px;flex:none;border-radius:50%;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:26px;
+    color:var(--ink);background:linear-gradient(140deg,var(--brass),#e9c383)}
+  /* ---------- reviews ---------- */
+  .quote{display:grid;gap:14px}
+  .quote p{margin:0;font-size:clamp(16px,1.7vw,18px);color:#e4ebee;line-height:1.55}
+  .quote footer{font:500 12px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);background:none;padding:0;border:0}
+  .rev-rail{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(300px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;scrollbar-width:thin}
+  .rev-rail>*{scroll-snap-align:start}
+
+  /* ---------- visit ---------- */
+  .visit{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,36px);align-items:start}
+  @media (max-width:900px){.visit{grid-template-columns:1fr}}
+  table.hours{width:100%;border-collapse:collapse;font-size:15px}
+  table.hours td{padding:11px 4px;border-bottom:1px solid rgba(244,239,230,.1);color:#c7d2d7}
+  table.hours tr.today td{color:var(--bone);font-weight:600}
+  table.hours tr.today td:first-child::before{content:"▸ ";color:var(--brass)}
+  table.hours td:last-child{text-align:right;font-family:var(--mono);font-size:13px}
+  .status{display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border-radius:999px;font:600 13px/1 var(--sans);
+    border:1px solid rgba(244,239,230,.2);background:rgba(244,239,230,.06)}
+  .status .dot{width:9px;height:9px;border-radius:99px;background:var(--mut);box-shadow:0 0 0 4px rgba(155,172,179,.18)}
+  .status.open .dot{background:#4fd18b;box-shadow:0 0 0 4px rgba(79,209,139,.2)}
+  .status.shut .dot{background:var(--red);box-shadow:0 0 0 4px rgba(180,52,44,.2)}
+  .facts{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+  .facts li{font:500 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bdc9ce;border:1px solid rgba(244,239,230,.16);padding:9px 11px;border-radius:999px}
+  .map{display:block;border-radius:var(--r);overflow:hidden;border:1px solid rgba(244,239,230,.14);text-decoration:none;position:relative;background:#0e181c}
+  .map svg{display:block;width:100%;height:auto}
+  .map .pin{position:absolute;left:14px;bottom:14px;right:14px;background:rgba(11,17,20,.82);backdrop-filter:blur(8px);border-radius:10px;padding:13px 15px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+  .map .pin b{font-family:var(--disp);font-weight:700;text-transform:uppercase;font-size:18px}
+  .map .pin span{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--brass)}
+
+  /* ---------- closing ---------- */
+  .close{text-align:center;background:radial-gradient(70% 90% at 50% 0%,rgba(1,87,114,.5),transparent 70%)}
+  .close h2{font-size:clamp(44px,10vw,120px)}
+  footer{border-top:1px solid rgba(244,239,230,.12);padding:34px 0 10px;background:#080d0f}
+  .fgrid{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center;font-size:14px;color:#9fadb2}
+  .fgrid a{text-decoration:none}
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .mq-in,#load .pole b,.callout.nudge{animation:none}
+    .story-track{height:auto}.story-pin{position:static;height:auto;padding-block:30px}
+    .steps li{opacity:1}
+  }
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .studio{position:fixed;right:16px;bottom:16px;z-index:50;display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(0,0,0,.55);backdrop-filter:blur(10px);color:#fff;font:500 12px/1 var(--sans);text-decoration:none;border:1px solid rgba(255,255,255,.14)}
+  .studio i{width:10px;height:10px;border-radius:3px;background:conic-gradient(from 210deg,#ff5a1f,#ffb03b,#ff5a1f)}
+  .eb-foot{position:static!important;display:flex!important;width:max-content;max-width:calc(100% - 32px);margin:18px auto 22px!important;transform:none!important;opacity:1!important}
+  .eb-hide{opacity:0!important;pointer-events:none!important;transform:translateY(8px)!important}
+  .eb-anim{transition:opacity .4s,transform .4s!important}
+</style>
+</head>
+<body>
+
+<div id="load"><div class="st"><div class="pole"><b></b></div><p>Daleport · Est. 2015</p></div></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="mini" aria-hidden="true"></span>The Tin Chair</a>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#story">The cut</a>
+      <a href="#chairs">Barbers</a>
+      <a href="#visit">Visit</a>
+    </nav>
+    <a class="btn btn-main" id="navCta" href="#visit">Call to book</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Daleport, CA · Since 2015</p>
+        <h1>The Tin Chair<span class="l2" id="h1sub">Daleport</span></h1>
+        <p class="lede" id="bioLine"></p>
+        <div class="hero-cta">
+          <a class="btn btn-main" id="heroCall" href="#">Call to book</a>
+          <a class="btn btn-ghost" href="#services">See services</a>
+        </div>
+        <div class="stars">
+          <span class="s" aria-hidden="true">★★★★★</span>
+          <span><b>4.7</b> from <b>92</b> sample reviews</span>
+          <span aria-hidden="true">·</span>
+          <span id="statusMini"></span>
+        </div>
+      </div>
+
+      <div class="mirror-shell">
+        <div class="mirror" id="mirror">
+          <div class="reflect" aria-hidden="true">
+            <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img">
+              <defs>
+                <linearGradient id="mg" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#0b3f52"/><stop offset=".55" stop-color="#07252f"/><stop offset="1" stop-color="#05171e"/>
+                </linearGradient>
+                <linearGradient id="pole" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#f4efe6"/><stop offset="1" stop-color="#d9d2c6"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="500" fill="url(#mg)"/>
+              <!-- back wall tiles -->
+              <g stroke="rgba(244,239,230,.07)" stroke-width="1">
+                <path d="M0 120H400M0 180H400M0 240H400M0 300H400M60 100V330M140 100V330M220 100V330M300 100V330"/>
+              </g>
+              <!-- barber pole on wall -->
+              <g transform="translate(330 150)">
+                <rect x="-11" y="-60" width="22" height="130" rx="11" fill="url(#pole)"/>
+                <clipPath id="pc"><rect x="-11" y="-60" width="22" height="130" rx="11"/></clipPath>
+                <g clip-path="url(#pc)">
+                  <path d="M-30 70 L30 -10 M-30 100 L30 20 M-30 40 L30 -40 M-30 10 L30 -70" stroke="#b4342c" stroke-width="9"/>
+                  <path d="M-30 85 L30 5 M-30 55 L30 -25 M-30 25 L30 -55" stroke="#015772" stroke-width="7"/>
+                </g>
+                <circle cx="0" cy="-64" r="7" fill="#c8903c"/><circle cx="0" cy="74" r="7" fill="#c8903c"/>
+              </g>
+              <!-- barber chair silhouette -->
+              <g fill="#13232a" stroke="#c8903c" stroke-width="2" stroke-linejoin="round">
+                <path d="M120 300h120v16a26 26 0 0 1-26 26h-68a26 26 0 0 1-26-26z"/>
+                <path d="M136 206c0-18 14-30 32-30h30c18 0 30 12 30 30v94h-92z"/>
+                <path d="M176 342h8v62h-8z"/>
+                <path d="M140 404h80l10 20H130z"/>
+                <path d="M104 262h26v14h-26zM230 262h26v14h-26z" fill="#1b2d35"/>
+              </g>
+              <!-- hanging bulbs -->
+              <g stroke="rgba(200,144,60,.5)" stroke-width="1.5">
+                <path d="M70 0v54M200 0v34M300 0v70"/>
+              </g>
+              <circle cx="70" cy="60" r="9" fill="#e8c489" opacity=".85"/>
+              <circle cx="200" cy="40" r="9" fill="#e8c489" opacity=".85"/>
+              <circle cx="300" cy="76" r="9" fill="#e8c489" opacity=".85"/>
+              <!-- counter -->
+              <rect y="420" width="400" height="80" fill="#0a1a20"/>
+              <g fill="#15272e" stroke="#c8903c" stroke-width="1.6">
+                <rect x="40" y="394" width="14" height="28" rx="3"/>
+                <rect x="62" y="402" width="12" height="20" rx="3"/>
+                <rect x="300" y="396" width="40" height="26" rx="4"/>
+              </g>
+            </svg>
+          </div>
+          <div class="payoff"><strong>Clean lines,<br>since 2015</strong><span>Walk in · Cash only</span></div>
+          <canvas id="steam" aria-hidden="true"></canvas>
+          <button class="callout" id="callout" type="button" aria-label="Wipe the steam off the mirror">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 11V6a2 2 0 1 1 4 0v5m0-3a2 2 0 1 1 4 0v3m0-1a2 2 0 1 1 4 0v5a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6v-2a2 2 0 1 1 4 0"/></svg>
+            <span id="calloutText">Drag to wipe the mirror</span>
+          </button>
+        </div>
+        <p class="mirror-note" id="mirrorNote">Hot towels fog the glass. Clear it.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="mq" aria-hidden="true"><div class="mq-in" id="mq"></div></div>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div>
+          <p class="eyebrow">What we do</p>
+          <h2>Cuts, fades<br>and hot shaves</h2>
+        </div>
+        <p class="lede">Clippers, scissors and straight razors — a straightforward barbershop, no fuss. Walk in, or call ahead and we'll tell you how the chairs are looking.</p>
+      </div>
+      <div class="grid g3" id="svcGrid"></div>
+      <p class="lede reveal" style="margin-top:20px;font-size:14px;color:var(--mut)">
+        Prices are confirmed in the chair and the shop is <b>cash only</b>. Call <a id="priceCall" href="#">(347) 555-0118</a> for today's pricing.
+      </p>
+    </div>
+  </section>
+
+  <section class="story" id="story">
+    <div class="story-track" id="track">
+      <div class="story-pin">
+        <div class="wrap story-inner">
+          <div>
+            <p class="eyebrow reveal">The ritual</p>
+            <h2 class="reveal" style="margin-bottom:18px">In the<br>chair</h2>
+            <ol class="steps" id="steps"></ol>
+          </div>
+          <div class="stage">
+            <span class="stage-label" id="stageLabel">Step 1 / 6</span>
+            <svg viewBox="0 0 500 400" aria-hidden="true">
+              <defs>
+                <clipPath id="headClip"><path d="M250 92c44 0 72 32 72 78 0 40-10 62-24 78-10 12-14 26-14 40v22h-70v-24c0-14-5-26-15-38-14-16-21-38-21-78 0-46 28-78 72-78z"/></clipPath>
+                <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a3b43"/><stop offset="1" stop-color="#16262d"/></linearGradient>
+              </defs>
+              <!-- shoulders -->
+              <path d="M110 400c0-56 56-86 140-86s140 30 140 86z" fill="#101c21" stroke="#c8903c" stroke-width="2"/>
+              <!-- cape -->
+              <path id="cape" d="M110 400c0-56 56-86 140-86s140 30 140 86z" fill="rgba(1,87,114,.5)" opacity="0"/>
+              <!-- head -->
+              <path d="M250 92c44 0 72 32 72 78 0 40-10 62-24 78-10 12-14 26-14 40v22h-70v-24c0-14-5-26-15-38-14-16-21-38-21-78 0-46 28-78 72-78z" fill="url(#skin)" stroke="#c8903c" stroke-width="2"/>
+              <!-- hair mass, clipped -->
+              <g clip-path="url(#headClip)">
+                <path id="hair" d="M168 170c0-56 36-86 82-86s82 30 82 86c0 10-164 12-164 0z" fill="#0a1316"/>
+                <rect id="fade" x="160" y="150" width="180" height="60" fill="#1b2a30" opacity="0"/>
+              </g>
+              <!-- clipper -->
+              <g id="clipper" transform="translate(150 250)">
+                <rect x="-18" y="-40" width="36" height="74" rx="7" fill="#1d2b31" stroke="#c8903c" stroke-width="2"/>
+                <rect x="-20" y="34" width="40" height="10" rx="3" fill="#c8903c"/>
+                <rect x="-12" y="-30" width="24" height="5" rx="2" fill="#6b7a80"/>
+              </g>
+              <!-- razor -->
+              <g id="razor" transform="translate(360 150)" opacity="0">
+                <rect x="-6" y="-46" width="12" height="92" rx="4" fill="#dfe7ea"/>
+                <rect x="-8" y="46" width="16" height="30" rx="5" fill="#b4342c"/>
+              </g>
+              <!-- towel -->
+              <g id="towel" opacity="0">
+                <ellipse cx="250" cy="190" rx="92" ry="86" fill="#f4efe6" opacity=".92"/>
+                <path d="M170 150c30 14 130 14 160 0" stroke="#d5cec1" stroke-width="4" fill="none"/>
+              </g>
+              <!-- steam puffs -->
+              <g id="puffs" opacity="0" fill="rgba(244,239,230,.3)">
+                <circle cx="200" cy="80" r="16"/><circle cx="250" cy="52" r="20"/><circle cx="300" cy="86" r="14"/>
+              </g>
+            </svg>
+            <div class="prog" id="prog"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="chairs">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div><p class="eyebrow">The chairs</p><h2>Ask for<br>your barber</h2></div>
+        <p class="lede">These are the barbers customers call out by name in reviews. Every chair cuts clippers, scissors and straight razor — ask at the front who's open.</p>
+      </div>
+      <div class="grid g2" id="barberGrid"></div>
+    </div>
+  </section>
+
+  <section id="reviews" style="background:var(--ink-2);border-block:1px solid rgba(244,239,230,.1)">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div><p class="eyebrow">4.7 ★ · 92 sample reviews</p><h2>In their<br>own words</h2></div>
+        <a class="btn btn-ghost" href="#visit">See hours &amp; visit</a>
+      </div>
+      <div class="rev-rail" id="revRail"></div>
+    </div>
+  </section>
+
+  <section id="visit">
+    <div class="wrap">
+      <div class="head-row reveal">
+        <div><p class="eyebrow">Find us</p><h2>Walk in on<br>Tanner Ave</h2></div>
+        <div id="statusBig"></div>
+      </div>
+      <div class="visit">
+        <div class="card reveal">
+          <h3>Hours</h3>
+          <table class="hours"><tbody id="hoursBody"></tbody></table>
+          <ul class="facts" id="facts"></ul>
+          <div class="hero-cta" style="margin-top:22px">
+            <a class="btn btn-main" id="visitCall" href="#">Call (347) 555-0118</a>
+            <a class="btn btn-ghost" id="visitSms" href="#">Text the shop</a>
+          </div>
+        </div>
+        <div class="reveal">
+          <a class="map" id="mapLink" href="#" target="_blank" rel="noopener" aria-label="Open The Tin Chair's sample address on Google Maps (opens in a new tab)">
+            <svg viewBox="0 0 600 440" aria-hidden="true">
+              <rect width="600" height="440" fill="#0c1519"/>
+              <g stroke="#1b2a31" stroke-width="2">
+                <path d="M0 90H600M0 190H600M0 330H600M110 0V440M250 0V440M430 0V440"/>
+              </g>
+              <path d="M-20 400 L620 60" stroke="#015772" stroke-width="26" opacity=".85"/>
+              <path d="M-20 400 L620 60" stroke="#0a7d9e" stroke-width="2" stroke-dasharray="12 14"/>
+              <text x="410" y="150" fill="#9bb6bf" font-family="JetBrains Mono, monospace" font-size="16" transform="rotate(-28 410 150)">TANNER AVE</text>
+              <text x="24" y="78" fill="#6f848c" font-family="JetBrains Mono, monospace" font-size="14">DALEPORT</text>
+              <g transform="translate(300 232)">
+                <circle r="44" fill="rgba(200,144,60,.16)"/>
+                <path d="M0 22c-12-18-20-26-20-38a20 20 0 1 1 40 0c0 12-8 20-20 38z" fill="#c8903c"/>
+                <circle cy="-16" r="7" fill="#0b1114"/>
+              </g>
+            </svg>
+            <span class="pin"><b>118 Tanner Ave, Daleport, CA 90112</b><span>Open in Google Maps →</span></span>
+          </a>
+          <p class="lede" style="margin-top:16px;font-size:15px">Free street parking, wheelchair accessible entrance and parking lot, restroom on site, good for kids, and walk-ins accepted. <b>Cash only.</b></p>
+          <p class="lede" style="margin-top:10px;font-size:13px;color:var(--mut)">Sample address and contact details — this is a concept template, not a real shop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="close">
+    <div class="wrap">
+      <p class="eyebrow reveal">Ready when you are</p>
+      <h2 class="reveal">Take a seat</h2>
+      <p class="lede reveal" style="margin:18px auto 26px;text-align:center">No booking app — just call the shop or walk in. Tanner Ave, Daleport, since 2015.</p>
+      <div class="hero-cta reveal" style="justify-content:center">
+        <a class="btn btn-main" id="closeCall" href="#">Call to book</a>
+        <a class="btn btn-ghost" href="#visit">Hours &amp; location</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <strong style="font-family:var(--disp);text-transform:uppercase;font-size:20px;color:var(--bone)">The Tin Chair</strong><br>
+      118 Tanner Ave, Daleport, CA 90112 · <a id="footCall" href="#">(347) 555-0118</a>
+    </div>
+    <div style="text-align:right">
+      <a id="footMap" href="#" target="_blank" rel="noopener">Directions</a><br>
+      <span style="font-size:12px">© <span id="yr"></span> The Tin Chair · Cash only · Walk-ins welcome</span><br>
+      <span style="font-size:12px">Concept site by ElaSystems — sample business, sample data.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="studio" href="https://www.instagram.com/ela.systems/" target="_blank" rel="noopener" aria-label="Site by ElaSystems (opens in a new tab)"><i aria-hidden="true"></i><span>Site by <b>ElaSystems</b></span></a>
+
+<script>
+(function(){
+  "use strict";
+  /* ---------------- CONFIG: every business fact lives here ---------------- */
+  const CONFIG = {
+    name:"The Tin Chair",
+    city:"Daleport",
+    address:"118 Tanner Ave, Daleport, CA 90112",
+    phone:"(347) 555-0118",
+    phoneRaw:"+13475550118",
+    rating:4.7, reviewCount:92,
+    bio:"Since 2015, The Tin Chair has offered classic style and old-school grooming — concept template, sample data.",
+    maps:"https://www.google.com/maps/search/?api=1&query=118+Tanner+Ave,+Daleport,+CA+90112",
+    booking:null, // no online booking link published — calls are the fallback
+    hours:[ // 0 = Sunday
+      {d:"Sunday",    open:"10:00", close:"16:00"},
+      {d:"Monday",    open:"08:00", close:"18:00"},
+      {d:"Tuesday",   open:"08:00", close:"18:00"},
+      {d:"Wednesday", open:"08:00", close:"18:00"},
+      {d:"Thursday",  open:"08:00", close:"18:00"},
+      {d:"Friday",    open:"09:00", close:"18:00"},
+      {d:"Saturday",  open:"09:00", close:"18:00"}
+    ],
+    facts:["Accepts walk-ins","Cash only","Free street parking","Wheelchair accessible entrance","Wheelchair accessible parking lot","Restroom","Good for kids","Onsite services"],
+    services:[
+      {t:"Haircut", d:"Clipper work, scissor work, or both — faded, layered or cleaned up the way you ask for it.", tag:"Clippers + scissors"},
+      {t:"Skin fade", d:"Taken down to the skin and blended by hand, with the top cut to match.", tag:"Blended by hand"},
+      {t:"Hot shave", d:"Straight razor, hot towel, finished clean. The old-school way.", tag:"Straight razor"},
+      {t:"Line-up & edge", d:"Razor line-up around the hairline, neck and beard edges.", tag:"Razor detail"},
+      {t:"Beard trim", d:"Shaped and tidied with clippers, scissors and razor edges.", tag:"Shape + edge"},
+      {t:"Kids' cuts", d:"Good for kids, says Google — and we're quick about it.", tag:"Family welcome"}
+    ],
+    barbers:[ // sample roster — fictional names for template purposes
+      {n:"Desmond", note:"Fast, friendly and accommodating — the one regulars ask for first."},
+      {n:"Theo",     note:"A real pro and dedicated to his craft. Layers and fades, perfectly blended."},
+      {n:"Rafael",   note:"Takes a Saturday walk-in and sorts it out, no appointment needed."},
+      {n:"Pike",     note:"Clippers, scissors and straight razors — does it all, start to finish."}
+    ],
+    reviews:[ // sample testimonials — fictional, for template purposes
+      {q:"Glad I found this place, best haircut I've had in years. A straightforward barber without all the fuss, which is just what I was looking for.",s:5},
+      {q:"Every visit the service is fast, efficient and extremely friendly and accommodating. Great barbershop. Ask for Desmond — highly recommended.",s:5},
+      {q:"I came in for the first time and I'll be back next month. Theo was a real pro and dedicated to his craft. He layered and faded my hair perfectly, exactly how I wanted it. Clean, low-key space.",s:5},
+      {q:"Pike gave me one of the best haircuts I've had in years. Clippers, scissors and straight razors — they do it all.",s:5}
+    ],
+    steps:[
+      {b:"Sit down",      s:"Cape on, and you say what you want. No upsell, no fuss."},
+      {b:"Clipper work",  s:"The sides come down to the guard you asked for."},
+      {b:"The fade",      s:"Blended by hand until the line between guards disappears."},
+      {b:"Scissor over comb", s:"The top is cut and layered to sit the way you wear it."},
+      {b:"Razor line-up", s:"Straight razor around the hairline, neck and beard edges."},
+      {b:"Hot towel finish", s:"Hot towel, clean neck, mirror check. Cash at the counter."}
+    ],
+    marquee:["Since 2015","Walk-ins welcome","Clippers · Scissors · Straight razors","Cash only","4.7 ★ · 92 sample reviews","Tanner Ave, Daleport"]
+  };
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = matchMedia('(hover: none)').matches;
+
+  /* ---------------- links (every one works, with fallbacks) ---------------- */
+  const tel = 'tel:' + CONFIG.phoneRaw;
+  const bookHref = CONFIG.booking || tel;
+  const bookLabel = CONFIG.booking ? 'Book online' : 'Call to book';
+  ['#navCta','#heroCall','#closeCall'].forEach(sel=>{const a=$(sel); if(a){a.href=bookHref; a.textContent=bookLabel;}});
+  $('#visitCall').href = tel; $('#visitCall').textContent = 'Call ' + CONFIG.phone;
+  $('#visitSms').href = 'sms:' + CONFIG.phoneRaw;
+  $('#priceCall').href = tel; $('#priceCall').textContent = CONFIG.phone;
+  $('#footCall').href = tel; $('#footCall').textContent = CONFIG.phone;
+  $('#mapLink').href = CONFIG.maps; $('#footMap').href = CONFIG.maps;
+  $('#bioLine').textContent = CONFIG.bio;
+  $('#h1sub').textContent = CONFIG.city;
+  $('#yr').textContent = new Date().getFullYear();
+
+  /* ---------------- render from CONFIG ---------------- */
+  $('#mq').innerHTML = (()=>{const one='<span>'+CONFIG.marquee.map(t=>esc(t)+'<i></i>').join('')+'</span>';return one+one;})();
+
+  $('#svcGrid').innerHTML = CONFIG.services.map(s=>`<article class="card reveal">
+      <span class="ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M8.5 7.5 20 19M8.5 16.5 20 5"/></svg></span>
+      <h3>${esc(s.t)}</h3><p>${esc(s.d)}</p><span class="tag">${esc(s.tag)}</span></article>`).join('');
+
+  $('#barberGrid').innerHTML = CONFIG.barbers.map(b=>`<article class="card reveal"><div class="chair">
+      <span class="av" aria-hidden="true">${esc(b.n[0])}</span>
+      <div><h3 style="margin-bottom:4px">${esc(b.n)}</h3><p>${esc(b.note)}</p></div></div></article>`).join('');
+
+  $('#revRail').innerHTML = CONFIG.reviews.map(r=>`<blockquote class="card quote reveal">
+      <span class="s" aria-hidden="true" style="color:var(--brass);letter-spacing:2px">${'★'.repeat(r.s)}</span>
+      <p>“${esc(r.q)}”</p><footer>Sample review · ${r.s}★</footer></blockquote>`).join('');
+
+  $('#facts').innerHTML = CONFIG.facts.map(f=>`<li>${esc(f)}</li>`).join('');
+
+  $('#steps').innerHTML = CONFIG.steps.map((s,i)=>`<li${i===0?' class="on"':''}><b>${esc(s.b)}</b><small>${esc(s.s)}</small></li>`).join('');
+
+  /* ---------------- hours + live open status ---------------- */
+  const fmt = t => {const [h,m]=t.split(':').map(Number); const ap=h<12?'AM':'PM'; const hh=h%12||12; return hh+(m?':'+String(m).padStart(2,'0'):'')+' '+ap;};
+  const now = new Date(), dow = now.getDay(), mins = now.getHours()*60+now.getMinutes();
+  const toM = t => {const [h,m]=t.split(':').map(Number); return h*60+m;};
+  $('#hoursBody').innerHTML = CONFIG.hours.map((h,i)=>`<tr class="${i===dow?'today':''}"><td>${esc(h.d)}</td><td>${fmt(h.open)} – ${fmt(h.close)}</td></tr>`).join('');
+  const today = CONFIG.hours[dow];
+  const isOpen = mins >= toM(today.open) && mins < toM(today.close);
+  let msg;
+  if (isOpen) { msg = 'Open now · closes ' + fmt(today.close); }
+  else if (mins < toM(today.open)) { msg = 'Closed · opens ' + fmt(today.open) + ' today'; }
+  else { const nx = CONFIG.hours[(dow+1)%7]; msg = 'Closed · opens ' + fmt(nx.open) + ' ' + nx.d; }
+  $('#statusMini').innerHTML = `<b>${esc(msg)}</b>`;
+  $('#statusBig').innerHTML = `<span class="status ${isOpen?'open':'shut'}"><span class="dot"></span>${esc(msg)}</span>`;
+
+  /* ---------------- reveal on scroll ---------------- */
+  if ('IntersectionObserver' in window && !reduce) {
+    const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{rootMargin:'0px 0px -8%'});
+    $$('.reveal').forEach(el=>io.observe(el));
+  } else { $$('.reveal').forEach(el=>el.classList.add('in')); }
+
+  /* ---------------- SIGNATURE: wipe the steamed mirror ---------------- */
+  const mirror = $('#mirror'), cv = $('#steam'), callout = $('#callout');
+  $('#calloutText').textContent = touch ? 'Swipe to wipe the mirror' : 'Drag to wipe the mirror';
+  $('#mirrorNote').textContent = touch ? 'Hot towels fog the glass. Swipe it clear.' : 'Hot towels fog the glass. Clear it.';
+  let ctx, W=0, H=0, cleared=false, touched=false, grid, gw, gh, wiped=0;
+
+  function fog(){
+    if(!ctx) return;
+    const r = Math.min(devicePixelRatio||1,2);
+    W = cv.clientWidth; H = cv.clientHeight;
+    if(!W||!H) return;
+    cv.width = Math.round(W*r); cv.height = Math.round(H*r);
+    ctx.setTransform(r,0,0,r,0,0);
+    const g = ctx.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'rgba(228,238,241,.95)'); g.addColorStop(.5,'rgba(206,222,227,.93)'); g.addColorStop(1,'rgba(186,205,212,.96)');
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+    // condensation speckle + a few runs, deterministic enough to look real
+    for(let i=0;i<180;i++){
+      const x=Math.random()*W, y=Math.random()*H, rr=Math.random()*9+2;
+      ctx.fillStyle='rgba(255,255,255,'+(Math.random()*.35+.1)+')';
+      ctx.beginPath(); ctx.arc(x,y,rr,0,6.2832); ctx.fill();
+    }
+    for(let i=0;i<10;i++){
+      const x=Math.random()*W, y=Math.random()*H*.5, len=40+Math.random()*120;
+      ctx.strokeStyle='rgba(255,255,255,.4)'; ctx.lineWidth=1.6+Math.random()*2;
+      ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x+Math.random()*6-3,y+len); ctx.stroke();
+    }
+    gw = 16; gh = 20; grid = new Uint8Array(gw*gh); wiped = 0;
+  }
+
+  function wipe(x,y,rad){
+    ctx.globalCompositeOperation='destination-out';
+    const grd = ctx.createRadialGradient(x,y,0,x,y,rad);
+    grd.addColorStop(0,'rgba(0,0,0,1)'); grd.addColorStop(.6,'rgba(0,0,0,.9)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(x,y,rad,0,6.2832); ctx.fill();
+    // track coverage on a coarse grid
+    const cw=W/gw, ch=H/gh;
+    const i0=Math.max(0,Math.floor((x-rad*.7)/cw)), i1=Math.min(gw-1,Math.floor((x+rad*.7)/cw));
+    const j0=Math.max(0,Math.floor((y-rad*.7)/ch)), j1=Math.min(gh-1,Math.floor((y+rad*.7)/ch));
+    for(let j=j0;j<=j1;j++) for(let i=i0;i<=i1;i++){const k=j*gw+i; if(!grid[k]){grid[k]=1;wiped++;}}
+    if(!cleared && wiped/(gw*gh) > .5) finish();
+  }
+
+  function finish(){
+    cleared = true;
+    mirror.classList.add('clear');
+    callout.classList.add('gone');
+    $('#mirrorNote').textContent = 'Tanner Ave, Daleport — walk in any day of the week.';
+  }
+
+  function firstTouch(){ if(touched) return; touched = true; callout.classList.remove('nudge'); callout.classList.add('gone'); }
+
+  let last=null;
+  function at(e){
+    const r = cv.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    return {x:p.clientX-r.left, y:p.clientY-r.top};
+  }
+  function move(e){
+    if(cleared || !ctx) return;
+    const p = at(e); const rad = Math.max(34, Math.min(W,H)*.14);
+    if(last){ // interpolate so fast drags don't leave gaps
+      const d = Math.hypot(p.x-last.x,p.y-last.y), n = Math.max(1,Math.ceil(d/14));
+      for(let i=1;i<=n;i++) wipe(last.x+(p.x-last.x)*i/n, last.y+(p.y-last.y)*i/n, rad);
+    } else wipe(p.x,p.y,rad);
+    last = p; firstTouch();
+    if(e.cancelable) e.preventDefault();
+  }
+  function start(e){ last = null; move(e); }
+  function end(){ last = null; }
+
+  function initMirror(){
+    try{ ctx = cv.getContext('2d'); }catch(err){ ctx = null; }
+    if(!ctx){ finish(); callout.classList.add('gone'); return; }  // graceful fallback: show the clear mirror
+    fog();
+    if(reduce){ setTimeout(finish, 400); callout.classList.add('gone'); return; }
+    cv.addEventListener('pointerdown', start);
+    cv.addEventListener('pointermove', e=>{ if(e.buttons || e.pointerType!=='mouse') move(e); });
+    cv.addEventListener('pointerup', end);
+    cv.addEventListener('pointerleave', end);
+    cv.addEventListener('touchstart', start, {passive:false});
+    cv.addEventListener('touchmove', move, {passive:false});
+    cv.addEventListener('touchend', end);
+    // keyboard / click fallback: the callout itself clears it
+    callout.addEventListener('click', ()=>{ firstTouch(); if(!cleared) autoClear(); });
+    let t = setInterval(()=>{ if(touched||cleared){clearInterval(t);return;} callout.classList.remove('nudge'); void callout.offsetWidth; callout.classList.add('nudge'); }, 3400);
+    addEventListener('resize', ()=>{ if(!cleared) fog(); }, {passive:true});
+  }
+  function autoClear(){ // animated sweep for taps, keyboard and reduced motion
+    let i=0; const steps=26;
+    (function sweep(){
+      if(cleared) return;
+      const y = H*(.12+.76*(i/steps)), x = W*(i%2?.22:.78);
+      wipe(x,y,Math.max(50,Math.min(W,H)*.22)); wipe(W*.5,y,Math.max(50,Math.min(W,H)*.22));
+      if(++i<=steps) requestAnimationFrame(sweep); else finish();
+    })();
+  }
+  initMirror();
+
+  /* ---------------- scroll story: pinned + scrubbed ---------------- */
+  const track = $('#track'), stepsEls = $$('#steps li'), prog = $('#prog'), stageLabel = $('#stageLabel');
+  const hair = $('#hair'), fade = $('#fade'), clipper = $('#clipper'), razor = $('#razor'), towel = $('#towel'), puffs = $('#puffs'), cape = $('#cape');
+  function storyTick(){
+    const r = track.getBoundingClientRect();
+    const total = r.height - innerHeight;
+    const p = total > 0 ? Math.min(1, Math.max(0, -r.top / total)) : 1;
+    const n = CONFIG.steps.length;
+    const idx = Math.min(n-1, Math.floor(p*n));
+    stepsEls.forEach((li,i)=>li.classList.toggle('on', i===idx));
+    prog.style.width = (p*100).toFixed(2)+'%';
+    stageLabel.textContent = 'Step ' + (idx+1) + ' / ' + n;
+    // draw the cut as it happens
+    cape.setAttribute('opacity', String(Math.min(1, p*6)));
+    const cut = Math.min(1, Math.max(0, (p-.12)/.42));           // sides coming down
+    clipper.setAttribute('transform','translate('+(150+200*cut)+' '+(250-110*cut)+') rotate('+(cut*-12)+')');
+    clipper.setAttribute('opacity', p<.56 ? '1':'0');
+    hair.setAttribute('transform','scale(1,'+(1-0.34*cut)+') translate(0,'+(cut*34)+')');
+    fade.setAttribute('opacity', String(Math.min(.9, cut)));
+    razor.setAttribute('opacity', p>.62 && p<.84 ? '1':'0');
+    razor.setAttribute('transform','translate('+(360-120*Math.min(1,Math.max(0,(p-.62)/.22)))+' 150)');
+    const hot = Math.min(1, Math.max(0,(p-.84)/.16));
+    towel.setAttribute('opacity', String(hot));
+    puffs.setAttribute('opacity', String(hot*.9));
+    puffs.setAttribute('transform','translate(0,'+(-26*hot)+')');
+  }
+  if(!reduce){
+    let raf=0;
+    const onScroll=()=>{ if(raf) return; raf=requestAnimationFrame(()=>{raf=0;storyTick();}); };
+    addEventListener('scroll', onScroll, {passive:true});
+    addEventListener('resize', onScroll, {passive:true});
+    storyTick();
+  } else {
+    stepsEls.forEach(li=>li.classList.add('on'));
+    prog.style.width='100%'; cape.setAttribute('opacity','1'); fade.setAttribute('opacity','.9');
+    towel.setAttribute('opacity','1'); puffs.setAttribute('opacity','.9'); clipper.setAttribute('opacity','0');
+  }
+
+  /* ---------------- loader ---------------- */
+  const hide = ()=>{ const l=$('#load'); if(l) l.classList.add('out'); };
+  addEventListener('load', ()=>setTimeout(hide, reduce?0:650));
+  setTimeout(hide, 1800);
+  $('#load').addEventListener('click', hide);
+
+  /* ---------------- SEO: LocalBusiness data, facts only ---------------- */
+  const ld = {"@context":"https://schema.org","@type":"HairSalon",name:CONFIG.name,
+    description:CONFIG.bio, telephone:CONFIG.phone, paymentAccepted:"Cash",
+    address:{"@type":"PostalAddress",streetAddress:"118 Tanner Ave",addressLocality:"Daleport",addressRegion:"CA",postalCode:"90112",addressCountry:"US"},
+    aggregateRating:{"@type":"AggregateRating",ratingValue:CONFIG.rating,reviewCount:CONFIG.reviewCount},
+    openingHoursSpecification:CONFIG.hours.map(h=>({"@type":"OpeningHoursSpecification",dayOfWeek:h.d,opens:h.open,closes:h.close}))};
+  const s=document.createElement('script'); s.type='application/ld+json'; s.textContent=JSON.stringify(ld); document.head.appendChild(s);
+})();
+</script>
+<script>
+(function () {
+  const place = () => {
+    const b = document.querySelector('.studio'), f = document.querySelector('footer');
+    if (!b || !f) return false;
+    if (matchMedia('(max-width: 760px)').matches) { f.appendChild(b); b.classList.add('eb-foot'); return true; }
+    b.classList.add('eb-anim');
+    const sync = () => b.classList.toggle('eb-hide', scrollY < innerHeight * .6 || scrollY + innerHeight > document.documentElement.scrollHeight - 140);
+    sync(); addEventListener('scroll', sync, { passive: true });
+    return true;
+  };
+  if (!place()) addEventListener('load', place);
+})();
+</script>
+</body>
+</html>
