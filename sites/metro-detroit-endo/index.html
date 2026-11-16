@@ -1,0 +1,1386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noai, noimageai">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Metro Detroit Endo — Charting &amp; Triage (Demo)</title>
+<meta name="description" content="Charting and triage demo for Metro Detroit Endo. Sample patients only, no real patient data. Built by ElaSystems.">
+<meta name="theme-color" content="#0b2f4e">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b2f4e'/%3E%3Cpath d='M7 22V10l4.5 7L16 10v12M19 10h3.5a6 6 0 0 1 0 12H19z' fill='none' stroke='%2350d0c8' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'JBM';src:url('../../fonts/jetbrains-mono-var-latin.woff2') format('woff2');font-weight:100 800;font-display:swap}
+:root{
+  --navy:#0b2f4e; --navy-2:#123e63; --navy-3:#1b5079;
+  --teal:#0d8a86; --teal-ink:#08625f; --teal-soft:#e3f3f2; --teal-line:#a9dbd8; --mint:#50d0c8;
+  --bg:#eef2f6; --panel:#ffffff; --panel-2:#f7f9fb;
+  --ink:#0f1d2b; --ink-2:#435468; --ink-3:#7587a0;
+  --line:#dfe6ee; --line-2:#c9d4e0;
+  --a1:#c3202f; --a1-bg:#fde8ea; --a2:#d9620b; --a2-bg:#fdeedf; --a3:#a77c00; --a3-bg:#fbf3d6; --a4:#2b7a3d; --a4-bg:#e3f2e6;
+  --hi:#c3202f; --lo:#1f5fbf;
+  --sans:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'JBM',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:14px; --r-sm:10px;
+  --shadow:0 1px 2px rgba(15,29,43,.06),0 8px 24px -12px rgba(15,29,43,.18);
+  --shadow-lg:0 30px 80px -30px rgba(11,47,78,.45),0 10px 30px -15px rgba(11,47,78,.3);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+h1,h2,h3,h4,p{margin:0}
+ul{margin:0;padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.mono{font-family:var(--mono);font-feature-settings:"zero" 1}
+
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);min-height:100vh;min-height:100dvh}
+.top{grid-column:1/-1;display:flex;align-items:center;gap:16px;padding:10px 20px;background:var(--navy);color:#fff;position:sticky;top:0;z-index:40}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;text-decoration:none}
+.brand svg{flex:none}
+.brand-t{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.brand-t b{font-size:16px;font-weight:800;letter-spacing:-.01em;white-space:nowrap}
+.brand-t span{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9fc3df;font-weight:600;white-space:nowrap}
+.top-mid{flex:1;display:flex;justify-content:center;min-width:0}
+.demo-pill{display:inline-flex;align-items:center;gap:8px;padding:5px 12px;border-radius:99px;background:rgba(80,208,200,.14);color:#bdeeea;font-size:12px;font-weight:600;border:1px solid rgba(80,208,200,.3);white-space:nowrap}
+.demo-pill i{width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px rgba(80,208,200,.25)}
+.top-r{display:flex;align-items:center;gap:14px}
+.clock{font-family:var(--mono);font-size:13px;color:#cfe0ee;white-space:nowrap}
+.me{display:flex;align-items:center;gap:8px;padding:4px 10px 4px 4px;border-radius:99px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12)}
+.me select{background:transparent;border:0;color:#fff;font-size:13px;font-weight:600;padding:2px 0;max-width:150px}
+.me select option{color:var(--ink)}
+.av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--mint);color:var(--navy);font-weight:800;font-size:11px;letter-spacing:.02em;flex:none}
+
+.side{background:var(--panel);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:56px;height:calc(100dvh - 56px)}
+.nav-btn{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;border:0;background:none;text-align:left;font-weight:600;color:var(--ink-2);width:100%;text-decoration:none}
+.nav-btn svg{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn:hover{background:var(--panel-2);color:var(--ink)}
+.nav-btn[aria-current="page"]{background:var(--teal-soft);color:var(--teal-ink)}
+.nav-btn .ct{margin-left:auto;font-size:11px;font-weight:700;background:var(--a1);color:#fff;border-radius:99px;padding:1px 7px;min-width:20px;text-align:center}
+.side-sep{height:1px;background:var(--line);margin:10px 6px}
+.side-h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:700;padding:6px 12px}
+.side-foot{margin-top:auto;padding:12px;font-size:11.5px;color:var(--ink-3);line-height:1.45}
+.side-foot b{color:var(--ink-2)}
+.side-foot button{margin-top:10px;font-size:12px;font-weight:600;color:var(--ink-2);background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:6px 10px}
+
+main{padding:22px 24px 40px;min-width:0}
+.pg-h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.pg-h h1{font-size:24px;font-weight:800;letter-spacing:-.02em}
+.pg-h p{color:var(--ink-3);font-size:13px;margin-top:2px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+/* ---------- controls ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel);font-weight:600;font-size:13px;color:var(--ink);white-space:nowrap;transition:background .15s,border-color .15s,transform .1s}
+.btn:hover{background:var(--panel-2);border-color:var(--ink-3)}
+.btn:active{transform:translateY(1px)}
+.btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn.pri{background:var(--teal);border-color:var(--teal);color:#fff}
+.btn.pri:hover{background:var(--teal-ink);border-color:var(--teal-ink)}
+.btn.navy{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.navy:hover{background:var(--navy-2)}
+.btn.sm{height:30px;padding:0 10px;font-size:12px;border-radius:8px}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--panel-2)}
+.btn[disabled]{opacity:.45;pointer-events:none}
+.inp,.sel,.ta{width:100%;height:38px;padding:0 11px;border-radius:9px;border:1px solid var(--line-2);background:#fff;font-size:13.5px;transition:border-color .15s,box-shadow .15s}
+.ta{height:auto;min-height:70px;padding:9px 11px;resize:vertical;line-height:1.45}
+.sel{appearance:none;-webkit-appearance:none;padding-right:30px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5l3 3 3-3' fill='none' stroke='%23435468' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(13,138,134,.16)}
+.inp.mono{font-family:var(--mono);font-size:13px}
+.lbl{display:block;font-size:11.5px;font-weight:700;color:var(--ink-2);margin-bottom:5px;letter-spacing:.01em}
+.lbl small{font-weight:500;color:var(--ink-3)}
+.fld{min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.seg{display:inline-flex;flex-wrap:wrap;gap:4px;padding:3px;background:var(--panel-2);border:1px solid var(--line);border-radius:10px}
+.seg button{border:0;background:transparent;padding:6px 11px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--teal-ink);box-shadow:0 1px 2px rgba(15,29,43,.12),0 0 0 1px var(--teal-line)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 9px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap;line-height:1.5}
+.chip i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.a1{color:var(--a1);background:var(--a1-bg)} .a2{color:var(--a2);background:var(--a2-bg)} .a3{color:var(--a3);background:var(--a3-bg)} .a4{color:var(--a4);background:var(--a4-bg)}
+.chip.mut{background:var(--panel-2);color:var(--ink-2);border:1px solid var(--line)}
+.flag{display:inline-block;font-family:var(--mono);font-weight:700;font-size:11px;padding:0 5px;border-radius:4px;margin-left:4px}
+.flag.H{color:#fff;background:var(--hi)} .flag.L{color:#fff;background:var(--lo)} .flag.C{color:#fff;background:#7a0010;animation:pulse 1.6s infinite}
+.flag.N{color:var(--a4);background:var(--a4-bg)}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(195,32,47,.18)}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+/* ---------- triage ---------- */
+.stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.stat{padding:14px 16px}
+.stat b{display:block;font-size:26px;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.stat span{font-size:12px;color:var(--ink-3);font-weight:600}
+.stat.alert b{color:var(--a1)}
+.board{display:grid;grid-template-columns:repeat(5,minmax(205px,1fr));gap:10px;overflow-x:auto;padding-bottom:6px;align-items:start;scroll-snap-type:x proximity}
+.col{background:#e5ebf2;border-radius:var(--r);padding:10px;min-height:200px;scroll-snap-align:start}
+.col-h{display:flex;align-items:center;justify-content:space-between;padding:4px 6px 10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.col-h span{background:#fff;border-radius:99px;padding:1px 8px;font-size:11px;color:var(--ink-2)}
+.col-b{display:flex;flex-direction:column;gap:9px}
+.pc{background:#fff;border-radius:12px;padding:11px 12px 11px 15px;border:1px solid var(--line);position:relative;box-shadow:0 1px 2px rgba(15,29,43,.05);transition:box-shadow .15s,transform .15s}
+.pc:hover{box-shadow:var(--shadow)}
+.pc::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:4px;border-radius:0 4px 4px 0;background:var(--acol,var(--line-2))}
+.pc[data-a="1"]{--acol:var(--a1);border-color:#f3b6bc;background:linear-gradient(#fff,#fff8f8)}
+.pc[data-a="2"]{--acol:var(--a2)} .pc[data-a="3"]{--acol:var(--a3)} .pc[data-a="4"]{--acol:var(--a4)}
+.pc-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.pc-n{font-weight:700;font-size:14.5px;line-height:1.25}
+.pc-m{font-size:11.5px;color:var(--ink-3);margin-top:2px;display:flex;flex-wrap:wrap;align-items:center;gap:0 4px}
+.pc-m .mono{font-size:11px}
+.pc-al{font-size:11.5px;font-weight:700;color:var(--a1);margin-top:3px}
+.pc-r{font-size:12.5px;color:var(--ink-2);margin-top:7px;line-height:1.35}
+.pc-v{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:7px;font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.pc-v .bad{color:var(--a1);font-weight:700}
+.pc-f{display:flex;align-items:center;gap:4px;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line)}
+.pc-f .btn.ghost{padding:0 8px;color:var(--ink-2)}
+.pc-f .go{margin-left:auto}
+.wait{font-family:var(--mono);font-size:11.5px;color:var(--ink-3);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.wait.long{color:var(--a2);font-weight:700}
+.room{font-size:11px;font-weight:700;color:var(--navy-3);background:#e8f0f8;border-radius:6px;padding:1px 7px}
+.empty{padding:22px 10px;text-align:center;color:var(--ink-3);font-size:12.5px;border:1.5px dashed #cbd5e1;border-radius:12px}
+
+/* ---------- charts ---------- */
+.charts{display:grid;grid-template-columns:280px minmax(0,1fr);gap:16px;align-items:start}
+.plist{padding:12px;position:sticky;top:78px;max-height:calc(100dvh - 100px);display:flex;flex-direction:column}
+.plist ul{overflow:auto;margin:10px -4px 0;padding:0 4px}
+.pl-i{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;border:0;background:none;width:100%;text-align:left}
+.pl-i:hover{background:var(--panel-2)}
+.pl-i[aria-current="true"]{background:var(--teal-soft)}
+.pl-i .av{background:#dde7f1;color:var(--navy-2)}
+.pl-i[aria-current="true"] .av{background:var(--teal);color:#fff}
+.pl-i b{display:block;font-size:13.5px;font-weight:700}
+.pl-i small{font-size:11.5px;color:var(--ink-3)}
+.pl-i .chip{margin-left:auto;padding:2px 7px;font-size:10.5px}
+.ph{padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start}
+.ph h2{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.ph-meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px;font-size:12.5px;color:var(--ink-2)}
+.ph-meta b{color:var(--ink);font-weight:700}
+.allergy{display:inline-flex;align-items:center;gap:6px;color:var(--a1);font-weight:700}
+.vit-strip{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.vit{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:6px 11px;min-width:84px}
+.vit small{display:block;font-size:10.5px;color:var(--ink-3);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.vit b{font-family:var(--mono);font-size:14px}
+.vit.bad{border-color:#f3b6bc;background:var(--a1-bg)} .vit.bad b{color:var(--a1)}
+
+.ef{margin-top:16px;overflow:hidden}
+.ef-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:var(--navy);color:#fff}
+.ef-h h3{font-size:15px;font-weight:700}
+.ef-h p{font-size:12px;color:#a9c6de}
+.sec{padding:16px 20px;border-top:1px solid var(--line);display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px}
+.sec:first-of-type{border-top:0}
+.sec-l{display:flex;gap:10px;align-items:flex-start}
+.sec-l .n{flex:none;width:24px;height:24px;border-radius:7px;background:var(--teal-soft);color:var(--teal-ink);font-weight:800;font-size:12px;display:grid;place-items:center;font-family:var(--mono)}
+.sec-l h4{font-size:13.5px;font-weight:700;line-height:1.3}
+.sec-l p{font-size:11.5px;color:var(--ink-3);margin-top:2px;line-height:1.35}
+.sec-b{min-width:0;display:flex;flex-direction:column;gap:12px}
+.qp{display:flex;flex-wrap:wrap;gap:6px}
+.qp button{border:1px solid var(--line-2);background:#fff;border-radius:99px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--ink-2)}
+.qp button:hover{border-color:var(--teal);color:var(--teal-ink)}
+.qp button[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:#fff}
+.tests{display:flex;flex-direction:column;gap:6px}
+.tr{display:grid;grid-template-columns:minmax(0,1.3fr) 110px minmax(0,1fr) 34px;gap:8px;align-items:center;padding:6px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line)}
+.tr .ref{font-size:11.5px;color:var(--ink-3);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.tr .ref .u{font-family:var(--mono);color:var(--ink-2)}
+.x{width:30px;height:30px;border-radius:8px;border:0;background:transparent;color:var(--ink-3);display:grid;place-items:center}
+.x:hover{background:#fff;color:var(--a1)}
+.x svg{width:15px;height:15px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+.hint{font-size:12.5px;padding:9px 12px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line);color:var(--ink-2);display:flex;gap:8px;align-items:flex-start}
+.hint b{color:var(--ink)}
+.hint.warn{background:var(--a2-bg);border-color:#f5cba6;color:#7a3a05}
+.hint.bad{background:var(--a1-bg);border-color:#f3b6bc;color:#7a0010}
+.hint.ok{background:var(--a4-bg);border-color:#b7dfc0;color:#1d5a2b}
+.hint:empty{display:none}
+
+.inj{display:grid;grid-template-columns:200px minmax(0,1fr);gap:16px;align-items:start}
+.body-svg{width:100%;max-width:200px;height:auto;background:var(--panel-2);border:1px solid var(--line);border-radius:12px}
+.body-svg .sil{fill:#d9e2ec}
+.body-svg .sil-s{stroke:#d9e2ec;fill:none;stroke-linecap:round}
+.body-svg .z{fill:#fff;stroke:var(--navy-3);stroke-width:1.4;cursor:pointer;transition:fill .15s,r .15s}
+.body-svg .z:hover{fill:var(--teal-line)}
+.body-svg .z.on{fill:var(--teal);stroke:var(--teal-ink);stroke-width:2}
+.body-svg .z.ro{cursor:default}
+.body-svg .z.ro:hover{fill:#fff}
+.body-svg .z.ro.on:hover{fill:var(--teal)}
+.body-svg text{font-family:var(--sans);font-size:9px;font-weight:700;fill:var(--ink-3);letter-spacing:.06em}
+.body-svg .ring{fill:none;stroke:var(--teal);stroke-width:2;opacity:.5}
+.site-lbl{font-size:15px;font-weight:700}
+.sign{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;align-items:end}
+.ini{font-family:var(--mono);font-size:22px!important;height:52px!important;text-transform:uppercase;letter-spacing:.2em;text-align:center;font-weight:700}
+.ef-f{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:var(--panel-2);border-top:1px solid var(--line);flex-wrap:wrap}
+.ef-f .err{color:var(--a1);font-size:12.5px;font-weight:600}
+
+.hist{margin-top:18px}
+.hist-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.hist-h h3{font-size:15px;font-weight:800}
+.en{padding:0;overflow:hidden;margin-bottom:12px}
+.en-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.en-h h4{font-size:14.5px;font-weight:700}
+.en-h small{color:var(--ink-3);font-size:12px}
+.en-sig{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.en-sig .av{width:26px;height:26px;font-size:10.5px;background:var(--navy);color:#fff}
+.en-b{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:14px;padding:14px 16px}
+.en-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px}
+.kv small{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink-3);margin-bottom:2px}
+.kv div{font-size:13px}
+.kv .dash{color:var(--ink-3)}
+.kv ul li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--line);padding:2px 0}
+.kv ul li span:last-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap}
+.kv.full{grid-column:1/-1}
+.en-b .body-svg{max-width:120px}
+
+/* ---------- log ---------- */
+.filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.filters .inp,.filters .sel{width:auto;min-width:160px}
+.tbl-w{overflow-x:auto;border-radius:var(--r)}
+table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:1100px}
+thead th{position:sticky;top:0;background:var(--navy);color:#fff;text-align:left;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:10px 12px;white-space:nowrap}
+tbody td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;background:#fff}
+tbody tr:nth-child(even) td{background:#fafcfd}
+tbody tr:hover td{background:var(--teal-soft)}
+td .sub{color:var(--ink-3);font-size:11.5px}
+td:first-child,td:nth-child(2){white-space:nowrap}
+td.ini-c{font-family:var(--mono);font-weight:800;font-size:13px;color:var(--navy);letter-spacing:.08em}
+td ul li{white-space:nowrap}
+td .nm{font-weight:700;background:none;border:0;padding:0;text-align:left;color:var(--navy-3);text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
+.tbl-foot{display:flex;justify-content:space-between;padding:10px 4px;color:var(--ink-3);font-size:12px}
+
+/* ---------- modal ---------- */
+.modal-bg{position:fixed;inset:0;background:rgba(11,31,52,.45);backdrop-filter:blur(3px);z-index:80;display:flex;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto;animation:fade .15s}
+.modal{width:100%;max-width:720px;background:#fff;border-radius:18px;box-shadow:var(--shadow-lg);overflow:hidden;animation:pop .2s cubic-bezier(.2,.8,.2,1)}
+.modal-bg.still,.modal-bg.still .modal{animation:none}
+.modal-h{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+.modal-h h3{font-size:17px;font-weight:800}
+.modal-b{padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.modal-f{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:14px 20px;background:var(--panel-2);border-top:1px solid var(--line);flex-wrap:wrap}
+.mh{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--ink-3);margin-bottom:-6px}
+.sym{display:flex;flex-wrap:wrap;gap:6px}
+.sym label{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line-2);border-radius:99px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;user-select:none}
+.sym input{accent-color:var(--a1);margin:0}
+.sym label:has(input:checked){border-color:var(--a1);background:var(--a1-bg);color:var(--a1)}
+.acu{border-radius:12px;padding:14px;border:1px solid var(--line);display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
+.acu-lv{width:64px;height:64px;border-radius:14px;display:grid;place-items:center;text-align:center;font-weight:800;line-height:1}
+.acu-lv b{font-size:26px;display:block}
+.acu-lv small{font-size:9.5px;letter-spacing:.08em;text-transform:uppercase}
+.acu ul{font-size:12.5px;display:flex;flex-direction:column;gap:3px;margin-top:6px}
+.acu ul li{display:flex;gap:7px;align-items:baseline}
+.acu ul li i{width:7px;height:7px;border-radius:50%;flex:none;transform:translateY(-1px)}
+.acu h4{font-size:14px;font-weight:800}
+.ac-ov{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ac-ov button{border:1px solid var(--line-2);background:#fff;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700}
+.ac-ov button[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:1px}
+.pt-pick{display:flex;flex-direction:column;gap:6px;max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:10px;padding:6px}
+.pt-pick button{display:flex;justify-content:space-between;gap:8px;align-items:center;border:0;background:none;padding:8px 10px;border-radius:8px;text-align:left}
+.pt-pick button:hover{background:var(--panel-2)}
+.pt-pick button[aria-pressed="true"]{background:var(--teal-soft);color:var(--teal-ink)}
+.pt-pick small{color:var(--ink-3)}
+
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:11px 16px;border-radius:12px;font-weight:600;font-size:13px;box-shadow:var(--shadow-lg);z-index:120;display:flex;gap:10px;align-items:center;animation:up .25s cubic-bezier(.2,.8,.2,1);max-width:calc(100vw - 32px)}
+.toast i{width:8px;height:8px;border-radius:50%;background:var(--mint);flex:none}
+@keyframes fade{from{opacity:0}}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
+@keyframes up{from{opacity:0;transform:translate(-50%,10px)}}
+.credit{display:block;text-align:center;font-size:11.5px;color:var(--ink-3);margin-top:28px}
+.credit a{color:var(--ink-2);font-weight:700;text-decoration:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:1180px){
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .charts{grid-template-columns:230px minmax(0,1fr)}
+  .sec{grid-template-columns:1fr;gap:10px}
+}
+@media (max-width:900px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;justify-content:space-around;padding:6px 8px calc(6px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);z-index:50;box-shadow:0 -6px 20px -12px rgba(15,29,43,.25)}
+  .side-sep,.side-h,.side-foot,.nav-btn.extra{display:none}
+  .nav-btn{flex-direction:column;gap:3px;font-size:11px;padding:7px 4px;justify-content:center;position:relative}
+  .nav-btn .ct{position:absolute;top:2px;left:calc(50% + 6px);margin:0;font-size:10px;padding:0 5px}
+  main{padding:16px 16px 100px}
+  .charts{grid-template-columns:minmax(0,1fr)}
+  .plist{position:static;max-height:none}
+  .plist ul{display:flex;overflow-x:auto;gap:6px;margin:10px 0 0;padding:0 0 4px}
+  .plist ul li{flex:none}
+  .pl-i{width:auto;white-space:nowrap}
+  .pl-i small,.pl-i .chip{display:none}
+  .top-mid .demo-pill span{display:none}
+  .clock{display:none}
+}
+@media (max-width:640px){
+  .top{padding:8px 16px;gap:10px}
+  .brand-t span{display:none}
+  .brand-t b{font-size:14.5px}
+  .me select{display:none}
+  .me{padding:3px}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}
+  .stat:nth-child(n+4){display:none}
+  .stat{padding:10px 12px}
+  .stat b{font-size:22px}
+  .stat span{font-size:11px;line-height:1.25;display:block}
+  .board{grid-template-columns:repeat(5,minmax(78vw,1fr));margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
+  .grid3,.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ph{grid-template-columns:minmax(0,1fr);padding:14px 16px}
+  .sec{padding:14px 16px}
+  .tr{grid-template-columns:minmax(0,1fr) 92px 30px}
+  .tr .ref{grid-column:1/-1;grid-row:2;padding-left:2px}
+  .tr .x{grid-row:1;grid-column:3}
+  .inj{grid-template-columns:minmax(0,1fr)}
+  .inj .body-svg{margin-inline:auto}
+  .sign{grid-template-columns:minmax(0,1fr)}
+  .en-b{grid-template-columns:minmax(0,1fr)}
+  .en-b .body-svg{display:none}
+  .en-g{grid-template-columns:minmax(0,1fr)}
+  .pg-h h1{font-size:21px}
+  .filters .inp,.filters .sel{flex:1 1 140px;min-width:0}
+  .modal-bg{padding:0;align-items:flex-end}
+  .modal{border-radius:18px 18px 0 0;max-height:94dvh;overflow-y:auto}
+  .ef-h,.ef-f{padding:12px 16px}
+}
+
+/* ---------- print ---------- */
+@media print{
+  @page{margin:14mm}
+  body,html{background:#fff}
+  .top,.side,.credit,.no-print,.ef,.toast,.plist{display:none!important}
+  .app{display:block}
+  main{padding:0}
+  .charts{display:block}
+  .card{box-shadow:none;border-color:#bbb;break-inside:avoid}
+  .tbl-w{overflow:visible}
+  table{min-width:0;font-size:10px}
+  thead th{background:#eee!important;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-h{display:flex!important}
+}
+.print-h{display:none;justify-content:space-between;align-items:center;border-bottom:2px solid var(--navy);padding-bottom:8px;margin-bottom:14px}
+.print-h b{font-size:16px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <a class="brand" href="#triage" aria-label="Metro Detroit Endo, home">
+      <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#123e63"/><rect x=".5" y=".5" width="31" height="31" rx="8.5" fill="none" stroke="rgba(80,208,200,.45)"/><path d="M7 22V10l4.5 7L16 10v12M19 10h3.5a6 6 0 0 1 0 12H19z" fill="none" stroke="#50d0c8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="brand-t"><b>Metro Detroit Endo</b><span>Charting &amp; Triage</span></span>
+    </a>
+    <div class="top-mid"><span class="demo-pill" title="Sample patients only. Nothing here is real patient data."><i></i>Demo<span>&nbsp;· sample patients, no real PHI</span></span></div>
+    <div class="top-r">
+      <span class="clock mono" id="clock"></span>
+      <label class="me"><span class="av" id="meAv">JR</span><span class="sr-only">Signed in as</span><select id="meSel" aria-label="Signed in as"></select></label>
+    </div>
+  </header>
+
+  <nav class="side" aria-label="Main">
+    <a class="nav-btn" href="#triage" data-nav="triage"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>Triage<span class="ct" id="navUrgent" hidden></span></a>
+    <a class="nav-btn" href="#chart" data-nav="chart"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3v3h6V3M9 11h6M9 15h4"/></svg>Charts</a>
+    <a class="nav-btn" href="#log" data-nav="log"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/><path d="M8 4v16"/></svg>Procedure log</a>
+    <div class="side-sep"></div>
+    <div class="side-h">Quick actions</div>
+    <button class="nav-btn extra" data-act="checkin"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Check in patient</button>
+    <button class="nav-btn extra" data-act="print"><svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2"/><rect x="6" y="14" width="12" height="7"/></svg>Print this view</button>
+    <div class="side-foot">
+      <b>Demo mode.</b> Everything saves in this browser only. Patients and results are made up.
+      <br><button data-act="reset">Reset demo data</button>
+    </div>
+  </nav>
+
+  <main id="main" tabindex="-1"></main>
+</div>
+<div id="modalRoot"></div>
+<div id="toastRoot" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* =========================================================
+   Catalog — swap these lists to match the practice
+   ========================================================= */
+const STAFF = [
+  { ini:'JR', name:'J. Rivera, RN' },
+  { ini:'KM', name:'K. Moore, MA' },
+  { ini:'AL', name:'Dr. A. Lewis' },
+  { ini:'DP', name:'D. Patel, RT' },
+];
+
+const TESTS = {
+  A1C:  { name:'Hemoglobin A1c',     unit:'%',      lo:4.0,  hi:5.6 },
+  FBG:  { name:'Fasting glucose',    unit:'mg/dL',  lo:70,   hi:99,  clo:54, chi:400 },
+  POCG: { name:'POC glucose',        unit:'mg/dL',  lo:70,   hi:180, clo:54, chi:400 },
+  TSH:  { name:'TSH',                unit:'mIU/L',  lo:0.4,  hi:4.0, clo:0.01, chi:50 },
+  FT4:  { name:'Free T4',            unit:'ng/dL',  lo:0.8,  hi:1.8 },
+  FT3:  { name:'Free T3',            unit:'pg/mL',  lo:2.3,  hi:4.2 },
+  TPO:  { name:'TPO antibodies',     unit:'IU/mL',  lo:null, hi:34 },
+  CA:   { name:'Calcium',            unit:'mg/dL',  lo:8.6,  hi:10.3, clo:6.5, chi:13 },
+  PTH:  { name:'PTH, intact',        unit:'pg/mL',  lo:15,   hi:65 },
+  VITD: { name:'Vitamin D, 25-OH',   unit:'ng/mL',  lo:30,   hi:100 },
+  CORT: { name:'Cortisol',           unit:'µg/dL',  lo:5,    hi:23 },
+  TT:   { name:'Testosterone, total',unit:'ng/dL',  lo:264,  hi:916 },
+  HCT:  { name:'Hematocrit',         unit:'%',      lo:38.3, hi:50 },
+  LDL:  { name:'LDL cholesterol',    unit:'mg/dL',  lo:null, hi:99 },
+  CR:   { name:'Creatinine',         unit:'mg/dL',  lo:0.6,  hi:1.3 },
+  K:    { name:'Potassium',          unit:'mmol/L', lo:3.5,  hi:5.1, clo:3.0, chi:6.0 },
+};
+
+const MEDS = {
+  DENO:  { name:'Denosumab (Prolia)',        dose:'60 mg',        route:'SC' },
+  TESTO: { name:'Testosterone cypionate',    dose:'200 mg',       route:'IM' },
+  B12:   { name:'Cyanocobalamin (B12)',      dose:'1,000 mcg',    route:'IM' },
+  SEMA:  { name:'Semaglutide',               dose:'0.25 mg',      route:'SC' },
+  TIRZ:  { name:'Tirzepatide',               dose:'2.5 mg',       route:'SC' },
+  GLAR:  { name:'Insulin glargine',          dose:'10 units',     route:'SC' },
+  LISP:  { name:'Insulin lispro',            dose:'4 units',      route:'SC' },
+  LIDO:  { name:'Lidocaine 1%',              dose:'2 mL',         route:'Local' },
+  COSYN: { name:'Cosyntropin',               dose:'250 mcg',      route:'IV' },
+  ZOL:   { name:'Zoledronic acid (Reclast)', dose:'5 mg',         route:'IV' },
+  GLUC:  { name:'Glucose gel',               dose:'15 g',         route:'PO' },
+  LEVO:  { name:'Levothyroxine',             dose:'50 mcg',       route:'PO' },
+};
+const ROUTES = ['SC','IM','IV','PO','Local','ID'];
+
+// Picking a procedure pre-fills the parts of the chart that usually go with it.
+const PROCS = [
+  { id:'ov',     name:'Office visit / follow-up' },
+  { id:'lab',    name:'Lab draw',                 tests:['A1C','TSH'] },
+  { id:'tus',    name:'Thyroid ultrasound',       us:'thyroid' },
+  { id:'fna',    name:'US-guided thyroid FNA',    us:'thyroid', med:'LIDO' },
+  { id:'dexa',   name:'DEXA bone density',        xray:'dexa' },
+  { id:'prolia', name:'Prolia injection',         med:'DENO', tests:['CA'] },
+  { id:'testo',  name:'Testosterone injection',   med:'TESTO', tests:['TT','HCT'] },
+  { id:'b12',    name:'B12 injection',            med:'B12' },
+  { id:'glp1',   name:'GLP-1 start / teaching',   med:'SEMA', tests:['A1C'] },
+  { id:'ins',    name:'Insulin start / teaching', med:'GLAR', tests:['POCG'] },
+  { id:'cgm',    name:'CGM sensor placement',     tests:['POCG'] },
+  { id:'acth',   name:'ACTH stimulation test',    med:'COSYN', tests:['CORT'] },
+  { id:'zol',    name:'Reclast infusion',         med:'ZOL', tests:['CR','CA'] },
+];
+const QUICK_PROCS = ['prolia','fna','tus','dexa','testo','b12','lab'];
+
+const XRAY = { none:'None', dexa:'DEXA', boneage:'Bone age (hand)', chest:'Chest', other:'Other' };
+const US   = { none:'None', thyroid:'Thyroid', nodes:'Neck lymph nodes', parathyroid:'Parathyroid', other:'Other' };
+const US_LOC = ['Right lobe','Left lobe','Isthmus','Bilateral','Right level III','Left level III'];
+const TIRADS = ['TR1','TR2','TR3','TR4','TR5'];
+
+// Injection sites. Front view, so the patient's right is on the viewer's left.
+const SITES = {
+  THY_R:   { name:'Thyroid, right lobe',              x:111, y:80,  r:6  },
+  THY_L:   { name:'Thyroid, left lobe',               x:129, y:80,  r:6  },
+  DELT_R:  { name:'Right deltoid',                    x:66,  y:112, r:10 },
+  DELT_L:  { name:'Left deltoid',                     x:174, y:112, r:10 },
+  ARM_R:   { name:'Right upper arm (posterior)',      x:55,  y:150, r:9  },
+  ARM_L:   { name:'Left upper arm (posterior)',       x:185, y:150, r:9  },
+  ABD_RUQ: { name:'Abdomen, right upper quadrant',    x:104, y:176, r:10 },
+  ABD_LUQ: { name:'Abdomen, left upper quadrant',     x:136, y:176, r:10 },
+  ABD_RLQ: { name:'Abdomen, right lower quadrant',    x:104, y:208, r:10 },
+  ABD_LLQ: { name:'Abdomen, left lower quadrant',     x:136, y:208, r:10 },
+  VG_R:    { name:'Right ventrogluteal (hip)',        x:76,  y:238, r:9  },
+  VG_L:    { name:'Left ventrogluteal (hip)',         x:164, y:238, r:9  },
+  THI_R:   { name:'Right thigh (vastus lateralis)',   x:82,  y:300, r:11 },
+  THI_L:   { name:'Left thigh (vastus lateralis)',    x:158, y:300, r:11 },
+  IV_R:    { name:'Right antecubital (IV)',           x:48,  y:196, r:8  },
+  IV_L:    { name:'Left antecubital (IV)',            x:192, y:196, r:8  },
+};
+
+const SYMPTOMS = [
+  { id:'chest',  name:'Chest pain',                         lvl:1 },
+  { id:'ams',    name:'Confused / not acting right',        lvl:1 },
+  { id:'airway', name:'Trouble breathing or swallowing',    lvl:1 },
+  { id:'faint',  name:'Fainted or nearly fainted',          lvl:2 },
+  { id:'vomit',  name:"Vomiting, can't keep fluids down",   lvl:2 },
+  { id:'palp',   name:'Racing heart / palpitations',        lvl:3 },
+  { id:'neck',   name:'New or growing neck lump',           lvl:3 },
+  { id:'shaky',  name:'Shaky, sweaty, low-sugar feeling',   lvl:3 },
+];
+
+const ACU = {
+  1:{ name:'Critical', cls:'a1', note:'Send to ED / call 911' },
+  2:{ name:'Urgent',   cls:'a2', note:'See provider now' },
+  3:{ name:'Priority', cls:'a3', note:'Move up the queue' },
+  4:{ name:'Routine',  cls:'a4', note:'Normal flow' },
+};
+const ACU_COL = { 1:'var(--a1)', 2:'var(--a2)', 3:'var(--a3)', 4:'var(--a4)' };
+
+const COLS = [
+  { id:'waiting', name:'Checked in' },
+  { id:'triaged', name:'Triaged' },
+  { id:'room',    name:'In room / procedure' },
+  { id:'results', name:'Results pending' },
+  { id:'done',    name:'Discharged' },
+];
+const ROOMS = ['Room 1','Room 2','Room 3','Room 4','US suite','DEXA','Infusion'];
+
+/* =========================================================
+   Helpers
+   ========================================================= */
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid = () => Math.random().toString(36).slice(2, 9);
+const num = v => { if (v === '' || v == null) return null; const n = parseFloat(String(v).replace(',', '.')); return Number.isFinite(n) ? n : null; };
+const MIN = 60e3, DAY = 864e5;
+const fmtT = ts => new Date(ts).toLocaleTimeString([], { hour:'numeric', minute:'2-digit' });
+const fmtD = ts => new Date(ts).toLocaleDateString([], { month:'short', day:'numeric', year:'numeric' });
+const isToday = ts => new Date(ts).toDateString() === new Date().toDateString();
+const fmtWhen = ts => isToday(ts) ? 'Today ' + fmtT(ts) : fmtD(ts) + ' · ' + fmtT(ts);
+const ageOf = dob => { const d = new Date(dob + 'T12:00'), n = new Date(); let a = n.getFullYear() - d.getFullYear(); if (n < new Date(n.getFullYear(), d.getMonth(), d.getDate())) a--; return a; };
+const fmtDob = dob => new Date(dob + 'T12:00').toLocaleDateString([], { month:'2-digit', day:'2-digit', year:'numeric' });
+const initialsOf = name => name.split(/\s+/).filter(Boolean).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+const mins = ts => Math.max(0, Math.round((Date.now() - ts) / MIN));
+const fmtWait = m => m < 60 ? m + 'm' : Math.floor(m / 60) + 'h ' + String(m % 60).padStart(2, '0') + 'm';
+const ICON = {
+  x:'<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+  plus:'<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+  clock:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  print:'<svg viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2"/><rect x="6" y="14" width="12" height="7"/></svg>',
+  dl:'<svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>',
+  next:'<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+  pen:'<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg>',
+};
+
+function flagOf(code, value) {
+  const t = TESTS[code], v = num(value);
+  if (!t || v == null) return '';
+  if ((t.clo != null && v < t.clo) || (t.chi != null && v > t.chi)) return 'C';
+  if (t.lo != null && v < t.lo) return 'L';
+  if (t.hi != null && v > t.hi) return 'H';
+  return 'N';
+}
+const flagHtml = f => !f ? '' : `<span class="flag ${f}" title="${({H:'High',L:'Low',C:'Critical',N:'Normal'})[f]}">${f === 'C' ? 'CRIT' : f === 'N' ? 'N' : f}</span>`;
+const refTxt = t => t.lo != null && t.hi != null ? `${t.lo}–${t.hi}` : t.hi != null ? `≤ ${t.hi}` : `≥ ${t.lo}`;
+
+function dexaClass(t) {
+  if (t == null) return null;
+  if (t <= -2.5) return { name:'Osteoporosis', cls:'bad' };
+  if (t < -1)    return { name:'Osteopenia (low bone mass)', cls:'warn' };
+  return { name:'Normal', cls:'ok' };
+}
+// ACR TI-RADS size thresholds for FNA / follow-up
+function tiradsHint(tr, size) {
+  const s = num(size);
+  if (!tr) return null;
+  const r = { TR1:[null,null], TR2:[null,null], TR3:[2.5,1.5], TR4:[1.5,1.0], TR5:[1.0,0.5] }[tr];
+  if (!r[0]) return { cls:'ok', txt:`<b>${tr}</b> — no FNA needed by size criteria.` };
+  if (s == null) return { cls:'', txt:`<b>${tr}</b> — FNA if ≥ ${r[0]} cm, follow-up if ≥ ${r[1]} cm. Add size to check.` };
+  if (s >= r[0]) return { cls:'bad', txt:`<b>${tr}, ${s} cm</b> — meets FNA size threshold (≥ ${r[0]} cm).` };
+  if (s >= r[1]) return { cls:'warn', txt:`<b>${tr}, ${s} cm</b> — below FNA cut-off, meets follow-up ultrasound threshold (≥ ${r[1]} cm).` };
+  return { cls:'ok', txt:`<b>${tr}, ${s} cm</b> — below follow-up threshold.` };
+}
+
+/* =========================================================
+   Triage scoring
+   ========================================================= */
+function assess(v = {}, sym = []) {
+  const why = []; let lvl = 4;
+  const hit = (l, msg) => { why.push({ l, msg }); lvl = Math.min(lvl, l); };
+  const g = num(v.glu), s = num(v.sbp), d = num(v.dbp), hr = num(v.hr), t = num(v.temp), o = num(v.spo2);
+  if (g != null) {
+    if (g < 54) hit(1, `Glucose ${g} mg/dL — severe low`);
+    else if (g < 70) hit(2, `Glucose ${g} mg/dL — low, treat now`);
+    else if (g > 400) hit(2, `Glucose ${g} mg/dL — very high, check ketones`);
+    else if (g > 300) hit(3, `Glucose ${g} mg/dL — high`);
+  }
+  if (s != null || d != null) {
+    if ((s ?? 0) >= 180 || (d ?? 0) >= 120) hit(2, `BP ${s ?? '–'}/${d ?? '–'} — severe range`);
+    else if (s != null && s < 90) hit(2, `SBP ${s} — low blood pressure`);
+    else if ((s ?? 0) >= 160 || (d ?? 0) >= 100) hit(3, `BP ${s ?? '–'}/${d ?? '–'} — elevated`);
+  }
+  if (hr != null) {
+    if (hr >= 130 || hr < 45) hit(2, `Heart rate ${hr}`);
+    else if (hr > 110) hit(3, `Heart rate ${hr} — fast`);
+  }
+  if (t != null && t >= 101.3) {
+    if (hr != null && hr >= 130) hit(1, `Fever ${t}°F with HR ${hr} — rule out thyroid storm`);
+    else hit(3, `Fever ${t}°F`);
+  }
+  if (o != null) {
+    if (o < 90) hit(1, `SpO₂ ${o}%`);
+    else if (o < 94) hit(2, `SpO₂ ${o}% — low`);
+  }
+  sym.forEach(id => { const x = SYMPTOMS.find(y => y.id === id); if (x) hit(x.lvl, x.name); });
+  why.sort((a, b) => a.l - b.l);
+  return { lvl, why };
+}
+const vitalsEntered = v => v && ['sbp','dbp','hr','temp','spo2','glu'].some(k => num(v[k]) != null);
+const visitAcu = vis => vis.acuity ?? assess(vis.vitals, vis.sym).lvl;
+
+/* =========================================================
+   Store (this browser only)
+   ========================================================= */
+const KEY = 'mde-charting-demo-v1';
+let S;
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+function load() {
+  try { const raw = localStorage.getItem(KEY); if (raw) { const d = JSON.parse(raw); if (d && d.v === 1 && isToday(d.seededAt)) return d; } } catch (e) {}
+  return seed();
+}
+
+function seed() {
+  const now = Date.now();
+  const P = (name, dob, sex, allergies, mrn) => ({ id:uid(), name, dob, sex, allergies, mrn });
+  const pts = [
+    P('Denise Carter',  '1961-03-14', 'F', 'Sulfa drugs',      'MDE-104233'),
+    P('Omar Haddad',    '1979-08-02', 'M', '',                 'MDE-108815'),
+    P('Mariana Lopez',  '1990-11-21', 'F', '',                 'MDE-110402'),
+    P('Tom Kowalski',   '1958-05-30', 'M', 'Penicillin',       'MDE-099172'),
+    P('Aisha Bell',     '1985-01-09', 'F', '',                 'MDE-112960'),
+    P('Frank DeLuca',   '1949-12-03', 'M', 'Latex',            'MDE-087455'),
+    P('Grace Nguyen',   '2001-06-17', 'F', '',                 'MDE-115318'),
+    P('Hassan Saad',    '1968-09-25', 'M', 'Iodine contrast',  'MDE-101627'),
+    P('Lorraine Whitfield','1954-04-11','F','Codeine',         'MDE-093310'),
+  ];
+  const [denise, omar, mariana, tom, aisha, frank, grace, hassan, lorraine] = pts;
+  const V = (p, ago, status, reason, vitals, extra = {}) => ({ id:uid(), pid:p.id, checkIn:now - ago * MIN, status, reason, vitals, sym:[], acuity:null, room:'', triageBy:'', ...extra });
+  const visits = [
+    V(omar,    38, 'triaged', 'Sugars running 350–450 all week, very thirsty', { sbp:142, dbp:88, hr:104, temp:98.9, spo2:98, glu:412, wt:221 }, { triageBy:'JR', sym:[] }),
+    V(aisha,   27, 'triaged', 'Heart racing, lost 12 lb, hands shaking',       { sbp:136, dbp:78, hr:118, temp:99.4, spo2:99, glu:96,  wt:131 }, { triageBy:'KM', sym:['palp'] }),
+    V(grace,   12, 'waiting', 'CGM sensor placement + pump questions',         {}),
+    V(hassan,   6, 'waiting', 'Monthly B12 shot',                              {}),
+    V(denise,  54, 'room',    'Prolia dose #5',                                { sbp:128, dbp:76, hr:72, temp:98.2, spo2:98, glu:null, wt:148 }, { triageBy:'JR', room:'Room 2' }),
+    V(mariana, 71, 'room',    'Right thyroid nodule — FNA',                    { sbp:118, dbp:72, hr:80, temp:98.4, spo2:99, glu:null, wt:142 }, { triageBy:'KM', room:'US suite' }),
+    V(tom,     96, 'results', 'Testosterone injection, labs before dose',      { sbp:134, dbp:84, hr:76, temp:98.1, spo2:97, glu:null, wt:204 }, { triageBy:'KM', room:'Room 1' }),
+    V(frank,  142, 'done',    'DEXA — 2 yr repeat',                            { sbp:148, dbp:82, hr:68, temp:97.9, spo2:96, glu:null, wt:172 }, { triageBy:'DP', room:'DEXA' }),
+    V(lorraine,118,'done',    'Lab draw — thyroid follow-up',                  { sbp:124, dbp:70, hr:64, temp:98.0, spo2:98, glu:null, wt:160 }, { triageBy:'JR', room:'Room 3' }),
+  ];
+  const E = (p, ts, o) => ({ id:uid(), pid:p.id, ts, procedure:'', tests:[], med:null, xray:{ type:'none' }, us:{ type:'none' }, site:'', notes:'', initials:'', ...o });
+  const entries = [
+    // history
+    E(denise, now - 182*DAY, { procedure:'Prolia injection', tests:[{ code:'CA', value:'9.4' }, { code:'VITD', value:'34' }], med:{ code:'DENO', name:MEDS.DENO.name, dose:'60 mg', route:'SC', lot:'1172634' }, site:'ABD_RLQ', notes:'Tolerated well. Next dose in 6 months.', initials:'JR' }),
+    E(denise, now - 365*DAY, { procedure:'DEXA bone density', xray:{ type:'dexa', spine:'-2.7', hip:'-2.2', findings:'L1–L4 lowest. Down 3% from prior.' }, initials:'DP' }),
+    E(mariana, now - 21*DAY, { procedure:'Thyroid ultrasound', tests:[{ code:'TSH', value:'1.9' }], us:{ type:'thyroid', loc:'Right lobe', size:'1.8', tirads:'TR4', findings:'Solid, hypoechoic, smooth margins. No suspicious nodes.' }, initials:'AL' }),
+    E(tom, now - 84*DAY, { procedure:'Testosterone injection', tests:[{ code:'TT', value:'412' }, { code:'HCT', value:'48.9' }], med:{ code:'TESTO', name:MEDS.TESTO.name, dose:'200 mg', route:'IM', lot:'TC-88310' }, site:'VG_L', initials:'KM' }),
+    E(aisha, now - 9*DAY, { procedure:'Lab draw', tests:[{ code:'TSH', value:'0.02' }, { code:'FT4', value:'3.1' }, { code:'FT3', value:'7.4' }], initials:'KM', notes:'Suppressed TSH. Scheduled visit.' }),
+    E(omar, now - 95*DAY, { procedure:'Office visit / follow-up', tests:[{ code:'A1C', value:'9.8' }, { code:'CR', value:'1.1' }, { code:'LDL', value:'131' }], med:{ code:'SEMA', name:MEDS.SEMA.name, dose:'0.25 mg', route:'SC', lot:'NV-55120' }, site:'ABD_LLQ', initials:'AL', notes:'Started semaglutide, taught pen use.' }),
+    E(hassan, now - 30*DAY, { procedure:'B12 injection', med:{ code:'B12', name:MEDS.B12.name, dose:'1,000 mcg', route:'IM', lot:'B-20931' }, site:'DELT_L', initials:'JR' }),
+    E(grace, now - 60*DAY, { procedure:'Lab draw', tests:[{ code:'A1C', value:'7.4' }], initials:'KM' }),
+    // today
+    E(frank, now - 110*MIN, { procedure:'DEXA bone density', xray:{ type:'dexa', spine:'-1.8', hip:'-2.6', findings:'Left femoral neck lowest. Recommend treatment discussion.' }, tests:[{ code:'VITD', value:'22' }, { code:'CA', value:'9.1' }], initials:'DP' }),
+    E(lorraine, now - 95*MIN, { procedure:'Lab draw', tests:[{ code:'TSH', value:'6.2' }, { code:'FT4', value:'0.9' }, { code:'TPO', value:'188' }], site:'IV_L', initials:'JR', notes:'Venipuncture L antecubital, one stick.' }),
+    E(tom, now - 70*MIN, { procedure:'Lab draw', tests:[{ code:'TT', value:'238' }, { code:'HCT', value:'51.2' }], site:'IV_R', initials:'KM', notes:'Hold dose until provider reviews HCT.' }),
+  ];
+  return { v:1, seededAt:now, me:'JR', patients:pts, visits, entries };
+}
+
+/* =========================================================
+   Selectors
+   ========================================================= */
+const pt = id => S.patients.find(p => p.id === id);
+const todayVisit = pid => S.visits.filter(v => v.pid === pid && isToday(v.checkIn)).sort((a, b) => b.checkIn - a.checkIn)[0];
+const entriesFor = pid => S.entries.filter(e => e.pid === pid).sort((a, b) => b.ts - a.ts);
+const me = () => STAFF.find(s => s.ini === S.me) || STAFF[0];
+
+const siteName = k => SITES[k]?.name || '';
+const medTxt = m => m && m.name ? `${m.name} ${m.dose || ''} ${m.route || ''}`.replace(/\s+/g, ' ').trim() : '';
+function xrayTxt(x) {
+  if (!x || x.type === 'none') return '';
+  if (x.type === 'dexa') {
+    const s = num(x.spine), h = num(x.hip), lo = [s, h].filter(v => v != null);
+    const c = dexaClass(lo.length ? Math.min(...lo) : null);
+    const parts = [x.spine ? `spine T ${x.spine}` : '', x.hip ? `hip T ${x.hip}` : ''].filter(Boolean).join(', ');
+    return `DEXA${parts ? ' — ' + parts : ''}${c ? ' · ' + c.name : ''}`;
+  }
+  return XRAY[x.type] + (x.findings ? ` — ${x.findings}` : '');
+}
+function usTxt(u) {
+  if (!u || u.type === 'none') return '';
+  const bits = [u.loc, u.size ? u.size + ' cm' : '', u.tirads].filter(Boolean).join(' ');
+  return US[u.type] + (bits ? ` — ${bits}` : '');
+}
+
+/* =========================================================
+   Router
+   ========================================================= */
+let route = { view:'triage', pid:null };
+function parseHash() {
+  const h = location.hash.replace(/^#/, '').split('/');
+  const view = ['triage','chart','log'].includes(h[0]) ? h[0] : 'triage';
+  route = { view, pid: view === 'chart' ? (h[1] || null) : null };
+}
+function go(view, pid) { location.hash = pid ? `${view}/${pid}` : view; }
+window.addEventListener('hashchange', () => { parseHash(); render(); $('#main').focus({ preventScroll:true }); window.scrollTo(0, 0); });
+
+/* =========================================================
+   Render
+   ========================================================= */
+function render() {
+  $$('[data-nav]').forEach(a => { if (a.dataset.nav === route.view) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  const urgent = S.visits.filter(v => isToday(v.checkIn) && v.status !== 'done' && visitAcu(v) <= 2).length;
+  const nu = $('#navUrgent'); nu.hidden = !urgent; nu.textContent = urgent;
+  $('#meAv').textContent = S.me;
+  const m = $('#main');
+  if (route.view === 'triage') m.innerHTML = viewTriage();
+  else if (route.view === 'chart') m.innerHTML = viewChart();
+  else m.innerHTML = viewLog();
+  m.insertAdjacentHTML('beforeend', `<p class="credit no-print">Demo built by <a href="https://elasystems.com" target="_blank" rel="noopener">ElaSystems</a> · sample data only</p>`);
+  if (route.view === 'chart' && draft && draft.pid === route.pid) updateHints();
+}
+
+/* ---------- triage ---------- */
+function viewTriage() {
+  const today = S.visits.filter(v => isToday(v.checkIn));
+  const active = today.filter(v => v.status !== 'done');
+  const waitingList = active.filter(v => v.status === 'waiting' || v.status === 'triaged');
+  const avgWait = waitingList.length ? Math.round(waitingList.reduce((a, v) => a + mins(v.checkIn), 0) / waitingList.length) : 0;
+  const urgent = active.filter(v => visitAcu(v) <= 2).length;
+  const signed = S.entries.filter(e => isToday(e.ts)).length;
+  const stat = (n, l, cls = '') => `<div class="card stat ${cls}"><b>${n}</b><span>${l}</span></div>`;
+  const cols = COLS.map(c => {
+    const list = today.filter(v => v.status === c.id).sort((a, b) => c.id === 'done' ? b.checkIn - a.checkIn : (visitAcu(a) - visitAcu(b)) || (a.checkIn - b.checkIn));
+    return `<section class="col" aria-label="${c.name}"><div class="col-h">${c.name}<span>${list.length}</span></div><div class="col-b">${list.length ? list.map(card).join('') : `<div class="empty">Nobody here</div>`}</div></section>`;
+  }).join('');
+  return `
+  <div class="pg-h">
+    <div><h1>Triage board</h1><p>${new Date().toLocaleDateString([], { weekday:'long', month:'long', day:'numeric' })} · sorted by acuity, then wait time</p></div>
+    <div class="row no-print"><button class="btn pri" data-act="checkin">${ICON.plus}Check in patient</button></div>
+  </div>
+  <div class="stats">
+    ${stat(active.length, 'In clinic now')}
+    ${stat(waitingList.length, 'Waiting to be seen')}
+    ${stat(urgent, 'Urgent or critical', urgent ? 'alert' : '')}
+    ${stat(fmtWait(avgWait), 'Avg wait')}
+    ${stat(signed, 'Charts signed today')}
+  </div>
+  <div class="board">${cols}</div>`;
+}
+
+function card(v) {
+  const p = pt(v.pid); if (!p) return '';
+  const a = visitAcu(v), triaged = v.status !== 'waiting';
+  const m = mins(v.checkIn);
+  const vt = v.vitals || {};
+  const bad = { glu: num(vt.glu) != null && (vt.glu < 70 || vt.glu > 300), bp: (num(vt.sbp) ?? 0) >= 160 || (num(vt.dbp) ?? 0) >= 100 || (num(vt.sbp) != null && vt.sbp < 90), hr: num(vt.hr) != null && (vt.hr > 110 || vt.hr < 50) };
+  const vitals = vitalsEntered(vt) ? `<div class="pc-v">
+      ${num(vt.sbp) != null ? `<span class="${bad.bp ? 'bad' : ''}">BP ${vt.sbp}/${vt.dbp}</span>` : ''}
+      ${num(vt.hr) != null ? `<span class="${bad.hr ? 'bad' : ''}">HR ${vt.hr}</span>` : ''}
+      ${num(vt.glu) != null ? `<span class="${bad.glu ? 'bad' : ''}">BG ${vt.glu}</span>` : ''}
+      ${num(vt.spo2) != null ? `<span>O₂ ${vt.spo2}%</span>` : ''}
+    </div>` : '';
+  const next = { waiting:['triage','Triage'], triaged:['room','Room'], room:['results','Results'], results:['done','Discharge'], done:null }[v.status];
+  return `<article class="pc" data-a="${triaged ? a : ''}">
+    <div class="pc-top">
+      ${triaged ? `<span class="chip ${ACU[a].cls}"><i></i>${ACU[a].name}</span>` : `<span class="chip mut">Not triaged</span>`}
+      ${v.status === 'done' ? `<span class="wait">Seen ${fmtT(v.checkIn)}</span>` : `<span class="wait ${m > 45 && v.status !== 'room' ? 'long' : ''}">${ICON.clock}${fmtWait(m)}</span>`}
+    </div>
+    <div class="pc-n">${esc(p.name)}</div>
+    <div class="pc-m">${ageOf(p.dob)}${p.sex} · <span class="mono">${esc(p.mrn)}</span>${v.room ? ` · <span class="room">${esc(v.room)}</span>` : ''}</div>
+    ${p.allergies ? `<div class="pc-al">⚠ ${esc(p.allergies)}</div>` : ''}
+    <div class="pc-r">${esc(v.reason)}</div>
+    ${vitals}
+    <div class="pc-f">
+      <button class="btn sm ghost" data-act="open-chart" data-pid="${p.id}" title="Open chart">Chart</button>
+      ${v.status !== 'waiting' && v.status !== 'done' ? `<button class="btn sm ghost" data-act="triage" data-vid="${v.id}" title="Edit triage">Edit</button>` : ''}
+      ${next ? `<button class="btn sm ${v.status === 'waiting' ? 'pri' : ''} go" data-act="${next[0] === 'triage' ? 'triage' : 'advance'}" data-vid="${v.id}" data-to="${next[0]}">${next[1]}${next[0] !== 'triage' ? ' →' : ''}</button>` : ''}
+    </div>
+  </article>`;
+}
+
+/* ---------- charts ---------- */
+let draft = null;
+let plistQ = '';
+function newDraft(pid) {
+  return { pid, procedure:'', procId:'', tests:[], med:{ code:'', name:'', dose:'', route:'', lot:'' }, xray:{ type:'none', spine:'', hip:'', findings:'' }, us:{ type:'none', loc:'', size:'', tirads:'', findings:'' }, site:'', notes:'', initials:'' };
+}
+
+function viewChart() {
+  if (!route.pid || !pt(route.pid)) {
+    const first = S.visits.filter(v => isToday(v.checkIn) && v.status === 'room')[0] || S.visits[0];
+    route.pid = first ? first.pid : S.patients[0].id;
+    history.replaceState(null, '', `#chart/${route.pid}`);
+  }
+  const p = pt(route.pid);
+  if (!draft || draft.pid !== p.id) draft = newDraft(p.id);
+  const v = todayVisit(p.id);
+  const ens = entriesFor(p.id);
+  return `
+  <div class="pg-h no-print">
+    <div><h1>Charts</h1><p>Pick a patient, chart the visit, sign with your initials.</p></div>
+    <div class="row"><button class="btn" data-act="print">${ICON.print}Print chart</button></div>
+  </div>
+  <div class="print-h"><b>Metro Detroit Endo — Patient chart</b><span>Printed ${fmtWhen(Date.now())} · DEMO, sample data</span></div>
+  <div class="charts">
+    <aside class="card plist">
+      <input class="inp" type="search" placeholder="Search name or MRN" aria-label="Search patients" data-act="plist-q" value="${esc(plistQ)}">
+      <ul id="plist">${plistItems()}</ul>
+    </aside>
+    <div>
+      ${patientHeader(p, v)}
+      ${entryForm(p)}
+      <section class="hist">
+        <div class="hist-h"><h3>Chart history <span style="color:var(--ink-3);font-weight:600">· ${ens.length}</span></h3></div>
+        ${ens.length ? ens.map(entryCard).join('') : `<div class="empty">No entries yet. The first one you sign shows up here.</div>`}
+      </section>
+    </div>
+  </div>`;
+}
+
+function plistItems() {
+  const q = plistQ.trim().toLowerCase();
+  const rows = S.patients
+    .filter(p => !q || p.name.toLowerCase().includes(q) || p.mrn.toLowerCase().includes(q))
+    .map(p => ({ p, v: todayVisit(p.id) }))
+    .sort((a, b) => (!!b.v - !!a.v) || ((a.v && b.v) ? (a.v.status === 'done') - (b.v.status === 'done') || visitAcu(a.v) - visitAcu(b.v) : 0) || a.p.name.localeCompare(b.p.name));
+  if (!rows.length) return `<li class="empty" style="margin:6px 4px">No match</li>`;
+  return rows.map(({ p, v }) => {
+    const chip = v && v.status !== 'waiting' && v.status !== 'done' ? `<span class="chip ${ACU[visitAcu(v)].cls}">${ACU[visitAcu(v)].name}</span>` : v && v.status === 'done' ? `<span class="chip mut">Done</span>` : v ? `<span class="chip mut">Waiting</span>` : '';
+    return `<li><button class="pl-i" data-act="open-chart" data-pid="${p.id}" aria-current="${p.id === route.pid}"><span class="av">${initialsOf(p.name)}</span><span><b>${esc(p.name)}</b><small>${ageOf(p.dob)}${p.sex} · ${esc(p.mrn)}</small></span>${chip}</button></li>`;
+  }).join('');
+}
+
+function patientHeader(p, v) {
+  const vt = v?.vitals || {};
+  const a = v && v.status !== 'waiting' ? visitAcu(v) : null;
+  const vit = (lbl, val, bad) => `<div class="vit ${bad ? 'bad' : ''}"><small>${lbl}</small><b>${val}</b></div>`;
+  return `<section class="card ph">
+    <div>
+      <div class="row"><h2>${esc(p.name)}</h2>${a ? `<span class="chip ${ACU[a].cls}"><i></i>${ACU[a].name}</span>` : ''}${v?.room ? `<span class="room">${esc(v.room)}</span>` : ''}</div>
+      <div class="ph-meta">
+        <span>DOB <b class="mono">${fmtDob(p.dob)}</b> (${ageOf(p.dob)})</span>
+        <span>Sex <b>${p.sex}</b></span>
+        <span>MRN <b class="mono">${esc(p.mrn)}</b></span>
+        ${p.allergies ? `<span class="allergy">⚠ Allergy: ${esc(p.allergies)}</span>` : `<span>Allergies <b>NKDA</b></span>`}
+      </div>
+      ${v ? `<div class="ph-meta" style="margin-top:4px"><span>Today: <b>${esc(v.reason)}</b></span><span>Checked in ${fmtT(v.checkIn)}${v.triageBy ? ` · triaged by <b>${esc(v.triageBy)}</b>` : ''}</span></div>` : ''}
+    </div>
+    <div class="row no-print">${v && v.status !== 'done' ? `<button class="btn sm" data-act="triage" data-vid="${v.id}">${v.status === 'waiting' ? 'Triage now' : 'Edit triage'}</button>` : !v ? `<button class="btn sm" data-act="checkin" data-pid="${p.id}">Check in</button>` : ''}</div>
+    ${v && vitalsEntered(vt) ? `<div class="vit-strip">
+      ${num(vt.sbp) != null ? vit('BP', `${vt.sbp}/${vt.dbp}`, vt.sbp >= 160 || vt.dbp >= 100 || vt.sbp < 90) : ''}
+      ${num(vt.hr) != null ? vit('HR', vt.hr, vt.hr > 110 || vt.hr < 50) : ''}
+      ${num(vt.temp) != null ? vit('Temp °F', vt.temp, vt.temp >= 100.4) : ''}
+      ${num(vt.spo2) != null ? vit('SpO₂', vt.spo2 + '%', vt.spo2 < 94) : ''}
+      ${num(vt.glu) != null ? vit('Glucose', vt.glu, vt.glu < 70 || vt.glu > 300) : ''}
+      ${num(vt.wt) != null ? vit('Wt lb', vt.wt) : ''}
+    </div>` : ''}
+  </section>`;
+}
+
+const opt = (val, label, sel) => `<option value="${esc(val)}"${String(val) === String(sel) ? ' selected' : ''}>${esc(label)}</option>`;
+
+function entryForm(p) {
+  const d = draft;
+  const sec = (n, title, sub, body) => `<div class="sec"><div class="sec-l"><span class="n">${n}</span><div><h4>${title}</h4><p>${sub}</p></div></div><div class="sec-b">${body}</div></div>`;
+  const testOpts = Object.entries(TESTS).map(([k, t]) => [k, t.name]);
+  const tests = d.tests.map((t, i) => {
+    const T = TESTS[t.code];
+    return `<div class="tr">
+      <select class="sel" data-bind="tests.${i}.code" aria-label="Test">${testOpts.map(([k, n]) => opt(k, n, t.code)).join('')}</select>
+      <input class="inp mono" inputmode="decimal" placeholder="Result" data-bind="tests.${i}.value" value="${esc(t.value)}" aria-label="Result for ${esc(T.name)}">
+      <span class="ref"><span class="u">${esc(T.unit)}</span><span>ref ${refTxt(T)}</span><span id="flag-${i}">${flagHtml(flagOf(t.code, t.value))}</span></span>
+      <button class="x" data-act="rm-test" data-i="${i}" aria-label="Remove ${esc(T.name)}">${ICON.x}</button>
+    </div>`;
+  }).join('');
+  const medOpts = `<option value="">None given</option>` + Object.entries(MEDS).map(([k, m]) => opt(k, m.name, d.med.code)).join('') + opt('__other', 'Other…', d.med.code);
+  const seg = (bind, map, cur) => `<div class="seg" role="group">${Object.entries(map).map(([k, l]) => `<button type="button" data-act="seg" data-bind="${bind}" data-val="${k}" aria-pressed="${k === cur}">${l}</button>`).join('')}</div>`;
+
+  return `<section class="card ef no-print" aria-label="New chart entry">
+    <div class="ef-h"><div><h3>New chart entry — ${esc(p.name)}</h3><p>${fmtWhen(Date.now())} · fill what applies, skip the rest</p></div><button class="btn sm" data-act="clear-draft" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3)">Clear</button></div>
+
+    ${sec(1, 'Procedure', 'Picking one pre-fills the usual tests and meds', `
+      <div class="qp">${QUICK_PROCS.map(id => { const pr = PROCS.find(x => x.id === id); return `<button type="button" data-act="proc" data-id="${id}" aria-pressed="${d.procId === id}">${pr.name}</button>`; }).join('')}</div>
+      <div class="grid2">
+        <div class="fld"><label class="lbl" for="f-proc">Procedure</label><select class="sel" id="f-proc" data-act="proc-sel"><option value="">Choose…</option>${PROCS.map(pr => opt(pr.id, pr.name, d.procId)).join('')}</select></div>
+        <div class="fld"><label class="lbl" for="f-proc-t">Description <small>(edit if needed)</small></label><input class="inp" id="f-proc-t" data-bind="procedure" value="${esc(d.procedure)}" placeholder="e.g. Prolia injection"></div>
+      </div>`)}
+
+    ${sec(2, 'Testing &amp; results', 'Flags high / low against reference ranges', `
+      <div class="tests">${tests || `<div class="empty" style="padding:12px">No tests added</div>`}</div>
+      <div class="row">
+        <select class="sel" id="addTest" aria-label="Add a test" style="max-width:260px"><option value="">+ Add a test…</option>${testOpts.filter(([k]) => !d.tests.some(t => t.code === k)).map(([k, n]) => opt(k, n, '')).join('')}</select>
+      </div>`)}
+
+    ${sec(3, 'Medication', 'Drug, dose, route, lot number', `
+      <div class="grid4">
+        <div class="fld" style="grid-column:span 2"><label class="lbl" for="f-med">Medication</label><select class="sel" id="f-med" data-act="med-sel">${medOpts}</select></div>
+        <div class="fld"><label class="lbl" for="f-dose">Dose</label><input class="inp" id="f-dose" data-bind="med.dose" value="${esc(d.med.dose)}" ${d.med.code ? '' : 'disabled'}></div>
+        <div class="fld"><label class="lbl" for="f-route">Route</label><select class="sel" id="f-route" data-bind="med.route" ${d.med.code ? '' : 'disabled'}><option value=""></option>${ROUTES.map(r => opt(r, r, d.med.route)).join('')}</select></div>
+        ${d.med.code === '__other' ? `<div class="fld" style="grid-column:span 2"><label class="lbl" for="f-medn">Drug name</label><input class="inp" id="f-medn" data-bind="med.name" value="${esc(d.med.name)}"></div>` : ''}
+        <div class="fld" style="grid-column:span 2"><label class="lbl" for="f-lot">Lot # <small>(optional)</small></label><input class="inp mono" id="f-lot" data-bind="med.lot" value="${esc(d.med.lot)}" ${d.med.code ? '' : 'disabled'} placeholder="e.g. 1172634"></div>
+      </div>
+      <div class="hint" id="h-med"></div>`)}
+
+    ${sec(4, 'X-ray', 'DEXA gives T-scores, the rest are findings', `
+      ${seg('xray.type', XRAY, d.xray.type)}
+      ${d.xray.type === 'dexa' ? `<div class="grid2">
+        <div class="fld"><label class="lbl" for="f-ts">Lumbar spine T-score</label><input class="inp mono" id="f-ts" inputmode="decimal" data-bind="xray.spine" value="${esc(d.xray.spine)}" placeholder="-2.1"></div>
+        <div class="fld"><label class="lbl" for="f-th">Hip / femoral neck T-score</label><input class="inp mono" id="f-th" inputmode="decimal" data-bind="xray.hip" value="${esc(d.xray.hip)}" placeholder="-1.4"></div>
+      </div><div class="hint" id="h-dexa"></div>` : ''}
+      ${d.xray.type !== 'none' ? `<div class="fld"><label class="lbl" for="f-xf">Findings</label><textarea class="ta" id="f-xf" data-bind="xray.findings" rows="2">${esc(d.xray.findings)}</textarea></div>` : ''}`)}
+
+    ${sec(5, 'Ultrasound', 'Location, size and TI-RADS', `
+      ${seg('us.type', US, d.us.type)}
+      ${d.us.type !== 'none' ? `<div class="grid3">
+        <div class="fld"><label class="lbl" for="f-ul">Location</label><select class="sel" id="f-ul" data-bind="us.loc"><option value=""></option>${US_LOC.map(l => opt(l, l, d.us.loc)).join('')}</select></div>
+        <div class="fld"><label class="lbl" for="f-us">Largest size <small>(cm)</small></label><input class="inp mono" id="f-us" inputmode="decimal" data-bind="us.size" value="${esc(d.us.size)}" placeholder="1.6"></div>
+        <div class="fld"><label class="lbl" for="f-ut">TI-RADS</label><select class="sel" id="f-ut" data-bind="us.tirads"><option value=""></option>${TIRADS.map(t => opt(t, t, d.us.tirads)).join('')}</select></div>
+      </div>
+      <div class="hint" id="h-us"></div>
+      <div class="fld"><label class="lbl" for="f-uf">Findings</label><textarea class="ta" id="f-uf" data-bind="us.findings" rows="2">${esc(d.us.findings)}</textarea></div>` : ''}`)}
+
+    ${sec(6, 'Site of injection', 'Tap the body map, or use the list', `
+      <div class="inj">
+        ${bodyMap(d.site, true)}
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="fld"><label class="lbl" for="f-site">Site</label><select class="sel" id="f-site" data-act="site-sel"><option value="">None / not applicable</option>${Object.entries(SITES).map(([k, s]) => opt(k, s.name, d.site)).join('')}</select></div>
+          <div class="hint" id="h-site"></div>
+          <div class="fld"><label class="lbl" for="f-notes">Notes</label><textarea class="ta" id="f-notes" data-bind="notes" rows="3" placeholder="How it went, patient education, next steps">${esc(d.notes)}</textarea></div>
+        </div>
+      </div>`)}
+
+    ${sec(7, 'Initials', 'You’re signing this entry', `
+      <div class="sign">
+        <div class="fld"><label class="lbl" for="f-ini">Your initials</label><input class="inp ini" id="f-ini" data-bind="initials" maxlength="4" autocomplete="off" value="${esc(d.initials)}" placeholder="—"></div>
+        <div class="hint" id="h-sign"></div>
+      </div>`)}
+
+    <div class="ef-f"><span class="err" id="ef-err"></span><div class="row" style="margin-left:auto"><button class="btn" data-act="use-mine">Sign as ${esc(S.me)}</button><button class="btn pri" data-act="save">${ICON.pen}Sign &amp; save</button></div></div>
+  </section>`;
+}
+
+function bodyMap(sel, interactive, small) {
+  const zones = Object.entries(SITES).map(([k, s]) => {
+    const on = k === sel;
+    if (!interactive && !on) return '';
+    return `${on ? `<circle class="ring" cx="${s.x}" cy="${s.y}" r="${s.r + 5}"/>` : ''}<circle class="z ${on ? 'on' : ''} ${interactive ? '' : 'ro'}" cx="${s.x}" cy="${s.y}" r="${s.r}" ${interactive ? `data-act="site" data-site="${k}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${esc(s.name)}"` : ''}><title>${esc(s.name)}</title></circle>`;
+  }).join('');
+  return `<svg class="body-svg" viewBox="0 0 240 400" role="img" aria-label="Body map${sel ? ', ' + esc(siteName(sel)) + ' marked' : ''}">
+    <text x="12" y="18">PT RIGHT</text><text x="228" y="18" text-anchor="end">PT LEFT</text>
+    <ellipse class="sil" cx="120" cy="40" rx="24" ry="28"/>
+    <rect class="sil" x="107" y="62" width="26" height="28" rx="8"/>
+    <path class="sil" d="M70 98 Q120 84 170 98 Q182 104 180 130 L176 196 Q180 232 170 252 L70 252 Q60 232 64 196 L60 130 Q58 104 70 98Z"/>
+    <path class="sil-s" stroke-width="24" d="M66 106 Q50 118 50 160 L46 210 L42 250"/>
+    <path class="sil-s" stroke-width="24" d="M174 106 Q190 118 190 160 L194 210 L198 250"/>
+    <path class="sil-s" stroke-width="38" d="M96 246 L92 330 L90 382"/>
+    <path class="sil-s" stroke-width="38" d="M144 246 L148 330 L150 382"/>
+    <path d="M120 150 V 232 M88 192 H 152" stroke="#fff" stroke-width="1.2" stroke-dasharray="3 3" fill="none" opacity=".9"/>
+    ${zones}
+  </svg>`;
+}
+
+function entryCard(e) {
+  const kv = (lbl, html, full) => `<div class="kv ${full ? 'full' : ''}"><small>${lbl}</small><div>${html || '<span class="dash">—</span>'}</div></div>`;
+  const tests = e.tests.length ? `<ul>${e.tests.map(t => { const T = TESTS[t.code]; return `<li><span>${esc(T?.name || t.code)}</span><span>${esc(t.value)} ${esc(T?.unit || '')}${flagHtml(flagOf(t.code, t.value))}</span></li>`; }).join('')}</ul>` : '';
+  const med = e.med && e.med.name ? `${esc(medTxt(e.med))}${e.med.lot ? `<div class="sub" style="color:var(--ink-3);font-size:11.5px">Lot <span class="mono">${esc(e.med.lot)}</span></div>` : ''}` : '';
+  let xr = '';
+  if (e.xray && e.xray.type !== 'none') {
+    if (e.xray.type === 'dexa') {
+      const lo = [num(e.xray.spine), num(e.xray.hip)].filter(v => v != null); const c = dexaClass(lo.length ? Math.min(...lo) : null);
+      xr = `DEXA · spine <span class="mono">${esc(e.xray.spine || '–')}</span>, hip <span class="mono">${esc(e.xray.hip || '–')}</span>${c ? ` <span class="chip ${c.cls === 'bad' ? 'a1' : c.cls === 'warn' ? 'a3' : 'a4'}" style="margin-left:4px">${c.name}</span>` : ''}`;
+    } else xr = esc(XRAY[e.xray.type]);
+    if (e.xray.findings) xr += `<div style="color:var(--ink-2);font-size:12.5px;margin-top:2px">${esc(e.xray.findings)}</div>`;
+  }
+  let us = '';
+  if (e.us && e.us.type !== 'none') {
+    us = esc(usTxt(e.us));
+    if (e.us.tirads) { const h = tiradsHint(e.us.tirads, e.us.size); if (h && h.cls === 'bad') us += ` <span class="chip a1">FNA criteria</span>`; }
+    if (e.us.findings) us += `<div style="color:var(--ink-2);font-size:12.5px;margin-top:2px">${esc(e.us.findings)}</div>`;
+  }
+  const signer = STAFF.find(s => s.ini === e.initials);
+  return `<article class="card en">
+    <div class="en-h"><div><h4>${esc(e.procedure || 'Chart entry')}</h4><small>${fmtWhen(e.ts)}</small></div>
+      <div class="en-sig"><span class="av">${esc(e.initials)}</span><span>Signed <b>${esc(e.initials)}</b>${signer ? ` · ${esc(signer.name)}` : ''}</span></div></div>
+    <div class="en-b">
+      <div class="en-g">
+        ${kv('Testing &amp; results', tests)}
+        ${kv('Medication', med)}
+        ${kv('X-ray', xr)}
+        ${kv('Ultrasound', us)}
+        ${kv('Site of injection', esc(siteName(e.site)))}
+        ${kv('Initials', `<b class="mono" style="font-size:15px;letter-spacing:.08em">${esc(e.initials)}</b>`)}
+        ${e.notes ? kv('Notes', esc(e.notes), true) : ''}
+      </div>
+      ${e.site ? bodyMap(e.site, false) : '<span></span>'}
+    </div>
+  </article>`;
+}
+
+/* ---------- live hints in the form ---------- */
+function updateHints() {
+  const d = draft; if (!d) return;
+  const set = (id, cls, html) => { const el = document.getElementById(id); if (!el) return; el.className = 'hint ' + (cls || ''); el.innerHTML = html || ''; };
+  d.tests.forEach((t, i) => { const el = document.getElementById('flag-' + i); if (el) el.innerHTML = flagHtml(flagOf(t.code, t.value)); });
+  const p = pt(d.pid);
+  // allergy check on medication (very simple demo rules)
+  const mh = []; // [severity 0 ok / 1 info / 2 warn / 3 bad, message]
+  const val = c => num(d.tests.find(t => c.includes(t.code))?.value);
+  if (d.med.code && p.allergies) {
+    if (p.allergies.toLowerCase().includes('latex')) mh.push([2, `⚠ Latex allergy — use latex-free gloves and supplies.`]);
+    else mh.push([2, `⚠ Allergy on file: <b>${esc(p.allergies)}</b>. Double-check before giving.`]);
+  }
+  if (d.med.code === 'DENO') {
+    const v = val(['CA']);
+    if (v != null && v < 8.6) mh.push([3, `Calcium ${v} is low — hold Prolia, check with provider.`]);
+    else if (v != null) mh.push([0, `Calcium ${v} in range — OK to give.`]);
+    else mh.push([1, 'Prolia: confirm calcium is in range before giving.']);
+  } else if (d.med.code === 'TESTO') {
+    const h = val(['HCT']);
+    if (h != null && h > 54) mh.push([3, `Hematocrit ${h}% is over 54 — hold dose, notify provider.`]);
+    else if (h != null && h > 50) mh.push([2, `Hematocrit ${h}% is up — provider should review before dosing.`]);
+  } else if (['GLAR','LISP'].includes(d.med.code)) {
+    const g = val(['POCG','FBG']);
+    if (g != null && g < 70) mh.push([3, `Glucose ${g} — do not give insulin, treat the low first.`]);
+  }
+  mh.sort((a, b) => b[0] - a[0]);
+  set('h-med', mh.length ? ['ok', '', 'warn', 'bad'][mh[0][0]] : '', mh.length > 1 ? `<div>${mh.map(x => `<div>${x[1]}</div>`).join('')}</div>` : mh[0]?.[1] || '');
+  if (d.xray.type === 'dexa') {
+    const lo = [num(d.xray.spine), num(d.xray.hip)].filter(v => v != null);
+    const c = dexaClass(lo.length ? Math.min(...lo) : null);
+    set('h-dexa', c ? c.cls : '', c ? `Lowest T-score <b class="mono">${Math.min(...lo)}</b> → <b>${c.name}</b> (WHO criteria)` : 'Enter T-scores to classify.');
+  }
+  if (d.us.type !== 'none') {
+    const h = tiradsHint(d.us.tirads, d.us.size);
+    set('h-us', h ? h.cls : '', h ? h.txt : '');
+  }
+  set('h-site', d.site ? 'ok' : '', d.site ? `Marked: <b>${esc(siteName(d.site))}</b>` : '');
+  const ini = (d.initials || '').trim().toUpperCase();
+  const who = STAFF.find(s => s.ini === ini);
+  set('h-sign', ini.length >= 2 ? 'ok' : '', ini.length >= 2 ? `Signing as <b>${esc(ini)}</b>${who ? ` — ${esc(who.name)}` : ''} at ${fmtT(Date.now())}. Entry locks after saving.` : 'Type 2–4 letters. The entry is time-stamped when you sign.');
+}
+
+/* ---------- log ---------- */
+let logF = { range:'today', proc:'', q:'' };
+function logRows() {
+  const q = logF.q.trim().toLowerCase();
+  return S.entries
+    .filter(e => logF.range === 'all' || (logF.range === 'today' ? isToday(e.ts) : Date.now() - e.ts < 7 * DAY))
+    .filter(e => !logF.proc || e.procedure === logF.proc)
+    .filter(e => { if (!q) return true; const p = pt(e.pid); return [p?.name, p?.mrn, e.procedure, e.initials, medTxt(e.med)].join(' ').toLowerCase().includes(q); })
+    .sort((a, b) => b.ts - a.ts);
+}
+function viewLog() {
+  const rows = logRows();
+  const procs = [...new Set(S.entries.map(e => e.procedure).filter(Boolean))].sort();
+  const body = rows.map(e => {
+    const p = pt(e.pid);
+    const tests = e.tests.map(t => `<li>${esc(TESTS[t.code]?.name || t.code)}</li>`).join('');
+    const res = e.tests.map(t => `<li><span class="mono">${esc(t.value)}</span> <span class="sub">${esc(TESTS[t.code]?.unit || '')}</span>${flagHtml(flagOf(t.code, t.value))}</li>`).join('');
+    return `<tr>
+      <td><span class="mono">${fmtT(e.ts)}</span>${isToday(e.ts) ? '' : `<div class="sub">${fmtD(e.ts)}</div>`}</td>
+      <td><button class="nm" data-act="open-chart" data-pid="${p.id}">${esc(p.name)}</button><div class="sub mono">${esc(p.mrn)}</div></td>
+      <td>${esc(e.procedure)}</td>
+      <td>${tests ? `<ul>${tests}</ul>` : '<span class="sub">—</span>'}</td>
+      <td>${res ? `<ul>${res}</ul>` : '<span class="sub">—</span>'}</td>
+      <td>${e.med?.name ? `${esc(medTxt(e.med))}${e.med.lot ? `<div class="sub">Lot ${esc(e.med.lot)}</div>` : ''}` : '<span class="sub">—</span>'}</td>
+      <td>${esc(xrayTxt(e.xray)) || '<span class="sub">—</span>'}</td>
+      <td>${esc(usTxt(e.us)) || '<span class="sub">—</span>'}</td>
+      <td>${esc(siteName(e.site)) || '<span class="sub">—</span>'}</td>
+      <td class="ini-c">${esc(e.initials)}</td>
+    </tr>`;
+  }).join('');
+  const label = { today:'Today', week:'Last 7 days', all:'All time' }[logF.range];
+  return `
+  <div class="pg-h">
+    <div><h1>Procedure log</h1><p>Every signed entry in one sheet. Same columns as the paper log.</p></div>
+    <div class="row no-print"><button class="btn" data-act="csv">${ICON.dl}Export CSV</button><button class="btn" data-act="print">${ICON.print}Print</button></div>
+  </div>
+  <div class="print-h"><b>Metro Detroit Endo — Procedure log (${label})</b><span>Printed ${fmtWhen(Date.now())} · DEMO, sample data</span></div>
+  <div class="filters no-print">
+    <div class="seg" role="group" aria-label="Date range">${[['today','Today'],['week','7 days'],['all','All']].map(([k, l]) => `<button data-act="log-range" data-val="${k}" aria-pressed="${logF.range === k}">${l}</button>`).join('')}</div>
+    <select class="sel" data-act="log-proc" aria-label="Filter by procedure"><option value="">All procedures</option>${procs.map(p => opt(p, p, logF.proc)).join('')}</select>
+    <input class="inp" type="search" data-act="log-q" placeholder="Search name, MRN, med, initials" value="${esc(logF.q)}" aria-label="Search log">
+  </div>
+  <div class="card tbl-w">
+    <table>
+      <thead><tr><th>Time</th><th>Name</th><th>Procedure</th><th>Testing</th><th>Results</th><th>Medication</th><th>X-ray</th><th>Ultrasound</th><th>Site of injection</th><th>Initials</th></tr></thead>
+      <tbody>${body || `<tr><td colspan="10"><div class="empty" style="margin:8px">Nothing logged for this filter yet.</div></td></tr>`}</tbody>
+    </table>
+  </div>
+  <div class="tbl-foot"><span>${rows.length} entr${rows.length === 1 ? 'y' : 'ies'} · ${label.toLowerCase()}</span><span>Flags: <span class="flag H">H</span> high <span class="flag L">L</span> low <span class="flag C">CRIT</span> critical</span></div>`;
+}
+
+function exportCsv() {
+  const rows = logRows();
+  const head = ['Date','Time','Name','MRN','Procedure','Testing','Results','Medication','Lot','X-ray','Ultrasound','Site of injection','Initials','Notes'];
+  const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [head.map(q).join(',')].concat(rows.map(e => {
+    const p = pt(e.pid);
+    return [fmtD(e.ts), fmtT(e.ts), p.name, p.mrn, e.procedure,
+      e.tests.map(t => TESTS[t.code]?.name || t.code).join('; '),
+      e.tests.map(t => { const f = flagOf(t.code, t.value); return `${t.value} ${TESTS[t.code]?.unit || ''}${f && f !== 'N' ? ' (' + f + ')' : ''}`; }).join('; '),
+      medTxt(e.med), e.med?.lot || '', xrayTxt(e.xray), usTxt(e.us), siteName(e.site), e.initials, e.notes].map(q).join(',');
+  }));
+  const blob = new Blob(['﻿' + lines.join('\r\n')], { type:'text/csv' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = `mde-procedure-log-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast(`Exported ${rows.length} rows`);
+}
+
+/* =========================================================
+   Check-in / triage modal
+   ========================================================= */
+let M = null;
+function openTriage({ vid, pid } = {}) {
+  const v = vid ? S.visits.find(x => x.id === vid) : null;
+  M = v
+    ? { vid:v.id, pid:v.pid, newPt:null, reason:v.reason, vitals:{ ...v.vitals }, sym:[...(v.sym || [])], override:v.acuity, q:'' }
+    : { vid:null, pid:pid || '', newPt:null, reason:'', vitals:{}, sym:[], override:null, q:'' };
+  renderModal();
+}
+function renderModal() {
+  if (!M) { $('#modalRoot').innerHTML = ''; return; }
+  const p = M.pid ? pt(M.pid) : null;
+  const res = assess(M.vitals, M.sym);
+  const lvl = M.override ?? res.lvl;
+  const hasData = vitalsEntered(M.vitals) || M.sym.length;
+  const vin = (k, l, ph, unit) => `<div class="fld"><label class="lbl" for="v-${k}">${l} ${unit ? `<small>${unit}</small>` : ''}</label><input class="inp mono" id="v-${k}" inputmode="decimal" data-m="vitals.${k}" value="${esc(M.vitals[k] ?? '')}" placeholder="—"></div>`;
+  const ptSection = M.vid ? `<div class="hint"><b>${esc(p.name)}</b>&nbsp;· ${ageOf(p.dob)}${p.sex} · ${esc(p.mrn)}${p.allergies ? ` · <span style="color:var(--a1);font-weight:700">⚠ ${esc(p.allergies)}</span>` : ''}</div>` : M.newPt ? `
+      <div class="grid3">
+        <div class="fld" style="grid-column:span 2"><label class="lbl" for="np-n">Full name</label><input class="inp" id="np-n" data-m="newPt.name" value="${esc(M.newPt.name)}" placeholder="First Last"></div>
+        <div class="fld"><label class="lbl" for="np-d">Date of birth</label><input class="inp" id="np-d" type="date" data-m="newPt.dob" value="${esc(M.newPt.dob)}"></div>
+        <div class="fld"><label class="lbl" for="np-s">Sex</label><select class="sel" id="np-s" data-m="newPt.sex">${['F','M','X'].map(s => opt(s, s, M.newPt.sex)).join('')}</select></div>
+        <div class="fld" style="grid-column:span 2"><label class="lbl" for="np-a">Allergies <small>(blank = NKDA)</small></label><input class="inp" id="np-a" data-m="newPt.allergies" value="${esc(M.newPt.allergies)}"></div>
+      </div>
+      <button class="btn sm ghost" data-mact="pick-existing" style="align-self:flex-start">← Pick an existing patient instead</button>` : `
+      <input class="inp" type="search" placeholder="Search name or MRN" data-m="q" value="${esc(M.q)}" aria-label="Search patients">
+      <div class="pt-pick" id="ptPick">${ptPickList()}</div>
+      <button class="btn sm" data-mact="new-pt" style="align-self:flex-start">${ICON.plus}New patient</button>`;
+  $('#modalRoot').innerHTML = `
+  <div class="modal-bg${M.shown ? ' still' : ''}" data-mact="close-bg">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="modal-h"><h3 id="mTitle">${M.vid ? 'Triage' : 'Check in patient'}</h3><button class="x" data-mact="close" aria-label="Close">${ICON.x}</button></div>
+      <div class="modal-b">
+        <div class="mh">Patient</div>
+        ${ptSection}
+        <div class="fld"><label class="lbl" for="m-r">Reason for visit / chief complaint</label><input class="inp" id="m-r" data-m="reason" value="${esc(M.reason)}" placeholder="e.g. Prolia shot, sugars high, thyroid nodule"></div>
+        <div class="mh">Vitals <span style="text-transform:none;letter-spacing:0;font-weight:600">· optional at check-in</span></div>
+        <div class="grid3">
+          ${vin('sbp', 'Systolic', '120', 'mmHg')}${vin('dbp', 'Diastolic', '80', 'mmHg')}${vin('hr', 'Heart rate', '72', 'bpm')}
+          ${vin('temp', 'Temp', '98.6', '°F')}${vin('spo2', 'SpO₂', '98', '%')}${vin('glu', 'Glucose', '110', 'mg/dL')}
+          ${vin('wt', 'Weight', '170', 'lb')}
+        </div>
+        <div class="mh">Red flags</div>
+        <div class="sym">${SYMPTOMS.map(s => `<label><input type="checkbox" data-msym="${s.id}" ${M.sym.includes(s.id) ? 'checked' : ''}>${esc(s.name)}</label>`).join('')}</div>
+        <div id="acuBox">${acuBox(res, lvl, hasData)}</div>
+      </div>
+      <div class="modal-f">
+        <span class="err" id="m-err" style="color:var(--a1);font-weight:600;font-size:12.5px"></span>
+        <div class="row" style="margin-left:auto"><button class="btn" data-mact="close">Cancel</button><button class="btn pri" data-mact="save">${M.vid ? 'Save triage' : hasData ? 'Check in &amp; triage' : 'Check in'}</button></div>
+      </div>
+    </div>
+  </div>`;
+  M.shown = true;
+}
+function ptPickList() {
+  const q = (M.q || '').toLowerCase();
+  const list = S.patients.filter(p => !q || p.name.toLowerCase().includes(q) || p.mrn.toLowerCase().includes(q));
+  return list.length ? list.map(p => {
+    const v = todayVisit(p.id), here = v && v.status !== 'done';
+    return `<button data-mact="pick" data-pid="${p.id}" aria-pressed="${p.id === M.pid}" ${here ? 'disabled style="opacity:.5"' : ''}><span><b>${esc(p.name)}</b> <small>${fmtDob(p.dob)} · ${esc(p.mrn)}</small></span><small>${here ? 'Already here' : p.allergies ? '⚠ ' + esc(p.allergies) : ''}</small></button>`;
+  }).join('') : `<div class="empty">No match. Add them as a new patient.</div>`;
+}
+function acuBox(res, lvl, hasData) {
+  const A = ACU[lvl];
+  return `<div class="acu" style="border-color:${ACU_COL[lvl]};background:var(--${A.cls}-bg)">
+    <div class="acu-lv" style="background:${ACU_COL[lvl]};color:#fff"><div><b>${lvl}</b><small>${A.name}</small></div></div>
+    <div>
+      <h4 style="color:${ACU_COL[lvl]}">${A.name} — ${A.note}</h4>
+      ${res.why.length ? `<ul>${res.why.map(w => `<li><i style="background:${ACU_COL[w.l]}"></i>${esc(w.msg)}</li>`).join('')}</ul>` : `<p style="font-size:12.5px;color:var(--ink-2);margin-top:4px">${hasData ? 'Nothing out of range.' : 'Enter vitals or red flags and acuity updates as you type.'}</p>`}
+      ${M.override != null && M.override !== res.lvl ? `<p style="font-size:12px;margin-top:6px;color:var(--ink-2)">Overridden from suggested <b>${ACU[res.lvl].name}</b>.</p>` : ''}
+      <div class="ac-ov" role="group" aria-label="Override acuity">${[1,2,3,4].map(l => `<button data-mact="ov" data-l="${l}" aria-pressed="${M.override === l}" style="color:${ACU_COL[l]}">${l} · ${ACU[l].name}</button>`).join('')}${M.override != null ? `<button data-mact="ov" data-l="">Auto</button>` : ''}</div>
+    </div>
+  </div>`;
+}
+function refreshAcu() {
+  const res = assess(M.vitals, M.sym), lvl = M.override ?? res.lvl;
+  const box = $('#acuBox'); if (box) box.innerHTML = acuBox(res, lvl, vitalsEntered(M.vitals) || M.sym.length);
+  const sv = $('[data-mact="save"]'); if (sv && !M.vid) sv.textContent = (vitalsEntered(M.vitals) || M.sym.length) ? 'Check in & triage' : 'Check in';
+}
+function saveModal() {
+  const err = m => { $('#m-err').textContent = m; };
+  let pid = M.pid;
+  if (!M.vid && M.newPt) {
+    const n = (M.newPt.name || '').trim();
+    if (n.split(/\s+/).length < 2) return err('Enter first and last name.');
+    if (!M.newPt.dob) return err('Add a date of birth.');
+    const p = { id:uid(), name:n, dob:M.newPt.dob, sex:M.newPt.sex || 'F', allergies:(M.newPt.allergies || '').trim(), mrn:'MDE-' + (116000 + Math.floor(Math.random() * 3000)) };
+    S.patients.push(p); pid = p.id;
+  }
+  if (!pid) return err('Pick a patient or add a new one.');
+  if (!M.reason.trim()) return err('Add a reason for the visit.');
+  const has = vitalsEntered(M.vitals) || M.sym.length > 0;
+  const vit = {}; Object.entries(M.vitals).forEach(([k, v]) => { const n = num(v); if (n != null) vit[k] = n; });
+  if (M.vid) {
+    const v = S.visits.find(x => x.id === M.vid);
+    Object.assign(v, { reason:M.reason.trim(), vitals:vit, sym:M.sym, acuity:M.override, triageBy:S.me });
+    if (v.status === 'waiting' && has) v.status = 'triaged';
+  } else {
+    S.visits.push({ id:uid(), pid, checkIn:Date.now(), status: has ? 'triaged' : 'waiting', reason:M.reason.trim(), vitals:vit, sym:M.sym, acuity:M.override, room:'', triageBy: has ? S.me : '' });
+  }
+  const lvl = M.override ?? assess(vit, M.sym).lvl;
+  const name = pt(pid).name;
+  save(); M = null; renderModal(); render();
+  toast(has ? `${name} triaged · ${ACU[lvl].name}` : `${name} checked in`, lvl <= 2 && has);
+}
+
+/* =========================================================
+   Toast
+   ========================================================= */
+let toastT;
+function toast(msg, alert) {
+  clearTimeout(toastT);
+  $('#toastRoot').innerHTML = `<div class="toast"${alert ? ' style="background:var(--a1)"' : ''}><i${alert ? ' style="background:#fff"' : ''}></i>${esc(msg)}</div>`;
+  toastT = setTimeout(() => { $('#toastRoot').innerHTML = ''; }, 2800);
+}
+
+/* =========================================================
+   Draft binding
+   ========================================================= */
+function setPath(obj, path, val) {
+  const ks = path.split('.'); let o = obj;
+  for (let i = 0; i < ks.length - 1; i++) o = o[ks[i]];
+  o[ks.at(-1)] = val;
+}
+function rerenderChart(focusSel) {
+  const y = window.scrollY;
+  render();
+  window.scrollTo(0, y);
+  if (focusSel) { const el = $(focusSel); if (el) el.focus({ preventScroll:true }); }
+}
+function applyProc(id) {
+  const pr = PROCS.find(x => x.id === id); if (!pr) return;
+  draft.procId = id; draft.procedure = pr.name;
+  (pr.tests || []).forEach(c => { if (!draft.tests.some(t => t.code === c)) draft.tests.push({ code:c, value:'' }); });
+  if (pr.med && !draft.med.code) { const m = MEDS[pr.med]; draft.med = { code:pr.med, name:m.name, dose:m.dose, route:m.route, lot:'' }; }
+  if (pr.xray && draft.xray.type === 'none') draft.xray.type = pr.xray;
+  if (pr.us && draft.us.type === 'none') { draft.us.type = pr.us; }
+}
+function saveEntry() {
+  const d = draft, err = m => { const e = $('#ef-err'); e.textContent = m; e.scrollIntoView({ block:'nearest', behavior:'smooth' }); };
+  const ini = (d.initials || '').trim().toUpperCase();
+  if (!d.procedure.trim()) return err('Pick a procedure first.');
+  if (!/^[A-Z]{2,4}$/.test(ini)) { $('#f-ini')?.focus(); return err('Initials are required to sign (2–4 letters).'); }
+  const missing = d.tests.filter(t => num(t.value) == null);
+  if (missing.length) return err(`Add a result for ${missing.map(t => TESTS[t.code].name).join(', ')} or remove it.`);
+  if (d.med.code === '__other' && !d.med.name.trim()) return err('Name the medication.');
+  const e = {
+    id:uid(), pid:d.pid, ts:Date.now(), procedure:d.procedure.trim(),
+    tests:d.tests.map(t => ({ code:t.code, value:String(num(t.value)) })),
+    med: d.med.code ? { code:d.med.code, name:(d.med.code === '__other' ? d.med.name : MEDS[d.med.code].name).trim(), dose:d.med.dose.trim(), route:d.med.route, lot:d.med.lot.trim() } : null,
+    xray: d.xray.type === 'none' ? { type:'none' } : { ...d.xray },
+    us: d.us.type === 'none' ? { type:'none' } : { ...d.us },
+    site:d.site, notes:d.notes.trim(), initials:ini,
+  };
+  S.entries.push(e);
+  const crit = e.tests.filter(t => flagOf(t.code, t.value) === 'C');
+  save();
+  draft = newDraft(d.pid);
+  rerenderChart();
+  const hist = $('.hist'); if (hist) hist.scrollIntoView({ behavior:'smooth', block:'start' });
+  toast(crit.length ? `Saved · critical value: ${crit.map(t => TESTS[t.code].name).join(', ')} — notify provider` : `Signed by ${ini} at ${fmtT(e.ts)} · saved to chart`, !!crit.length);
+}
+
+/* =========================================================
+   Events
+   ========================================================= */
+document.addEventListener('click', ev => {
+  const t = ev.target.closest('[data-act],[data-mact]');
+  if (!t) return;
+  const act = t.dataset.act, mact = t.dataset.mact;
+
+  if (mact) {
+    if (mact === 'close-bg' && ev.target !== t) return;
+    if (mact === 'close' || mact === 'close-bg') { M = null; renderModal(); return; }
+    if (mact === 'pick') { M.pid = t.dataset.pid; $$('#ptPick button').forEach(b => b.setAttribute('aria-pressed', b.dataset.pid === M.pid)); $('#m-r')?.focus(); return; }
+    if (mact === 'new-pt') { M.pid = ''; M.newPt = { name:M.q || '', dob:'', sex:'F', allergies:'' }; renderModal(); $('#np-n')?.focus(); return; }
+    if (mact === 'pick-existing') { M.newPt = null; renderModal(); return; }
+    if (mact === 'ov') { M.override = t.dataset.l ? +t.dataset.l : null; refreshAcu(); return; }
+    if (mact === 'save') { saveModal(); return; }
+    return;
+  }
+
+  switch (act) {
+    case 'checkin': openTriage({ pid:t.dataset.pid }); break;
+    case 'triage': openTriage({ vid:t.dataset.vid }); break;
+    case 'advance': {
+      const v = S.visits.find(x => x.id === t.dataset.vid); if (!v) break;
+      const to = t.dataset.to;
+      if (to === 'room' && !v.room) { const used = S.visits.filter(x => isToday(x.checkIn) && x.status === 'room').map(x => x.room); v.room = ROOMS.find(r => !used.includes(r)) || 'Room 1'; }
+      v.status = to; save(); render();
+      const p = pt(v.pid);
+      toast(to === 'room' ? `${p.name} → ${v.room}` : to === 'done' ? `${p.name} discharged` : `${p.name} → results pending`);
+      break;
+    }
+    case 'open-chart': go('chart', t.dataset.pid); break;
+    case 'print': window.print(); break;
+    case 'reset':
+      if (confirm('Reset the demo? This clears anything you added and reloads the sample patients.')) { S = seed(); save(); draft = null; render(); toast('Demo data reset'); }
+      break;
+    case 'proc': applyProc(t.dataset.id); rerenderChart(); break;
+    case 'rm-test': draft.tests.splice(+t.dataset.i, 1); rerenderChart(); break;
+    case 'seg': setPath(draft, t.dataset.bind, t.dataset.val); rerenderChart(`[data-act="seg"][data-bind="${t.dataset.bind}"][data-val="${t.dataset.val}"]`); break;
+    case 'site': draft.site = draft.site === t.dataset.site ? '' : t.dataset.site; rerenderChart(`[data-site="${draft.site || t.dataset.site}"]`); break;
+    case 'clear-draft': draft = newDraft(draft.pid); rerenderChart(); break;
+    case 'use-mine': { draft.initials = S.me; const f = $('#f-ini'); if (f) f.value = S.me; updateHints(); $('#ef-err').textContent = ''; break; }
+    case 'save': saveEntry(); break;
+    case 'csv': exportCsv(); break;
+    case 'log-range': logF.range = t.dataset.val; render(); break;
+  }
+});
+
+document.addEventListener('keydown', ev => {
+  if (ev.key === 'Escape' && M) { M = null; renderModal(); }
+  if ((ev.key === 'Enter' || ev.key === ' ') && ev.target.matches('circle[data-act="site"]')) { ev.preventDefault(); ev.target.dispatchEvent(new MouseEvent('click', { bubbles:true })); }
+});
+
+document.addEventListener('input', ev => {
+  const t = ev.target;
+  // modal fields
+  if (t.dataset.m && M) {
+    const path = t.dataset.m;
+    setPath(M, path, t.value);
+    if (path === 'q') { $('#ptPick').innerHTML = ptPickList(); return; }
+    if (path.startsWith('vitals.')) refreshAcu();
+    return;
+  }
+  // draft fields
+  if (t.dataset.bind && draft && t.tagName !== 'SELECT') {
+    setPath(draft, t.dataset.bind, t.dataset.bind === 'initials' ? t.value.toUpperCase() : t.value);
+    if (t.dataset.bind === 'initials') { const pos = t.selectionStart; t.value = t.value.toUpperCase(); t.setSelectionRange(pos, pos); }
+    if (t.dataset.bind === 'procedure') draft.procId = PROCS.find(p => p.name === t.value)?.id || '';
+    updateHints(); const e = $('#ef-err'); if (e) e.textContent = '';
+    return;
+  }
+  if (t.dataset.act === 'plist-q') { plistQ = t.value; $('#plist').innerHTML = plistItems(); return; }
+  if (t.dataset.act === 'log-q') { logF.q = t.value; const pos = t.selectionStart; render(); const s = $('[data-act="log-q"]'); s.focus(); s.setSelectionRange(pos, pos); return; }
+});
+
+document.addEventListener('change', ev => {
+  const t = ev.target;
+  if (t.matches('[data-msym]') && M) {
+    const id = t.dataset.msym; M.sym = t.checked ? [...new Set([...M.sym, id])] : M.sym.filter(x => x !== id); refreshAcu(); return;
+  }
+  if (t.dataset.m && M && t.tagName === 'SELECT') { setPath(M, t.dataset.m, t.value); return; }
+  if (t.id === 'meSel') { S.me = t.value; save(); render(); toast(`Signed in as ${me().name}`); return; }
+  if (!draft) return;
+  if (t.id === 'addTest' && t.value) { draft.tests.push({ code:t.value, value:'' }); rerenderChart(`[data-bind="tests.${draft.tests.length - 1}.value"]`); return; }
+  if (t.dataset.act === 'proc-sel') { if (t.value) applyProc(t.value); else { draft.procId = ''; } rerenderChart('#f-proc'); return; }
+  if (t.dataset.act === 'med-sel') {
+    const c = t.value;
+    if (!c) draft.med = { code:'', name:'', dose:'', route:'', lot:'' };
+    else if (c === '__other') draft.med = { code:c, name:'', dose:'', route:'', lot:draft.med.lot };
+    else { const m = MEDS[c]; draft.med = { code:c, name:m.name, dose:m.dose, route:m.route, lot:draft.med.lot }; }
+    rerenderChart(c === '__other' ? '#f-medn' : '#f-med'); return;
+  }
+  if (t.dataset.act === 'site-sel') { draft.site = t.value; rerenderChart('#f-site'); return; }
+  if (t.dataset.act === 'log-proc') { logF.proc = t.value; render(); return; }
+  if (t.dataset.bind && t.tagName === 'SELECT') {
+    setPath(draft, t.dataset.bind, t.value);
+    if (/^tests\.\d+\.code$/.test(t.dataset.bind)) rerenderChart(`[data-bind="${t.dataset.bind}"]`); else updateHints();
+  }
+});
+
+/* =========================================================
+   Boot
+   ========================================================= */
+S = load(); save();
+$('#meSel').innerHTML = STAFF.map(s => opt(s.ini, s.name, S.me)).join('');
+const tick = () => { $('#clock').textContent = new Date().toLocaleString([], { weekday:'short', hour:'numeric', minute:'2-digit' }); };
+tick();
+setInterval(() => { tick(); if (route.view === 'triage' && !M) render(); }, 30e3);
+parseHash(); render();
+})();
+</script>
+</body>
+</html>
